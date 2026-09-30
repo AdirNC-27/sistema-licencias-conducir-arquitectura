@@ -1,17 +1,59 @@
 # Identificación de actores
 
-**Objetivo:** identificar a las personas y servicios externos que interactúan directamente con el Sistema de Licencias de Conducir.
+**Objetivo:** identificar a las personas que interactúan directamente con el Sistema de Licencias de Conducir.
 
 | Actor | ¿Qué necesita realizar? |
 |---|---|
-| **Ciudadano o postulante** | Consultar orientación sobre el trámite, revisar requisitos, generar su checklist, organizar sus documentos, registrar una cita obtenida por un canal oficial, practicar preguntas de evaluación teórica, registrar resultados o avances y consultar el estado personal de su trámite. |
-| **Administrador de la plataforma** | Registrar y actualizar requisitos, documentos solicitados, preguntas de práctica, avisos, oficinas, horarios, enlaces públicos y demás contenidos informativos mostrados por la plataforma. |
-| **Orientador o soporte** | Consultar la información disponible, responder preguntas generales de los ciudadanos y brindar orientación sobre el uso de la plataforma sin realizar trámites oficiales. |
-| **Servicio de correo y notificaciones** | Enviar al ciudadano recordatorios de citas registradas, documentos próximos a vencer, actividades pendientes y avisos configurados en la plataforma. |
-| **Servicio de mapas públicos** | Proporcionar información cartográfica para mostrar la ubicación referencial de oficinas y centros de atención mediante servicios públicos de mapas. |
+| **Postulante** | Registrar su solicitud, proporcionar sus datos, adjuntar documentos y comprobantes de pago, consultar observaciones, revisar citas, rendir las evaluaciones programadas, consultar sus resultados, recibir notificaciones y realizar el seguimiento de su trámite. |
+| **Gestor de trámites** | Revisar las solicitudes, verificar documentos y comprobantes de pago, formular observaciones, registrar o programar citas, controlar el avance del expediente y comunicar al postulante las actividades pendientes. |
+| **Evaluador** | Consultar las evaluaciones asignadas y registrar resultados según su especialidad: evaluación médica y psicológica, evaluación de conocimientos o evaluación de habilidades en la conducción. |
+| **Supervisor o validador** | Revisar que los documentos, pagos y evaluaciones estén completos, validar el expediente, aprobar u observar el trámite y autorizar el paso a la emisión de la licencia. |
+| **Administrador del sistema** | Administrar cuentas, roles, permisos, categorías, requisitos, preguntas, avisos, parámetros y configuraciones. También consulta registros de auditoría y supervisa el funcionamiento general de la plataforma. |
 
-## Fuentes institucionales de referencia
+## Especialidades del evaluador
 
-La Municipalidad Provincial de Huamanga, el Ministerio de Transportes y Comunicaciones y otros portales estatales proporcionan información pública relacionada con requisitos, normas, oficinas y procedimientos.
+El actor **Evaluador** utilizará una misma interfaz general, pero tendrá permisos según la especialidad asignada:
 
-Estas instituciones no se consideran actores directos del sistema porque la plataforma no intercambiará datos automáticamente con sus sistemas, no realizará trámites en su nombre y no tendrá acceso a sus bases de datos internas.
+| Especialidad | Responsabilidad |
+|---|---|
+| **Evaluación médica y psicológica** | Registrar la condición de apto, no apto u observado, junto con las restricciones u observaciones correspondientes. |
+| **Evaluación de conocimientos** | Gestionar la evaluación teórica y registrar el puntaje y el resultado obtenido. |
+| **Evaluación de manejo** | Registrar la calificación de las maniobras evaluadas y el resultado de la prueba de conducción. |
+
+Cada evaluador solamente podrá acceder y modificar las evaluaciones correspondientes a su especialidad.
+
+## Responsabilidades relacionadas con los pagos
+
+El postulante realizará el pago mediante un canal externo autorizado y registrará:
+
+- Concepto del pago.
+- Monto pagado.
+- Fecha de la operación.
+- Número de operación.
+- Comprobante digital.
+
+El gestor de trámites verificará el comprobante y registrará uno de los siguientes estados:
+
+- Pendiente de verificación.
+- Verificado.
+- Observado.
+- Rechazado.
+
+El sistema conservará el usuario, la fecha y la observación relacionada con la verificación.
+
+## Asistente virtual con inteligencia artificial
+
+El asistente virtual con inteligencia artificial será un componente de apoyo de la plataforma y no un actor humano. Permitirá:
+
+- Responder preguntas frecuentes.
+- Explicar requisitos y etapas.
+- Orientar sobre documentos y pagos.
+- Explicar observaciones del expediente.
+- Informar las actividades pendientes.
+- Derivar consultas al gestor cuando no pueda responder.
+
+El asistente no aprobará expedientes, no verificará pagos, no calificará evaluaciones y no autorizará licencias.
+
+## Sistemas externos
+
+RENIEC, el Sistema Nacional de Conductores, los servicios bancarios y otros sistemas estatales no serán actores conectados en el MVP. Sus posibles integraciones serán representadas mediante servicios simulados, debido a que requieren autorización y acceso institucional.
