@@ -33,21 +33,31 @@ Este estilo permite:
 | **Caché** | Almacenar temporalmente categorías, requisitos y otra información pública de consulta frecuente. |
 | **CDN** | Distribuir archivos estáticos públicos del portal para mejorar los tiempos de carga. |
 
+## Tecnologías
+
+| Componente | Tecnología |
+|---|---|
+| Cliente web | React y TypeScript |
+| Backend | Java y Spring Boot (una sola aplicación) |
+| Seguridad | Spring Security y JWT |
+| Base de datos | PostgreSQL |
+| Despliegue | Contenedor Docker |
+
 ## Módulos del monolito
 
 El backend estará dividido en los siguientes módulos:
 
 - **Identidad y acceso:** autenticación, usuarios, roles y permisos.
 - **Postulantes:** información personal y perfil del ciudadano.
-- **Expedientes:** solicitudes, categorías, etapas y estados del trámite.
+- **Expedientes:** solicitudes, categorías, etapas, estados, validación del expediente y emisión simulada.
 - **Requisitos y documentos:** checklist, documentos adjuntos y observaciones.
 - **Pagos:** registro de comprobantes y verificación manual.
 - **Citas:** fechas, horarios, cupos y programación.
-- **Evaluaciones:** exámenes de conocimientos y habilidades de conducción.
+- **Evaluaciones:** aptitud médica, exámenes de conocimientos y habilidades de conducción.
 - **Seguimiento:** avance del expediente y acciones pendientes.
-- **Notificaciones:** avisos y recordatorios.
+- **Notificaciones:** avisos y recordatorios internos de la plataforma.
 - **Asistente virtual:** orientación basada en información previamente aprobada.
-- **Administración:** configuración de categorías, requisitos, etapas y usuarios.
+- **Administración:** configuración de categorías, requisitos, etapas y usuarios, y reportes.
 - **Auditoría:** registro de operaciones y modificaciones importantes.
 
 ## Usuarios del sistema
@@ -66,14 +76,17 @@ El control de acceso impedirá que un usuario consulte o modifique información 
 
 Las integraciones futuras se conectarán mediante interfaces y adaptadores:
 
-- RENIEC para una futura validación de identidad.
-- Sistema Nacional de Conductores para futuras consultas autorizadas.
-- Servicios bancarios o pasarelas para una futura validación de pagos.
-- Servicios de correo o mensajería para notificaciones.
-- Proveedor de inteligencia artificial para orientación controlada.
-- Almacenamiento de documentos compatible con S3.
+| Servicio | Uso | Primera versión |
+|---|---|---|
+| RENIEC | Validación de identidad | Simulado; verificación manual del gestor |
+| Sistema Nacional de Conductores | Consultas y registros institucionales | Simulado |
+| Banco o pasarela de pagos | Validación de pagos | Simulado; verificación manual del comprobante |
+| Centro médico autorizado | Aptitud médica | Simulado; registro manual del certificado |
+| Correo o mensajería | Notificaciones externas | Opcional; el MVP usa notificaciones internas (RC07) |
+| Proveedor de inteligencia artificial | Orientación controlada | Limitado a contenido aprobado |
+| Almacenamiento compatible con S3 | Documentos privados | Almacenamiento privado con acceso restringido |
 
-Durante la primera versión académica, las integraciones que no estén disponibles podrán implementarse mediante servicios simulados.
+Las integraciones institucionales requieren autorización, por lo que en la primera versión académica se implementan mediante adaptadores simulados.
 
 ## Despliegue y seguridad
 

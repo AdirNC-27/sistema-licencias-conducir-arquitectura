@@ -72,7 +72,7 @@ Los puertos son interfaces definidas en el dominio; la infraestructura las imple
 | `ConsultaSNC` | `SimuladorSNC` en la primera versión |
 | `VerificadorPagos` | `VerificadorPagosManual` |
 | `ValidadorAptitudMedica` | `RegistroAptitudManual` |
-| `ServicioNotificaciones` | Adaptador de correo o mensajería |
+| `ServicioNotificaciones` | Notificaciones internas en la primera versión; correo opcional |
 | `RegistroAuditoria` | PostgreSQL |
 | `ServicioAsistenteVirtual` | Proveedor de IA controlado |
 

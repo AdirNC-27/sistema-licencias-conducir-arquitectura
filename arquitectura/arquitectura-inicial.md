@@ -34,18 +34,20 @@ flowchart TB
 
     DOMINIO["DOMINIO<br/>Entidades y reglas de negocio"]
 
-    DOMINIO --> INFRA
-
     INFRA["INFRAESTRUCTURA Y ADAPTADORES"]
+
+    INFRA -. "implementa puertos" .-> DOMINIO
 
     INFRA --> DB[("PostgreSQL")]
     INFRA --> ARCHIVOS["Almacenamiento privado<br/>Documentos y comprobantes"]
     INFRA --> IA["Servicio de inteligencia artificial"]
 
-    FUTURO["INTEGRACIONES FUTURAS<br/>RENIEC · SNC · Servicios bancarios"]
+    FUTURO["INTEGRACIONES FUTURAS<br/>RENIEC · SNC · Servicios bancarios · Centros médicos"]
 
     INFRA -. "Fuera del MVP" .-> FUTURO
 ```
+
+> En el diagrama, las flechas continuas indican el flujo de las solicitudes. La flecha discontinua indica que la infraestructura implementa los puertos del dominio: las dependencias del código apuntan hacia el dominio, como se detalla en el enfoque arquitectónico.
 
 ## Componentes principales
 

@@ -42,3 +42,4 @@ Las historias de usuario describen las necesidades de los actores que interactú
 - Las notificaciones serán generadas dentro de la plataforma.
 - El asistente virtual brindará orientación, pero no realizará aprobaciones ni modificará información del trámite.
 - Las acciones importantes quedarán registradas en la auditoría.
+- La emisión registrada en el prototipo es simulada y no tiene validez oficial.
