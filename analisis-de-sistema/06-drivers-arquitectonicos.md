@@ -20,7 +20,7 @@ Los drivers arquitectónicos son los requisitos, atributos de calidad y restricc
 A partir de los drivers identificados, se plantean inicialmente las siguientes decisiones:
 
 - Utilizar un monolito modular como estilo arquitectónico principal.
-- Aplicar Clean Architecture con principios de puertos y adaptadores.
+- Aplicar Clean Architecture.
 - Implementar una API REST para la comunicación entre el frontend y el backend.
 - Utilizar autenticación y control de acceso basado en roles.
 - Mantener una base de datos central con separación lógica por módulos.

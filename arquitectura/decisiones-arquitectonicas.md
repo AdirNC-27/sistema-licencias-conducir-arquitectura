@@ -5,7 +5,7 @@ Las decisiones arquitectónicas establecen las soluciones técnicas adoptadas pa
 | ID | Decisión arquitectónica | Drivers relacionados | Justificación | Resultado |
 |---|---|---|---|---|
 | **ADR-001** | Implementar un monolito modular | DA05, DA09 | Permite organizar las funcionalidades en módulos con responsabilidades definidas, manteniendo una sola aplicación desplegable y una complejidad operativa accesible para el proyecto. | Módulos de identidad, postulantes, expedientes, requisitos, pagos, citas, evaluaciones, seguimiento, notificaciones, asistente virtual, administración y auditoría. |
-| **ADR-002** | Aplicar Clean Architecture con puertos y adaptadores | DA05, DA08 | Separa las reglas del negocio de la interfaz web, la base de datos y los servicios externos. Facilita las modificaciones, pruebas y futuras integraciones. | Capas de Presentación, Aplicación, Dominio e Infraestructura, con interfaces para las dependencias externas. |
+| **ADR-002** | Aplicar Clean Architecture | DA05, DA08 | Separa las reglas del negocio de la interfaz web, la base de datos y los servicios externos. Facilita las modificaciones, pruebas y futuras integraciones. | Capas de Presentación, Aplicación, Dominio e Infraestructura, con interfaces para las dependencias externas. |
 | **ADR-003** | Utilizar una API REST entre el frontend y el backend | DA05, DA09, DA10 | Establece una comunicación clara entre el portal web y la aplicación, permitiendo separar la interfaz de usuario de la lógica del sistema. | Endpoints organizados por módulos y transferencia de información mediante JSON sobre HTTPS. |
 | **ADR-004** | Implementar autenticación y autorización basada en roles | DA01, DA02 | Las funciones y los datos deben estar disponibles únicamente para los usuarios autorizados según sus responsabilidades. | Roles de postulante, gestor, evaluador, supervisor y administrador, con permisos diferenciados. |
 | **ADR-005** | Utilizar una base de datos PostgreSQL centralizada | DA02, DA03, DA04, DA06 | Las operaciones relacionadas con expedientes, pagos, citas y evaluaciones requieren integridad, consistencia y relaciones transaccionales. | Base de datos central con separación lógica de tablas y responsabilidades por módulos. |
@@ -18,7 +18,7 @@ Las decisiones arquitectónicas establecen las soluciones técnicas adoptadas pa
 
 ## Relación general de las decisiones
 
-El sistema se implementará como un monolito modular para reducir la complejidad de desarrollo y despliegue. Internamente utilizará Clean Architecture con puertos y adaptadores para mantener separadas las reglas del negocio, los casos de uso y las tecnologías externas.
+El sistema se implementará como un monolito modular para reducir la complejidad de desarrollo y despliegue. Internamente utilizará Clean Architecture para mantener separadas las reglas del negocio, los casos de uso y las tecnologías externas.
 
 El portal web se comunicará con el backend mediante una API REST protegida con HTTPS. El acceso a las funciones se controlará mediante autenticación y roles. PostgreSQL almacenará la información transaccional, mientras que los documentos se conservarán en almacenamiento privado.
 

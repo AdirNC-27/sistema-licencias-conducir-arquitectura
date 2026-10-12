@@ -36,7 +36,7 @@ flowchart TB
 
     INFRA["INFRAESTRUCTURA Y ADAPTADORES"]
 
-    INFRA -. "implementa puertos" .-> DOMINIO
+    INFRA -. "implementa contratos" .-> DOMINIO
 
     INFRA --> DB[("PostgreSQL")]
     INFRA --> ARCHIVOS["Almacenamiento privado<br/>Documentos y comprobantes"]
@@ -47,7 +47,7 @@ flowchart TB
     INFRA -. "Fuera del MVP" .-> FUTURO
 ```
 
-> En el diagrama, las flechas continuas indican el flujo de las solicitudes. La flecha discontinua indica que la infraestructura implementa los puertos del dominio: las dependencias del código apuntan hacia el dominio, como se detalla en el enfoque arquitectónico.
+> En el diagrama, las flechas continuas indican el flujo de las solicitudes. La flecha discontinua indica que la infraestructura implementa los contratos del dominio: las dependencias del código apuntan hacia el dominio, como se detalla en el enfoque arquitectónico.
 
 ## Componentes principales
 

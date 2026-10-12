@@ -2,17 +2,27 @@
 
 ## Enfoque seleccionado
 
-El Sistema de Licencias de Conducir Clase B utilizará **Clean Architecture con puertos y adaptadores**. Este enfoque separa las reglas del negocio de la interfaz web, la base de datos y los servicios externos.
+El Sistema de Licencias de Conducir Clase B utilizará **Clean Architecture** (arquitectura limpia). Este enfoque separa las reglas del negocio de la interfaz web, la base de datos y los servicios externos.
 
 Esta decisión responde a **DA05 (mantenibilidad y evolución modular)** y **DA08 (integraciones institucionales desacopladas)**, y se encuentra registrada en **ADR-002**.
 
 | Elemento | Aplicación en el sistema |
 |---|---|
-| **Enfoque** | Clean Architecture con puertos y adaptadores. |
+| **Enfoque** | Clean Architecture. |
 | **Objetivo** | Separar responsabilidades y dirigir las dependencias hacia el dominio. |
 | **Problema que resuelve** | Evita el acoplamiento entre Spring Boot, PostgreSQL, el cliente React y los servicios externos. |
 | **Capas del backend** | Presentación, Aplicación, Dominio e Infraestructura. |
 | **Beneficio principal** | Permite sustituir tecnologías e integraciones sin modificar las reglas principales. |
+
+## ¿Por qué Clean Architecture y no Hexagonal?
+
+| Criterio | Clean Architecture | Hexagonal | Sistema de licencias |
+|---|---|---|---|
+| **Cuándo usar** | Lógica de negocio compleja y crítica. | Muchas integraciones externas activas o sistemas distribuidos. | Las reglas del trámite son el centro del sistema: etapas, cupos e integridad de resultados. |
+| **Integraciones** | Se resuelven con contratos del dominio implementados en infraestructura. | Son el eje del diseño. | RENIEC, SNC, banco y centro médico son **simulados** y quedan como integraciones futuras. |
+| **Organización** | Capas claras y fáciles de explicar al equipo. | Núcleo, puertos y adaptadores de entrada y salida. | Equipo pequeño que necesita una estructura clara por capas. |
+
+Por estas razones se eligió **Clean Architecture**. La inversión de dependencias que propone permite agregar en el futuro las integraciones institucionales sin modificar las reglas del trámite.
 
 ## Capas
 
@@ -20,7 +30,7 @@ Las capas se presentan desde el núcleo hacia los detalles externos.
 
 ### Dominio
 
-Contiene las entidades, reglas del negocio y puertos del sistema:
+Contiene las entidades, las reglas del negocio y los contratos del sistema:
 
 - Postulante, expediente, requisito y documento.
 - Pago, cita, evaluación y resultado.
@@ -50,33 +60,33 @@ El portal React es un cliente externo que consume la API. La capa de Presentaci�
 
 ### Infraestructura
 
-Implementa los puertos definidos en el dominio mediante:
+Implementa los contratos definidos en el dominio mediante:
 
 - Spring Data JPA y PostgreSQL.
 - Almacenamiento privado de documentos.
-- Correo, mensajería y caché de información pública.
+- Notificaciones y caché de información pública.
 - Adaptadores para RENIEC, SNC, banco, centro médico e inteligencia artificial.
 
 Las integraciones institucionales restringidas serán simuladas durante la primera versión académica.
 
-## Puertos y adaptadores
+## Contratos y adaptadores
 
-Los puertos son interfaces definidas en el dominio; la infraestructura las implementa.
+Los contratos son interfaces definidas en el dominio. La infraestructura las implementa mediante adaptadores.
 
-| Puerto del dominio | Adaptador de infraestructura |
-|---|---|
-| `RepositorioExpedientes` | Spring Data JPA y PostgreSQL |
-| `RepositorioEvaluaciones` | Spring Data JPA y PostgreSQL |
-| `RepositorioDocumentos` | Almacenamiento privado compatible con S3 |
-| `VerificadorIdentidad` | `SimuladorReniec` en la primera versión |
-| `ConsultaSNC` | `SimuladorSNC` en la primera versión |
-| `VerificadorPagos` | `VerificadorPagosManual` |
-| `ValidadorAptitudMedica` | `RegistroAptitudManual` |
-| `ServicioNotificaciones` | Notificaciones internas en la primera versión; correo opcional |
-| `RegistroAuditoria` | PostgreSQL |
-| `ServicioAsistenteVirtual` | Proveedor de IA controlado |
+| Contrato del dominio | Adaptador en la primera versión | Adaptador futuro |
+|---|---|---|
+| `RepositorioExpedientes` | Spring Data JPA y PostgreSQL | — |
+| `RepositorioEvaluaciones` | Spring Data JPA y PostgreSQL | — |
+| `AlmacenamientoDocumentos` | Almacenamiento privado local | Almacenamiento compatible con S3 |
+| `VerificadorIdentidad` | `SimuladorReniec` o revisión manual del gestor | Servicio autorizado de RENIEC |
+| `ConsultaSNC` | `SimuladorSNC` | Integración autorizada con el SNC |
+| `VerificadorPagos` | `VerificadorPagosManual` | Banco o pasarela de pagos |
+| `ValidadorAptitudMedica` | `RegistroAptitudManual` | Centro médico autorizado |
+| `ServicioNotificaciones` | Notificaciones internas | Correo o mensajería |
+| `RegistroAuditoria` | PostgreSQL | — |
+| `ServicioAsistenteVirtual` | Respuestas desde contenido aprobado | Proveedor de IA controlado |
 
-La clase de configuración de Spring actúa como raíz de composición y selecciona qué adaptador implementará cada puerto. Así, un simulador podrá sustituirse por una integración autorizada sin cambiar el dominio.
+La clase de configuración de Spring actúa como raíz de composición y selecciona qué adaptador implementa cada contrato. Así, un simulador podrá sustituirse por una integración autorizada sin cambiar el dominio.
 
 ## Regla de dependencia
 
@@ -85,7 +95,7 @@ Las dependencias del código apuntan hacia el dominio:
 ```text
 Cliente React ──HTTPS/JSON──► Presentación
 Presentación ───────────────► Aplicación ───────────────► Dominio
-Infraestructura ────────────► Puertos definidos en el Dominio
+Infraestructura ────────────► Contratos definidos en el Dominio
 ```
 
 ## Ejemplo: validar un resultado
@@ -99,4 +109,4 @@ Infraestructura ────────────► Puertos definidos en el 
 
 ## Diagrama del enfoque arquitectónico
 
-![Clean Architecture aplicada al Sistema de Licencias Clase B](diagrama-clean-architecture.png)
+![Clean Architecture aplicada al Sistema de Licencias Clase B](../../img/diagrama-clean-architecture.png)

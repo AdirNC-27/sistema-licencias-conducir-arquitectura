@@ -24,7 +24,7 @@ Plataforma web académica para la gestión del trámite de licencias de conducir
 | Aspecto | Decisión |
 |---|---|
 | Estilo arquitectónico | Monolito modular con arquitectura web cliente-servidor |
-| Enfoque arquitectónico | Clean Architecture con puertos y adaptadores |
+| Enfoque arquitectónico | Clean Architecture |
 | Frontend | React y TypeScript |
 | Backend | Java y Spring Boot, con Spring Security y JWT |
 | Base de datos | PostgreSQL |
