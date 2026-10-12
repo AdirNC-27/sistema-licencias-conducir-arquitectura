@@ -8,7 +8,7 @@
 | **Gestor de trámites** | Revisar las solicitudes, verificar documentos y comprobantes de pago, formular observaciones, registrar o programar citas, controlar el avance del expediente y comunicar al postulante las actividades pendientes. |
 | **Evaluador** | Consultar las evaluaciones asignadas y registrar resultados según su especialidad: evaluación médica y psicológica, evaluación de conocimientos o evaluación de habilidades en la conducción. |
 | **Supervisor o validador** | Revisar que los documentos, pagos y evaluaciones estén completos, validar el expediente, aprobar u observar el trámite y autorizar el paso a la emisión simulada de la licencia. |
-| **Administrador del sistema** | Administrar cuentas, roles, permisos, categorías, requisitos, preguntas, avisos, parámetros y configuraciones. También consulta registros de auditoría y supervisa el funcionamiento general de la plataforma. |
+| **Administrador del sistema** | Administrar cuentas, roles, permisos, categorías, requisitos, preguntas, avisos, parámetros, jornadas, horarios, cupos y configuraciones. También consulta registros de auditoría, reportes y supervisa el funcionamiento general de la plataforma. |
 
 ## Especialidades del evaluador
 

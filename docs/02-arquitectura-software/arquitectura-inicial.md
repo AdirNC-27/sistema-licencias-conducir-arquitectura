@@ -2,6 +2,8 @@
 
 El sistema utilizará una **arquitectura monolítica modular** basada en principios de Clean Architecture. Esta estructura permitirá separar la interfaz, los módulos funcionales, las reglas de negocio y la infraestructura.
 
+> **Nota:** esta es la primera propuesta del Laboratorio 2. Los ocho grupos de módulos se refinaron después en los **12 módulos** del estilo arquitectónico y del diagrama de componentes (C4 nivel 3).
+
 ## Diagrama de arquitectura
 
 ```mermaid
