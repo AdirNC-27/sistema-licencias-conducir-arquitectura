@@ -22,6 +22,10 @@ Los requisitos funcionales definen las principales operaciones que debe proporci
 | **RF16** | Administración | El sistema debe permitir gestionar cuentas, roles, permisos, categorías, requisitos, montos, preguntas y contenidos informativos. | HU23, HU24, HU25 |
 | **RF17** | Auditoría | El sistema debe registrar el usuario, la fecha y la acción realizada en las operaciones importantes. | HU26 |
 | **RF18** | Administración | El sistema debe generar reportes sobre solicitudes, pagos, citas, evaluaciones y estados de los trámites. | HU27 |
+| **RF19** | Evaluaciones | El sistema debe permitir al postulante consultar los resultados validados de sus evaluaciones. | HU09 |
+| **RF20** | Expedientes | El sistema debe controlar la secuencia de etapas del trámite e impedir avanzar a una etapa si la anterior no fue aprobada. | HU10, HU16 |
+| **RF21** | Citas | El sistema debe permitir configurar jornadas, horarios y cupos, e impedir asignar citas cuando no existan cupos disponibles. | HU15, HU24 |
+| **RF22** | Requisitos y documentos | El sistema debe mostrar los requisitos y documentos según la categoría de licencia seleccionada. | HU04 |
 
 ## Relación entre módulos y actores
 
@@ -31,11 +35,11 @@ Los requisitos se agrupan en los doce módulos del monolito definidos en el esti
 |---|---|---|
 | Identidad y acceso | RF01 | Todos los actores |
 | Postulantes | RF03 | Postulante y gestor |
-| Expedientes | RF02, RF11, RF12 | Postulante, gestor y supervisor |
-| Requisitos y documentos | RF03, RF04 | Postulante y gestor |
+| Expedientes | RF02, RF11, RF12, RF20 | Postulante, gestor y supervisor |
+| Requisitos y documentos | RF03, RF04, RF22 | Postulante y gestor |
 | Pagos | RF05, RF06 | Postulante y gestor |
-| Citas | RF07 | Postulante y gestor |
-| Evaluaciones | RF08, RF09 | Evaluador y supervisor |
+| Citas | RF07, RF21 | Postulante, gestor y administrador |
+| Evaluaciones | RF08, RF09, RF19 | Postulante, evaluador y supervisor |
 | Seguimiento | RF10 | Postulante, gestor y supervisor |
 | Notificaciones | RF13 | Todos los actores |
 | Asistente virtual | RF14, RF15 | Postulante, gestor y administrador |
