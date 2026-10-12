@@ -109,7 +109,7 @@ El uso de servicios independientes de base de datos, almacenamiento, correo, cac
 
 ## Diagrama del estilo arquitectónico
 
-![Estilo arquitectónico del Sistema de Licencias de Conducir Clase B](imagenes/estilo-arquitectonico.png)
+![Estilo arquitectónico del Sistema de Licencias de Conducir Clase B](../../img/estilo-arquitectonico.png)
 
 ## Relación con los drivers
 
