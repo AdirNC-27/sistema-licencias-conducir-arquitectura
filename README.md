@@ -44,7 +44,8 @@ docs/
 │   ├── 05-restricciones.md
 │   ├── 06-drivers-arquitectonicos.md
 │   ├── 07-decisiones-arquitectonicas.md
-│   └── 08-escenarios-atributos-calidad.md
+│   ├── 08-escenarios-atributos-calidad.md
+│   └── 09-glosario.md
 ├── 02-arquitectura-software/
 │   ├── arquitectura-inicial.md
 │   ├── componentes-arquitectonicos.md
