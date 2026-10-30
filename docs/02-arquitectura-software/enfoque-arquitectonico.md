@@ -14,15 +14,17 @@ Esta decisión responde a **DA05 (mantenibilidad y evolución modular)** y **DA0
 | **Capas del backend** | Presentación, Aplicación, Dominio e Infraestructura. |
 | **Beneficio principal** | Permite sustituir tecnologías e integraciones sin modificar las reglas principales. |
 
-## ¿Por qué Clean Architecture y no Hexagonal?
+## ¿Por qué Clean Architecture en este sistema?
 
-| Criterio | Clean Architecture | Hexagonal | Sistema de licencias |
-|---|---|---|---|
-| **Cuándo usar** | Lógica de negocio compleja y crítica. | Muchas integraciones externas activas o sistemas distribuidos. | Las reglas del trámite son el centro del sistema: etapas, cupos e integridad de resultados. |
-| **Integraciones** | Se resuelven con contratos del dominio implementados en infraestructura. | Son el eje del diseño. | RENIEC, SNC, banco y centro médico son **simulados** y quedan como integraciones futuras. |
-| **Organización** | Capas claras y fáciles de explicar al equipo. | Núcleo, puertos y adaptadores de entrada y salida. | Equipo pequeño que necesita una estructura clara por capas. |
+| Necesidad del sistema | Cómo la resuelve Clean Architecture | Driver |
+|---|---|---|
+| Las reglas del trámite son el centro del sistema: etapas, cupos e integridad de resultados | Las reglas viven en el **dominio**, aisladas de la web, la base de datos y los servicios externos | DA04 |
+| RENIEC, SNC, banco y centro médico son simulados en la primera versión | El dominio define **contratos** y la infraestructura los implementa con **adaptadores**; un simulador se reemplaza por la integración real sin tocar las reglas | DA08 |
+| Los requisitos, categorías y etapas pueden cambiar | Cada capa tiene una responsabilidad; un cambio se concentra en un solo lugar | DA05 |
+| Las reglas críticas deben poder probarse | El dominio no depende de Spring Boot ni de PostgreSQL, por lo que se prueba con pruebas unitarias | EQ-09 |
+| El equipo es pequeño | Las cuatro capas (presentación, aplicación, dominio e infraestructura) dan una estructura clara y uniforme para los 12 módulos | DA05 |
 
-Por estas razones se eligió **Clean Architecture**. La inversión de dependencias que propone permite agregar en el futuro las integraciones institucionales sin modificar las reglas del trámite.
+La inversión de dependencias de Clean Architecture permite agregar en el futuro las integraciones institucionales sin modificar las reglas del trámite.
 
 ## Capas
 

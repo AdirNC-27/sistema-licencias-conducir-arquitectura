@@ -8,7 +8,7 @@ El sistema se ejecutará inicialmente como una sola aplicación backend desplega
 
 ## Justificación
 
-Se seleccionó un monolito modular porque el proyecto será desarrollado por un equipo pequeño y no requiere inicialmente la complejidad operativa de una arquitectura de microservicios.
+Se seleccionó un monolito modular porque se ajusta a las condiciones del proyecto: un equipo pequeño, una sola municipalidad y un trámite en el que una misma operación involucra varios módulos (por ejemplo, validar un resultado actualiza la evaluación, avanza la etapa del expediente y registra la auditoría en una sola transacción). Además, responde a la restricción RC08.
 
 Este estilo permite:
 
@@ -105,7 +105,7 @@ La solución considerará:
 - Caché limitada a información pública.
 - Registro de operaciones mediante una bitácora de auditoría.
 
-El uso de servicios independientes de base de datos, almacenamiento, correo, caché o CDN no convierte la aplicación en microservicios. El backend continuará siendo un monolito modular porque sus módulos se ejecutarán y desplegarán como una sola aplicación.
+Aunque la base de datos, el almacenamiento, la caché y el CDN se ejecuten como servicios separados, el backend se mantiene como un **monolito modular**: sus 12 módulos se ejecutan y despliegan como una sola aplicación.
 
 ## Diagrama del estilo arquitectónico
 

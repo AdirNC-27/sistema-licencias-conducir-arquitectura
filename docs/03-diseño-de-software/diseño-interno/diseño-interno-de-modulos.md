@@ -54,6 +54,8 @@ backend/src/main/java/pe/licencias/
     ├── infraestructura/
     │   ├── RepositorioEvaluacionesJpa.java
     │   ├── EvaluacionEntidadJpa.java        # tabla evaluaciones
+    │   ├── BitacoraAuditoriaJpa.java        # implementa RegistroAuditoria
+    │   ├── NotificadorInterno.java          # implementa ServicioNotificaciones
     │   └── RegistroAptitudManual.java       # adaptador simulado del centro médico
     └── ConfiguracionEvaluaciones.java       # raíz de composición (@Configuration)
 ```

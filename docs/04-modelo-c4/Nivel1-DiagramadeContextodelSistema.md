@@ -31,10 +31,10 @@ Mostrar el **Sistema de Licencias Clase B como una sola caja**: quiénes lo usan
 | Persona | Descripción | Qué hace en el sistema | Requisitos |
 |---|---|---|---|
 | **Postulante** | Ciudadano que tramita su licencia clase B (II-B o II-C) | Registra su solicitud, adjunta documentos y pagos, consulta citas, resultados y el avance de su trámite, y usa el asistente virtual | RF02, RF03, RF05, RF10, RF14, RF19 |
-| **Gestor de trámites** | Personal que revisa los expedientes | Verifica identidad, documentos y pagos, programa citas y responde consultas derivadas | RF04, RF06, RF07, RF21 |
+| **Gestor de trámites** | Personal que revisa los expedientes | Verifica identidad, documentos y pagos, programa citas y responde consultas derivadas | RF04, RF06, RF07 |
 | **Evaluador** | Personal de evaluación médica, de conocimientos o de manejo | Registra y corrige resultados de su especialidad antes de la validación | RF08, RF09 |
 | **Supervisor** | Responsable de validar el proceso | Valida resultados y expedientes, y autoriza la emisión simulada | RF09, RF11, RF12 |
-| **Administrador** | Responsable de la configuración del sistema | Gestiona usuarios, roles, categorías, requisitos, parámetros, contenidos, reportes y auditoría | RF16, RF17, RF18 |
+| **Administrador** | Responsable de la configuración del sistema | Gestiona usuarios, roles, categorías, requisitos, parámetros, jornadas, horarios, cupos, contenidos, reportes y auditoría | RF16, RF17, RF18, RF21 |
 
 ---
 

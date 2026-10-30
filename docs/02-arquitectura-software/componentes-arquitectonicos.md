@@ -29,7 +29,7 @@ El diagrama muestra los componentes internos de la API del Sistema de Licencias 
 | Elemento | Tipo | Uso | Primera versión |
 |---|---|---|---|
 | **Base de datos** | Contenedor: PostgreSQL | Cada módulo lee y escribe solo sus propias tablas | Activo |
-| **Almacenamiento privado** | Contenedor: compatible con S3 | Documentos y comprobantes | Activo |
+| **Almacenamiento privado** | Contenedor: almacenamiento local privado (compatible con S3 a futuro) | Documentos y comprobantes | Activo |
 | **Caché** | Contenedor: en memoria | Requisitos y contenido público (ADR-009) | Activo |
 | **RENIEC** | Sistema externo | Validación de identidad | Simulado |
 | **SNC (MTC)** | Sistema externo | Registro de conductores | Simulado |

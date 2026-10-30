@@ -34,7 +34,7 @@ Abrir la caja «Sistema de Licencias Clase B» del nivel 1 y mostrar los **conte
 | **Portal web** | SPA · React + TypeScript | Interfaz por rol para postulantes, gestores, evaluadores, supervisores y administradores. Se ejecuta en el navegador | Ninguno persistente; solo el estado de la pantalla y el token de sesión |
 | **API Licencias** | Java + Spring Boot | Expone la API REST con JWT, aplica las reglas del trámite e integra los sistemas externos mediante adaptadores. Es un **monolito modular**: un solo proceso con 12 módulos internos organizados con Clean Architecture | Ninguno propio; usa la base de datos, el almacenamiento y la caché |
 | **Base de datos** | PostgreSQL | Almacena de forma permanente la información del trámite | Usuarios, expedientes, pagos, citas, resultados, notificaciones y auditoría |
-| **Almacenamiento privado** | Compatible con S3 | Guarda los archivos con acceso restringido | Documentos de identidad, fotografías, declaraciones y comprobantes |
+| **Almacenamiento privado** | Almacenamiento local privado en la v1 (compatible con S3 a futuro) | Guarda los archivos con acceso restringido | Documentos de identidad, fotografías, declaraciones y comprobantes |
 | **Caché** | En memoria | Guarda la información pública más consultada para responder más rápido | Categorías, requisitos y contenido informativo |
 
 ---
@@ -59,14 +59,14 @@ Abrir la caja «Sistema de Licencias Clase B» del nivel 1 y mostrar los **conte
 
 ## 5. Decisiones arquitectónicas reflejadas
 
-| Decisión | Alternativa descartada | Motivo |
-|---|---|---|
-| Un único contenedor de backend (monolito modular) | Microservicios | Equipo pequeño y plazo académico; los módulos permiten separar servicios en el futuro si es necesario (ADR-001) |
-| Frontend separado del backend (SPA + API REST) | Páginas generadas en el servidor | El frontend y el backend evolucionan y se despliegan de forma independiente (ADR-003) |
-| PostgreSQL como base de datos | Base de datos NoSQL | Expedientes, pagos, cupos y resultados necesitan transacciones y consistencia (ADR-005) |
-| Almacenamiento privado para documentos | Guardar archivos en la base de datos o en una carpeta pública | Los documentos contienen datos personales y médicos (ADR-008, DA02) |
-| Caché solo para información pública | Cachear también datos personales | Mejora el tiempo de respuesta sin exponer información sensible (ADR-009) |
-| Solo la API se comunica con los sistemas externos | Llamar a los servicios desde el navegador | Las credenciales y los adaptadores quedan en el servidor (ADR-007) |
+| Decisión | Motivo |
+|---|---|
+| Un único contenedor de backend (monolito modular) | Una sola aplicación desplegable con 12 módulos separados, adecuada para un equipo pequeño (ADR-001) |
+| Frontend separado del backend (SPA + API REST) | El frontend y el backend evolucionan y se despliegan de forma independiente (ADR-003) |
+| PostgreSQL como base de datos | Expedientes, pagos, cupos y resultados necesitan transacciones y consistencia (ADR-005) |
+| Almacenamiento privado para documentos | Los documentos contienen datos personales y médicos, y solo se entregan a usuarios autorizados (ADR-008, DA02) |
+| Caché solo para información pública | Mejora el tiempo de respuesta sin exponer información sensible (ADR-009) |
+| Solo la API se comunica con los sistemas externos | Las credenciales y los adaptadores quedan en el servidor (ADR-007) |
 
 ---
 
