@@ -1,59 +1,65 @@
 # Identificación de actores
 
-**Objetivo:** identificar a las personas que interactúan directamente con el Sistema de Licencias de Conducir.
+**Objetivo:** identificar a las personas que interactúan directamente con el Sistema de Licencias de Conducir. Los actores corresponden a los roles reales identificados en el TUPA de la MPH y en la entrevista realizada en el MAC Ayacucho.
 
-| Actor | ¿Qué necesita realizar? |
-|---|---|
-| **Postulante** | Registrar su solicitud, proporcionar sus datos, adjuntar documentos y comprobantes de pago, consultar observaciones, revisar citas, rendir las evaluaciones programadas, consultar sus resultados, recibir notificaciones y realizar el seguimiento de su trámite. |
-| **Gestor de trámites** | Revisar las solicitudes, verificar documentos y comprobantes de pago, formular observaciones, registrar o programar citas, controlar el avance del expediente y comunicar al postulante las actividades pendientes. |
-| **Evaluador** | Consultar las evaluaciones asignadas y registrar resultados según su especialidad: evaluación médica y psicológica, evaluación de conocimientos o evaluación de habilidades en la conducción. |
-| **Supervisor o validador** | Revisar que los documentos, pagos y evaluaciones estén completos, validar el expediente, aprobar u observar el trámite y autorizar el paso a la emisión simulada de la licencia. |
-| **Administrador del sistema** | Administrar cuentas, roles, permisos, categorías, requisitos, preguntas, avisos, parámetros, jornadas, horarios, cupos y configuraciones. También consulta registros de auditoría, reportes y supervisa el funcionamiento general de la plataforma. |
+| Actor | Quién es en la realidad | ¿Qué necesita realizar? |
+|---|---|---|
+| **Postulante** | Ciudadano que tramita su licencia II-B o II-C | Registrar su solicitud (emisión, revalidación o duplicado), adjuntar sus documentos y su recibo de pago, consultar qué le falta y su siguiente paso, revisar sus citas y resultados, y recibir recordatorios y alertas de vencimiento. |
+| **Gestor de trámites** | Personal de ventanilla de la MPH en el MAC | Registrar el expediente, verificar la identidad mediante la consulta de DNI, revisar los documentos y el recibo del SAT, verificar los registros del SNC y del Registro Nacional de Sanciones, y programar los exámenes. |
+| **Evaluador** | Examinador de la Subgerencia de Tránsito y Seguridad Vial | Registrar los resultados del examen de conocimientos y del examen de manejo, con un máximo de 3 intentos por examen. |
+| **Supervisor** | Subgerencia de Tránsito y Seguridad Vial | Revisar el expediente completo, aprobarlo u observarlo, autorizar la emisión de la licencia y controlar el plazo legal de 10 días hábiles. |
+| **Administrador del sistema** | Personal de tecnologías de la información de la MPH | Administrar cuentas, roles y permisos; configurar los requisitos por trámite y categoría, los días de examen, los cupos, los contenidos informativos y el asistente virtual; consultar la auditoría y los reportes. |
 
-## Especialidades del evaluador
+## Exámenes a cargo del evaluador
 
-El actor **Evaluador** utilizará una misma interfaz general, pero tendrá permisos según la especialidad asignada:
+| Examen | Días | Regla |
+|---|---|---|
+| **Conocimientos** | Lunes a miércoles | Máximo 3 intentos. Las preguntas las proporciona el MTC |
+| **Manejo** | Martes a viernes | Solo después de aprobar el examen de conocimientos. Máximo 3 intentos |
 
-| Especialidad | Responsabilidad |
-|---|---|
-| **Evaluación médica y psicológica** | Registrar la condición de apto, no apto u observado, junto con las restricciones u observaciones, a partir del certificado emitido por el centro médico autorizado. |
-| **Evaluación de conocimientos** | Gestionar la evaluación teórica y registrar el puntaje y el resultado obtenido. |
-| **Evaluación de manejo** | Registrar la calificación de las maniobras evaluadas y el resultado de la prueba de conducción. |
-
-Cada evaluador solamente podrá acceder y modificar las evaluaciones correspondientes a su especialidad.
+El **certificado médico** no lo evalúa la municipalidad: lo emite una **clínica autorizada por el MTC** y se registra en el SNC. El sistema lo verifica en el SNC y controla su vigencia de 6 meses.
 
 ## Responsabilidades relacionadas con los pagos
 
-El postulante realizará el pago mediante un canal externo autorizado y registrará:
+El postulante realiza un **pago único** en el **SAT Huamanga**, que incluye los dos exámenes:
 
-- Concepto del pago.
-- Monto pagado.
-- Fecha de la operación.
-- Número de operación.
-- Comprobante digital.
+| Trámite | Monto |
+|---|---|
+| Emisión II-B | S/ 69.90 |
+| Emisión II-C | S/ 69.40 |
+| Revalidación | S/ 59.70 |
+| Duplicado | S/ 38.10 |
 
-El gestor de trámites verificará el comprobante y registrará uno de los siguientes estados:
+El postulante registra en el sistema el **número de recibo** y adjunta el comprobante. El gestor lo verifica y registra uno de los siguientes estados:
 
 - Pendiente de verificación.
 - Verificado.
 - Observado.
 - Rechazado.
 
-El sistema conservará el usuario, la fecha y la observación relacionada con la verificación.
+El sistema conserva el usuario, la fecha y la observación de cada verificación.
 
 ## Asistente virtual con inteligencia artificial
 
-El asistente virtual con inteligencia artificial será un componente de apoyo de la plataforma y no un actor humano. Permitirá:
+El asistente virtual es un componente de apoyo de la plataforma y no un actor humano. Permite:
 
 - Responder preguntas frecuentes.
-- Explicar requisitos y etapas.
-- Orientar sobre documentos y pagos.
-- Explicar observaciones del expediente.
+- Explicar los requisitos y los pasos del proceso.
+- Explicar las observaciones del expediente.
 - Informar las actividades pendientes.
 - Derivar consultas al gestor cuando no pueda responder.
 
-El asistente no aprobará expedientes, no verificará pagos, no calificará evaluaciones y no autorizará licencias.
+El asistente no aprueba expedientes, no verifica pagos, no registra resultados y no autoriza licencias.
 
 ## Sistemas externos
 
-RENIEC, el Sistema Nacional de Conductores, los servicios bancarios, los centros médicos y otros sistemas estatales no serán actores conectados en el MVP. Sus posibles integraciones serán representadas mediante servicios simulados, debido a que requieren autorización y acceso institucional.
+| Sistema | Uso en el sistema | Primera versión |
+|---|---|---|
+| **API Perú** | Consulta de datos del DNI | **Integración real** (servicio con token) |
+| **SNC (MTC)** | Verificar el certificado médico y el COFIPRO, y registrar la licencia emitida | Simulado |
+| **Registro Nacional de Sanciones** | Verificar que no existan multas ni sanciones pendientes | Simulado |
+| **SAT Huamanga** | Pago del derecho de trámite | Simulado; el gestor verifica el recibo |
+| **Sistema de gestión documental de la MPH** | Registro del expediente en mesa de partes | Simulado |
+| **Proveedor de IA** | Respuestas del asistente sobre contenido aprobado | Integración controlada |
+
+Las integraciones simuladas requieren un convenio institucional y se reemplazarán por adaptadores reales sin modificar las reglas del trámite.
