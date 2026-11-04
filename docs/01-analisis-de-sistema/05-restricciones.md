@@ -4,10 +4,10 @@ Las restricciones establecen los límites técnicos, funcionales y operativos qu
 
 | ID | Categoría | Restricción | Impacto en la arquitectura |
 |---|---|---|---|
-| **RC01** | Alcance | El MVP estará orientado a la obtención inicial de licencias clase B, principalmente categorías II-B y II-C. | La revalidación, recategorización y duplicado no serán desarrollados inicialmente. |
-| **RC02** | Identidad | El sistema no tendrá acceso real a los servicios de RENIEC. | La identidad será revisada manualmente por el gestor mediante los datos y documentos registrados. |
+| **RC01** | Alcance | El MVP cubre la emisión nueva, la revalidación y el duplicado de licencias clase B, categorías II-B y II-C. | El canje de licencias militares o policiales y los recursos administrativos no serán desarrollados inicialmente. |
+| **RC02** | Identidad | El sistema no tendrá acceso directo a los servicios de RENIEC. | La identidad se validará mediante la consulta de DNI de API Perú (servicio de terceros con token) y la revisión del gestor. |
 | **RC03** | Integración institucional | El MVP no se conectará con el Sistema Nacional de Conductores, MTC ni sistemas municipales. | Las consultas y registros institucionales serán representados mediante datos simulados. |
-| **RC04** | Pagos | El sistema no utilizará una pasarela de pagos ni confirmará operaciones bancarias automáticamente. | El postulante adjuntará un comprobante y el gestor realizará la verificación manual. |
+| **RC04** | Pagos | El sistema no procesará pagos en línea; el pago se realiza en el SAT Huamanga. | El postulante registrará el número de recibo y adjuntará el comprobante, y el gestor realizará la verificación. |
 | **RC05** | Evaluaciones | Los resultados registrados en el prototipo no tendrán validez oficial. | Las evaluaciones serán utilizadas para demostrar el flujo funcional del sistema. |
 | **RC06** | Inteligencia artificial | El asistente virtual no podrá aprobar trámites, validar pagos, calificar evaluaciones ni modificar expedientes. | La IA será utilizada únicamente para brindar orientación basada en contenidos aprobados. |
 | **RC07** | Notificaciones | El MVP utilizará notificaciones internas dentro de la plataforma. | No será obligatorio integrar correo electrónico, mensajes SMS o aplicaciones de mensajería. |
