@@ -20,7 +20,7 @@ Las historias de usuario describen las necesidades de los actores que interactú
 | **HU14** | Gestor de trámites | Como gestor de trámites, quiero verificar los comprobantes de pago, para confirmar que el postulante pueda continuar con el procedimiento. |
 | **HU15** | Gestor de trámites | Como gestor de trámites, quiero programar y reprogramar citas, para organizar la atención y las evaluaciones. |
 | **HU16** | Gestor de trámites | Como gestor de trámites, quiero actualizar el avance del expediente, para mantener informado al postulante. |
-| **HU17** | Evaluador | Como evaluador, quiero consultar las evaluaciones asignadas según mi especialidad, para atender únicamente las pruebas que me corresponden. |
+| **HU17** | Evaluador | Como evaluador, quiero consultar los exámenes de conocimientos y de manejo programados, para atender a los postulantes en el día que corresponde. |
 | **HU18** | Evaluador | Como evaluador, quiero registrar el resultado y las observaciones de una evaluación, para dejar constancia del desempeño del postulante. |
 | **HU19** | Evaluador | Como evaluador, quiero corregir un resultado antes de su validación, para solucionar posibles errores de registro. |
 | **HU20** | Supervisor o validador | Como supervisor, quiero revisar los documentos, pagos y evaluaciones del expediente, para comprobar que el procedimiento esté completo. |
@@ -31,13 +31,19 @@ Las historias de usuario describen las necesidades de los actores que interactú
 | **HU25** | Administrador del sistema | Como administrador, quiero gestionar las preguntas y contenidos informativos, para mantener actualizadas las evaluaciones y el asistente virtual. |
 | **HU26** | Administrador del sistema | Como administrador, quiero consultar la auditoría de acciones, para identificar quién realizó cada modificación dentro del sistema. |
 | **HU27** | Administrador del sistema | Como administrador, quiero consultar reportes de solicitudes, pagos y evaluaciones, para supervisar el funcionamiento de la plataforma. |
+| **HU28** | Postulante | Como postulante, quiero recibir un aviso antes de que venza mi certificado médico, para no perder mi pago ni tener que repetir el examen médico. |
+| **HU29** | Gestor de trámites | Como gestor de trámites, quiero verificar en el SNC que el certificado médico y la constancia COFIPRO estén registrados, para validar los requisitos sin solicitar copias físicas. |
+| **HU30** | Postulante | Como postulante, quiero solicitar la revalidación de mi licencia cuando esté por vencer, para seguir conduciendo de manera legal. |
+| **HU31** | Postulante | Como postulante, quiero solicitar un duplicado de mi licencia por pérdida, robo o deterioro, para contar nuevamente con ella. |
+| **HU32** | Gestor de trámites | Como gestor de trámites, quiero verificar que el postulante no tenga multas ni sanciones pendientes, para cumplir con los requisitos del TUPA. |
 
 ## Reglas generales
 
 - Cada usuario accederá mediante una cuenta y contraseña.
 - Las funciones visibles dependerán del rol asignado.
-- El evaluador solamente podrá gestionar evaluaciones de su especialidad.
-- El gestor verificará manualmente los documentos y comprobantes.
+- El evaluador registra los exámenes de conocimientos y de manejo, con un máximo de 3 intentos por examen.
+- El certificado médico lo emite una clínica autorizada por el MTC; el sistema lo verifica en el SNC y controla su vigencia de 6 meses.
+- El gestor verificará la identidad mediante la consulta de DNI y revisará los documentos y el recibo de pago del SAT.
 - El supervisor validará el expediente antes de autorizar la emisión.
 - Las notificaciones serán generadas dentro de la plataforma.
 - El asistente virtual brindará orientación, pero no realizará aprobaciones ni modificará información del trámite.
