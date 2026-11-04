@@ -14,7 +14,7 @@ Este documento describe **cómo se organiza el código dentro de un módulo** de
 2. Mostrar cómo se aplica Clean Architecture en un módulo real.
 3. Servir de guía para programar los demás módulos de la misma forma.
 
-Se eligió **Evaluaciones** como módulo de referencia porque contiene la regla más crítica del sistema: un resultado validado por el supervisor no puede modificarse (RF09, DA04, EQ-09). Además, se comunica con Expedientes, Auditoría, Notificaciones y con el centro médico simulado.
+Se eligió **Evaluaciones** como módulo de referencia porque contiene las reglas más críticas del sistema: un postulante tiene un máximo de 3 intentos por examen y un resultado validado por el supervisor no puede modificarse (RF08, RF09, DA04, EQ-09). Además, se comunica con Expedientes, Auditoría y Notificaciones, que envía los avisos por correo.
 
 ---
 
@@ -38,25 +38,23 @@ backend/src/main/java/pe/licencias/
     │   │   ├── Evaluacion.java              # entidad con las reglas de bloqueo
     │   │   ├── Resultado.java               # objeto de valor
     │   │   ├── EstadoResultado.java         # PENDIENTE, REGISTRADO, VALIDADO
-    │   │   ├── TipoEvaluacion.java          # MEDICA, CONOCIMIENTOS, MANEJO
+    │   │   ├── TipoEvaluacion.java          # CONOCIMIENTOS, MANEJO
+    │   │   ├── IntentosAgotadosException.java  # máximo 3 intentos
     │   │   └── ResultadoBloqueadoException.java
     │   ├── calificacion/                    # patrón Strategy
     │   │   ├── CalificacionStrategy.java
-    │   │   ├── CalificacionMedica.java
     │   │   ├── CalificacionConocimientos.java
     │   │   └── CalificacionManejo.java
     │   └── contratos/                       # interfaces que la infraestructura implementa
     │       ├── RepositorioEvaluaciones.java
     │       ├── RegistroAuditoria.java
     │       ├── ServicioNotificaciones.java
-    │       ├── ExpedientesApi.java
-    │       └── ValidadorAptitudMedica.java
+    │       └── ExpedientesApi.java
     ├── infraestructura/
     │   ├── RepositorioEvaluacionesJpa.java
     │   ├── EvaluacionEntidadJpa.java        # tabla evaluaciones
     │   ├── BitacoraAuditoriaJpa.java        # implementa RegistroAuditoria
-    │   ├── NotificadorInterno.java          # implementa ServicioNotificaciones
-    │   └── RegistroAptitudManual.java       # adaptador simulado del centro médico
+    │   └── NotificadorCorreo.java           # implementa ServicioNotificaciones (SMTP)
     └── ConfiguracionEvaluaciones.java       # raíz de composición (@Configuration)
 ```
 
@@ -123,15 +121,20 @@ public class Evaluacion {
     private TipoEvaluacion tipo;
     private EstadoResultado estado = EstadoResultado.PENDIENTE;
     private Resultado resultado;
+    private int intentos = 0;
+    private static final int MAXIMO_INTENTOS = 3;
 
     public void registrar(Resultado nuevo) {
         if (estado == EstadoResultado.VALIDADO) throw new ResultadoBloqueadoException(id);
+        if (intentos >= MAXIMO_INTENTOS) throw new IntentosAgotadosException(id);   // RF08
+        this.intentos++;
         this.resultado = nuevo;
         this.estado = EstadoResultado.REGISTRADO;
     }
 
     public void corregir(Resultado corregido) {
-        registrar(corregido);                       // misma regla: solo antes de validar (RF09)
+        if (estado == EstadoResultado.VALIDADO) throw new ResultadoBloqueadoException(id);
+        this.resultado = corregido;                 // corrige el registro sin consumir un intento (RF09)
     }
 
     public void validar() {
@@ -245,11 +248,10 @@ public class ConfiguracionEvaluaciones {
     }
 
     @Bean
-    @Profile("simulado")                               // v1: sin centro médico real
-    public ValidadorAptitudMedica validadorAptitud() {
-        return new RegistroAptitudManual();
+    public ServicioNotificaciones servicioNotificaciones(JavaMailSender correo) {
+        return new NotificadorCorreo(correo);          // recordatorios por SMTP (ADR-013)
     }
 }
 ```
 
-> Para reemplazar el registro manual por un centro médico autorizado se crea un nuevo adaptador y se registra con otro perfil. El dominio y los casos de uso no cambian (DA08, EQ-06).
+> Para cambiar el envío de avisos, por ejemplo a otro proveedor de correo, se crea un nuevo adaptador de `ServicioNotificaciones` y se registra aquí. El dominio y los casos de uso no cambian (DA08, EQ-06).
