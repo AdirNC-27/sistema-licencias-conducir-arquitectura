@@ -72,19 +72,20 @@ Una **plataforma web especializada en la licencia clase B** que acompañe al pos
 - Expediente digital único.
 - Requisitos y pasos del proceso según el tipo de trámite y la categoría.
 - Estado y **siguiente paso** siempre visibles.
-- Programación de exámenes según los días reales y los cupos.
+- El postulante **elige su cita** de examen según los días reales y los cupos disponibles.
 - **Control de los 3 intentos** por examen.
 - **Alerta de vencimiento** del certificado médico y **aviso de revalidación** de la licencia.
-- **Recordatorios** para reducir la postergación de los exámenes.
+- **Recordatorios por correo** para reducir la postergación de los exámenes.
 
-La plataforma **se integra** con los sistemas existentes en lugar de reemplazarlos: **API Perú** (consulta de DNI), **SNC**, **Registro Nacional de Sanciones**, **SAT Huamanga** y el **sistema de gestión documental de la MPH**.
+La plataforma **complementa** a los sistemas existentes en lugar de reemplazarlos: se integra con **API Perú** (consulta de DNI), una **IA de orientación** y el **correo electrónico**, y registra la verificación que el gestor realiza en el **SNC**, el **SAT Huamanga** y el **Registro Nacional de Sanciones**.
 
 ## Alcance del prototipo
 
 - **Trámites:** emisión nueva, revalidación y duplicado de licencias II-B y II-C. El canje de licencias militares o policiales queda fuera del alcance (RC01).
-- **Sin validez legal:** la emisión se registra de forma simulada (RC05).
-- **Integración real:** consulta de DNI mediante API Perú.
-- **Integraciones simuladas:** SNC, Registro Nacional de Sanciones, SAT y sistema de gestión documental, porque requieren convenio institucional.
+- **Sin validez legal:** la licencia emitida en el prototipo no tiene validez oficial (RC05).
+- **Integraciones reales:** consulta de DNI (API Perú), IA de orientación y correo electrónico.
+- **Verificación del gestor en portales oficiales:** SNC, SAT, Registro Nacional de Sanciones y sistema de gestión documental, porque no ofrecen una API pública. Su integración futura se haría mediante la Plataforma de Interoperabilidad del Estado (PIDE), con convenio.
+- **El examen médico no se agenda en el sistema:** lo realiza una clínica privada; el sistema gestiona solo las citas de los exámenes de la MPH.
 - **Asistente de IA** limitado a contenido aprobado (RC06).
 
 ## Fuentes
