@@ -14,6 +14,7 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Caché | Caché en memoria de Spring (`@Cacheable`) | Requisitos y contenido público | ADR-009 |
 | Documentación de la API | OpenAPI (Swagger) | Documentación de los endpoints `/api/v1` | ADR-003 |
 | Pruebas | JUnit 5 y Mockito | Pruebas del dominio y de los casos de uso (EQ-09) | DA04 |
+| Correo | Spring Mail (SMTP) | Recordatorios de examen y vencimientos | ADR-013 |
 | Despliegue | Docker y Docker Compose | Frontend, backend y base de datos en contenedores | ADR-010 |
 
 ## Estructura prevista del código
@@ -47,11 +48,11 @@ Cada módulo del backend se organiza con Clean Architecture en los paquetes `pre
 
 ## Integraciones externas
 
-| Servicio | Primera versión | Implementación |
+| Servicio | Tipo | Implementación |
 |---|---|---|
-| RENIEC | Simulado | `SimuladorReniec` y verificación manual del gestor |
-| Sistema Nacional de Conductores (MTC) | Simulado | `SimuladorSNC` |
-| Banco o pasarela de pagos | Simulado | `VerificadorPagosManual` |
-| Centro médico | Simulado | `RegistroAptitudManual` |
+| API Perú | Integración real (HTTPS/REST con token) | `ApiPeruDniAdapter` |
+| IA de orientación | Integración real (HTTPS/REST) | `AdaptadorIA` |
+| Correo electrónico | Integración real (SMTP con Spring Mail) | `NotificadorCorreo` |
+| SNC, SAT y Registro Nacional de Sanciones | Verificación del gestor en portales oficiales | El sistema registra la verificación |
 
-Cada simulador implementa un contrato del dominio. Cuando exista un convenio institucional, se reemplazará por un adaptador que consuma el servicio real, sin modificar las reglas del trámite.
+Cada integración implementa un contrato del dominio. La integración futura con el SNC y el SAT se haría mediante la Plataforma de Interoperabilidad del Estado (PIDE), con convenio, agregando un adaptador sin modificar las reglas del trámite.
