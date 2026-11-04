@@ -17,7 +17,7 @@ Gestión del trámite de licencias de conducir clase B (categorías II-B y II-C)
 
 Plataforma web académica para la gestión del trámite de licencias de conducir clase B. Centraliza el expediente digital del postulante y coordina la verificación manual de documentos y pagos, la programación de citas, el registro y la validación de evaluaciones, el seguimiento del trámite, las notificaciones y la auditoría de las operaciones.
 
-> **Prototipo académico:** no emite licencias con validez legal. La consulta de DNI se integra con API Perú; el SNC, el Registro Nacional de Sanciones, el SAT y el sistema de gestión documental de la MPH se representan mediante adaptadores simulados.
+> **Prototipo académico:** no emite licencias con validez legal. Se integra con API Perú (consulta de DNI), una IA de orientación y el correo electrónico. El SNC, el SAT y el Registro Nacional de Sanciones son verificados por el gestor en sus portales oficiales.
 
 ## Arquitectura
 
