@@ -4,7 +4,7 @@
 
 El Sistema de Licencias de Conducir Clase B utilizará un **monolito modular con arquitectura web cliente-servidor**.
 
-El sistema se ejecutará inicialmente como una sola aplicación backend desplegable, pero sus funcionalidades estarán organizadas en módulos con responsabilidades claramente definidas. Esta organización permitirá mantener una implementación accesible para el equipo y facilitará la modificación o evolución de cada módulo.
+El sistema se ejecutará como una sola aplicación backend desplegable, organizada en **12 módulos** con responsabilidades claramente definidas. Esta organización mantiene una implementación accesible para el equipo y facilita la modificación o evolución de cada módulo.
 
 ## Justificación
 
@@ -14,24 +14,38 @@ Este estilo permite:
 
 - Mantener una sola aplicación backend desplegable.
 - Separar las funcionalidades mediante módulos.
-- Compartir una base de datos central de forma controlada.
+- Usar una única base de datos con separación lógica por módulo.
 - Simplificar el desarrollo, las pruebas y el despliegue.
-- Reducir los costos de infraestructura.
 - Aplicar seguridad y auditoría de manera centralizada.
 - Preparar los módulos para una posible separación futura.
+
+## Diagrama del estilo arquitectónico
+
+![Estilo arquitectónico del Sistema de Licencias de Conducir Clase B](../../img/estilo-arquitectonico.png)
+
+> Archivo editable: `img/fuentes/estilo-arquitectonico.drawio`
+
+## Cómo se lee el diagrama
+
+1. Los **usuarios** acceden mediante un **acceso seguro**: dominio y DNS, HTTPS (certificado SSL/TLS) y CDN para los archivos estáticos.
+2. El **portal web** (React + TypeScript) envía las solicitudes por **HTTPS/JSON** a la **API REST**, que valida el rol con **JWT**.
+3. La API pasa la solicitud a los **casos de uso y fachadas**, que conectan los **12 módulos**.
+4. Los módulos guardan la información en **PostgreSQL**, la única base de datos, y usan una **caché en memoria** para la información pública.
+5. Los **adaptadores** conectan el sistema con los **servicios externos reales**.
+6. El gestor **verifica en los portales oficiales** los sistemas que no ofrecen una API pública.
 
 ## Componentes principales
 
 | Componente | Responsabilidad |
 |---|---|
-| **Portal web** | Proporcionar las interfaces para postulantes, gestores, evaluadores, supervisores y administradores. |
-| **API REST** | Recibir las solicitudes del portal web y exponer las operaciones autorizadas del sistema. |
-| **Monolito modular** | Ejecutar los casos de uso, reglas del negocio, validaciones y coordinación de los módulos. |
-| **PostgreSQL** | Almacenar usuarios, expedientes, documentos, pagos, citas, evaluaciones, resultados, estados y auditoría. |
-| **Almacenamiento privado** | Conservar documentos personales, comprobantes y archivos adjuntos con acceso restringido. |
-| **Servicio de notificaciones** | Enviar avisos sobre observaciones, citas, resultados, cambios de estado y acciones pendientes. |
-| **Caché** | Almacenar temporalmente categorías, requisitos y otra información pública de consulta frecuente. |
-| **CDN** | Distribuir archivos estáticos públicos del portal para mejorar los tiempos de carga. |
+| **Acceso seguro** | Dominio, DNS, certificado SSL/TLS (HTTPS) y CDN para los archivos estáticos del portal. |
+| **Portal web** | Interfaces para postulantes, gestores, evaluadores, supervisores y administradores. Incluye un enlace a la consulta de licencias del MTC. |
+| **API REST y seguridad** | Recibir las solicitudes del portal web, autenticar con JWT y autorizar según el rol. |
+| **Casos de uso y fachadas** | Coordinar los módulos; cada módulo se comunica con los demás solo mediante su fachada. |
+| **Módulos** | Ejecutar las reglas del trámite de cada área funcional. |
+| **Caché en memoria** | Guardar temporalmente los requisitos y las categorías públicas. No es otra base de datos. |
+| **Adaptadores** | Conectar el sistema con API Perú, la IA de orientación y el correo electrónico. |
+| **PostgreSQL** | Base de datos única: usuarios, expedientes, documentos, pagos, citas, resultados, estados y auditoría. |
 
 ## Tecnologías
 
@@ -41,84 +55,66 @@ Este estilo permite:
 | Backend | Java y Spring Boot (una sola aplicación) |
 | Seguridad | Spring Security y JWT |
 | Base de datos | PostgreSQL |
+| Caché | Caché en memoria de Spring |
 | Despliegue | Contenedor Docker |
 
 ## Módulos del monolito
 
-El backend estará dividido en los siguientes módulos:
-
 - **Identidad y acceso:** autenticación, usuarios, roles y permisos.
-- **Postulantes:** información personal y perfil del ciudadano.
-- **Expedientes:** solicitudes, categorías, etapas, estados, validación del expediente y emisión simulada.
-- **Requisitos y documentos:** checklist, documentos adjuntos y observaciones.
-- **Pagos:** registro de comprobantes y verificación manual.
-- **Citas:** fechas, horarios, cupos y programación.
-- **Evaluaciones:** aptitud médica, exámenes de conocimientos y habilidades de conducción.
-- **Seguimiento:** avance del expediente y acciones pendientes.
-- **Notificaciones:** avisos y recordatorios internos de la plataforma.
-- **Asistente virtual:** orientación basada en información previamente aprobada.
-- **Administración:** configuración de categorías, requisitos, etapas y usuarios, y reportes.
-- **Auditoría:** registro de operaciones y modificaciones importantes.
-
-## Usuarios del sistema
-
-Los actores accederán al mismo sistema mediante interfaces y permisos diferentes:
-
-- Postulante.
-- Gestor.
-- Evaluador.
-- Supervisor.
-- Administrador.
-
-El control de acceso impedirá que un usuario consulte o modifique información que no corresponda a sus funciones.
+- **Postulantes:** datos personales y validación del DNI con API Perú.
+- **Expedientes:** solicitudes (emisión, revalidación y duplicado), etapas, validación del expediente y emisión.
+- **Requisitos y documentos:** requisitos según el TUPA, documentos adjuntos, vigencia del certificado médico y verificación del gestor.
+- **Pagos:** registro del recibo del SAT y su verificación.
+- **Citas:** días de examen, cupos y elección de la cita por el postulante.
+- **Evaluaciones:** resultados de los exámenes de conocimientos y de manejo, con un máximo de 3 intentos.
+- **Seguimiento:** estado, historial, pendientes y plazo legal de 10 días hábiles.
+- **Notificaciones:** avisos internos y recordatorios por correo electrónico.
+- **Asistente virtual:** orientación con contenido aprobado mediante la IA de orientación.
+- **Administración:** configuración de requisitos, días de examen, cupos, contenidos y reportes.
+- **Auditoría:** registro de las operaciones y modificaciones importantes.
 
 ## Servicios externos
 
-Las integraciones futuras se conectarán mediante interfaces y adaptadores:
+### Integraciones reales
 
-| Servicio | Uso | Primera versión |
+| Servicio | Uso | Protocolo |
 |---|---|---|
-| RENIEC | Validación de identidad | Simulado; verificación manual del gestor |
-| Sistema Nacional de Conductores | Consultas y registros institucionales | Simulado |
-| Banco o pasarela de pagos | Validación de pagos | Simulado; verificación manual del comprobante |
-| Centro médico autorizado | Aptitud médica | Simulado; registro manual del certificado |
-| Correo o mensajería | Notificaciones externas | Opcional; el MVP usa notificaciones internas (RC07) |
-| Proveedor de inteligencia artificial | Orientación controlada | Limitado a contenido aprobado |
-| Almacenamiento compatible con S3 | Documentos privados | Almacenamiento privado con acceso restringido |
+| **API Perú** | Consulta de datos del DNI | HTTPS/REST |
+| **IA de orientación** | Respuestas del asistente virtual sobre contenido aprobado | HTTPS/REST |
+| **Correo electrónico** | Recordatorios de examen y de vencimientos | SMTP |
 
-Las integraciones institucionales requieren autorización, por lo que en la primera versión académica se implementan mediante adaptadores simulados.
+### Verificación del gestor en portales oficiales
+
+| Sistema | Qué se verifica |
+|---|---|
+| SNC (MTC) | Certificado médico y constancia COFIPRO |
+| SAT Huamanga | Recibo de pago |
+| Registro Nacional de Sanciones | Multas y sanciones pendientes |
+| Sistema de gestión documental de la MPH | Número de expediente |
+
+Estos sistemas no ofrecen una API pública. El sistema registra la verificación del gestor y queda preparado para una integración futura mediante la Plataforma de Interoperabilidad del Estado (PIDE), con convenio.
 
 ## Despliegue y seguridad
 
-La solución considerará:
-
-- Dominio propio, incluyendo la posibilidad de utilizar un dominio `.pe`.
-- Configuración de DNS.
+- Dominio propio y configuración de DNS.
 - Certificado SSL/TLS y uso obligatorio de HTTPS.
-- Frontend desplegado en una plataforma con CDN y HTTPS automático.
-- Backend desplegado como un contenedor.
-- Base de datos PostgreSQL administrada.
-- Almacenamiento privado para documentos.
-- Copias de seguridad periódicas.
-- Variables de entorno para proteger credenciales.
+- Frontend con CDN para los archivos estáticos.
+- Backend desplegado como un contenedor Docker.
+- PostgreSQL como base de datos única, con copias de seguridad periódicas.
+- Variables de entorno para proteger las credenciales (token de API Perú, IA y correo).
 - Contraseñas almacenadas mediante algoritmos de hash seguros.
 - Caché limitada a información pública.
-- Registro de operaciones mediante una bitácora de auditoría.
+- Registro de operaciones en la bitácora de auditoría.
 
-Aunque la base de datos, el almacenamiento, la caché y el CDN se ejecuten como servicios separados, el backend se mantiene como un **monolito modular**: sus 12 módulos se ejecutan y despliegan como una sola aplicación.
-
-## Diagrama del estilo arquitectónico
-
-![Estilo arquitectónico del Sistema de Licencias de Conducir Clase B](../../img/estilo-arquitectonico.png)
+Aunque la base de datos y el CDN se ejecuten como servicios separados, el backend se mantiene como un **monolito modular**: sus 12 módulos se ejecutan y despliegan como una sola aplicación.
 
 ## Relación con los drivers
 
-El estilo seleccionado responde principalmente a los siguientes drivers:
-
 - **DA01:** control de acceso según roles.
-- **DA02:** protección de datos personales y médicos.
+- **DA02:** protección de datos personales.
 - **DA03:** trazabilidad de las operaciones.
+- **DA04:** integridad de los resultados y del trámite.
 - **DA05:** mantenibilidad y evolución modular.
-- **DA08:** integraciones institucionales desacopladas.
+- **DA08:** integraciones desacopladas.
 - **DA09:** rendimiento y disponibilidad.
 - **DA10:** facilidad de uso y accesibilidad.
