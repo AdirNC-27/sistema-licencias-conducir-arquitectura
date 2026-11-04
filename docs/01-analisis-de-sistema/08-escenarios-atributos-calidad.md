@@ -79,7 +79,7 @@ Cada atributo de calidad definido en `04-atributos-de-calidad.md` se convierte e
 | **Origen** | AC06 · DA05 · DA08 |
 | **Atributo de calidad** | Mantenibilidad |
 | **Fuente** | Equipo de desarrollo |
-| **Estímulo** | Se modifica un requisito o una etapa del trámite, o se reemplaza el simulador de RENIEC por una integración autorizada. |
+| **Estímulo** | Se modifica un requisito o una etapa del trámite, o se agrega una nueva integración (por ejemplo, con el SNC mediante la PIDE). |
 | **Condición** | El sistema está organizado en módulos con Clean Architecture y dispone de pruebas. |
 | **Respuesta esperada** | El cambio se concentra en el módulo responsable o en un nuevo adaptador, sin modificar el dominio de otros módulos. |
 | **Medida** | El reemplazo de un adaptador solo requiere la nueva clase y su registro en la configuración. Las pruebas del módulo y las de regresión acordadas se aprueban. |
