@@ -11,12 +11,21 @@ Términos utilizados en la documentación del Sistema de Licencias de Conducir C
 | **Categoría II-C** | Licencia para conducir mototaxis (vehículos de tres ruedas) |
 | **Postulante** | Ciudadano que solicita la licencia |
 | **Expediente** | Conjunto de datos, documentos, pagos, citas y resultados de un trámite |
-| **Etapa** | Paso del trámite: documentos, pago, evaluación médica, conocimientos, manejo, validación y emisión |
+| **Etapa** | Paso del trámite: certificado médico, pago, examen de conocimientos, examen de manejo, validación y emisión |
 | **Validación** | Aprobación del supervisor que bloquea un resultado o el expediente |
 | **Emisión simulada** | Registro de la licencia sin validez legal, para demostrar el flujo completo (RC05) |
 | **RENIEC** | Registro Nacional de Identificación y Estado Civil; valida la identidad |
 | **SNC** | Sistema Nacional de Conductores del MTC; registra las licencias del país |
 | **MTC** | Ministerio de Transportes y Comunicaciones |
+| **MPH** | Municipalidad Provincial de Huamanga |
+| **TUPA** | Texto Único de Procedimientos Administrativos: documento oficial con los requisitos, costos y plazos de cada trámite |
+| **MAC** | Centro de Mejor Atención al Ciudadano: local donde varias entidades del Estado atienden juntas |
+| **SAT Huamanga** | Servicio de Administración Tributaria de Huamanga; recibe el pago del trámite |
+| **COFIPRO** | Programa de Formación de Conductores, obligatorio para la categoría II-C |
+| **Registro Nacional de Sanciones** | Registro de multas y sanciones de tránsito de los conductores |
+| **Revalidación** | Renovación de la licencia al vencer su vigencia de 5 años |
+| **Duplicado** | Nueva emisión de la licencia por pérdida, robo o deterioro |
+| **Sistema de gestión documental** | Sistema de la MPH para la mesa de partes y el seguimiento de documentos por oficina |
 
 ## Términos de arquitectura
 
@@ -37,6 +46,7 @@ Términos utilizados en la documentación del Sistema de Licencias de Conducir C
 | **Adaptador** | Clase que implementa un contrato y conecta el sistema con una tecnología o servicio externo |
 | **Simulador** | Adaptador que reemplaza a un servicio externo mientras no exista una integración autorizada |
 | **Fachada** | Interfaz pública de un módulo que usan los demás módulos |
+| **API Perú** | Servicio de terceros que permite consultar los datos de un DNI mediante un token |
 | **API REST** | Interfaz HTTP con la que el portal web se comunica con el backend |
 | **JWT** | Token firmado que identifica al usuario y su rol en cada petición |
 | **Modelo C4** | Forma de documentar la arquitectura en cuatro niveles: contexto, contenedores, componentes y código |
