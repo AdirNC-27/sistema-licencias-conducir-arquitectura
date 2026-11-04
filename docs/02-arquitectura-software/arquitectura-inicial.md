@@ -1,8 +1,8 @@
 # Arquitectura inicial del sistema
 
-El sistema utilizará una **arquitectura monolítica modular** basada en principios de Clean Architecture. Esta estructura permitirá separar la interfaz, los módulos funcionales, las reglas de negocio y la infraestructura.
+El sistema utilizará una **arquitectura monolítica modular** organizada internamente con Clean Architecture. Esta estructura separa la interfaz, los módulos funcionales, las reglas del trámite y la infraestructura.
 
-> **Nota:** esta es la primera propuesta del Laboratorio 2. Los ocho grupos de módulos se refinaron después en los **12 módulos** del estilo arquitectónico y del diagrama de componentes (C4 nivel 3).
+> **Nota:** esta es la primera propuesta del Laboratorio 2. Los ocho grupos de módulos se refinaron después en los **12 módulos** del estilo arquitectónico y del diagrama de componentes (C4 nivel 3), y las integraciones se ajustaron con la investigación de campo.
 
 ## Diagrama de arquitectura
 
@@ -12,53 +12,49 @@ flowchart TB
         A1["Postulante"]
         A2["Gestor de trámites"]
         A3["Evaluador"]
-        A4["Supervisor o validador"]
-        A5["Administrador del sistema"]
+        A4["Supervisor"]
+        A5["Administrador"]
     end
 
-    ACTORES --> FRONTEND
+    ACTORES --> ACCESO["ACCESO SEGURO<br/>Dominio y DNS · HTTPS · CDN"]
+    ACCESO --> FRONTEND["PORTAL WEB<br/>React + TypeScript"]
+    FRONTEND -- "HTTPS / JSON" --> API["API REST Y SEGURIDAD<br/>Spring Boot + JWT"]
 
-    FRONTEND["FRONTEND WEB<br/>React + TypeScript"]
+    API --> MODULOS["MÓDULOS FUNCIONALES<br/><br/>Identidad · Postulantes · Expedientes<br/>Requisitos y documentos · Pagos · Citas<br/>Evaluaciones · Seguimiento · Notificaciones<br/>Asistente virtual · Administración · Auditoría"]
+    MODULOS --> CASOS["CASOS DE USO"]
+    CASOS --> DOMINIO["DOMINIO<br/>Entidades y reglas del trámite"]
 
-    FRONTEND --> API
-
-    API["API REST Y SEGURIDAD<br/>Spring Boot + JWT"]
-
-    API --> MODULOS
-
-    MODULOS["MÓDULOS FUNCIONALES<br/><br/>Usuarios y roles<br/>Expedientes y documentos<br/>Pagos y comprobantes<br/>Citas y evaluaciones<br/>Seguimiento y validación<br/>Notificaciones internas<br/>Asistente con IA<br/>Administración y auditoría"]
-
-    MODULOS --> CASOS
-
-    CASOS["CASOS DE USO<br/>Procesos y flujo del sistema"]
-
-    CASOS --> DOMINIO
-
-    DOMINIO["DOMINIO<br/>Entidades y reglas de negocio"]
-
-    INFRA["INFRAESTRUCTURA Y ADAPTADORES"]
-
+    INFRA["INFRAESTRUCTURA Y ADAPTADORES<br/>Caché en memoria"]
     INFRA -. "implementa contratos" .-> DOMINIO
 
-    INFRA --> DB[("PostgreSQL")]
-    INFRA --> ARCHIVOS["Almacenamiento privado<br/>Documentos y comprobantes"]
-    INFRA --> IA["Servicio de inteligencia artificial"]
+    INFRA --> DB[("PostgreSQL<br/>base de datos única")]
+    INFRA -- "HTTPS/REST" --> APIPERU["API Perú<br/>consulta de DNI"]
+    INFRA -- "HTTPS/REST" --> IA["IA de orientación"]
+    INFRA -- "SMTP" --> CORREO["Correo electrónico<br/>recordatorios"]
 
-    FUTURO["INTEGRACIONES FUTURAS<br/>RENIEC · SNC · Servicios bancarios · Centros médicos"]
-
-    INFRA -. "Fuera del MVP" .-> FUTURO
+    GESTOR["Verificación del gestor en portales oficiales<br/>SNC · SAT · Registro Nacional de Sanciones"]
+    A2 -. "verifica" .-> GESTOR
 ```
 
-> En el diagrama, las flechas continuas indican el flujo de las solicitudes. La flecha discontinua indica que la infraestructura implementa los contratos del dominio: las dependencias del código apuntan hacia el dominio, como se detalla en el enfoque arquitectónico.
+> En el diagrama, las flechas continuas indican el flujo de las solicitudes. La flecha discontinua entre infraestructura y dominio indica que la infraestructura implementa los contratos del dominio: las dependencias del código apuntan hacia el dominio.
 
 ## Componentes principales
 
-- **Frontend:** presenta los paneles según el rol del usuario.
-- **API REST:** recibe solicitudes y controla la autenticación y los permisos.
-- **Módulos funcionales:** gestionan expedientes, pagos, citas, evaluaciones, seguimiento e inteligencia artificial.
-- **Dominio:** contiene las reglas principales del trámite.
-- **Infraestructura:** administra la base de datos, archivos y servicios externos.
-- **Asistente con IA:** brinda orientación, pero no aprueba trámites ni modifica resultados.
+- **Acceso seguro:** dominio, DNS, certificado SSL/TLS y CDN.
+- **Portal web:** presenta los paneles según el rol del usuario.
+- **API REST:** recibe las solicitudes y controla la autenticación y los permisos.
+- **Módulos funcionales:** gestionan expedientes, requisitos, pagos, citas, evaluaciones, seguimiento y notificaciones.
+- **Dominio:** contiene las reglas del trámite (3 intentos, vigencia del certificado, orden de los exámenes y bloqueo de resultados).
+- **Infraestructura:** administra la base de datos, la caché y los adaptadores de los servicios externos.
+
+## Integraciones
+
+| Servicio | Tipo |
+|---|---|
+| API Perú (consulta de DNI) | Integración real |
+| IA de orientación | Integración real |
+| Correo electrónico (SMTP) | Integración real |
+| SNC, SAT y Registro Nacional de Sanciones | Verificación del gestor en portales oficiales |
 
 ## Tecnologías propuestas
 
