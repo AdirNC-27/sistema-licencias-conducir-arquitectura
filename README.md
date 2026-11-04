@@ -11,13 +11,13 @@ Arquitectura de Software (IS-488)
 
 ## Caso de estudio
 
-Proceso de obtención de licencias de conducir clase B (categorías II-B y II-C) en la provincia de Huamanga.
+Gestión del trámite de licencias de conducir clase B (categorías II-B y II-C) en la Municipalidad Provincial de Huamanga: emisión nueva, revalidación y duplicado.
 
 ## Descripción
 
 Plataforma web académica para la gestión del trámite de licencias de conducir clase B. Centraliza el expediente digital del postulante y coordina la verificación manual de documentos y pagos, la programación de citas, el registro y la validación de evaluaciones, el seguimiento del trámite, las notificaciones y la auditoría de las operaciones.
 
-> **Prototipo académico:** no emite licencias con validez legal. Las integraciones con RENIEC, el Sistema Nacional de Conductores, bancos y centros médicos se representan mediante adaptadores simulados.
+> **Prototipo académico:** no emite licencias con validez legal. La consulta de DNI se integra con API Perú; el SNC, el Registro Nacional de Sanciones, el SAT y el sistema de gestión documental de la MPH se representan mediante adaptadores simulados.
 
 ## Arquitectura
 
@@ -45,7 +45,8 @@ docs/
 │   ├── 06-drivers-arquitectonicos.md
 │   ├── 07-decisiones-arquitectonicas.md
 │   ├── 08-escenarios-atributos-calidad.md
-│   └── 09-glosario.md
+│   ├── 09-glosario.md
+│   └── 10-levantamiento-de-informacion.md
 ├── 02-arquitectura-software/
 │   ├── arquitectura-inicial.md
 │   ├── componentes-arquitectonicos.md
