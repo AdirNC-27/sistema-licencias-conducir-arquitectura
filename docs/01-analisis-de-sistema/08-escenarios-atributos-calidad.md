@@ -16,15 +16,15 @@ Cada atributo de calidad definido en `04-atributos-de-calidad.md` se convierte e
 | **Verificación** | Ejecutar pruebas de acceso con cada rol sobre cada operación protegida y revisar las respuestas. |
 | **Estado** | Pendiente de completar la matriz de permisos por rol y operación. |
 
-## EQ-02. Privacidad: acceso a documentos y datos médicos
+## EQ-02. Privacidad: acceso a documentos y datos personales
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC02 · DA02 |
 | **Atributo de calidad** | Privacidad |
 | **Fuente** | Usuario autenticado que no tiene relación con el expediente (por ejemplo, otro postulante). |
-| **Estímulo** | El usuario intenta consultar documentos, comprobantes, resultados o datos médicos de otro postulante. |
-| **Condición** | Los documentos se encuentran en almacenamiento privado y las comunicaciones utilizan HTTPS. |
+| **Estímulo** | El usuario intenta consultar documentos, comprobantes, resultados o datos personales de otro postulante. |
+| **Condición** | Los documentos se encuentran en la base de datos con acceso por permisos y las comunicaciones utilizan HTTPS. |
 | **Respuesta esperada** | El sistema deniega el acceso y solo permite consultar la información a los usuarios autorizados para ese expediente. |
 | **Medida** | Denegar el 100 % de los accesos no autorizados probados. Ningún documento es accesible mediante una URL pública permanente. |
 | **Verificación** | Intentar acceder a expedientes ajenos con distintos usuarios y comprobar que los enlaces a documentos requieren autorización o expiran. |
@@ -133,7 +133,7 @@ Cada atributo de calidad definido en `04-atributos-de-calidad.md` se convierte e
 | Código | Origen | Atributo de calidad | Qué se busca comprobar |
 |---|---|---|---|
 | EQ-01 | AC01 · DA01 | Seguridad | Que cada usuario solo ejecute las funciones de su rol. |
-| EQ-02 | AC02 · DA02 | Privacidad | Que los documentos y datos médicos solo sean accesibles para usuarios autorizados. |
+| EQ-02 | AC02 · DA02 | Privacidad | Que los documentos y datos personales solo sean accesibles para usuarios autorizados. |
 | EQ-03 | AC03 · DA09 | Rendimiento | Que las consultas habituales respondan dentro del tiempo establecido. |
 | EQ-04 | AC04 · DA09 | Disponibilidad | Que el sistema esté disponible y pueda recuperarse ante fallos. |
 | EQ-05 | AC05 · DA10 | Usabilidad | Que el postulante identifique fácilmente sus pasos y acciones pendientes. |
