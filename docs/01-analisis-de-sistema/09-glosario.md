@@ -13,7 +13,7 @@ Términos utilizados en la documentación del Sistema de Licencias de Conducir C
 | **Expediente** | Conjunto de datos, documentos, pagos, citas y resultados de un trámite |
 | **Etapa** | Paso del trámite: certificado médico, pago, examen de conocimientos, examen de manejo, validación y emisión |
 | **Validación** | Aprobación del supervisor que bloquea un resultado o el expediente |
-| **Emisión simulada** | Registro de la licencia sin validez legal, para demostrar el flujo completo (RC05) |
+| **Emisión de prueba** | Registro de la licencia sin validez legal, para demostrar el flujo completo (RC05) |
 | **RENIEC** | Registro Nacional de Identificación y Estado Civil; valida la identidad |
 | **SNC** | Sistema Nacional de Conductores del MTC; registra las licencias del país |
 | **MTC** | Ministerio de Transportes y Comunicaciones |
@@ -25,6 +25,7 @@ Términos utilizados en la documentación del Sistema de Licencias de Conducir C
 | **Registro Nacional de Sanciones** | Registro de multas y sanciones de tránsito de los conductores |
 | **Revalidación** | Renovación de la licencia al vencer su vigencia de 5 años |
 | **Duplicado** | Nueva emisión de la licencia por pérdida, robo o deterioro |
+| **PIDE** | Plataforma de Interoperabilidad del Estado: vía oficial para que las entidades públicas compartan información |
 | **Sistema de gestión documental** | Sistema de la MPH para la mesa de partes y el seguimiento de documentos por oficina |
 
 ## Términos de arquitectura
@@ -44,7 +45,7 @@ Términos utilizados en la documentación del Sistema de Licencias de Conducir C
 | **Caso de uso** | Clase de la capa de aplicación que coordina los pasos de una operación |
 | **Contrato** | Interfaz definida en el dominio que la infraestructura implementa |
 | **Adaptador** | Clase que implementa un contrato y conecta el sistema con una tecnología o servicio externo |
-| **Simulador** | Adaptador que reemplaza a un servicio externo mientras no exista una integración autorizada |
+| **Verificación del gestor** | Confirmación que hace el gestor en un portal oficial (SNC, SAT o Registro Nacional de Sanciones) y que el sistema registra con usuario y fecha |
 | **Fachada** | Interfaz pública de un módulo que usan los demás módulos |
 | **API Perú** | Servicio de terceros que permite consultar los datos de un DNI mediante un token |
 | **API REST** | Interfaz HTTP con la que el portal web se comunica con el backend |
