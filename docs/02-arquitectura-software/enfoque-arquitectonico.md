@@ -25,3 +25,12 @@
 | `VerificadorIdentidad` | `ApiPeruDniAdapter` (API Perú) |
 | `AsistenteIA` | `AdaptadorIA` |
 | `ServicioNotificaciones` | `NotificadorCorreo` (SMTP) |
+
+## Ejemplo: validar una nota
+
+| Capa | Clase | Qué hace |
+|---|---|---|
+| Presentación | `EvaluacionesController` | Recibe la petición del supervisor |
+| Aplicación | `ValidarResultadoUseCase` | Coordina la validación |
+| Dominio | `Evaluacion` | Aplica la regla: máximo 3 intentos y bloqueo tras validar |
+| Infraestructura | `RepositorioEvaluacionesJpa` | Guarda el resultado en PostgreSQL |

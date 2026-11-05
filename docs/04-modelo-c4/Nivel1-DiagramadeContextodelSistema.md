@@ -28,3 +28,11 @@ Mostrar el sistema como una sola caja: quiénes lo usan y con qué sistemas exte
 | **IA de orientación** | Integración real | Respuestas del asistente virtual |
 | **Correo electrónico** | Integración real | Recordatorios de examen y vencimientos |
 | **SNC, SAT y Registro Nacional de Sanciones** | Verificación del gestor | El gestor los consulta en sus portales oficiales |
+
+## Decisiones y supuestos
+
+| Decisión o supuesto | Motivo |
+|---|---|
+| API Perú, la IA y el correo se integran por HTTPS/REST y SMTP | Ofrecen una API pública y no requieren acceso a otras bases de datos |
+| SNC, SAT y Sanciones los verifica el gestor | Hoy no tienen una API abierta; a futuro se conectarán mediante la PIDE |
+| La licencia del prototipo no tiene validez oficial | La emisión oficial se registra en el SNC del MTC |

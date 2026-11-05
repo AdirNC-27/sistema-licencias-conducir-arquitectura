@@ -28,3 +28,13 @@ Mostrar las clases del módulo **Evaluaciones** y cómo colaboran para validar u
 3. Se busca la evaluación y se llama a `validar()`.
 4. Si ya estaba validada, responde **409**.
 5. Si no, se guarda, se avanza la etapa, se audita y se avisa por correo: **200 OK**.
+
+## Patrones y principios en este nivel
+
+| Elemento | Patrón o principio |
+|---|---|
+| `RepositorioEvaluaciones` y `RepositorioEvaluacionesJpa` | **Repository** |
+| `CalificacionStrategy` (conocimientos y manejo) | **Strategy** |
+| `NotificadorCorreo` | **Adapter** |
+| El caso de uso recibe interfaces | **Inversión de dependencias** (SOLID) |
+| Una responsabilidad por clase | **Responsabilidad única** (SOLID) |

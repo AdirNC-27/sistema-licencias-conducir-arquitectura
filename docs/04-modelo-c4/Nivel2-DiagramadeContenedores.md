@@ -27,3 +27,21 @@ Mostrar las piezas que se ejecutan por separado, su tecnología y cómo se comun
 | API Licencias | PostgreSQL | SQL / JPA |
 | API Licencias | API Perú e IA de orientación | HTTPS/REST |
 | API Licencias | Correo electrónico | SMTP |
+
+## Decisiones reflejadas
+
+| Decisión | Alternativa descartada | Motivo |
+|---|---|---|
+| Un solo backend (monolito modular) | Microservicios | Una municipalidad y un equipo pequeño; un módulo puede separarse después |
+| Portal separado del backend (SPA + API REST) | Páginas generadas en el servidor | Cada parte evoluciona y se despliega por separado |
+| PostgreSQL como única base de datos | Base de datos NoSQL | Expedientes, pagos y notas necesitan transacciones y consistencia |
+| Caché en memoria solo para requisitos públicos | Redis como otro contenedor | Es poca información y nunca incluye datos personales |
+
+## Seguridad entre contenedores
+
+| Comunicación | Medida |
+|---|---|
+| Navegador → Portal y API | HTTPS |
+| Portal → API | Token JWT con el rol en cada petición |
+| API → PostgreSQL | Solo desde la red interna; credenciales en variables de entorno |
+| API → servicios externos | Tokens de API Perú, IA y correo guardados solo en el servidor |

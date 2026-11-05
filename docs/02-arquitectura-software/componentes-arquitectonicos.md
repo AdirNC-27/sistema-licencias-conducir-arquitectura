@@ -20,3 +20,11 @@ Cada componente es un módulo del monolito. Todos se despliegan juntos en una so
 | **Asistente virtual** | Orientación con la IA | RF14, RF15 |
 | **Administración** | Configuración y reportes | RF16, RF18 |
 | **Auditoría** | Registro de operaciones | RF17 |
+
+## Comunicación entre módulos
+
+| Regla | Ejemplo |
+|---|---|
+| Un módulo usa a otro solo mediante su fachada | Evaluaciones pide `avanzarEtapa` a Expedientes |
+| Un cambio de estado avisa sin acoplar módulos | Expedientes avisa a Notificaciones y Auditoría |
+| Cada módulo lee y escribe solo sus tablas | Pagos no consulta las tablas de Citas |

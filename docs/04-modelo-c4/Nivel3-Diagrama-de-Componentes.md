@@ -28,6 +28,16 @@ Abrir el contenedor API Licencias y mostrar sus módulos, sus adaptadores y la b
 | **Administración** | Configuración y reportes | RF16, RF18 |
 | **Auditoría** | Registro de operaciones | RF17 |
 
+## Relaciones entre componentes
+
+| Origen | Destino | Descripción |
+|---|---|---|
+| API REST y seguridad | Módulos | Invoca los casos de uso |
+| Citas | Postulantes | Valida el DNI antes de programar el examen |
+| Evaluaciones | Expedientes | Avanza la etapa mediante la fachada |
+| Expedientes | Requisitos y documentos | Comprueba documentos y vigencia del certificado |
+| Expedientes | Notificaciones y Auditoría | Avisa y registra cada cambio de estado |
+
 ## Adaptadores
 
 | Módulo | Adaptador | Servicio externo |
