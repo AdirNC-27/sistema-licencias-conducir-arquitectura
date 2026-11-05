@@ -89,22 +89,7 @@ Plazo: 5 días hábiles. No se otorga si la licencia está retenida o suspendida
 
 La MPH utiliza un **sistema de gestión documental** con mesa de partes y consulta de documento, donde el ciudadano puede ver en qué oficina se encuentra su trámite.
 
-## 3. Hallazgos que incorpora el sistema
-
-| Hallazgo | Fuente | Requisito |
-|---|---|---|
-| Tres tipos de trámite: emisión, revalidación y duplicado | TUPA | RF02, RF25, RF26 |
-| Requisitos distintos por trámite y categoría | TUPA | RF22 |
-| Máximo 3 intentos por examen | Entrevista | RF08 |
-| Días de examen: conocimientos L–X, manejo M–V | Entrevista | RF21 |
-| Vigencia de 6 meses del certificado médico | Entrevista | RF23 |
-| Certificado, COFIPRO y exámenes registrados en el SNC | TUPA, entrevista | RF24 |
-| Verificación de multas en el Registro Nacional de Sanciones | TUPA | RF27 |
-| Plazo legal de 10 días hábiles | TUPA | RF10 |
-| Validación del DNI al programar el examen | Entrevista | RF04 |
-| Los postulantes postergan los exámenes | Entrevista | RF13 |
-
-## 4. Enlace oficial incluido en el sistema
+## 3. Enlace oficial incluido en el sistema
 
 | Enlace | Uso |
 |---|---|
