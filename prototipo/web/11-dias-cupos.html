@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><title>Días y cupos de examen · Licencias Clase B</title><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed":"#dce1ff","surface":"#f7f9ff","surface-dim":"#d6dae2","secondary":"#435ba1","on-secondary-container":"#2a4388","on-error":"#ffffff","surface-container-high":"#e4e8f0","on-background":"#171c22","on-surface":"#171c22","inverse-primary":"#b7c4ff","surface-bright":"#f7f9ff","on-secondary-fixed":"#00174c","on-surface-variant":"#434655","on-primary-fixed-variant":"#0039b4","tertiary-container":"#006c2d","outline-variant":"#c4c5d7","on-primary":"#ffffff","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#2a4388","outline":"#747686","on-primary-container":"#cbd4ff","on-tertiary-container":"#72ef8c","inverse-surface":"#2c3137","surface-variant":"#dee3ea","tertiary-fixed-dim":"#62df7d","secondary-fixed-dim":"#b4c5ff","tertiary":"#005120","error":"#ba1a1a","secondary-container":"#9cb3ff","on-primary-fixed":"#001551","surface-container-highest":"#dee3ea","primary-fixed-dim":"#b7c4ff","surface-tint":"#2151da","secondary-fixed":"#dbe1ff","on-secondary":"#ffffff","on-tertiary-fixed":"#002109","error-container":"#ffdad6","background":"#f7f9ff","tertiary-fixed":"#7ffc97","inverse-on-surface":"#edf1f9","on-error-container":"#93000a","primary":"#0038b1","surface-container-low":"#f0f4fc","surface-container":"#eaeef6","on-tertiary-fixed-variant":"#005320","surface-container-lowest":"#ffffff","primary-container":"#1e4fd8"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem",gutter:"1rem","space-xs":"0.25rem","space-xl":"2rem",margin:"1rem","space-md":"1rem","space-sm":"0.5rem"},fontFamily:{"body-md":["Inter"],"label-md":["Inter"],"label-lg":["Inter"],"title-md":["Inter"],"label-sm":["Inter"],"headline-xl":["Inter"],"headline-lg":["Inter"],"headline-sm":["Inter"],"body-lg":["Inter"]},fontSize:{"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"title-md":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"700"}],"headline-xl":["28px",{lineHeight:"34px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-lg":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-primary text-on-primary z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary-fixed">account_balance</span><span class="font-title-md text-title-md text-on-primary font-bold tracking-tight">MPH HUAMANGA</span></div><p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider">Licencias Clase B</p><div class="mt-space-sm inline-flex items-center gap-space-xs self-start px-space-sm py-space-xs rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span><span>Rol Activo: Administrador (TI)</span></div></div><nav class="flex flex-col gap-space-xs px-space-md mt-space-sm" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="usuarios-y-roles" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>Usuarios y Roles</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="configuracion-del-tramite" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Configuración del Trámite</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="dias-y-cupos-de-examen" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Días y Cupos de Examen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="contenido-del-asistente" href="#"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span>Contenido del Asistente</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="reportes-y-metricas" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span>Reportes y Métricas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="registro-de-auditoria" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span>Registro de Auditoría</span></a></nav></div><div class="p-space-md m-space-md rounded-lg bg-primary-container/60"><div class="flex items-start gap-space-xs text-primary-fixed"><span class="material-symbols-outlined text-[18px] shrink-0 text-secondary-fixed">verified_user</span><p class="font-label-sm text-label-sm text-on-primary leading-tight">Sistema Oficial MPH - Seguridad Municipal Activa</p></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="font-title-md text-title-md text-primary font-bold hidden xl:inline">Municipalidad Provincial de Huamanga - Subgerencia de Tránsito y Seguridad Vial</span><span class="font-title-md text-title-md text-primary font-bold xl:hidden">MPH - Subgerencia de Tránsito</span></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span>Operativo</span></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><p class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Ing. Marco Valenzuela</p><p class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Administrador</p></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-colors font-label-md text-label-md" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="hidden md:inline">Cerrar sesión</span></a></div></header><main class="relative pt-16 min-h-screen bg-surface flex flex-col justify-between"><div class="w-full px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- Toast Notifier -->
+<div class="fixed bottom-12 right-8 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-space-sm px-space-md py-space-sm rounded-xl bg-tertiary text-on-tertiary shadow-xl" id="saveToast">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md font-semibold">Configuración de aforo y turnos actualizada correctamente.</span>
+</div>
+<!-- Header Section -->
+<section class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-primary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">calendar_clock</span>
+<span>Módulo de Aforo Municipal • Clase B</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-extrabold tracking-tight">
+        Programación de Días y Cupos de Examen
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Parametrización de turnos oficiales, aforo por franja horaria y habilitación operativa para evaluaciones de Licencias Clase B (categorías II-b y II-c).
+      </p>
+</div>
+<!-- Period Selector & Bulk Action -->
+<div class="flex flex-wrap items-center gap-space-sm bg-surface-container-lowest p-space-xs rounded-xl shadow-sm self-start lg:self-center">
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]">event</span>
+<select class="bg-transparent font-label-md text-label-md text-on-surface focus:outline-none cursor-pointer pr-space-xs" id="monthSelector">
+<option selected="" value="2026-10">Octubre 2026</option>
+<option value="2026-11">Noviembre 2026</option>
+<option value="2026-12">Diciembre 2026</option>
+</select>
+</div>
+<div class="h-6 w-px bg-surface-variant hidden sm:block"></div>
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:bg-on-primary-fixed-variant transition-all active:scale-[0.98]" id="applyBtn" onclick="triggerSaveAnimation()">
+<span class="material-symbols-outlined text-[18px]">rule_settings</span>
+<span>Aplicar configuración semanal</span>
+</button>
+</div>
+</section>
+<!-- Regla Normativa & Capacity Highlight (Bento Grid) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-md mb-space-lg">
+<!-- Regla Normativa Card -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-8 -bottom-8 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">policy</span>
+<span class="font-title-md text-title-md text-on-surface font-bold">Regla Normativa de Evaluación</span>
+</div>
+<span class="px-space-sm py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+            Vigente MPH
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+          Conocimientos se programa de lunes a miércoles y manejo de martes a viernes, según los cupos configurados.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Conocimientos Banner -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary font-bold">Examen de Conocimientos</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Lunes a Miércoles</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Aula Teórica Municipal • Clase B</p>
+</div>
+</div>
+<!-- Manejo Banner -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">two_wheeler</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-secondary font-bold">Examen Práctico de Manejo</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Martes a Viernes</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Circuito Oficial de Destreza</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Resumen Semanal Total Metric Card -->
+<div class="lg:col-span-4 bg-primary text-on-primary rounded-xl p-space-md shadow-md flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-40 h-40 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary-fixed">Aforo Estimado</span>
+<span class="inline-flex items-center gap-space-xs px-space-xs py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+          Activo
+        </span>
+</div>
+<div>
+<p class="font-headline-xl text-headline-xl font-extrabold tracking-tight mb-space-xs">
+          309 <span class="font-title-md text-title-md font-normal text-primary-fixed">postulantes/sem</span>
+</p>
+<p class="font-label-md text-label-md text-primary-fixed-dim">Capacidad máxima proyectada por ciclo de evaluación ordinaria.</p>
+</div>
+<div class="mt-space-md pt-space-sm bg-on-primary-fixed/20 rounded-lg p-space-sm flex flex-col gap-space-xs">
+<div class="flex justify-between items-center text-primary-fixed">
+<span class="font-label-md text-label-md flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">menu_book</span> Conocimientos (Lun-Mié)
+          </span>
+<span class="font-title-md text-title-md font-bold text-on-primary" id="statTheoryTotal">165</span>
+</div>
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary-fixed h-full rounded-full" style="width: 53%;"></div>
+</div>
+<div class="flex justify-between items-center text-primary-fixed mt-space-xs">
+<span class="font-label-md text-label-md flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">two_wheeler</span> Manejo (Mar-Vie)
+          </span>
+<span class="font-title-md text-title-md font-bold text-on-primary" id="statPracticalTotal">144</span>
+</div>
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-fixed h-full rounded-full" style="width: 47%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Calendario Semanal de Habilitación -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm mb-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">calendar_view_week</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface font-bold">Distribución Semanal de Evaluaciones</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Control maestro de apertura por día y verificación de normas</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Conocimientos
+        </span>
+<span class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span> Manejo Práctico
+        </span>
+<span class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-dim"></span> Inhabil
+        </span>
+</div>
+</div>
+<!-- Days Grid (7 columns desktop, responsive scroll) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-space-sm">
+<!-- Lunes -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between transition-all hover:shadow-sm" id="dayCard-lunes">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface">Lunes</span>
+<!-- Custom Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" onchange="toggleDayStatus('lunes', this.checked)" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Semana Tipo</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Conocimientos
+          </span>
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container text-on-surface-variant/50 font-label-sm text-label-sm line-through">
+            Sin Manejo
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos hoy:</span>
+<span class="font-bold text-primary">55</span>
+</div>
+</div>
+<!-- Martes -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between transition-all hover:shadow-sm" id="dayCard-martes">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface">Martes</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" onchange="toggleDayStatus('martes', this.checked)" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Semana Tipo</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Conocimientos
+          </span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Manejo Práctico
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos hoy:</span>
+<span class="font-bold text-on-surface">91</span>
+</div>
+</div>
+<!-- Miércoles -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between transition-all hover:shadow-sm" id="dayCard-miercoles">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface">Miércoles</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" onchange="toggleDayStatus('miercoles', this.checked)" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Semana Tipo</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Conocimientos
+          </span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Manejo Práctico
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos hoy:</span>
+<span class="font-bold text-on-surface">91</span>
+</div>
+</div>
+<!-- Jueves -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between transition-all hover:shadow-sm" id="dayCard-jueves">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface">Jueves</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" onchange="toggleDayStatus('jueves', this.checked)" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Semana Tipo</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container text-on-surface-variant/50 font-label-sm text-label-sm line-through">
+            Sin Conocimientos
+          </span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Manejo Práctico
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos hoy:</span>
+<span class="font-bold text-secondary">36</span>
+</div>
+</div>
+<!-- Viernes -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between transition-all hover:shadow-sm" id="dayCard-viernes">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface">Viernes</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" onchange="toggleDayStatus('viernes', this.checked)" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Semana Tipo</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container text-on-surface-variant/50 font-label-sm text-label-sm line-through">
+            Sin Conocimientos
+          </span>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Manejo Práctico
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos hoy:</span>
+<span class="font-bold text-secondary">36</span>
+</div>
+</div>
+<!-- Sábado (Inhábil) -->
+<div class="bg-surface-container-high/60 rounded-xl p-space-sm flex flex-col justify-between opacity-80" id="dayCard-sabado">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface-variant">Sábado</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-dim text-on-surface-variant font-label-sm text-label-sm font-bold">OFF</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Día Inhábil</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm text-center">
+            Mantenimiento Técnico
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos:</span>
+<span class="font-bold">0</span>
+</div>
+</div>
+<!-- Domingo (Inhábil) -->
+<div class="bg-surface-container-high/60 rounded-xl p-space-sm flex flex-col justify-between opacity-80" id="dayCard-domingo">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-title-md text-title-md font-bold text-on-surface-variant">Domingo</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-dim text-on-surface-variant font-label-sm text-label-sm font-bold">OFF</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-sm">Día Inhábil</p>
+<div class="flex flex-col gap-space-xs">
+<span class="px-space-xs py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm text-center">
+            Sede Municipal Cerrada
+          </span>
+</div>
+<div class="mt-space-sm pt-space-xs flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Cupos:</span>
+<span class="font-bold">0</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Definición Detallada de Cupos por Horario y Tipo de Examen -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mb-space-xl">
+<!-- Panel 1: Examen de Conocimientos -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between pb-space-sm gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Examen de Conocimientos</h3>
+<p class="font-label-md text-label-md text-primary font-semibold">Habilitado: Lunes a Miércoles (3 días/sem)</p>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-bold">
+            Aula Teórica
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md">
+          Reglas de tránsito y mecánica básica. Ajuste de aforo por franja horaria para postulantes de Mototaxi y Motocicleta.
+        </p>
+<!-- Time Slots List -->
+<div class="flex flex-col gap-space-sm" id="theorySlotsContainer">
+<!-- Franja 1 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">08:30 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Turno Mañana • Bloque A</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-primary bg-transparent focus:outline-none theory-capacity-input" max="50" min="1" onchange="recalculateTotals()" type="number" value="15"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 2 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">10:00 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Turno Mañana • Bloque B</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-primary bg-transparent focus:outline-none theory-capacity-input" max="50" min="1" onchange="recalculateTotals()" type="number" value="15"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 3 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">11:30 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Turno Mediodía • Bloque C</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-primary bg-transparent focus:outline-none theory-capacity-input" max="50" min="1" onchange="recalculateTotals()" type="number" value="15"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 4 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">02:30 PM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Turno Tarde • Bloque D</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-primary bg-transparent focus:outline-none theory-capacity-input" max="50" min="1" onchange="recalculateTotals()" type="number" value="10"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Slot Footer -->
+<div class="mt-space-md pt-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-low/60 p-space-sm rounded-xl">
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm" onclick="addNewSlot('theorySlotsContainer', '04:00 PM', '10', 'Turno Tarde Adicional', 'theory')">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Agregar franja horaria</span>
+</button>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Aforo diario teórico:</span>
+<span class="font-title-md text-title-md font-bold text-primary ml-1" id="theoryDailySum">55 postulantes</span>
+</div>
+</div>
+</div>
+<!-- Panel 2: Examen Práctico de Manejo -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between pb-space-sm gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">two_wheeler</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Examen Práctico de Manejo</h3>
+<p class="font-label-md text-label-md text-secondary font-semibold">Habilitado: Martes a Viernes (4 días/sem)</p>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-label-sm font-bold">
+            Circuito de Habilidad
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md">
+          Examen de manejo en el circuito de la MPH para II-B y II-C. Control estricto de aforo por seguridad vial.
+        </p>
+<!-- Time Slots List -->
+<div class="flex flex-col gap-space-sm" id="practicalSlotsContainer">
+<!-- Franja 1 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">sports_score</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">08:30 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Circuito Pista • Serie 1</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-secondary bg-transparent focus:outline-none practical-capacity-input" max="30" min="1" onchange="recalculateTotals()" type="number" value="10"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 2 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">sports_score</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">10:00 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Circuito Pista • Serie 2</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-secondary bg-transparent focus:outline-none practical-capacity-input" max="30" min="1" onchange="recalculateTotals()" type="number" value="10"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 3 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">sports_score</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">11:30 AM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Circuito Pista • Serie 3</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-secondary bg-transparent focus:outline-none practical-capacity-input" max="30" min="1" onchange="recalculateTotals()" type="number" value="8"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Franja 4 -->
+<div class="slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">sports_score</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold text-on-surface">02:30 PM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Circuito Pista • Serie 4</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+<input class="w-12 text-center font-title-md text-title-md font-bold text-secondary bg-transparent focus:outline-none practical-capacity-input" max="30" min="1" onchange="recalculateTotals()" type="number" value="8"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+</div>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors" onclick="removeSlot(this)" title="Deshabilitar franja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Slot Footer -->
+<div class="mt-space-md pt-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-low/60 p-space-sm rounded-xl">
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg bg-secondary text-on-secondary font-label-md text-label-md hover:bg-on-secondary-container transition-colors shadow-sm" onclick="addNewSlot('practicalSlotsContainer', '04:00 PM', '8', 'Circuito Serie Vespertina', 'practical')">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Agregar franja horaria</span>
+</button>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Aforo diario manejo:</span>
+<span class="font-title-md text-title-md font-bold text-secondary ml-1" id="practicalDailySum">36 postulantes</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Administrative Security & Audit Note (Context Guard) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm mb-space-lg flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div>
+<p class="font-title-md text-title-md font-bold text-on-surface">Auditoría de Cambios de Calendario</p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Cada cambio de cupo queda registrado en la auditoría.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm bg-surface-container px-space-sm py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-tertiary">lock</span>
+<span>Sesión: admin.ti_mph</span>
+</div>
+</div>
+</div>
+<script>
+  function recalculateTotals() {
+    let theoryDaySum = 0;
+    document.querySelectorAll('.theory-capacity-input').forEach(input => {
+      const val = parseInt(input.value, 10);
+      if (!isNaN(val) && val > 0) theoryDaySum += val;
+    });
+
+    let practicalDaySum = 0;
+    document.querySelectorAll('.practical-capacity-input').forEach(input => {
+      const val = parseInt(input.value, 10);
+      if (!isNaN(val) && val > 0) practicalDaySum += val;
+    });
+
+    // Lunes a Miércoles = 3 días teóricos
+    const theoryWeeklyTotal = theoryDaySum * 3;
+    // Martes a Viernes = 4 días prácticos
+    const practicalWeeklyTotal = practicalDaySum * 4;
+
+    const elTheoryDay = document.getElementById('theoryDailySum');
+    const elPracticalDay = document.getElementById('practicalDailySum');
+    const elTheoryTotal = document.getElementById('statTheoryTotal');
+    const elPracticalTotal = document.getElementById('statPracticalTotal');
+
+    if (elTheoryDay) elTheoryDay.innerText = `${theoryDaySum} postulantes`;
+    if (elPracticalDay) elPracticalDay.innerText = `${practicalDaySum} postulantes`;
+    if (elTheoryTotal) elTheoryTotal.innerText = theoryWeeklyTotal;
+    if (elPracticalTotal) elPracticalTotal.innerText = practicalWeeklyTotal;
+  }
+
+  function removeSlot(button) {
+    const row = button.closest('.slot-row');
+    if (row) {
+      row.remove();
+      recalculateTotals();
+    }
+  }
+
+  function addNewSlot(containerId, defaultTime, defaultCapacity, defaultLabel, type) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const colorClass = type === 'theory' ? 'text-primary' : 'text-secondary';
+    const inputClass = type === 'theory' ? 'theory-capacity-input' : 'practical-capacity-input';
+    const icon = type === 'theory' ? 'alarm' : 'sports_score';
+
+    const div = document.createElement('div');
+    div.className = 'slot-row bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm';
+    div.innerHTML = `
+      <div class="flex items-center gap-space-sm">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">${icon}</span>
+        </div>
+        <div>
+          <span class="font-title-md text-title-md font-bold text-on-surface">${defaultTime}</span>
+          <span class="block font-label-sm text-label-sm text-on-surface-variant">${defaultLabel}</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-sm">
+        <div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-sm">
+          <label class="font-label-sm text-label-sm text-on-surface-variant">Aforo:</label>
+          <input type="number" min="1" max="40" value="${defaultCapacity}" onchange="recalculateTotals()" class="w-12 text-center font-title-md text-title-md font-bold ${colorClass} bg-transparent focus:outline-none ${inputClass}">
+          <span class="font-label-sm text-label-sm text-on-surface-variant">post.</span>
+        </div>
+        <button onclick="removeSlot(this)" title="Deshabilitar franja" class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[18px]">delete</span>
+        </button>
+      </div>
+    `;
+
+    container.appendChild(div);
+    recalculateTotals();
+  }
+
+  function toggleDayStatus(dayId, isEnabled) {
+    const card = document.getElementById(`dayCard-${dayId}`);
+    if (!card) return;
+    if (isEnabled) {
+      card.classList.remove('opacity-40');
+    } else {
+      card.classList.add('opacity-40');
+    }
+  }
+
+  function triggerSaveAnimation() {
+    const toast = document.getElementById('saveToast');
+    if (!toast) return;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 3200);
+  }
+</script></div><footer class="w-full bg-surface-container-low px-space-lg py-space-md"><div class="flex items-center justify-center gap-space-xs text-center text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-error">gavel</span><span>Aviso de Seguridad: Los resultados validados no se pueden modificar. Toda acción queda registrada con usuario y fecha.</span></div></footer></main></div><style id="adapt">
+#menu-btn{display:none}
+@media (max-width:1023px){
+ body{overflow-x:hidden}
+ aside.fixed{transform:translateX(-100%);transition:transform .25s ease;z-index:70!important}
+ body.menu-open aside.fixed{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
+ .left-72{left:0!important}.ml-72,.lg\:ml-72,.md\:ml-72{margin-left:0!important}.pl-72{padding-left:0!important}
+ header.fixed{padding-left:56px!important}
+ #menu-btn{display:flex;position:fixed;top:12px;left:10px;z-index:80;width:40px;height:40px;border:0;border-radius:10px;background:#FF7A00;color:#fff;font-size:20px;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+ main table{display:block;overflow-x:auto;white-space:nowrap}
+ .grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ [class*="col-span-"]{grid-column:auto!important}
+}
+@media (max-width:639px){
+ .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:minmax(0,1fr)!important}
+ header.fixed .hidden-on-xs, header.fixed nav, header.fixed .xs-hide{display:none!important}
+ header.fixed{height:64px!important;overflow:hidden}
+ header.fixed *{font-size:14px!important;line-height:1.25!important}
+ header.fixed p, header.fixed .text-xs, header.fixed small{display:none!important}
+ main{padding-left:12px!important;padding-right:12px!important}
+ h1{font-size:1.6rem!important;line-height:1.2!important}
+ .p-8,.p-10,.px-8,.px-10{padding-left:16px!important;padding-right:16px!important}
+ [class*="w-[5"],[class*="w-[6"],[class*="w-[7"],[class*="w-[8"],[class*="min-w-["]{width:auto!important;min-width:0!important}
+}
+</style><script>
+(function(){
+var C={"links": {"cerrar sesión": "../index", "salir": "../index", "usuarios y roles": "09-usuarios-roles", "configuración del trámite": "10-configuracion-tramite", "días y cupos de examen": "11-dias-cupos", "contenido del asistente": "12-contenido-asistente", "reportes y métricas": "13-reportes", "registro de auditoría": "14-auditoria"}, "mobile": false, "page": "11-dias-cupos"};
+function go(f){ if(f) location.href=f+'.html'; }
+function norm(s){return (s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+function label(el){ var t=norm(el.innerText); return t; }
+var PRIMARY=/(continuar|ingresar|iniciar sesi|guardar|confirmar|enviar|revisar|registrar|autorizar|siguiente|agendar|pagar|subir comprobante|reservar|ver detalle|ver expediente|ver ficha|abrir|validar|aprobar|empezar|comenzar|programar|elegir)/;
+function hideItems(){ (C.hide||[]).forEach(function(h){ document.querySelectorAll('aside a, nav a').forEach(function(a){ if(label(a).endsWith(h)) a.style.display='none'; }); }); }
+function markActive(){}
+document.addEventListener('DOMContentLoaded',function(){
+  hideItems();
+  if(C.login){
+    document.querySelectorAll('input').forEach(function(i){ i.removeAttribute('maxlength'); i.removeAttribute('pattern'); if(i.type!=='password'){ i.removeAttribute('oninput'); i.removeAttribute('inputmode'); if(/^Ej\./.test(i.placeholder||'')) i.placeholder='Ej. 45892014 o gestor'; } if(i.type==='number'||i.type==='tel') i.type='text'; });
+    var b=[].slice.call(document.querySelectorAll('button,a')).filter(function(x){return /(ingresar|iniciar sesi)/.test(label(x));})[0];
+    if(b){ var d=document.createElement('div'); d.id='demo-box'; d.style.cssText='margin-top:12px;padding:10px 12px;border-radius:10px;background:#FFF4E8;border:1px dashed #FF7A00;font:500 12px Inter,sans-serif;color:#7a3d00;line-height:1.55;text-align:left';
+      d.innerHTML='<b>Cuentas de demostración</b> · contraseña: demo123<br>Postulante: DNI <b>45892014</b><br>Personal: <b>gestor</b> · <b>evaluador</b> · <b>supervisor</b> · <b>admin</b><br><span style="opacity:.8">El sistema te lleva al panel de tu rol.</span>';
+      b.insertAdjacentElement('afterend',d); }
+  }
+
+  if(C.mobile && !C.login && C.page!=='02-registro'){
+    var P=C.page, items=[['sec','Mi trámite'],['03-inicio','home','Inicio'],['04-nueva-solicitud','add_circle','Nueva solicitud','1'],['05-datos-personales','badge','Datos personales','2'],['06-requisitos','description','Requisitos y documentos','3'],['07-pago','payments','Pago','4'],['08-elegir-cita','event','Elegir cita','5'],['09-resultados','fact_check','Mis resultados','6'],['sec','Ayuda'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente virtual']];
+    var h='';
+    items.forEach(function(it){ if(it[0]==='sec'){h+='<div class="sec">'+it[1]+'</div>';return;} h+='<a href="'+it[0]+'.html" class="'+(it[0]===P?'on':'')+'"><span class="material-symbols-outlined">'+it[1]+'</span>'+it[2]+(it[3]?'<span class="n">Paso '+it[3]+'</span>':'')+'</a>'; });
+    h+='<a class="out" href="../index.html"><span class="material-symbols-outlined">logout</span>Cerrar sesión</a>';
+    var a=document.createElement('aside'); a.id='pnav'; a.innerHTML=h; document.body.appendChild(a);
+    if(!document.querySelector('nav.fixed.bottom-0')){
+      var map={'03-inicio':0,'04-nueva-solicitud':1,'05-datos-personales':1,'06-requisitos':1,'07-pago':1,'08-elegir-cita':1,'09-resultados':1,'10-notificaciones':2,'11-asistente':3};
+      var bi=[['03-inicio','home','Inicio'],['06-requisitos','assignment','Mi trámite'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente']];
+      var b2=document.createElement('nav'); b2.id='pbar'; b2.innerHTML=bi.map(function(x,i){return '<a href="'+x[0]+'.html" class="'+(map[P]===i?'on':'')+'"><span class="material-symbols-outlined">'+x[1]+'</span>'+x[2]+'</a>';}).join('');
+      document.body.appendChild(b2); document.body.classList.add('has-pbar'); if(document.querySelector('.fixed.bottom-0:not(nav)')) document.body.classList.add('has-action');
+    }
+  }
+  if(!C.mobile && innerWidth<640){ document.querySelectorAll('header.fixed a, header.fixed button').forEach(function(x){ var t=label(x); if(t.length>3 && !/(cerrar|salir|logout)/.test(t)) x.classList.add('xs-hide'); });
+    [].slice.call(document.querySelectorAll('header.fixed *')).forEach(function(x){ var t=norm(x.innerText); if(x.children.length===0 && /(sede central|subgerencia|tupa mph)/.test(t)){ x.classList.add('xs-hide'); var p=x.parentElement; if(/sede/.test(t) && p && /border|rounded/.test(p.className)) p.classList.add('xs-hide'); } });
+    document.querySelectorAll('header.fixed h1, header.fixed h2, header.fixed .font-bold').forEach(function(x){ x.style.whiteSpace='nowrap'; x.style.overflow='hidden'; x.style.textOverflow='ellipsis'; }); }
+  if(!C.mobile){ var mb=document.createElement('button'); mb.id='menu-btn'; mb.textContent='☰'; mb.setAttribute('aria-label','Menú'); mb.onclick=function(ev){ev.stopPropagation();document.body.classList.toggle('menu-open');}; document.body.appendChild(mb);
+    document.addEventListener('click',function(ev){ if(document.body.classList.contains('menu-open') && !ev.target.closest('aside')) document.body.classList.remove('menu-open'); }); }
+});
+function route(el){
+  var t=label(el);
+  if(C.login && /(ingresar|iniciar sesi)/.test(t)){
+    var inp=document.querySelector('input[type=text],input[type=email],input[type=tel],input[type=number],input:not([type])');
+    var v=norm(inp&&inp.value), W=C.mobile?'../web/':'', M=C.mobile?'':'../movil/';
+    if(/eval/.test(v)) return W+'04-citas-del-dia'; if(/super/.test(v)) return W+'06-expedientes-por-validar'; if(/admin/.test(v)) return W+'09-usuarios-roles'; if(/gestor/.test(v)) return W+'01-bandeja-expedientes';
+    if(/^\d{8}$/.test(v)) return M+'03-inicio';
+    var m=document.getElementById('err-demo'); if(!m){m=document.createElement('div');m.id='err-demo';m.style.cssText='margin-top:10px;padding:10px 12px;border-radius:10px;background:#FDECEC;color:#B42318;font:600 12px Inter,sans-serif';var a=document.getElementById('demo-box'); if(a) a.insertAdjacentElement('afterend',m); else document.body.appendChild(m);}
+    m.textContent='Usuario no reconocido. Ciudadanos: DNI de 8 dígitos. Personal: gestor, evaluador, supervisor o admin.'; return '__stop__';
+  }
+  var L=C.links||{}; var keys=Object.keys(L).sort(function(a,b){return b.length-a.length;});
+  for(var i=0;i<keys.length;i++){ if(t===keys[i]||t.endsWith(' '+keys[i])||t.endsWith(keys[i])&&t.length<keys[i].length+30) return L[keys[i]]; }
+  if(/^(arrow_back|chevron_left|arrow_back_ios)/.test(t)) return C.prev||null;
+  if(/dni/.test(t)) return null;
+  if(PRIMARY.test(t)) return C.next||null;
+  return null;
+}
+document.addEventListener('click',function(e){
+  var el=e.target.closest('a,button'); if(!el) return;
+  if(el.hasAttribute('onclick')) return;
+  var f=route(el);
+  if(f){ e.preventDefault(); e.stopPropagation(); if(f!=='__stop__') go(f); return; }
+  var h=el.getAttribute('href'); if(el.tagName==='A' && (!h||h==='#')) e.preventDefault();
+},true);
+document.addEventListener('submit',function(e){ e.preventDefault(); if(C.login){ var f=route({innerText:'ingresar'}); if(f&&f!=='__stop__') go(f);} else go(C.next); },true);
+})();
+</script></body></html>

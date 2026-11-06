@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><title>Usuarios y roles · Licencias Clase B</title><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed":"#dce1ff","surface":"#f7f9ff","surface-dim":"#d6dae2","secondary":"#435ba1","on-secondary-container":"#2a4388","on-error":"#ffffff","surface-container-high":"#e4e8f0","on-background":"#171c22","on-surface":"#171c22","inverse-primary":"#b7c4ff","surface-bright":"#f7f9ff","on-secondary-fixed":"#00174c","on-surface-variant":"#434655","on-primary-fixed-variant":"#0039b4","tertiary-container":"#006c2d","outline-variant":"#c4c5d7","on-primary":"#ffffff","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#2a4388","outline":"#747686","on-primary-container":"#cbd4ff","on-tertiary-container":"#72ef8c","inverse-surface":"#2c3137","surface-variant":"#dee3ea","tertiary-fixed-dim":"#62df7d","secondary-fixed-dim":"#b4c5ff","tertiary":"#005120","error":"#ba1a1a","secondary-container":"#9cb3ff","on-primary-fixed":"#001551","surface-container-highest":"#dee3ea","primary-fixed-dim":"#b7c4ff","surface-tint":"#2151da","secondary-fixed":"#dbe1ff","on-secondary":"#ffffff","on-tertiary-fixed":"#002109","error-container":"#ffdad6","background":"#f7f9ff","tertiary-fixed":"#7ffc97","inverse-on-surface":"#edf1f9","on-error-container":"#93000a","primary":"#0038b1","surface-container-low":"#f0f4fc","surface-container":"#eaeef6","on-tertiary-fixed-variant":"#005320","surface-container-lowest":"#ffffff","primary-container":"#1e4fd8"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem",gutter:"1rem","space-xs":"0.25rem","space-xl":"2rem",margin:"1rem","space-md":"1rem","space-sm":"0.5rem"},fontFamily:{"body-md":["Inter"],"label-md":["Inter"],"label-lg":["Inter"],"title-md":["Inter"],"label-sm":["Inter"],"headline-xl":["Inter"],"headline-lg":["Inter"],"headline-sm":["Inter"],"body-lg":["Inter"]},fontSize:{"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"title-md":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"700"}],"headline-xl":["28px",{lineHeight:"34px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-lg":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-primary text-on-primary z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary-fixed">account_balance</span><span class="font-title-md text-title-md text-on-primary font-bold tracking-tight">MPH HUAMANGA</span></div><p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider">Licencias Clase B</p><div class="mt-space-sm inline-flex items-center gap-space-xs self-start px-space-sm py-space-xs rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span><span>Rol Activo: Administrador (TI)</span></div></div><nav class="flex flex-col gap-space-xs px-space-md mt-space-sm" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-bold rounded-lg" data-path="usuarios-y-roles" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>Usuarios y Roles</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="configuracion-del-tramite" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Configuración del Trámite</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="dias-y-cupos-de-examen" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Días y Cupos de Examen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="contenido-del-asistente" href="#"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span>Contenido del Asistente</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="reportes-y-metricas" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span>Reportes y Métricas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors font-label-md text-label-md" data-path="registro-de-auditoria" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span>Registro de Auditoría</span></a></nav></div><div class="p-space-md m-space-md rounded-lg bg-primary-container/60"><div class="flex items-start gap-space-xs text-primary-fixed"><span class="material-symbols-outlined text-[18px] shrink-0 text-secondary-fixed">verified_user</span><p class="font-label-sm text-label-sm text-on-primary leading-tight">Sistema Oficial MPH - Seguridad Municipal Activa</p></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="font-title-md text-title-md text-primary font-bold hidden xl:inline">Municipalidad Provincial de Huamanga - Subgerencia de Tránsito y Seguridad Vial</span><span class="font-title-md text-title-md text-primary font-bold xl:hidden">MPH - Subgerencia de Tránsito</span></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span>Operativo</span></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><p class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Ing. Marco Valenzuela</p><p class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Administrador</p></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-colors font-label-md text-label-md" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="hidden md:inline">Cerrar sesión</span></a></div></header><main class="relative pt-16 min-h-screen bg-surface flex flex-col justify-between"><div class="w-full px-space-lg py-space-lg"><div class="flex flex-col w-full gap-space-lg">
+<!-- ENCABEZADO DE SECCIÓN Y CTA -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary-fixed text-primary font-bold">
+<span class="material-symbols-outlined text-[24px]">manage_accounts</span>
+</span>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Gestión de Usuarios y Roles</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Control de acceso institucional y delegación de privilegios operativos para licencias Clase B.</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-xl bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-on-primary-fixed-variant transition-all cursor-pointer" id="open-modal-btn" onclick="document.getElementById('modal-usuario').classList.remove('hidden')">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Nuevo usuario</span>
+</button>
+</div>
+</div>
+<!-- MÉTRICAS RÁPIDAS (BENTO CARDS) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Total Activos -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute right-[-10px] top-[-10px] w-20 h-20 bg-primary/5 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Total Activos</span>
+<span class="material-symbols-outlined text-[20px] text-primary">groups</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-xl text-headline-xl text-primary font-bold">18</span>
+<span class="font-label-sm text-label-sm text-tertiary">En servicio</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-sm overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Gestores de Trámites -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Gestores de Trámites</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">assignment_ind</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">6</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ventanilla</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-sm overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 33%"></div>
+</div>
+</div>
+<!-- Evaluadores -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Evaluadores</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary">fact_check</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">5</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reglas y Manejo</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-sm overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<!-- Supervisores -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Supervisores</span>
+<span class="material-symbols-outlined text-[20px] text-on-secondary-container">policy</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">4</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Control Calidad</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-sm overflow-hidden">
+<div class="bg-on-secondary-container h-full rounded-full" style="width: 22%"></div>
+</div>
+</div>
+<!-- Administradores -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Administradores</span>
+<span class="material-symbols-outlined text-[20px] text-primary-container">shield_person</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">3</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sistemas TI</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-space-sm overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 17%"></div>
+</div>
+</div>
+</div>
+<!-- FILTROS Y BÚSQUEDA -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col lg:flex-row items-center justify-between gap-space-md">
+<div class="w-full lg:w-1/3 relative">
+<span class="material-symbols-outlined text-[20px] absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low rounded-xl text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all" id="filtro-buscar" placeholder="Buscar por nombre o DNI institucional..." type="text"/>
+</div>
+<div class="w-full lg:w-auto flex flex-wrap sm:flex-nowrap items-center gap-space-sm">
+<!-- Selector Rol -->
+<div class="w-full sm:w-auto flex items-center bg-surface-container-low rounded-xl px-space-sm">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant mr-1">badge</span>
+<select class="w-full bg-transparent py-2.5 pr-6 font-label-md text-label-md text-on-surface focus:outline-none cursor-pointer" id="filtro-rol">
+<option value="todos">Todos los Roles</option>
+<option value="gestor">Gestor de trámites</option>
+<option value="evaluador">Evaluador</option>
+<option value="supervisor">Supervisor</option>
+<option value="administrador">Administrador</option>
+</select>
+</div>
+<!-- Selector Estado -->
+<div class="w-full sm:w-auto flex items-center bg-surface-container-low rounded-xl px-space-sm">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant mr-1">toggle_on</span>
+<select class="w-full bg-transparent py-2.5 pr-6 font-label-md text-label-md text-on-surface focus:outline-none cursor-pointer" id="filtro-estado">
+<option value="todos">Todos los Estados</option>
+<option value="activo">Activo</option>
+<option value="inactivo">Inactivo</option>
+</select>
+</div>
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1 cursor-pointer" onclick="resetFiltros()">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span class="hidden sm:inline">Limpiar</span>
+</button>
+</div>
+</div>
+<!-- TABLA DE USUARIOS COMPLETA -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-md px-space-lg">Nombre y Apellidos / DNI</th>
+<th class="py-space-md px-space-md">Rol Institucional</th>
+<th class="py-space-md px-space-md">Identificador MPH</th>
+<th class="py-space-md px-space-md text-center">Estado</th>
+<th class="py-space-md px-space-md">Último Acceso</th>
+<th class="py-space-md px-space-lg text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- FILA 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-lg shrink-0">
+                  CM
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Carlos Mendoza Quispe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 41289063</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">assignment_ind</span>
+                Gestor de trámites
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">
+              cmendoza@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Activo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Hoy, 09:24 AM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ventanilla 02</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Carlos Mendoza Quispe')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Carlos Mendoza Quispe')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error transition-colors cursor-pointer" onclick="cambiarEstado('Carlos Mendoza Quispe', 'Inactivo')" title="Desactivar">
+<span class="material-symbols-outlined text-[18px]">power_settings_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-label-lg shrink-0">
+                  RV
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Ricardo Vargas Palomino</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 45892014</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">fact_check</span>
+                Evaluador
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">
+              rvargas@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Activo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Hoy, 08:45 AM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Circuito Yanama</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Ricardo Vargas Palomino')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Ricardo Vargas Palomino')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error transition-colors cursor-pointer" onclick="cambiarEstado('Ricardo Vargas Palomino', 'Inactivo')" title="Desactivar">
+<span class="material-symbols-outlined text-[18px]">power_settings_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-on-secondary-container text-on-primary flex items-center justify-center font-bold text-label-lg shrink-0">
+                  EM
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Elena Morales Gómez</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 28471092</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">policy</span>
+                Supervisor
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">
+              emorales@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Activo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Ayer, 05:12 PM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auditoría Vial</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Elena Morales Gómez')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Elena Morales Gómez')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error transition-colors cursor-pointer" onclick="cambiarEstado('Elena Morales Gómez', 'Inactivo')" title="Desactivar">
+<span class="material-symbols-outlined text-[18px]">power_settings_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-lg shrink-0">
+                  MV
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface truncate">Marco Valenzuela Torres</span>
+<span class="px-1.5 py-0.2 rounded bg-primary-fixed text-primary font-label-sm text-[10px]">TÚ</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 10293847</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">shield_person</span>
+                Administrador
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">
+              mvalenzuela@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Activo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-tertiary font-semibold">En línea ahora</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Consola TI</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Marco Valenzuela Torres')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Marco Valenzuela Torres')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container opacity-40 text-on-surface-variant cursor-not-allowed" disabled="" title="No permitido">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-lg shrink-0">
+                  SH
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Sofía Huamán Bendezú</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 70194821</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">assignment_ind</span>
+                Gestor de trámites
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">
+              shuaman@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Activo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Hoy, 10:05 AM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ventanilla 01</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Sofía Huamán Bendezú')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Sofía Huamán Bendezú')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error transition-colors cursor-pointer" onclick="cambiarEstado('Sofía Huamán Bendezú', 'Inactivo')" title="Desactivar">
+<span class="material-symbols-outlined text-[18px]">power_settings_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 6 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors bg-surface-container-lowest opacity-90">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-label-lg shrink-0">
+                  JB
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Jorge Bendezú Rojas</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DNI 42981765</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">fact_check</span>
+                Evaluador
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-variant">
+              jbendezu@mph.example
+            </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-error-container/40 text-error font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                Inactivo
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">24/02/2026</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">11:15 AM</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="editarUsuario('Jorge Bendezú Rojas')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-secondary transition-colors cursor-pointer" onclick="restablecerAcceso('Jorge Bendezú Rojas')" title="Restablecer acceso">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-tertiary-container/30 text-tertiary transition-colors cursor-pointer" onclick="cambiarEstado('Jorge Bendezú Rojas', 'Activo')" title="Reactivar cuenta">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- PIE DE TABLA / PAGINACIÓN INSTITUCIONAL -->
+<div class="flex flex-col sm:flex-row items-center justify-between p-space-md bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs mb-space-xs sm:mb-0">
+<span class="material-symbols-outlined text-[18px] text-primary">verified_user</span>
+<span>Mostrando 6 de 18 cuentas autorizadas registradas en el servidor municipal</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors disabled:opacity-50" disabled="">Anterior</button>
+<span class="px-space-sm py-1 font-bold text-primary">1 de 3</span>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">Siguiente</button>
+</div>
+</div>
+</div>
+<!-- NOTIFICACIÓN DE AUDITORÍA Y SEGURIDAD -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px] shrink-0 mt-0.5">verified_user</span>
+<div class="flex flex-col gap-0.5">
+<p class="font-label-md text-label-md text-on-surface font-semibold">Trazabilidad Integral y Resguardo Jurídico</p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Los resultados validados no se pueden modificar. Toda acción queda registrada con usuario y fecha en el servidor central de la Municipalidad Provincial de Huamanga.
+      </p>
+</div>
+</div>
+<!-- MODAL / FORMULARIO ALTA DE NUEVO USUARIO -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/60 backdrop-blur-sm p-4 hidden" id="modal-usuario">
+<div class="bg-surface-container-lowest w-full max-w-xl rounded-xl shadow-xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
+<!-- Cabecera modal -->
+<div class="flex items-center justify-between p-space-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Registrar Nuevo Usuario</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Asignación de privilegios en el Sistema de Licencias Clase B</p>
+</div>
+</div>
+<button class="p-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer" onclick="document.getElementById('modal-usuario').classList.add('hidden')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Formulario modal -->
+<form class="p-space-lg flex flex-col gap-space-md" id="form-nuevo-usuario" onsubmit="guardarUsuario(event)">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">DNI Institucional *</label>
+<div class="relative">
+<input class="w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" maxlength="8" placeholder="8 dígitos" required="" type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-surface-container-highest rounded text-primary font-label-sm text-label-sm" title="Consultar padrón municipal" type="button">Buscar</button>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">Nombres Completos *</label>
+<input class="w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Ej. Juan Carlos" required="" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">Apellidos *</label>
+<input class="w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Ej. Quispe Morales" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">Correo Institucional *</label>
+<input class="w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="usuario@mph.example" required="" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">Rol Asignado *</label>
+<select class="w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer" required="">
+<option disabled="" selected="" value="">Seleccione un rol...</option>
+<option value="gestor">Gestor de trámites</option>
+<option value="evaluador">Evaluador</option>
+<option value="supervisor">Supervisor</option>
+<option value="administrador">Administrador</option>
+</select>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-primary font-semibold">Área / Subgerencia</label>
+<input class="w-full h-12 px-3 rounded-xl bg-surface-container text-on-surface-variant font-body-md text-body-md cursor-not-allowed" readonly="" type="text" value="Subgerencia de Tránsito y Seguridad Vial"/>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-tertiary">check_circle</span>
+<span class="font-label-sm text-label-sm">Se generará una credencial temporal enviada al correo institucional de la MPH.</span>
+</div>
+<!-- Botones modal -->
+<div class="flex items-center justify-end gap-space-sm pt-space-sm">
+<button class="px-space-lg py-2.5 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg transition-colors cursor-pointer" onclick="document.getElementById('modal-usuario').classList.add('hidden')" type="button">
+            Cancelar
+          </button>
+<button class="inline-flex items-center gap-space-xs px-space-lg py-2.5 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg shadow hover:bg-on-primary-fixed-variant transition-all cursor-pointer" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Guardar usuario</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- TOAST DE NOTIFICACIÓN INTERACTIVA -->
+<div class="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-space-lg py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast-feedback">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-text">Acción realizada correctamente.</span>
+</div>
+</div>
+<script>
+  function showToast(mensaje, icon = 'check_circle') {
+    const toast = document.getElementById('toast-feedback');
+    const toastText = document.getElementById('toast-text');
+    const toastIcon = document.getElementById('toast-icon');
+    if (!toast || !toastText) return;
+    toastText.textContent = mensaje;
+    toastIcon.textContent = icon;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 3500);
+  }
+
+  function editarUsuario(nombre) {
+    showToast('Abriendo edición de cuenta para ' + nombre, 'edit');
+  }
+
+  function restablecerAcceso(nombre) {
+    if (confirm('¿Restablecer la clave institucional para ' + nombre + '? Se enviará un enlace temporal.')) {
+      showToast('Enlace de recuperación emitido para ' + nombre, 'mark_email_read');
+    }
+  }
+
+  function cambiarEstado(nombre, nuevoEstado) {
+    if (confirm('¿Confirmar cambio de estado a "' + nuevoEstado + '" para ' + nombre + '?')) {
+      showToast('Estado actualizado a ' + nuevoEstado + ' para ' + nombre, 'published_with_changes');
+    }
+  }
+
+  function guardarUsuario(e) {
+    e.preventDefault();
+    document.getElementById('modal-usuario').classList.add('hidden');
+    e.target.reset();
+    showToast('Nuevo usuario creado exitosamente con auditoría MPH.', 'verified');
+  }
+
+  function resetFiltros() {
+    const search = document.getElementById('filtro-buscar');
+    const rol = document.getElementById('filtro-rol');
+    const est = document.getElementById('filtro-estado');
+    if (search) search.value = '';
+    if (rol) rol.value = 'todos';
+    if (est) est.value = 'todos';
+    showToast('Filtros restaurados al catálogo general');
+  }
+</script></div><footer class="w-full bg-surface-container-low px-space-lg py-space-md"><div class="flex items-center justify-center gap-space-xs text-center text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-error">gavel</span><span>Aviso de Seguridad: Los resultados validados no se pueden modificar. Toda acción queda registrada con usuario y fecha.</span></div></footer></main></div><style id="adapt">
+#menu-btn{display:none}
+@media (max-width:1023px){
+ body{overflow-x:hidden}
+ aside.fixed{transform:translateX(-100%);transition:transform .25s ease;z-index:70!important}
+ body.menu-open aside.fixed{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
+ .left-72{left:0!important}.ml-72,.lg\:ml-72,.md\:ml-72{margin-left:0!important}.pl-72{padding-left:0!important}
+ header.fixed{padding-left:56px!important}
+ #menu-btn{display:flex;position:fixed;top:12px;left:10px;z-index:80;width:40px;height:40px;border:0;border-radius:10px;background:#FF7A00;color:#fff;font-size:20px;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+ main table{display:block;overflow-x:auto;white-space:nowrap}
+ .grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ [class*="col-span-"]{grid-column:auto!important}
+}
+@media (max-width:639px){
+ .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:minmax(0,1fr)!important}
+ header.fixed .hidden-on-xs, header.fixed nav, header.fixed .xs-hide{display:none!important}
+ header.fixed{height:64px!important;overflow:hidden}
+ header.fixed *{font-size:14px!important;line-height:1.25!important}
+ header.fixed p, header.fixed .text-xs, header.fixed small{display:none!important}
+ main{padding-left:12px!important;padding-right:12px!important}
+ h1{font-size:1.6rem!important;line-height:1.2!important}
+ .p-8,.p-10,.px-8,.px-10{padding-left:16px!important;padding-right:16px!important}
+ [class*="w-[5"],[class*="w-[6"],[class*="w-[7"],[class*="w-[8"],[class*="min-w-["]{width:auto!important;min-width:0!important}
+}
+</style><script>
+(function(){
+var C={"links": {"cerrar sesión": "../index", "salir": "../index", "usuarios y roles": "09-usuarios-roles", "configuración del trámite": "10-configuracion-tramite", "días y cupos de examen": "11-dias-cupos", "contenido del asistente": "12-contenido-asistente", "reportes y métricas": "13-reportes", "registro de auditoría": "14-auditoria"}, "mobile": false, "page": "09-usuarios-roles"};
+function go(f){ if(f) location.href=f+'.html'; }
+function norm(s){return (s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+function label(el){ var t=norm(el.innerText); return t; }
+var PRIMARY=/(continuar|ingresar|iniciar sesi|guardar|confirmar|enviar|revisar|registrar|autorizar|siguiente|agendar|pagar|subir comprobante|reservar|ver detalle|ver expediente|ver ficha|abrir|validar|aprobar|empezar|comenzar|programar|elegir)/;
+function hideItems(){ (C.hide||[]).forEach(function(h){ document.querySelectorAll('aside a, nav a').forEach(function(a){ if(label(a).endsWith(h)) a.style.display='none'; }); }); }
+function markActive(){}
+document.addEventListener('DOMContentLoaded',function(){
+  hideItems();
+  if(C.login){
+    document.querySelectorAll('input').forEach(function(i){ i.removeAttribute('maxlength'); i.removeAttribute('pattern'); if(i.type!=='password'){ i.removeAttribute('oninput'); i.removeAttribute('inputmode'); if(/^Ej\./.test(i.placeholder||'')) i.placeholder='Ej. 45892014 o gestor'; } if(i.type==='number'||i.type==='tel') i.type='text'; });
+    var b=[].slice.call(document.querySelectorAll('button,a')).filter(function(x){return /(ingresar|iniciar sesi)/.test(label(x));})[0];
+    if(b){ var d=document.createElement('div'); d.id='demo-box'; d.style.cssText='margin-top:12px;padding:10px 12px;border-radius:10px;background:#FFF4E8;border:1px dashed #FF7A00;font:500 12px Inter,sans-serif;color:#7a3d00;line-height:1.55;text-align:left';
+      d.innerHTML='<b>Cuentas de demostración</b> · contraseña: demo123<br>Postulante: DNI <b>45892014</b><br>Personal: <b>gestor</b> · <b>evaluador</b> · <b>supervisor</b> · <b>admin</b><br><span style="opacity:.8">El sistema te lleva al panel de tu rol.</span>';
+      b.insertAdjacentElement('afterend',d); }
+  }
+
+  if(C.mobile && !C.login && C.page!=='02-registro'){
+    var P=C.page, items=[['sec','Mi trámite'],['03-inicio','home','Inicio'],['04-nueva-solicitud','add_circle','Nueva solicitud','1'],['05-datos-personales','badge','Datos personales','2'],['06-requisitos','description','Requisitos y documentos','3'],['07-pago','payments','Pago','4'],['08-elegir-cita','event','Elegir cita','5'],['09-resultados','fact_check','Mis resultados','6'],['sec','Ayuda'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente virtual']];
+    var h='';
+    items.forEach(function(it){ if(it[0]==='sec'){h+='<div class="sec">'+it[1]+'</div>';return;} h+='<a href="'+it[0]+'.html" class="'+(it[0]===P?'on':'')+'"><span class="material-symbols-outlined">'+it[1]+'</span>'+it[2]+(it[3]?'<span class="n">Paso '+it[3]+'</span>':'')+'</a>'; });
+    h+='<a class="out" href="../index.html"><span class="material-symbols-outlined">logout</span>Cerrar sesión</a>';
+    var a=document.createElement('aside'); a.id='pnav'; a.innerHTML=h; document.body.appendChild(a);
+    if(!document.querySelector('nav.fixed.bottom-0')){
+      var map={'03-inicio':0,'04-nueva-solicitud':1,'05-datos-personales':1,'06-requisitos':1,'07-pago':1,'08-elegir-cita':1,'09-resultados':1,'10-notificaciones':2,'11-asistente':3};
+      var bi=[['03-inicio','home','Inicio'],['06-requisitos','assignment','Mi trámite'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente']];
+      var b2=document.createElement('nav'); b2.id='pbar'; b2.innerHTML=bi.map(function(x,i){return '<a href="'+x[0]+'.html" class="'+(map[P]===i?'on':'')+'"><span class="material-symbols-outlined">'+x[1]+'</span>'+x[2]+'</a>';}).join('');
+      document.body.appendChild(b2); document.body.classList.add('has-pbar'); if(document.querySelector('.fixed.bottom-0:not(nav)')) document.body.classList.add('has-action');
+    }
+  }
+  if(!C.mobile && innerWidth<640){ document.querySelectorAll('header.fixed a, header.fixed button').forEach(function(x){ var t=label(x); if(t.length>3 && !/(cerrar|salir|logout)/.test(t)) x.classList.add('xs-hide'); });
+    [].slice.call(document.querySelectorAll('header.fixed *')).forEach(function(x){ var t=norm(x.innerText); if(x.children.length===0 && /(sede central|subgerencia|tupa mph)/.test(t)){ x.classList.add('xs-hide'); var p=x.parentElement; if(/sede/.test(t) && p && /border|rounded/.test(p.className)) p.classList.add('xs-hide'); } });
+    document.querySelectorAll('header.fixed h1, header.fixed h2, header.fixed .font-bold').forEach(function(x){ x.style.whiteSpace='nowrap'; x.style.overflow='hidden'; x.style.textOverflow='ellipsis'; }); }
+  if(!C.mobile){ var mb=document.createElement('button'); mb.id='menu-btn'; mb.textContent='☰'; mb.setAttribute('aria-label','Menú'); mb.onclick=function(ev){ev.stopPropagation();document.body.classList.toggle('menu-open');}; document.body.appendChild(mb);
+    document.addEventListener('click',function(ev){ if(document.body.classList.contains('menu-open') && !ev.target.closest('aside')) document.body.classList.remove('menu-open'); }); }
+});
+function route(el){
+  var t=label(el);
+  if(C.login && /(ingresar|iniciar sesi)/.test(t)){
+    var inp=document.querySelector('input[type=text],input[type=email],input[type=tel],input[type=number],input:not([type])');
+    var v=norm(inp&&inp.value), W=C.mobile?'../web/':'', M=C.mobile?'':'../movil/';
+    if(/eval/.test(v)) return W+'04-citas-del-dia'; if(/super/.test(v)) return W+'06-expedientes-por-validar'; if(/admin/.test(v)) return W+'09-usuarios-roles'; if(/gestor/.test(v)) return W+'01-bandeja-expedientes';
+    if(/^\d{8}$/.test(v)) return M+'03-inicio';
+    var m=document.getElementById('err-demo'); if(!m){m=document.createElement('div');m.id='err-demo';m.style.cssText='margin-top:10px;padding:10px 12px;border-radius:10px;background:#FDECEC;color:#B42318;font:600 12px Inter,sans-serif';var a=document.getElementById('demo-box'); if(a) a.insertAdjacentElement('afterend',m); else document.body.appendChild(m);}
+    m.textContent='Usuario no reconocido. Ciudadanos: DNI de 8 dígitos. Personal: gestor, evaluador, supervisor o admin.'; return '__stop__';
+  }
+  var L=C.links||{}; var keys=Object.keys(L).sort(function(a,b){return b.length-a.length;});
+  for(var i=0;i<keys.length;i++){ if(t===keys[i]||t.endsWith(' '+keys[i])||t.endsWith(keys[i])&&t.length<keys[i].length+30) return L[keys[i]]; }
+  if(/^(arrow_back|chevron_left|arrow_back_ios)/.test(t)) return C.prev||null;
+  if(/dni/.test(t)) return null;
+  if(PRIMARY.test(t)) return C.next||null;
+  return null;
+}
+document.addEventListener('click',function(e){
+  var el=e.target.closest('a,button'); if(!el) return;
+  if(el.hasAttribute('onclick')) return;
+  var f=route(el);
+  if(f){ e.preventDefault(); e.stopPropagation(); if(f!=='__stop__') go(f); return; }
+  var h=el.getAttribute('href'); if(el.tagName==='A' && (!h||h==='#')) e.preventDefault();
+},true);
+document.addEventListener('submit',function(e){ e.preventDefault(); if(C.login){ var f=route({innerText:'ingresar'}); if(f&&f!=='__stop__') go(f);} else go(C.next); },true);
+})();
+</script></body></html>

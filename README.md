@@ -63,4 +63,17 @@ docs/
     └── Nivel4-DiagramadeCodigo.md
 img/
 tecnologia/
+prototipo/
 ```
+
+## Prototipo navegable
+
+Pantallas diseñadas con Google Stitch a partir de los requisitos funcionales (RF01–RF27): 11 de la app del postulante (celular) y 15 del sistema web del personal, por rol.
+
+| Parte | Ubicación |
+|---|---|
+| Índice del prototipo | [`prototipo/index.html`](prototipo/index.html) |
+| App del postulante | `prototipo/movil/` |
+| Sistema web del personal | `prototipo/web/` |
+
+Para verlo en local: abrir una terminal en `prototipo/` y ejecutar `python -m http.server 8080`, luego entrar a `http://localhost:8080`.

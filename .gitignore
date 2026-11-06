@@ -23,3 +23,5 @@ target/
 # Variables de entorno y secretos
 .env
 .env.*
+# capturas de Stitch sin corregir
+prototipo/**/*.png

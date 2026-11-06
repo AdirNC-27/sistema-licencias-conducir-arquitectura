@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><title>Expedientes por validar · Licencias Clase B</title><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-primary":"#b7c4ff","on-primary":"#ffffff","tertiary":"#005120","inverse-on-surface":"#edf1f9","on-primary-container":"#cbd4ff","primary":"#0038b1","surface":"#f7f9ff","surface-container-highest":"#dee3ea","secondary":"#435ba1","secondary-fixed":"#dbe1ff","background":"#f7f9ff","tertiary-fixed-dim":"#62df7d","surface-container-high":"#e4e8f0","error-container":"#ffdad6","secondary-fixed-dim":"#b4c5ff","surface-dim":"#d6dae2","on-primary-fixed-variant":"#0039b4","primary-fixed":"#dce1ff","on-primary-fixed":"#001551","primary-fixed-dim":"#b7c4ff","outline-variant":"#c4c5d7","on-surface-variant":"#434655","on-secondary":"#ffffff","on-background":"#171c22","inverse-surface":"#2c3137","on-tertiary-fixed":"#002109","surface-tint":"#2151da","on-secondary-fixed-variant":"#2a4388","tertiary-fixed":"#7ffc97","surface-container-low":"#f0f4fc","secondary-container":"#9cb3ff","on-tertiary":"#ffffff","on-secondary-container":"#2a4388","on-error-container":"#93000a","on-tertiary-fixed-variant":"#005320","surface-variant":"#dee3ea","on-surface":"#171c22","on-error":"#ffffff","tertiary-container":"#006c2d","primary-container":"#1e4fd8","outline":"#747686","on-secondary-fixed":"#00174c","surface-container":"#eaeef6","error":"#ba1a1a","surface-bright":"#f7f9ff","on-tertiary-container":"#72ef8c","surface-container-lowest":"#ffffff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"1rem","gutter":"1rem","space-lg":"1.5rem","space-sm":"0.5rem","margin":"1rem","space-xs":"0.25rem","space-xl":"2rem"},"fontFamily":{"headline-lg":["Inter"],"label-sm":["Inter"],"label-lg":["Inter"],"body-md":["Inter"],"headline-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"body-lg":["Inter"],"headline-xl":["Inter"]},"fontSize":{"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"700"}],"label-lg":["15px",{"lineHeight":"20px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"22px","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-xl":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"800"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-on-primary-fixed text-on-primary z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm bg-primary"><div class="w-10 h-10 rounded-xl bg-on-primary/10 flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[24px]">account_balance</span></div><div class="flex flex-col"><span class="font-label-lg text-label-lg text-on-primary tracking-tight leading-tight">MPH HUAMANGA</span><span class="font-label-sm text-label-sm text-on-primary-container tracking-wider uppercase">Tránsito y Seguridad Vial</span></div></div><div class="p-space-md"><div class="bg-on-primary/10 rounded-xl p-space-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">Rol Activo</span><span class="font-title-md text-title-md text-on-primary font-bold">Evaluador Técnico</span></div><span class="material-symbols-outlined text-secondary-fixed-dim text-[20px]">verified_user</span></div></div><nav class="flex flex-col gap-space-xs px-space-md" data-active-classes="bg-primary-container text-on-primary font-label-lg rounded-xl shadow-[0_2px_8px_-2px_rgba(11,42,111,0.2)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-secondary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors font-label-md text-label-md" data-path="panel-de-evaluaciones" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Panel de Evaluaciones</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-secondary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors font-label-md text-label-md" data-path="evaluacion-teorica-reglas" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Examen de Reglas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-secondary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors font-label-md text-label-md" data-path="evaluacion-de-manejo-circuito" href="#"><span class="material-symbols-outlined text-[20px]">two_wheeler</span><span>Examen de Manejo</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-label-lg rounded-xl shadow-[0_2px_8px_-2px_rgba(11,42,111,0.2)]" data-path="expedientes-clase-b" href="#"><span class="material-symbols-outlined text-[20px]">folder_shared</span><span>Expedientes Clase B</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-secondary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors font-label-md text-label-md" data-path="supervision-y-auditoria" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span>Supervisión y Actas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-secondary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors font-label-md text-label-md" data-path="emision-de-licencias" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Emisión de Licencias</span></a></nav></div><div class="p-space-md"><div class="bg-on-primary/5 rounded-xl p-space-sm flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-tertiary-fixed-dim text-[16px]">lock</span><span class="font-label-sm text-label-sm text-secondary-fixed-dim">Sistema SNC-B v2.4</span></div><span class="font-label-sm text-label-sm text-secondary-fixed-dim/80">Sede Central Huamanga</span></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-background"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-full"><span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Servidor de Exámenes Activo</span></div><div class="hidden md:flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">location_on</span><span>Circuito Las Cabritas - San Juan Bautista</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-xl"><span class="material-symbols-outlined text-primary text-[20px]">swap_horiz</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface-variant">Perfil Activo:</span><span class="font-label-md text-label-md text-primary font-bold leading-tight">Evaluador (Cambiar a Supervisor)</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-16 px-space-lg flex-1 bg-background"><div class="flex flex-col w-full gap-space-lg pb-space-xl">
+<!-- Cabecera de Supervisión y Alerta de Plazo Legal -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm tracking-wide uppercase">Control de Calidad y Registro SNC-B</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="text-on-surface-variant font-label-md text-label-md">D.S. 007-2016-MTC</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary font-bold tracking-tight">Expedientes por Validar - Supervisión</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Gestión y fiscalización de actas técnicas de evaluación teórica y práctica para emisión de licencias Clase B.</p>
+</div>
+<!-- Indicador de Control de Plazo Legal -->
+<div class="flex items-center gap-space-md bg-surface-container-low p-space-md rounded-xl">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]">timer</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Control de Plazo Legal</span>
+<span class="font-title-md text-title-md text-primary font-bold">10 Días Hábiles Máx.</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Flujo dentro del término reglamentario
+        </span>
+</div>
+</div>
+</div>
+<!-- Tarjetas de Métricas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Pendientes Totales</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-on-surface font-extrabold leading-none">15</span>
+<span class="font-label-md text-label-md text-primary mt-space-xs font-medium">Expedientes en cola</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Exámenes por Validar</span>
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-secondary font-extrabold leading-none">9</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-space-xs font-medium">Con actas ingresadas</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Doc. Verificados</span>
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed/40 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-tertiary font-extrabold leading-none">24</span>
+<span class="font-label-md text-label-md text-tertiary mt-space-xs font-medium">Conformidad registral</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Para Emisión</span>
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">card_membership</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-primary-container font-extrabold leading-none">5</span>
+<span class="font-label-md text-label-md text-primary font-medium mt-space-xs">Aptos para impresión</span>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Por Vencer</span>
+<div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xl text-headline-xl text-error font-extrabold leading-none">3</span>
+<span class="font-label-md text-label-md text-error mt-space-xs font-medium">Plazo crítico legal</span>
+</div>
+</div>
+</div>
+<!-- Filtros y Herramientas de Auditoría -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-col sm:flex-row items-center gap-space-sm w-full md:w-auto flex-1">
+<!-- Buscador por DNI -->
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-space-md bg-surface-container-low rounded-xl text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary placeholder:text-outline" id="filterDNI" placeholder="Buscar por DNI o postulante..." type="text"/>
+</div>
+<!-- Filtro Categoría -->
+<div class="w-full sm:w-48">
+<select class="w-full h-11 px-space-md bg-surface-container-low rounded-xl text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer" id="filterCategory">
+<option value="">Todas las Categorías</option>
+<option value="II-B">Categoría II-B (Motos)</option>
+<option value="II-C">Categoría II-C (Mototaxis)</option>
+</select>
+</div>
+<!-- Filtro Trámite -->
+<div class="w-full sm:w-52">
+<select class="w-full h-11 px-space-md bg-surface-container-low rounded-xl text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer" id="filterTramite">
+<option value="">Todos los Trámites</option>
+<option value="Emisión">Emisión Nueva</option>
+<option value="Revalidación">Revalidación</option>
+<option value="Duplicado">Duplicado</option>
+</select>
+</div>
+</div>
+<!-- Métricas rápidas / Acciones -->
+<div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+<button class="h-11 px-space-md bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl flex items-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span>Reestablecer</span>
+</button>
+<button class="h-11 px-space-md bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-xl flex items-center gap-space-xs shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exportar Reporte</span>
+</button>
+</div>
+</div>
+<!-- Tabla Detallada de Expedientes por Validar -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-3.5 px-space-md">N° Expediente</th>
+<th class="py-3.5 px-space-md">Postulante</th>
+<th class="py-3.5 px-space-md">Categoría</th>
+<th class="py-3.5 px-space-md">Estado Documental</th>
+<th class="py-3.5 px-space-md">Resultados de Exámenes</th>
+<th class="py-3.5 px-space-md">Plazo Legal</th>
+<th class="py-3.5 px-space-md">Estado General</th>
+<th class="py-3.5 px-space-md text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-md text-on-surface">
+<!-- Fila 1: Listo para Emisión -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-4 px-space-md align-top">
+<span class="font-title-md text-title-md font-bold text-primary">EXP-2026-00892</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Tram: Emisión</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="font-label-lg text-label-lg font-bold block text-on-surface">Quispe Mendoza, Carlos Alberto</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-mono">DNI: 45892104</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span> II-B
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Doc. Verificados
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Reglas:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 1 de 3
+                  </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Manejo:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 1 de 3
+                  </span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Día 4 de 10</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">6 días restantes</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 40%;"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">verified_user</span> Listo para Emisión
+              </span>
+</td>
+<td class="py-4 px-space-md align-top text-right">
+<div class="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+<button class="h-9 px-space-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl transition-colors">
+                  Ver Expediente
+                </button>
+<button class="h-9 px-space-md bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-xl font-bold shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">task_alt</span> Autorizar
+                </button>
+</div>
+</td>
+</tr>
+<!-- Fila 2: Pendiente Validación con Alerta de Plazo (Crítico) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-4 px-space-md align-top">
+<span class="font-title-md text-title-md font-bold text-primary">EXP-2026-00877</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Tram: Revalidación</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="font-label-lg text-label-lg font-bold block text-on-surface">Huamán Cárdenas, Wilfredo</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-mono">DNI: 28471092</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px] text-primary">electric_rickshaw</span> II-C
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">search</span> En revisión
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Reglas:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 1 de 3
+                  </span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Manejo:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[12px]">hourglass_top</span> Pendiente Validación
+                    </span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant pl-16 mt-0.5">Eval: J. Rojas • 24/10/2026 11:30</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-error">Día 9 de 10</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">1 día restante (Urgente)</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 90%;"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">rate_review</span> Pendiente Validación
+              </span>
+</td>
+<td class="py-4 px-space-md align-top text-right">
+<div class="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+<button class="h-9 px-space-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl transition-colors">
+                  Ver Expediente
+                </button>
+<button class="h-9 px-space-md bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded-xl font-bold shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">rule</span> Revisar y Validar
+                </button>
+</div>
+</td>
+</tr>
+<!-- Fila 3: Observado con 1 documento pendiente -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-4 px-space-md align-top">
+<span class="font-title-md text-title-md font-bold text-primary">EXP-2026-00865</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Tram: Emisión</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="font-label-lg text-label-lg font-bold block text-on-surface">Fernández Bendezú, Sonia</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-mono">DNI: 70194821</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px] text-primary">electric_rickshaw</span> II-C
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">error</span> 1 Observado
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Reglas:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 1 de 3
+                  </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Manejo:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 2 de 3
+                  </span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Día 6 de 10</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">4 días restantes</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 60%;"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">sync_problem</span> Observación Técnica
+              </span>
+</td>
+<td class="py-4 px-space-md align-top text-right">
+<div class="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+<button class="h-9 px-space-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl transition-colors">
+                  Ver Expediente
+                </button>
+<button class="h-9 px-space-md bg-secondary hover:bg-primary text-on-secondary font-label-md text-label-md rounded-xl font-bold shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">visibility</span> Evaluar Obs.
+                </button>
+</div>
+</td>
+</tr>
+<!-- Fila 4: Examen Práctico Desaprobado en Intento 1 -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-4 px-space-md align-top">
+<td-content class="block">
+<span class="font-title-md text-title-md font-bold text-primary">EXP-2026-00854</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Tram: Emisión</span>
+</td-content>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="font-label-lg text-label-lg font-bold block text-on-surface">Pérez Alanya, Marco Antonio</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-mono">DNI: 41289063</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span> II-B
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Doc. Verificados
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Reglas:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">check</span> Aprobado - Intento 1 de 3
+                  </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Manejo:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">close</span> Desaprobado - Intento 1 de 3
+                  </span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Día 3 de 10</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">7 días restantes</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 30%;"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Esperando 2do Intento
+              </span>
+</td>
+<td class="py-4 px-space-md align-top text-right">
+<div class="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+<button class="h-9 px-space-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl transition-colors">
+                  Ver Expediente
+                </button>
+<button class="h-9 px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded-xl font-semibold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">history</span> Historial
+                </button>
+</div>
+</td>
+</tr>
+<!-- Fila 5: Examen de Conocimientos Pendiente de Validación -->
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-4 px-space-md align-top">
+<span class="font-title-md text-title-md font-bold text-primary">EXP-2026-00849</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Tram: Duplicado</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="font-label-lg text-label-lg font-bold block text-on-surface">Palomino Guisado, Rosa</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-mono">DNI: 44920158</span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px] text-primary">electric_rickshaw</span> II-C
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Doc. Verificados
+              </span>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1.5">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Reglas:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[12px]">hourglass_top</span> Pendiente Validación
+                    </span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant pl-16 mt-0.5">Eval: M. Soto • 24/10/2026 09:15</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold w-16">Manejo:</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm italic pl-2">Exonerado (Duplicado)</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Día 5 de 10</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">5 días restantes</span>
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 50%;"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">rate_review</span> Pendiente Validación
+              </span>
+</td>
+<td class="py-4 px-space-md align-top text-right">
+<div class="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+<button class="h-9 px-space-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-xl transition-colors">
+                  Ver Expediente
+                </button>
+<button class="h-9 px-space-md bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded-xl font-bold shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">rule</span> Revisar y Validar
+                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginación y Resumen -->
+<div class="bg-surface-container-low p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface-variant">
+        Mostrando <span class="font-bold text-on-surface">5</span> de <span class="font-bold text-on-surface">15</span> expedientes en bandeja de supervisión
+      </span>
+<div class="flex items-center gap-1">
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center">1</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center transition-colors">2</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center transition-colors">3</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Mensaje Reglamentario y Garantía de Trazabilidad -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">gavel</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-title-md text-title-md text-on-surface font-bold">Disposición Normativa y Cadena de Custodia Digital</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Los resultados validados no se pueden modificar. Toda acción queda registrada con usuario y fecha.
+      </p>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interacción: Búsqueda dinámica en vivo para DNI / Postulante
+  document.getElementById('filterDNI')?.addEventListener('input', function(e) {
+    const filter = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+
+  // Filtro por Categoría
+  document.getElementById('filterCategory')?.addEventListener('change', function(e) {
+    const val = e.target.value;
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      if (!val) {
+        row.style.display = '';
+        return;
+      }
+      row.style.display = row.innerText.includes(val) ? '' : 'none';
+    });
+  });
+
+  // Filtro por Tipo de Trámite
+  document.getElementById('filterTramite')?.addEventListener('change', function(e) {
+    const val = e.target.value;
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      if (!val) {
+        row.style.display = '';
+        return;
+      }
+      row.style.display = row.innerText.includes(val) ? '' : 'none';
+    });
+  });
+</script></main><footer class="w-full bg-surface-container-low py-space-md px-space-lg shadow-[0_-4px_20px_0_rgba(11,42,111,0.05)]"><div class="w-full flex flex-col sm:flex-row items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs text-error"><span class="material-symbols-outlined text-[18px]">lock_clock</span><span class="font-label-md text-label-md font-bold">Aviso de Seguridad y Trazabilidad:</span></div><div class="text-center sm:text-right font-body-md text-body-md text-on-surface-variant">Los resultados validados no se pueden modificar. Toda acción queda registrada con usuario y fecha.</div></div></footer></div><style id="adapt">
+#menu-btn{display:none}
+@media (max-width:1023px){
+ body{overflow-x:hidden}
+ aside.fixed{transform:translateX(-100%);transition:transform .25s ease;z-index:70!important}
+ body.menu-open aside.fixed{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
+ .left-72{left:0!important}.ml-72,.lg\:ml-72,.md\:ml-72{margin-left:0!important}.pl-72{padding-left:0!important}
+ header.fixed{padding-left:56px!important}
+ #menu-btn{display:flex;position:fixed;top:12px;left:10px;z-index:80;width:40px;height:40px;border:0;border-radius:10px;background:#FF7A00;color:#fff;font-size:20px;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+ main table{display:block;overflow-x:auto;white-space:nowrap}
+ .grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ [class*="col-span-"]{grid-column:auto!important}
+}
+@media (max-width:639px){
+ .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-12{grid-template-columns:minmax(0,1fr)!important}
+ header.fixed .hidden-on-xs, header.fixed nav, header.fixed .xs-hide{display:none!important}
+ header.fixed{height:64px!important;overflow:hidden}
+ header.fixed *{font-size:14px!important;line-height:1.25!important}
+ header.fixed p, header.fixed .text-xs, header.fixed small{display:none!important}
+ main{padding-left:12px!important;padding-right:12px!important}
+ h1{font-size:1.6rem!important;line-height:1.2!important}
+ .p-8,.p-10,.px-8,.px-10{padding-left:16px!important;padding-right:16px!important}
+ [class*="w-[5"],[class*="w-[6"],[class*="w-[7"],[class*="w-[8"],[class*="min-w-["]{width:auto!important;min-width:0!important}
+}
+</style><script>
+(function(){
+var C={"next": "07-validar-resultado", "links": {"cerrar sesión": "../index", "salir": "../index", "panel de evaluaciones": "04-citas-del-dia", "examen de reglas": "05-registrar-resultado", "examen de manejo": "05-registrar-resultado", "expedientes clase b": "06-expedientes-por-validar", "supervisión y actas": "07-validar-resultado", "emisión de licencias": "08-autorizar-emision"}, "hide": ["examen de reglas", "examen de manejo"], "mobile": false, "page": "06-expedientes-por-validar"};
+function go(f){ if(f) location.href=f+'.html'; }
+function norm(s){return (s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+function label(el){ var t=norm(el.innerText); return t; }
+var PRIMARY=/(continuar|ingresar|iniciar sesi|guardar|confirmar|enviar|revisar|registrar|autorizar|siguiente|agendar|pagar|subir comprobante|reservar|ver detalle|ver expediente|ver ficha|abrir|validar|aprobar|empezar|comenzar|programar|elegir)/;
+function hideItems(){ (C.hide||[]).forEach(function(h){ document.querySelectorAll('aside a, nav a').forEach(function(a){ if(label(a).endsWith(h)) a.style.display='none'; }); }); }
+function markActive(){}
+document.addEventListener('DOMContentLoaded',function(){
+  hideItems();
+  if(C.login){
+    document.querySelectorAll('input').forEach(function(i){ i.removeAttribute('maxlength'); i.removeAttribute('pattern'); if(i.type!=='password'){ i.removeAttribute('oninput'); i.removeAttribute('inputmode'); if(/^Ej\./.test(i.placeholder||'')) i.placeholder='Ej. 45892014 o gestor'; } if(i.type==='number'||i.type==='tel') i.type='text'; });
+    var b=[].slice.call(document.querySelectorAll('button,a')).filter(function(x){return /(ingresar|iniciar sesi)/.test(label(x));})[0];
+    if(b){ var d=document.createElement('div'); d.id='demo-box'; d.style.cssText='margin-top:12px;padding:10px 12px;border-radius:10px;background:#FFF4E8;border:1px dashed #FF7A00;font:500 12px Inter,sans-serif;color:#7a3d00;line-height:1.55;text-align:left';
+      d.innerHTML='<b>Cuentas de demostración</b> · contraseña: demo123<br>Postulante: DNI <b>45892014</b><br>Personal: <b>gestor</b> · <b>evaluador</b> · <b>supervisor</b> · <b>admin</b><br><span style="opacity:.8">El sistema te lleva al panel de tu rol.</span>';
+      b.insertAdjacentElement('afterend',d); }
+  }
+
+  if(C.mobile && !C.login && C.page!=='02-registro'){
+    var P=C.page, items=[['sec','Mi trámite'],['03-inicio','home','Inicio'],['04-nueva-solicitud','add_circle','Nueva solicitud','1'],['05-datos-personales','badge','Datos personales','2'],['06-requisitos','description','Requisitos y documentos','3'],['07-pago','payments','Pago','4'],['08-elegir-cita','event','Elegir cita','5'],['09-resultados','fact_check','Mis resultados','6'],['sec','Ayuda'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente virtual']];
+    var h='';
+    items.forEach(function(it){ if(it[0]==='sec'){h+='<div class="sec">'+it[1]+'</div>';return;} h+='<a href="'+it[0]+'.html" class="'+(it[0]===P?'on':'')+'"><span class="material-symbols-outlined">'+it[1]+'</span>'+it[2]+(it[3]?'<span class="n">Paso '+it[3]+'</span>':'')+'</a>'; });
+    h+='<a class="out" href="../index.html"><span class="material-symbols-outlined">logout</span>Cerrar sesión</a>';
+    var a=document.createElement('aside'); a.id='pnav'; a.innerHTML=h; document.body.appendChild(a);
+    if(!document.querySelector('nav.fixed.bottom-0')){
+      var map={'03-inicio':0,'04-nueva-solicitud':1,'05-datos-personales':1,'06-requisitos':1,'07-pago':1,'08-elegir-cita':1,'09-resultados':1,'10-notificaciones':2,'11-asistente':3};
+      var bi=[['03-inicio','home','Inicio'],['06-requisitos','assignment','Mi trámite'],['10-notificaciones','notifications','Avisos'],['11-asistente','support_agent','Asistente']];
+      var b2=document.createElement('nav'); b2.id='pbar'; b2.innerHTML=bi.map(function(x,i){return '<a href="'+x[0]+'.html" class="'+(map[P]===i?'on':'')+'"><span class="material-symbols-outlined">'+x[1]+'</span>'+x[2]+'</a>';}).join('');
+      document.body.appendChild(b2); document.body.classList.add('has-pbar'); if(document.querySelector('.fixed.bottom-0:not(nav)')) document.body.classList.add('has-action');
+    }
+  }
+  if(!C.mobile && innerWidth<640){ document.querySelectorAll('header.fixed a, header.fixed button').forEach(function(x){ var t=label(x); if(t.length>3 && !/(cerrar|salir|logout)/.test(t)) x.classList.add('xs-hide'); });
+    [].slice.call(document.querySelectorAll('header.fixed *')).forEach(function(x){ var t=norm(x.innerText); if(x.children.length===0 && /(sede central|subgerencia|tupa mph)/.test(t)){ x.classList.add('xs-hide'); var p=x.parentElement; if(/sede/.test(t) && p && /border|rounded/.test(p.className)) p.classList.add('xs-hide'); } });
+    document.querySelectorAll('header.fixed h1, header.fixed h2, header.fixed .font-bold').forEach(function(x){ x.style.whiteSpace='nowrap'; x.style.overflow='hidden'; x.style.textOverflow='ellipsis'; }); }
+  if(!C.mobile){ var mb=document.createElement('button'); mb.id='menu-btn'; mb.textContent='☰'; mb.setAttribute('aria-label','Menú'); mb.onclick=function(ev){ev.stopPropagation();document.body.classList.toggle('menu-open');}; document.body.appendChild(mb);
+    document.addEventListener('click',function(ev){ if(document.body.classList.contains('menu-open') && !ev.target.closest('aside')) document.body.classList.remove('menu-open'); }); }
+});
+function route(el){
+  var t=label(el);
+  if(C.login && /(ingresar|iniciar sesi)/.test(t)){
+    var inp=document.querySelector('input[type=text],input[type=email],input[type=tel],input[type=number],input:not([type])');
+    var v=norm(inp&&inp.value), W=C.mobile?'../web/':'', M=C.mobile?'':'../movil/';
+    if(/eval/.test(v)) return W+'04-citas-del-dia'; if(/super/.test(v)) return W+'06-expedientes-por-validar'; if(/admin/.test(v)) return W+'09-usuarios-roles'; if(/gestor/.test(v)) return W+'01-bandeja-expedientes';
+    if(/^\d{8}$/.test(v)) return M+'03-inicio';
+    var m=document.getElementById('err-demo'); if(!m){m=document.createElement('div');m.id='err-demo';m.style.cssText='margin-top:10px;padding:10px 12px;border-radius:10px;background:#FDECEC;color:#B42318;font:600 12px Inter,sans-serif';var a=document.getElementById('demo-box'); if(a) a.insertAdjacentElement('afterend',m); else document.body.appendChild(m);}
+    m.textContent='Usuario no reconocido. Ciudadanos: DNI de 8 dígitos. Personal: gestor, evaluador, supervisor o admin.'; return '__stop__';
+  }
+  var L=C.links||{}; var keys=Object.keys(L).sort(function(a,b){return b.length-a.length;});
+  for(var i=0;i<keys.length;i++){ if(t===keys[i]||t.endsWith(' '+keys[i])||t.endsWith(keys[i])&&t.length<keys[i].length+30) return L[keys[i]]; }
+  if(/^(arrow_back|chevron_left|arrow_back_ios)/.test(t)) return C.prev||null;
+  if(/dni/.test(t)) return null;
+  if(PRIMARY.test(t)) return C.next||null;
+  return null;
+}
+document.addEventListener('click',function(e){
+  var el=e.target.closest('a,button'); if(!el) return;
+  if(el.hasAttribute('onclick')) return;
+  var f=route(el);
+  if(f){ e.preventDefault(); e.stopPropagation(); if(f!=='__stop__') go(f); return; }
+  var h=el.getAttribute('href'); if(el.tagName==='A' && (!h||h==='#')) e.preventDefault();
+},true);
+document.addEventListener('submit',function(e){ e.preventDefault(); if(C.login){ var f=route({innerText:'ingresar'}); if(f&&f!=='__stop__') go(f);} else go(C.next); },true);
+})();
+</script></body></html>

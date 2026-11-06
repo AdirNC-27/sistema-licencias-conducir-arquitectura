@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pantallas · Licencias Clase B</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--azul:#1E4FD8;--oscuro:#0B2A6F;--naranja:#FF7A00;--fondo:#F5F8FF;--texto:#171c22;--gris:#5b6475;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--fondo);color:var(--texto)}
+header{background:linear-gradient(120deg,var(--oscuro),var(--azul));color:#fff;padding:40px 16px 32px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header .wrap{padding:0}
+.tag{display:inline-block;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.04em}
+h1{font-size:clamp(26px,4vw,40px);margin:12px 0 8px;font-weight:800}
+header p{margin:0;max-width:720px;opacity:.9;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pills a{background:#fff;color:var(--oscuro);text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px}
+.pills a.alt{background:var(--naranja);color:#fff}
+h2{font-size:22px;margin:36px 0 4px}h2+p{margin:0 0 16px;color:var(--gris)}
+h3{font-size:15px;color:var(--azul);margin:22px 0 10px;text-transform:uppercase;letter-spacing:.05em}
+.grid{display:grid;gap:14px}
+.grid.movil{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.grid.web{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:var(--card);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--texto);box-shadow:0 2px 10px rgba(11,42,111,.08);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,42,111,.16)}
+.card img{width:100%;object-fit:cover;object-position:top;background:#e8eefc;display:block}
+.card.movil img,.card.movil .ph{aspect-ratio:9/16}.card.web img,.card.web .ph{aspect-ratio:16/10}
+.ph{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;text-align:center;padding:12px;background:linear-gradient(135deg,#dce6ff,#fff1e6);color:var(--oscuro);font-weight:700}
+.card span{padding:10px 12px;font-weight:600;font-size:14px;border-top:3px solid var(--naranja)}
+footer{margin:40px 0 24px;color:var(--gris);font-size:13px;line-height:1.6}
+.ph b{font-size:40px;color:var(--naranja)}.card.movil .ph{aspect-ratio:4/5}.card.web .ph{aspect-ratio:16/8}</style></head><body>
+<header><div class="wrap">
+<span class="tag">IS-488 · ARQUITECTURA DE SOFTWARE · SPRINT 1</span>
+<h1>Sistema de Licencias de Conducir Clase B</h1>
+<p>Prototipo navegable de la interfaz para la Municipalidad Provincial de Huamanga: la app del postulante (celular) y el sistema web del personal, organizado por rol. Los datos que aparecen son de ejemplo.</p>
+<div class="pills"><a class="alt" href="index.html">⟵ Ingresar</a><a href="#movil">App del postulante</a><a href="#web">Sistema web del personal</a><a class="alt" href="https://github.com/AdirNC-27/sistema-licencias-conducir-arquitectura">Repositorio</a></div>
+</div></header>
+<main class="wrap">
+<h2 id="movil">App del postulante</h2><p>11 pantallas para celular: registro con DNI, requisitos, pago, cita, resultados y asistente.</p>
+<div class="grid movil"><a class="card movil" href="movil/01-inicio-sesion.html"><div class="ph"><b>01</b></div><span>Inicio de sesión</span></a><a class="card movil" href="movil/02-registro.html"><div class="ph"><b>02</b></div><span>Registro con DNI</span></a><a class="card movil" href="movil/03-inicio.html"><div class="ph"><b>03</b></div><span>Inicio y etapas del trámite</span></a><a class="card movil" href="movil/04-nueva-solicitud.html"><div class="ph"><b>04</b></div><span>Nueva solicitud</span></a><a class="card movil" href="movil/05-datos-personales.html"><div class="ph"><b>05</b></div><span>Datos personales</span></a><a class="card movil" href="movil/06-requisitos.html"><div class="ph"><b>06</b></div><span>Requisitos y documentos</span></a><a class="card movil" href="movil/07-pago.html"><div class="ph"><b>07</b></div><span>Pago</span></a><a class="card movil" href="movil/08-elegir-cita.html"><div class="ph"><b>08</b></div><span>Elegir cita</span></a><a class="card movil" href="movil/09-resultados.html"><div class="ph"><b>09</b></div><span>Mis resultados</span></a><a class="card movil" href="movil/10-notificaciones.html"><div class="ph"><b>10</b></div><span>Notificaciones</span></a><a class="card movil" href="movil/11-asistente.html"><div class="ph"><b>11</b></div><span>Asistente virtual</span></a></div>
+<h2 id="web">Sistema web del personal</h2><p>15 pantallas para laptop, una sección por rol.</p>
+<h3>Acceso del personal</h3><div class="grid web"><a class="card web" href="web/00-login-personal.html"><div class="ph"><b>12</b></div><span>Login del personal</span></a></div><h3>Gestor de trámites</h3><div class="grid web"><a class="card web" href="web/01-bandeja-expedientes.html"><div class="ph"><b>13</b></div><span>Bandeja de expedientes</span></a><a class="card web" href="web/02-detalle-expediente.html"><div class="ph"><b>14</b></div><span>Detalle del expediente</span></a><a class="card web" href="web/03-reprogramar-cita.html"><div class="ph"><b>15</b></div><span>Reprogramar cita</span></a></div><h3>Evaluador</h3><div class="grid web"><a class="card web" href="web/04-citas-del-dia.html"><div class="ph"><b>16</b></div><span>Citas del día</span></a><a class="card web" href="web/05-registrar-resultado.html"><div class="ph"><b>17</b></div><span>Registrar resultado</span></a></div><h3>Supervisor</h3><div class="grid web"><a class="card web" href="web/06-expedientes-por-validar.html"><div class="ph"><b>18</b></div><span>Expedientes por validar</span></a><a class="card web" href="web/07-validar-resultado.html"><div class="ph"><b>19</b></div><span>Validar resultado</span></a><a class="card web" href="web/08-autorizar-emision.html"><div class="ph"><b>20</b></div><span>Autorizar emisión</span></a></div><h3>Administrador</h3><div class="grid web"><a class="card web" href="web/09-usuarios-roles.html"><div class="ph"><b>21</b></div><span>Usuarios y roles</span></a><a class="card web" href="web/10-configuracion-tramite.html"><div class="ph"><b>22</b></div><span>Configuración del trámite</span></a><a class="card web" href="web/11-dias-cupos.html"><div class="ph"><b>23</b></div><span>Días y cupos de examen</span></a><a class="card web" href="web/12-contenido-asistente.html"><div class="ph"><b>24</b></div><span>Contenido del asistente</span></a><a class="card web" href="web/13-reportes.html"><div class="ph"><b>25</b></div><span>Reportes</span></a><a class="card web" href="web/14-auditoria.html"><div class="ph"><b>26</b></div><span>Auditoría</span></a></div>
+<footer>Diseñado con Google Stitch a partir de los requisitos funcionales RF01–RF27 del repositorio. En cada pantalla, los botones ◀ ▶ recorren el flujo y ☰ vuelve a este índice.<br>Adir Alejandro Navarro Cordero · UNSCH</footer>
+</main></body></html>
