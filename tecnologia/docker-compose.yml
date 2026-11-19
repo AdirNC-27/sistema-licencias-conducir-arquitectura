@@ -1,0 +1,35 @@
+# Sistema de Licencias Clase B · API NestJS + PostgreSQL (ADR-010)
+# Uso: docker compose up -d   (desde la carpeta tecnologia)
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    command: postgres -c shared_preload_libraries=pg_stat_statements
+    environment:
+      POSTGRES_USER: licencias
+      POSTGRES_PASSWORD: licencias
+      POSTGRES_DB: licencias
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U licencias"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: always # EQ-04: reinicio automático si el proceso cae
+    env_file: ./backend/.env
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  datos-postgres:

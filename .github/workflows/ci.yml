@@ -1,0 +1,53 @@
+# Integración continua: en cada push se ejecutan las reglas de arquitectura y las pruebas con Jest
+name: CI · Backend
+
+on:
+  push:
+    paths: ["tecnologia/backend/**", ".github/workflows/ci.yml"]
+  pull_request:
+    paths: ["tecnologia/backend/**"]
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tecnologia/backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: licencias
+          POSTGRES_PASSWORD: licencias
+          POSTGRES_DB: licencias_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U licencias" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DB_HOST: localhost
+      DB_USUARIO: licencias
+      DB_CLAVE: licencias
+      DB_NOMBRE: licencias_test
+      JWT_SECRETO: secreto-de-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tecnologia/backend/package-lock.json
+      - run: npm ci
+      - name: Compilar
+        run: npm run build
+      - name: Reglas de arquitectura (dependency-cruiser · EQ-06)
+        run: npm run arquitectura
+      - name: Pruebas unitarias con cobertura (Jest)
+        run: npm run test:cov
+      - name: Pruebas de la API con PostgreSQL (Jest + Supertest)
+        run: npm run test:e2e
+      - name: Guardar el reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-jest
+          path: tecnologia/backend/coverage

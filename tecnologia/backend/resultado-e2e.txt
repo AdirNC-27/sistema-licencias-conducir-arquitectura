@@ -1,0 +1,42 @@
+﻿
+> licencias-clase-b-backend@0.0.1 test:e2e
+> jest --config ./test/jest-e2e.json --runInBand
+
+node.exe : PASS test/flujo-tramite.e2e-spec.ts
+En línea: 1 Carácter: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (PASS test/flujo-tramite.e2e-spec.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Flujo completo del tr├ímite de emisi├│n (e2e)
+    ÔêÜ requisitos p├║blicos con cach├® (RF22) (21 ms)
+    ÔêÜ registra un postulante nuevo con DNI (RF03, RF04) (288 ms)
+    ÔêÜ el postulante crea su expediente II-C (RF02) (31 ms)
+    ÔêÜ privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02) (135 ms)
+    ÔêÜ sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04) (188 ms)
+    ÔêÜ registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06) (61 ms)
+    ÔêÜ reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21) (64 ms)
+    ÔêÜ registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09) (98 ms)
+    ÔêÜ manejo aprobado y validado lleva a EMISION; el supervisor autoriza (RF12) (40 ms)
+    ÔêÜ las operaciones importantes quedan en auditor├¡a con usuario, fecha y valores (EQ-07) (15 ms)
+    ÔêÜ el administrador cambia un rol y queda auditado; el endpoint de salud responde (40 ms)
+    Seguridad (EQ-01)
+      ÔêÜ sin token responde 401 (28 ms)
+      ÔêÜ credenciales incorrectas responden 401 (152 ms)
+      ÔêÜ 45892014 no puede get /api/expedientes (403) (13 ms)
+      ÔêÜ 45892014 no puede get /api/usuarios (403) (7 ms)
+      ÔêÜ 45892014 no puede get /api/auditoria (403) (8 ms)
+      ÔêÜ evaluador no puede patch /api/expedientes/1/emision (403) (7 ms)
+      ÔêÜ evaluador no puede post /api/evaluaciones/1/validacion (403) (7 ms)
+      ÔêÜ gestor no puede post /api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado (403) (6 ms)
+      ÔêÜ gestor no puede post /api/cupos (403) (8 ms)
+      ÔêÜ supervisor no puede patch /api/pagos/1/verificacion (403) (8 ms)
+      ÔêÜ supervisor no puede patch /api/usuarios/1/rol (403) (10 ms)
+      ÔêÜ admin no puede post /api/expedientes (403) (11 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        4.989 s, estimated 6 s
+Ran all test suites.

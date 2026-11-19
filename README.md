@@ -57,14 +57,17 @@ docs/
 │   ├── diseño-interno-de-modulos.md
 │   ├── patrones-de-diseño.md
 │   └── principios-de-diseño.md
-└── 04-modelo-c4/
-    ├── Nivel1-DiagramadeContextodelSistema.md
-    ├── Nivel2-DiagramadeContenedores.md
-    ├── Nivel3-Diagrama-de-Componentes.md
-    └── Nivel4-DiagramadeCodigo.md
+├── 04-modelo-c4/
+│   ├── Nivel1-DiagramadeContextodelSistema.md
+│   ├── Nivel2-DiagramadeContenedores.md
+│   ├── Nivel3-Diagrama-de-Componentes.md
+│   └── Nivel4-DiagramadeCodigo.md
+├── 05-especificaciones-sdd/      # SDD-01 … SDD-10 (sprint 2)
+└── 06-validacion-calidad/        # evidencias de los escenarios EQ
 img/
-tecnologia/
+tecnologia/                       # backend NestJS, k6 y docker-compose
 prototipo/
+.github/workflows/ci.yml
 ```
 
 ## Prototipo navegable

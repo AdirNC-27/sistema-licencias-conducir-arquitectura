@@ -36,29 +36,17 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 ## Estructura del código
 
 ```text
-backend/                      # Node.js + NestJS (monolito modular)
-├── src/
-│   ├── compartido/           # guardas de roles, filtros de errores, configuración
-│   └── modulos/
-│       ├── identidad/
-│       ├── postulantes/
-│       ├── expedientes/
-│       ├── documentos/
-│       ├── pagos/
-│       ├── citas/
-│       ├── evaluaciones/     # módulo de referencia (ver diseño interno de módulos)
-│       ├── seguimiento/
-│       ├── notificaciones/
-│       ├── asistente/
-│       ├── administracion/
-│       └── auditoria/
-└── test/                     # pruebas de API (Supertest)
-frontend/                     # React + TypeScript
-├── src/paginas/              # una carpeta por rol
-├── src/componentes/
-└── src/servicios/            # llamadas a la API REST
-docker-compose.yml            # frontend, backend y PostgreSQL
-.github/workflows/ci.yml      # Jest y cobertura en cada push
+tecnologia/
+├── backend/                  # Node.js + NestJS (monolito modular) · ver backend/README.md
+│   ├── src/compartido/       # guardas de roles, errores del dominio, eventos
+│   ├── src/modulos/          # identidad, postulantes, requisitos, expedientes, documentos,
+│   │                         # pagos, citas, evaluaciones, notificaciones, auditoria, salud
+│   ├── src/migraciones/      # esquema y datos iniciales (TypeORM)
+│   └── test/                 # pruebas de la API (Jest + Supertest)
+├── pruebas-calidad/k6/       # pruebas de carga hasta 2,000 usuarios
+├── postgres/init.sql         # base de pruebas y pg_stat_statements
+└── docker-compose.yml        # PostgreSQL y API
+.github/workflows/ci.yml      # arquitectura, Jest y cobertura en cada push
 ```
 
 Cada módulo del backend se organiza con Clean Architecture en las carpetas `presentacion`, `aplicacion`, `dominio` e `infraestructura`, como se describe en [Diseño interno de módulos](../docs/03-diseño-de-software/diseño-interno/diseño-interno-de-modulos.md).
