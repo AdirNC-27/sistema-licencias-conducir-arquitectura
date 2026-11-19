@@ -1,143 +1,155 @@
 # Escenarios de atributos de calidad del Sistema de Licencias Clase B
 
-Cada atributo de calidad definido en `04-atributos-de-calidad.md` se convierte en un escenario medible que indica quién origina la exigencia, en qué condiciones ocurre y con qué valor se comprueba su cumplimiento. Las medidas marcadas como propuesta deben validarse en el entorno de prueba del prototipo.
+Cada atributo de calidad de `04-atributos-de-calidad.md` se convierte en un escenario con una **medida que se puede cumplir** y la **herramienta con la que se mide**.
+
+## Entorno de prueba
+
+Todas las medidas se toman en el mismo entorno para que los resultados se puedan comparar.
+
+| Elemento | Valor |
+|---|---|
+| **Equipo** | Laptop del equipo (CPU de 4 núcleos, 8 GB de RAM) |
+| **Despliegue** | Docker Compose: API Spring Boot + PostgreSQL + portal React |
+| **Datos de prueba** | 200 expedientes, 5 usuarios (uno por rol) y 50 postulantes cargados con un script SQL |
+| **Usuarios simultáneos** | 30: la ventanilla del MAC atiende de a uno; se toma un margen amplio sobre la demanda real de Huamanga |
+| **Horario de atención** | Lunes a viernes, de 8:00 a 16:00 |
 
 ## EQ-01. Seguridad: acceso según el rol
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC01 · DA01 |
-| **Atributo de calidad** | Seguridad |
-| **Fuente** | Usuario sin sesión, con credenciales inválidas o con un rol sin permiso (por ejemplo, un evaluador que intenta validar un expediente). |
-| **Estímulo** | El usuario intenta ejecutar una función protegida que no corresponde a su rol. |
-| **Condición** | El sistema funciona normalmente y los roles de postulante, gestor, evaluador, supervisor y administrador están configurados. |
-| **Respuesta esperada** | El sistema rechaza la operación, no modifica información y no expone datos en la respuesta. |
-| **Medida** | Rechazar el 100 % de los intentos no autorizados incluidos en las pruebas definidas (respuesta 401 o 403), sin exposición de datos sensibles. |
-| **Verificación** | Ejecutar pruebas de acceso con cada rol sobre cada operación protegida y revisar las respuestas. |
-| **Estado** | Pendiente de completar la matriz de permisos por rol y operación. |
+| **Fuente** | Usuario sin sesión, con token inválido o con un rol sin permiso (por ejemplo, un evaluador que intenta validar un resultado). |
+| **Estímulo** | Intenta ejecutar una operación protegida que no corresponde a su rol. |
+| **Condición** | Operación normal, con los 5 roles configurados. |
+| **Respuesta esperada** | La API rechaza la operación y no modifica ni devuelve datos. |
+| **Medida** | El 100 % de los casos de la matriz rol × operación devuelve 401 (sin sesión) o 403 (sin permiso). OWASP ZAP: 0 alertas de riesgo alto. |
+| **Herramienta** | JUnit 5 + Spring Security Test (MockMvc con `@WithMockUser`) · OWASP ZAP (escaneo básico) |
+| **Cómo se mide** | Una prueba por cada combinación rol × endpoint protegido; el escaneo de ZAP se ejecuta sobre la API levantada en Docker. |
+| **Evidencia** | Reporte de JUnit y reporte HTML de ZAP. |
 
 ## EQ-02. Privacidad: acceso a documentos y datos personales
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC02 · DA02 |
-| **Atributo de calidad** | Privacidad |
-| **Fuente** | Usuario autenticado que no tiene relación con el expediente (por ejemplo, otro postulante). |
-| **Estímulo** | El usuario intenta consultar documentos, comprobantes, resultados o datos personales de otro postulante. |
-| **Condición** | Los documentos se encuentran en la base de datos con acceso por permisos y las comunicaciones utilizan HTTPS. |
-| **Respuesta esperada** | El sistema deniega el acceso y solo permite consultar la información a los usuarios autorizados para ese expediente. |
-| **Medida** | Denegar el 100 % de los accesos no autorizados probados. Ningún documento es accesible mediante una URL pública permanente. |
-| **Verificación** | Intentar acceder a expedientes ajenos con distintos usuarios y comprobar que los enlaces a documentos requieren autorización o expiran. |
-| **Estado** | Pendiente de definir la duración de los enlaces temporales y los datos considerados sensibles. |
+| **Fuente** | Postulante autenticado que no es dueño del expediente. |
+| **Estímulo** | Cambia el número de expediente en la URL para ver documentos, pagos o resultados de otra persona. |
+| **Condición** | Los documentos se guardan en PostgreSQL y solo se entregan por un endpoint autenticado. |
+| **Respuesta esperada** | La API deniega el acceso y no muestra ningún dato del otro expediente. |
+| **Medida** | El 100 % de los 20 intentos de acceso a expedientes ajenos devuelve 403. Ningún documento se descarga sin token. |
+| **Herramienta** | Postman + Newman (colección de pruebas automatizadas) |
+| **Cómo se mide** | 2 postulantes de prueba: cada uno intenta abrir 10 expedientes del otro; además se piden los documentos sin token. |
+| **Evidencia** | Reporte de Newman con las 20 solicitudes y su código de respuesta. |
 
 ## EQ-03. Rendimiento: consultas habituales
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC03 · DA09 |
-| **Atributo de calidad** | Rendimiento |
-| **Fuente** | Postulante o personal de gestión |
-| **Estímulo** | El usuario consulta requisitos, el estado de su expediente o la lista de expedientes pendientes. |
-| **Condición** | Operación normal durante el horario de atención, con datos representativos. |
-| **Respuesta esperada** | El sistema muestra la información solicitada sin errores inesperados. |
-| **Medida** | **Propuesta por validar:** el 95 % de las consultas responde en 3 segundos o menos, con menos del 1 % de errores técnicos, durante una prueba con 100 usuarios simultáneos. |
-| **Verificación** | Ejecutar pruebas de carga y registrar los tiempos de respuesta, los errores y la cantidad de usuarios simultáneos. |
-| **Estado** | Pendiente de confirmar la cantidad esperada de usuarios y el entorno de prueba. |
+| **Fuente** | Postulantes y personal de la MPH |
+| **Estímulo** | Consultan requisitos, el estado de un expediente o la bandeja de expedientes. |
+| **Condición** | 30 usuarios simultáneos durante 10 minutos en el entorno de prueba. |
+| **Respuesta esperada** | El sistema responde sin errores. |
+| **Medida** | El 95 % de las respuestas tarda 3 segundos o menos (p95 ≤ 3 s) y los errores son menos del 1 %. En el portal, Lighthouse da un rendimiento de 80 o más. |
+| **Herramienta** | Apache JMeter (prueba de carga) · Lighthouse de Chrome (portal web) |
+| **Cómo se mide** | Plan de JMeter con 30 hilos sobre `GET /requisitos`, `GET /expedientes/{id}` y `GET /expedientes?estado=`. Lighthouse en modo móvil sobre el inicio del postulante. |
+| **Evidencia** | Reporte HTML de JMeter (p95 y % de errores) y reporte de Lighthouse. |
 
 ## EQ-04. Disponibilidad: servicio en horario de atención y recuperación
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC04 · DA09 |
-| **Atributo de calidad** | Disponibilidad |
-| **Fuente** | Falla del servidor o de la base de datos |
-| **Estímulo** | El sistema deja de responder o se pierde información durante el horario de atención. |
-| **Condición** | El sistema está publicado, cuenta con monitoreo y con copias de seguridad periódicas. |
-| **Respuesta esperada** | El sistema se restaura a partir del último respaldo y retoma la atención con la menor pérdida de información posible. |
-| **Medida** | **Propuesta por validar:** disponibilidad de 99 % en el horario de atención; restauración en 4 horas o menos y pérdida máxima de 24 horas de información. |
-| **Verificación** | Revisar los registros de monitoreo y realizar una prueba de restauración desde un respaldo. |
-| **Estado** | Pendiente de definir el horario de atención y la frecuencia de los respaldos. |
+| **Fuente** | Caída de la API o de la base de datos |
+| **Estímulo** | El sistema deja de responder en horario de atención. |
+| **Condición** | Contenedores con reinicio automático y un respaldo diario de la base de datos. |
+| **Respuesta esperada** | El contenedor se reinicia solo y, si se pierde la base de datos, se restaura desde el último respaldo. |
+| **Medida** | Disponibilidad de 99 % o más en horario de atención durante 2 semanas de monitoreo. Reinicio automático en 2 minutos o menos. Restauración completa en 30 minutos o menos, con una pérdida máxima de 24 horas de datos. |
+| **Herramienta** | Spring Boot Actuator (`/actuator/health`) · UptimeRobot (monitoreo cada 5 minutos) · Docker Compose (`restart: always`) · `pg_dump` y `pg_restore` |
+| **Cómo se mide** | UptimeRobot consulta el endpoint de salud; se detiene el contenedor a propósito y se mide cuánto tarda en volver; se borra la base de prueba y se restaura con cronómetro. |
+| **Evidencia** | Reporte de UptimeRobot y registro con hora de inicio y fin de la restauración. |
 
 ## EQ-05. Usabilidad: identificar la siguiente acción
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC05 · DA10 |
-| **Atributo de calidad** | Usabilidad |
-| **Fuente** | Postulante que usa la plataforma por primera vez |
-| **Estímulo** | El postulante registra su solicitud, adjunta sus documentos y consulta qué debe hacer a continuación. |
-| **Condición** | Prueba con usuarios representativos, desde computadora y desde celular. |
-| **Respuesta esperada** | El sistema muestra con claridad los pasos, el estado, las observaciones y la siguiente acción pendiente. |
-| **Medida** | **Propuesta por validar:** el 80 % de los participantes completa el registro y la carga de documentos sin ayuda en 10 minutos o menos e identifica correctamente su siguiente acción. |
-| **Verificación** | Realizar una prueba de usabilidad con tareas definidas y registrar tiempos, errores y consultas de ayuda. |
-| **Estado** | Pendiente de definir los participantes y las tareas de la prueba. |
+| **Fuente** | Postulante que usa el sistema por primera vez |
+| **Estímulo** | Registra su solicitud, sube sus documentos e indica cuál es su siguiente paso. |
+| **Condición** | 5 participantes sin conocimiento previo, desde celular y laptop, usando el prototipo publicado. |
+| **Respuesta esperada** | El postulante entiende en qué etapa está y qué le falta. |
+| **Medida** | Al menos 4 de 5 participantes terminan la tarea sin ayuda en 10 minutos o menos. Puntaje SUS de 68 o más. Lighthouse de accesibilidad de 90 o más. |
+| **Herramienta** | Prueba con usuarios (tareas y cronómetro) · Cuestionario SUS en Google Forms · Lighthouse |
+| **Cómo se mide** | Cada participante recibe 3 tareas escritas; se anota el tiempo, los errores y si pidió ayuda; al final responde las 10 preguntas del SUS. |
+| **Evidencia** | Hoja de registro por participante y resultados del formulario SUS. |
 
 ## EQ-06. Mantenibilidad: cambiar una regla o una integración
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC06 · DA05 · DA08 |
-| **Atributo de calidad** | Mantenibilidad |
 | **Fuente** | Equipo de desarrollo |
-| **Estímulo** | Se modifica un requisito o una etapa del trámite, o se agrega una nueva integración (por ejemplo, con el SNC mediante la PIDE). |
-| **Condición** | El sistema está organizado en módulos con Clean Architecture y dispone de pruebas. |
-| **Respuesta esperada** | El cambio se concentra en el módulo responsable o en un nuevo adaptador, sin modificar el dominio de otros módulos. |
-| **Medida** | El reemplazo de un adaptador solo requiere la nueva clase y su registro en la configuración. Las pruebas del módulo y las de regresión acordadas se aprueban. |
-| **Verificación** | Revisar los archivos modificados, ejecutar las pruebas e inspeccionar las dependencias entre módulos. |
-| **Estado** | Pendiente de definir las reglas de dependencias y las pruebas obligatorias. |
+| **Estímulo** | Se cambia el proveedor de correo o se agrega un adaptador nuevo (por ejemplo, el SNC por la PIDE). |
+| **Condición** | Módulos organizados con Clean Architecture y pruebas automáticas. |
+| **Respuesta esperada** | El cambio solo toca el adaptador y su configuración; el dominio no cambia. |
+| **Medida** | Las reglas de arquitectura de ArchUnit se cumplen al 100 % (el dominio no depende de Spring ni de infraestructura; ningún módulo usa paquetes internos de otro). El cambio de adaptador modifica 2 archivos o menos. Cobertura de 70 % o más en dominio y aplicación. |
+| **Herramienta** | ArchUnit · JaCoCo · `git diff --stat` |
+| **Cómo se mide** | Se ejecutan las pruebas de ArchUnit con `mvn test`; JaCoCo genera la cobertura; se reemplaza `NotificadorCorreo` por otro adaptador y se cuentan los archivos cambiados. |
+| **Evidencia** | Reporte de pruebas, reporte de JaCoCo y salida de `git diff --stat`. |
 
 ## EQ-07. Trazabilidad: registro de operaciones importantes
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC07 · DA03 |
-| **Atributo de calidad** | Trazabilidad |
 | **Fuente** | Gestor, evaluador, supervisor o administrador |
-| **Estímulo** | El usuario modifica un documento, un pago, un resultado o el estado de un expediente. |
+| **Estímulo** | Ejecuta una de las 8 operaciones auditables: aprobar u observar un documento, verificar un pago, registrar un resultado, corregir un resultado, validar un resultado, cambiar la etapa, autorizar la emisión o cambiar el rol de un usuario. |
 | **Condición** | Operación normal del sistema. |
-| **Respuesta esperada** | El sistema registra la operación en la bitácora de auditoría. |
-| **Medida** | El 100 % de las operaciones importantes probadas queda registrado con usuario, fecha y hora, acción, motivo y valores anterior y nuevo. |
-| **Verificación** | Ejecutar las operaciones de prueba y comparar cada una con su registro de auditoría. |
-| **Estado** | Pendiente de definir la lista cerrada de operaciones auditables. |
+| **Respuesta esperada** | La operación queda en la bitácora de auditoría. |
+| **Medida** | Las 8 operaciones (100 %) quedan registradas con usuario, fecha y hora, acción, y valor anterior y nuevo. |
+| **Herramienta** | JUnit 5 + Testcontainers (PostgreSQL real en Docker) |
+| **Cómo se mide** | Una prueba de integración por operación: se ejecuta y luego se consulta la tabla de auditoría. |
+| **Evidencia** | Reporte de JUnit con las 8 pruebas aprobadas. |
 
 ## EQ-08. Confiabilidad de la IA: respuestas controladas
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | AC08 · DA07 |
-| **Atributo de calidad** | Confiabilidad de la IA |
 | **Fuente** | Postulante |
-| **Estímulo** | El postulante pregunta al asistente virtual algo que no está en el contenido aprobado o le pide realizar una acción (por ejemplo, aprobar su expediente). |
-| **Condición** | El asistente funciona con el contenido aprobado por el administrador. |
-| **Respuesta esperada** | El asistente no inventa información, no ejecuta acciones sobre el trámite y deriva la consulta al gestor. |
-| **Medida** | En un conjunto de 50 preguntas de prueba, el 100 % de las respuestas se basa en el contenido aprobado o se deriva al gestor, y no se ejecuta ninguna acción sobre expedientes. |
-| **Verificación** | Ejecutar el conjunto de preguntas de prueba y revisar cada respuesta. |
-| **Estado** | Pendiente de elaborar el conjunto de preguntas y el contenido aprobado. |
+| **Estímulo** | Pregunta sobre requisitos o plazos, pregunta algo fuera del trámite o pide una acción (por ejemplo, "aprueba mi expediente"). |
+| **Condición** | El asistente responde solo con el contenido aprobado por el administrador y no tiene permisos de escritura. |
+| **Respuesta esperada** | Responde con el contenido aprobado o deriva al gestor; nunca ejecuta acciones. |
+| **Medida** | Con 30 preguntas de prueba (20 del trámite y 10 fuera de tema o de acción): 90 % o más de respuestas correctas en las 20 del trámite; el 100 % de las otras 10 se deriva al gestor; 0 acciones ejecutadas. |
+| **Herramienta** | promptfoo (evaluación de respuestas de IA) |
+| **Cómo se mide** | Archivo con las 30 preguntas y la respuesta esperada de cada una; promptfoo las envía al `AdaptadorIA` y compara. |
+| **Evidencia** | Reporte de promptfoo con el resultado de cada pregunta. |
 
 ## EQ-09. Integridad: resultado validado bloqueado
 
 | Elemento | Descripción |
 |---|---|
 | **Origen** | RF09 · DA04 |
-| **Atributo de calidad** | Integridad |
 | **Fuente** | Evaluador o cualquier otro usuario |
-| **Estímulo** | Se intenta modificar un resultado de evaluación que ya fue validado por el supervisor. |
-| **Condición** | El resultado se encuentra en estado VALIDADO. |
-| **Respuesta esperada** | El sistema rechaza la modificación, conserva el resultado original y registra el intento en auditoría. |
-| **Medida** | Rechazar el 100 % de los intentos de modificación probados (respuesta 409) sin alterar el resultado. |
-| **Verificación** | Ejecutar pruebas unitarias del dominio y pruebas de la API sobre resultados validados. |
-| **Estado** | Pendiente de implementar las pruebas en el prototipo. |
+| **Estímulo** | Intenta modificar un resultado que el supervisor ya validó. |
+| **Condición** | El resultado está en estado VALIDADO. |
+| **Respuesta esperada** | La API rechaza el cambio, conserva el resultado y registra el intento. |
+| **Medida** | El 100 % de los intentos devuelve 409 y el resultado queda igual. El 4.º intento de examen se rechaza siempre (`IntentosAgotadosException`). |
+| **Herramienta** | JUnit 5 (pruebas del dominio) + MockMvc (pruebas de la API) |
+| **Cómo se mide** | Pruebas unitarias de `Evaluacion.validar()` y de `registrarIntento()`; prueba de API que intenta editar un resultado validado y luego lo consulta. |
+| **Evidencia** | Reporte de JUnit. |
 
-## Resumen de escenarios
+## Resumen
 
-| Código | Origen | Atributo de calidad | Qué se busca comprobar |
+| Código | Atributo | Medida principal | Herramienta |
 |---|---|---|---|
-| EQ-01 | AC01 · DA01 | Seguridad | Que cada usuario solo ejecute las funciones de su rol. |
-| EQ-02 | AC02 · DA02 | Privacidad | Que los documentos y datos personales solo sean accesibles para usuarios autorizados. |
-| EQ-03 | AC03 · DA09 | Rendimiento | Que las consultas habituales respondan dentro del tiempo establecido. |
-| EQ-04 | AC04 · DA09 | Disponibilidad | Que el sistema esté disponible y pueda recuperarse ante fallos. |
-| EQ-05 | AC05 · DA10 | Usabilidad | Que el postulante identifique fácilmente sus pasos y acciones pendientes. |
-| EQ-06 | AC06 · DA05 · DA08 | Mantenibilidad | Que los cambios y las nuevas integraciones no afecten otros módulos. |
-| EQ-07 | AC07 · DA03 | Trazabilidad | Que las operaciones importantes queden registradas. |
-| EQ-08 | AC08 · DA07 | Confiabilidad de la IA | Que el asistente solo oriente con contenido aprobado. |
-| EQ-09 | RF09 · DA04 | Integridad | Que los resultados validados no puedan modificarse. |
+| EQ-01 | Seguridad | 100 % de accesos sin permiso rechazados (401/403) | JUnit + Spring Security Test, OWASP ZAP |
+| EQ-02 | Privacidad | 20 de 20 accesos a expedientes ajenos rechazados | Postman + Newman |
+| EQ-03 | Rendimiento | p95 ≤ 3 s con 30 usuarios, errores < 1 % | Apache JMeter, Lighthouse |
+| EQ-04 | Disponibilidad | 99 % en horario; restauración ≤ 30 min | Actuator, UptimeRobot, pg_dump |
+| EQ-05 | Usabilidad | 4 de 5 usuarios sin ayuda; SUS ≥ 68 | Prueba con usuarios, Google Forms, Lighthouse |
+| EQ-06 | Mantenibilidad | Reglas de ArchUnit al 100 %; cobertura ≥ 70 % | ArchUnit, JaCoCo |
+| EQ-07 | Trazabilidad | 8 de 8 operaciones auditadas | JUnit + Testcontainers |
+| EQ-08 | Confiabilidad de la IA | ≥ 90 % correctas; 100 % derivadas; 0 acciones | promptfoo |
+| EQ-09 | Integridad | 100 % de modificaciones rechazadas (409) | JUnit + MockMvc |

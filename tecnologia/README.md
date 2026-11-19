@@ -13,7 +13,10 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Base de datos | PostgreSQL | Información transaccional del trámite | ADR-005 |
 | Caché | Caché en memoria de Spring (`@Cacheable`) | Requisitos y contenido público | ADR-009 |
 | Documentación de la API | OpenAPI (Swagger) | Documentación de los endpoints `/api/v1` | ADR-003 |
-| Pruebas | JUnit 5 y Mockito | Pruebas del dominio y de los casos de uso (EQ-09) | DA04 |
+| Pruebas | JUnit 5, Mockito, Spring Security Test, Testcontainers y ArchUnit | Pruebas del dominio, de la API, de la auditoría y de las reglas de arquitectura (EQ-01, EQ-06, EQ-07, EQ-09) | DA01, DA03, DA04, DA05 |
+| Calidad y carga | JaCoCo, Apache JMeter, Postman + Newman, OWASP ZAP, Lighthouse | Cobertura, rendimiento, privacidad y seguridad (EQ-02, EQ-03, EQ-05, EQ-06) | DA02, DA09, DA10 |
+| Monitoreo y respaldo | Spring Boot Actuator, UptimeRobot, pg_dump | Disponibilidad y recuperación (EQ-04) | DA09 |
+| Evaluación de la IA | promptfoo | Respuestas del asistente con contenido aprobado (EQ-08) | DA07 |
 | Correo | Spring Mail (SMTP) | Recordatorios de examen y vencimientos | ADR-013 |
 | Despliegue | Docker y Docker Compose | Frontend, backend y base de datos en contenedores | ADR-010 |
 
