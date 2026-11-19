@@ -27,7 +27,8 @@ Plataforma web académica para la gestión del trámite de licencias de conducir
 | Enfoque arquitectónico | Clean Architecture |
 | Documentación | Modelo C4 (contexto, contenedores, componentes y código) |
 | Frontend | React y TypeScript |
-| Backend | Java y Spring Boot, con Spring Security y JWT |
+| Backend | Node.js con NestJS (TypeScript), JWT por roles y TypeORM |
+| Pruebas | Jest (unitarias y de API) con reporte de cobertura, k6 para carga |
 | Base de datos | PostgreSQL |
 | Despliegue | Contenedores Docker |
 

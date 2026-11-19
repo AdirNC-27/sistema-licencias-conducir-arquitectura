@@ -21,7 +21,7 @@
 
 | Contrato del dominio | Implementación en infraestructura |
 |---|---|
-| `RepositorioEvaluaciones` | Spring Data JPA y PostgreSQL |
+| `RepositorioEvaluaciones` | TypeORM y PostgreSQL |
 | `VerificadorIdentidad` | `ApiPeruDniAdapter` (API Perú) |
 | `AsistenteIA` | `AdaptadorIA` |
 | `ServicioNotificaciones` | `NotificadorCorreo` (SMTP) |
@@ -33,4 +33,4 @@
 | Presentación | `EvaluacionesController` | Recibe la petición del supervisor |
 | Aplicación | `ValidarResultadoUseCase` | Coordina la validación |
 | Dominio | `Evaluacion` | Aplica la regla: máximo 3 intentos y bloqueo tras validar |
-| Infraestructura | `RepositorioEvaluacionesJpa` | Guarda el resultado en PostgreSQL |
+| Infraestructura | `RepositorioEvaluacionesTypeOrm` | Guarda el resultado en PostgreSQL |

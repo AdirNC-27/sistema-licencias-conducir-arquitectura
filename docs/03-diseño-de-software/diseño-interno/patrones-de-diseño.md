@@ -6,7 +6,7 @@ Documentar los patrones de diseño aplicados en el backend del Sistema de Licenc
 
 ## Contexto
 
-- **Estilo:** monolito modular (Java + Spring Boot).
+- **Estilo:** monolito modular (Node.js + NestJS).
 - **Enfoque interno:** Clean Architecture.
 - **Base:** diagrama de componentes (C4 nivel 3) y diagrama de clases (C4 nivel 4).
 
@@ -16,12 +16,12 @@ Documentar los patrones de diseño aplicados en el backend del Sistema de Licenc
 |---|---|---|---|---|---|
 | **Adapter** | Postulantes → API Perú | El dominio no debe depender del formato de respuesta de API Perú | Cliente HTTP con token | `VerificadorIdentidad`, `ApiPeruDniAdapter` | ADR-012, RF04 |
 | **Adapter** | Asistente virtual → IA de orientación | El asistente no debe depender de un proveedor de IA concreto | Cliente HTTP | `AsistenteIA`, `AdaptadorIA` | DA07, RF14 |
-| **Adapter** | Notificaciones → correo electrónico | Los recordatorios deben salir de la plataforma sin acoplar el dominio al servidor de correo | Spring Mail (SMTP) | `ServicioNotificaciones`, `NotificadorCorreo` | ADR-013, RF13 |
-| **Repository** | Todos los módulos → PostgreSQL | El dominio no debe conocer SQL ni JPA | Spring Data JPA | `RepositorioEvaluaciones`, `RepositorioEvaluacionesJpa` | ADR-005 |
-| **Strategy** | Evaluaciones | Conocimientos y manejo se califican de forma distinta | Interfaz Java con dos implementaciones | `CalificacionStrategy`, `CalificacionConocimientos`, `CalificacionManejo` | RF08, RF16 |
+| **Adapter** | Notificaciones → correo electrónico | Los recordatorios deben salir de la plataforma sin acoplar el dominio al servidor de correo | Nodemailer (SMTP) | `ServicioNotificaciones`, `NotificadorCorreo` | ADR-013, RF13 |
+| **Repository** | Todos los módulos → PostgreSQL | El dominio no debe conocer SQL ni TypeORM | TypeORM | `RepositorioEvaluaciones`, `RepositorioEvaluacionesTypeOrm` | ADR-005 |
+| **Strategy** | Evaluaciones | Conocimientos y manejo se califican de forma distinta | Interfaz TypeScript con dos implementaciones | `CalificacionStrategy`, `CalificacionConocimientos`, `CalificacionManejo` | RF08, RF16 |
 | **Chain of Responsibility** | Expedientes → validación del expediente | El expediente debe cumplir varios controles en orden antes de aprobarse | Lista ordenada de validadores | `ValidadorExpediente`, `ValidadorDocumentos`, `ValidadorCertificado`, `ValidadorPago`, `ValidadorEvaluaciones` | RF11, RF20, RF23 |
-| **Observer** | Expedientes, Evaluaciones y Seguimiento → Notificaciones y Auditoría | Varios módulos deben reaccionar a un cambio de estado sin acoplarse | Eventos de Spring (`ApplicationEventPublisher`) | `EstadoExpedienteCambiado`, `NotificacionesListener`, `AuditoriaListener` | RF13, RF17 |
-| **Decorator** | Requisitos y documentos → caché | Consultar requisitos más rápido sin modificar el repositorio | Caché en memoria (`@Cacheable`) | `RepositorioRequisitosCacheado` | ADR-009, EQ-03 |
+| **Observer** | Expedientes, Evaluaciones y Seguimiento → Notificaciones y Auditoría | Varios módulos deben reaccionar a un cambio de estado sin acoplarse | Eventos de NestJS (`EventEmitter2` de `@nestjs/event-emitter`) | `EstadoExpedienteCambiado`, `NotificacionesListener`, `AuditoriaListener` | RF13, RF17 |
+| **Decorator** | Requisitos y documentos → caché | Consultar requisitos más rápido sin modificar el repositorio | Caché en memoria (`@nestjs/cache-manager`) | `RepositorioRequisitosCacheado` | ADR-009, EQ-03 |
 | **Facade** | Comunicación entre módulos | Un módulo no debe conocer las clases internas de otro | Una clase pública por módulo | `ExpedientesFacade` (implementa `ExpedientesApi`) | ADR-001, DA05 |
 
 ## Cómo funciona cada patrón
@@ -49,4 +49,4 @@ Documentar los patrones de diseño aplicados en el backend del Sistema de Licenc
 |---|---|---|
 | **Circuit Breaker** | Llamadas a API Perú, la IA y el correo | Para que una falla del servicio externo no detenga el trámite |
 | **Factory** | Creación de solicitudes por tipo de trámite | Si la emisión, la revalidación y el duplicado requieren pasos muy distintos |
-| **CORS** (configuración) | Portal React → API Spring Boot | Al desplegar el frontend y el backend en dominios distintos |
+| **CORS** (configuración) | Portal React → API NestJS | Al desplegar el frontend y el backend en dominios distintos |

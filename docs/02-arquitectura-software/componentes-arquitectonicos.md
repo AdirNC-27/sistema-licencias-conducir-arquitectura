@@ -1,6 +1,6 @@
 # Componentes arquitectónicos
 
-Cada componente es un módulo del monolito. Todos se despliegan juntos en una sola aplicación Spring Boot.
+Cada componente es un módulo del monolito. Todos se despliegan juntos en una sola aplicación NestJS.
 
 ![Diagrama de componentes del Sistema de Licencias Clase B](../../img/nivel3-componentes.png)
 

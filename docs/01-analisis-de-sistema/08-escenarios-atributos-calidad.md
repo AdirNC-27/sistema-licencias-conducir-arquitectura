@@ -9,9 +9,9 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | Elemento | Valor |
 |---|---|
 | **Equipo** | Laptop del equipo (CPU de 4 núcleos, 8 GB de RAM) |
-| **Despliegue** | Docker Compose: API Spring Boot + PostgreSQL + portal React |
+| **Despliegue** | Docker Compose: API NestJS + PostgreSQL + portal React |
 | **Datos de prueba** | 200 expedientes, 5 usuarios (uno por rol) y 50 postulantes cargados con un script SQL |
-| **Usuarios simultáneos** | 30: la ventanilla del MAC atiende de a uno; se toma un margen amplio sobre la demanda real de Huamanga |
+| **Usuarios virtuales (k6)** | Subida progresiva hasta 2,000 usuarios concurrentes, como pide el sprint 2 |
 | **Horario de atención** | Lunes a viernes, de 8:00 a 16:00 |
 
 ## EQ-01. Seguridad: acceso según el rol
@@ -24,9 +24,9 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Condición** | Operación normal, con los 5 roles configurados. |
 | **Respuesta esperada** | La API rechaza la operación y no modifica ni devuelve datos. |
 | **Medida** | El 100 % de los casos de la matriz rol × operación devuelve 401 (sin sesión) o 403 (sin permiso). OWASP ZAP: 0 alertas de riesgo alto. |
-| **Herramienta** | JUnit 5 + Spring Security Test (MockMvc con `@WithMockUser`) · OWASP ZAP (escaneo básico) |
+| **Herramienta** | Jest + Supertest (pruebas de la API con un token por rol) · OWASP ZAP (escaneo básico) |
 | **Cómo se mide** | Una prueba por cada combinación rol × endpoint protegido; el escaneo de ZAP se ejecuta sobre la API levantada en Docker. |
-| **Evidencia** | Reporte de JUnit y reporte HTML de ZAP. |
+| **Evidencia** | Reporte de Jest y reporte HTML de ZAP. |
 
 ## EQ-02. Privacidad: acceso a documentos y datos personales
 
@@ -49,12 +49,12 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Origen** | AC03 · DA09 |
 | **Fuente** | Postulantes y personal de la MPH |
 | **Estímulo** | Consultan requisitos, el estado de un expediente o la bandeja de expedientes. |
-| **Condición** | 30 usuarios simultáneos durante 10 minutos en el entorno de prueba. |
+| **Condición** | Carga progresiva con k6: 100 → 500 → 1,000 → 2,000 usuarios virtuales, con una pausa de 1 a 3 segundos entre peticiones, como un usuario real. |
 | **Respuesta esperada** | El sistema responde sin errores. |
-| **Medida** | El 95 % de las respuestas tarda 3 segundos o menos (p95 ≤ 3 s) y los errores son menos del 1 %. En el portal, Lighthouse da un rendimiento de 80 o más. |
-| **Herramienta** | Apache JMeter (prueba de carga) · Lighthouse de Chrome (portal web) |
-| **Cómo se mide** | Plan de JMeter con 30 hilos sobre `GET /requisitos`, `GET /expedientes/{id}` y `GET /expedientes?estado=`. Lighthouse en modo móvil sobre el inicio del postulante. |
-| **Evidencia** | Reporte HTML de JMeter (p95 y % de errores) y reporte de Lighthouse. |
+| **Medida** | Hasta 1,000 usuarios: p95 ≤ 1 s. Con 2,000 usuarios: p95 ≤ 3 s y errores < 1 %. Con caché, la consulta de requisitos es al menos 50 % más rápida que sin caché. En el portal, Lighthouse da 80 o más en rendimiento. |
+| **Herramienta** | k6 (prueba de carga) · Lighthouse de Chrome (portal web) |
+| **Cómo se mide** | Script de k6 con etapas (`stages`) y umbrales (`thresholds`) sobre `GET /requisitos`, `GET /expedientes/{id}` y `GET /expedientes?estado=`; se corre dos veces, con caché y sin caché. Lighthouse en modo móvil sobre el inicio del postulante. |
+| **Evidencia** | Resumen de k6 (p95, % de errores y peticiones por segundo en cada etapa) y reporte de Lighthouse. |
 
 ## EQ-04. Disponibilidad: servicio en horario de atención y recuperación
 
@@ -66,7 +66,7 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Condición** | Contenedores con reinicio automático y un respaldo diario de la base de datos. |
 | **Respuesta esperada** | El contenedor se reinicia solo y, si se pierde la base de datos, se restaura desde el último respaldo. |
 | **Medida** | Disponibilidad de 99 % o más en horario de atención durante 2 semanas de monitoreo. Reinicio automático en 2 minutos o menos. Restauración completa en 30 minutos o menos, con una pérdida máxima de 24 horas de datos. |
-| **Herramienta** | Spring Boot Actuator (`/actuator/health`) · UptimeRobot (monitoreo cada 5 minutos) · Docker Compose (`restart: always`) · `pg_dump` y `pg_restore` |
+| **Herramienta** | `@nestjs/terminus` (`/api/health`) · UptimeRobot (monitoreo cada 5 minutos) · Docker Compose (`restart: always`) · `pg_dump` y `pg_restore` |
 | **Cómo se mide** | UptimeRobot consulta el endpoint de salud; se detiene el contenedor a propósito y se mide cuánto tarda en volver; se borra la base de prueba y se restaura con cronómetro. |
 | **Evidencia** | Reporte de UptimeRobot y registro con hora de inicio y fin de la restauración. |
 
@@ -93,10 +93,10 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Estímulo** | Se cambia el proveedor de correo o se agrega un adaptador nuevo (por ejemplo, el SNC por la PIDE). |
 | **Condición** | Módulos organizados con Clean Architecture y pruebas automáticas. |
 | **Respuesta esperada** | El cambio solo toca el adaptador y su configuración; el dominio no cambia. |
-| **Medida** | Las reglas de arquitectura de ArchUnit se cumplen al 100 % (el dominio no depende de Spring ni de infraestructura; ningún módulo usa paquetes internos de otro). El cambio de adaptador modifica 2 archivos o menos. Cobertura de 70 % o más en dominio y aplicación. |
-| **Herramienta** | ArchUnit · JaCoCo · `git diff --stat` |
-| **Cómo se mide** | Se ejecutan las pruebas de ArchUnit con `mvn test`; JaCoCo genera la cobertura; se reemplaza `NotificadorCorreo` por otro adaptador y se cuentan los archivos cambiados. |
-| **Evidencia** | Reporte de pruebas, reporte de JaCoCo y salida de `git diff --stat`. |
+| **Medida** | Las reglas de dependency-cruiser se cumplen al 100 % (el dominio no importa NestJS, TypeORM ni la infraestructura; ningún módulo importa carpetas internas de otro). El cambio de adaptador modifica 2 archivos o menos. Cobertura de Jest de 80 % o más en dominio y aplicación. |
+| **Herramienta** | dependency-cruiser · Jest (`--coverage`) · `git diff --stat` |
+| **Cómo se mide** | dependency-cruiser y Jest corren en GitHub Actions en cada push; se reemplaza `NotificadorCorreo` por otro adaptador y se cuentan los archivos cambiados. |
+| **Evidencia** | Reporte de dependency-cruiser, reporte de cobertura de Jest y salida de `git diff --stat`. |
 
 ## EQ-07. Trazabilidad: registro de operaciones importantes
 
@@ -108,9 +108,9 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Condición** | Operación normal del sistema. |
 | **Respuesta esperada** | La operación queda en la bitácora de auditoría. |
 | **Medida** | Las 8 operaciones (100 %) quedan registradas con usuario, fecha y hora, acción, y valor anterior y nuevo. |
-| **Herramienta** | JUnit 5 + Testcontainers (PostgreSQL real en Docker) |
+| **Herramienta** | Jest + Supertest con PostgreSQL de prueba (servicio de GitHub Actions) |
 | **Cómo se mide** | Una prueba de integración por operación: se ejecuta y luego se consulta la tabla de auditoría. |
-| **Evidencia** | Reporte de JUnit con las 8 pruebas aprobadas. |
+| **Evidencia** | Reporte de Jest con las 8 pruebas aprobadas. |
 
 ## EQ-08. Confiabilidad de la IA: respuestas controladas
 
@@ -135,21 +135,21 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Estímulo** | Intenta modificar un resultado que el supervisor ya validó. |
 | **Condición** | El resultado está en estado VALIDADO. |
 | **Respuesta esperada** | La API rechaza el cambio, conserva el resultado y registra el intento. |
-| **Medida** | El 100 % de los intentos devuelve 409 y el resultado queda igual. El 4.º intento de examen se rechaza siempre (`IntentosAgotadosException`). |
-| **Herramienta** | JUnit 5 (pruebas del dominio) + MockMvc (pruebas de la API) |
+| **Medida** | El 100 % de los intentos devuelve 409 y el resultado queda igual. El 4.º intento de examen se rechaza siempre (`IntentosAgotadosError`). |
+| **Herramienta** | Jest (pruebas del dominio) + Supertest (pruebas de la API) |
 | **Cómo se mide** | Pruebas unitarias de `Evaluacion.validar()` y de `registrarIntento()`; prueba de API que intenta editar un resultado validado y luego lo consulta. |
-| **Evidencia** | Reporte de JUnit. |
+| **Evidencia** | Reporte de Jest y cobertura de la entidad `Evaluacion`. |
 
 ## Resumen
 
 | Código | Atributo | Medida principal | Herramienta |
 |---|---|---|---|
-| EQ-01 | Seguridad | 100 % de accesos sin permiso rechazados (401/403) | JUnit + Spring Security Test, OWASP ZAP |
+| EQ-01 | Seguridad | 100 % de accesos sin permiso rechazados (401/403) | Jest + Supertest, OWASP ZAP |
 | EQ-02 | Privacidad | 20 de 20 accesos a expedientes ajenos rechazados | Postman + Newman |
-| EQ-03 | Rendimiento | p95 ≤ 3 s con 30 usuarios, errores < 1 % | Apache JMeter, Lighthouse |
-| EQ-04 | Disponibilidad | 99 % en horario; restauración ≤ 30 min | Actuator, UptimeRobot, pg_dump |
+| EQ-03 | Rendimiento | p95 ≤ 3 s con 2,000 usuarios, errores < 1 % | k6, Lighthouse |
+| EQ-04 | Disponibilidad | 99 % en horario; restauración ≤ 30 min | Terminus, UptimeRobot, pg_dump |
 | EQ-05 | Usabilidad | 4 de 5 usuarios sin ayuda; SUS ≥ 68 | Prueba con usuarios, Google Forms, Lighthouse |
-| EQ-06 | Mantenibilidad | Reglas de ArchUnit al 100 %; cobertura ≥ 70 % | ArchUnit, JaCoCo |
-| EQ-07 | Trazabilidad | 8 de 8 operaciones auditadas | JUnit + Testcontainers |
+| EQ-06 | Mantenibilidad | Reglas de dependencias al 100 %; cobertura ≥ 80 % | dependency-cruiser, Jest |
+| EQ-07 | Trazabilidad | 8 de 8 operaciones auditadas | Jest + Supertest |
 | EQ-08 | Confiabilidad de la IA | ≥ 90 % correctas; 100 % derivadas; 0 acciones | promptfoo |
-| EQ-09 | Integridad | 100 % de modificaciones rechazadas (409) | JUnit + MockMvc |
+| EQ-09 | Integridad | 100 % de modificaciones rechazadas (409) | Jest + Supertest |

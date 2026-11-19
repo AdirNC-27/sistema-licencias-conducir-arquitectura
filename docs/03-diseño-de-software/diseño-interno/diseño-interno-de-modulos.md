@@ -1,8 +1,8 @@
 # Diseño interno de módulos
 
-> **Proyecto:** Sistema de Licencias de Conducir Clase B · **Backend:** Java + Spring Boot · **Módulo de referencia:** Evaluaciones  
+> **Proyecto:** Sistema de Licencias de Conducir Clase B · **Backend:** Node.js + NestJS (TypeScript) · **Módulo de referencia:** Evaluaciones  
 > **Enfoque arquitectónico:** Clean Architecture dentro de cada módulo del monolito modular  
-> **Nivel C4:** 4 – Código · **Versión:** 1.0
+> **Nivel C4:** 4 – Código · **Versión:** 2.0
 
 ---
 
@@ -10,7 +10,7 @@
 
 Este documento describe **cómo se organiza el código dentro de un módulo** del backend. Tiene tres objetivos:
 
-1. Definir una estructura de paquetes común para los 12 módulos.
+1. Definir una estructura de carpetas común para los 12 módulos.
 2. Mostrar cómo se aplica Clean Architecture en un módulo real.
 3. Servir de guía para programar los demás módulos de la misma forma.
 
@@ -18,44 +18,44 @@ Se eligió **Evaluaciones** como módulo de referencia porque contiene las regla
 
 ---
 
-## 2. Estructura de paquetes
+## 2. Estructura de carpetas
 
 Todos los módulos siguen la misma estructura. Ejemplo con Evaluaciones:
 
 ```text
-backend/src/main/java/pe/licencias/
-├── compartido/                              # excepciones base y utilidades comunes
-└── evaluaciones/
+backend/src/
+├── compartido/                                  # excepciones base, guardas de roles y utilidades
+└── modulos/evaluaciones/
     ├── presentacion/
-    │   ├── EvaluacionesController.java      # endpoints REST /api/v1/evaluaciones
-    │   └── dto/                             # RegistrarResultadoRequest, ResultadoResponse
+    │   ├── evaluaciones.controller.ts           # endpoints REST /api/v1/evaluaciones
+    │   └── dto/                                 # registrar-resultado.dto.ts, resultado.response.ts
     ├── aplicacion/
-    │   ├── RegistrarResultadoUseCase.java
-    │   ├── CorregirResultadoUseCase.java
-    │   └── ValidarResultadoUseCase.java
+    │   ├── registrar-resultado.use-case.ts
+    │   ├── corregir-resultado.use-case.ts
+    │   └── validar-resultado.use-case.ts
     ├── dominio/
     │   ├── modelo/
-    │   │   ├── Evaluacion.java              # entidad con las reglas de bloqueo
-    │   │   ├── Resultado.java               # objeto de valor
-    │   │   ├── EstadoResultado.java         # PENDIENTE, REGISTRADO, VALIDADO
-    │   │   ├── TipoEvaluacion.java          # CONOCIMIENTOS, MANEJO
-    │   │   ├── IntentosAgotadosException.java  # máximo 3 intentos
-    │   │   └── ResultadoBloqueadoException.java
-    │   ├── calificacion/                    # patrón Strategy
-    │   │   ├── CalificacionStrategy.java
-    │   │   ├── CalificacionConocimientos.java
-    │   │   └── CalificacionManejo.java
-    │   └── contratos/                       # interfaces que la infraestructura implementa
-    │       ├── RepositorioEvaluaciones.java
-    │       ├── RegistroAuditoria.java
-    │       ├── ServicioNotificaciones.java
-    │       └── ExpedientesApi.java
+    │   │   ├── evaluacion.ts                    # entidad con las reglas de bloqueo
+    │   │   ├── resultado.ts                     # objeto de valor
+    │   │   ├── estado-resultado.ts              # PENDIENTE, REGISTRADO, VALIDADO
+    │   │   ├── tipo-evaluacion.ts               # CONOCIMIENTOS, MANEJO
+    │   │   └── errores.ts                       # IntentosAgotadosError, ResultadoBloqueadoError
+    │   ├── calificacion/                        # patrón Strategy
+    │   │   ├── calificacion.strategy.ts
+    │   │   ├── calificacion-conocimientos.ts
+    │   │   └── calificacion-manejo.ts
+    │   └── contratos/                           # interfaces que la infraestructura implementa
+    │       ├── repositorio-evaluaciones.ts
+    │       ├── registro-auditoria.ts
+    │       ├── servicio-notificaciones.ts
+    │       └── expedientes-api.ts
     ├── infraestructura/
-    │   ├── RepositorioEvaluacionesJpa.java
-    │   ├── EvaluacionEntidadJpa.java        # tabla evaluaciones
-    │   ├── BitacoraAuditoriaJpa.java        # implementa RegistroAuditoria
-    │   └── NotificadorCorreo.java           # implementa ServicioNotificaciones (SMTP)
-    └── ConfiguracionEvaluaciones.java       # raíz de composición (@Configuration)
+    │   ├── repositorio-evaluaciones.typeorm.ts
+    │   ├── evaluacion.orm-entity.ts             # tabla evaluaciones
+    │   ├── bitacora-auditoria.typeorm.ts        # implementa RegistroAuditoria
+    │   └── notificador-correo.ts                # implementa ServicioNotificaciones (Nodemailer, SMTP)
+    ├── evaluaciones.module.ts                   # raíz de composición del módulo
+    └── __tests__/                               # pruebas Jest del módulo
 ```
 
 ---
@@ -65,11 +65,11 @@ backend/src/main/java/pe/licencias/
 | Capa | Contiene | Puede depender de | No puede depender de |
 |---|---|---|---|
 | **Presentación** | Controlador REST y DTO | Aplicación | Infraestructura |
-| **Aplicación** | Casos de uso | Dominio | Spring Web, JPA, proveedores externos |
+| **Aplicación** | Casos de uso | Dominio | NestJS HTTP, TypeORM, proveedores externos |
 | **Dominio** | Entidades, objetos de valor, enumeraciones, estrategias y contratos | Nada | Ninguna otra capa |
-| **Infraestructura** | Repositorios JPA y adaptadores | Dominio (implementa sus contratos) | Presentación |
+| **Infraestructura** | Repositorios TypeORM y adaptadores | Dominio (implementa sus contratos) | Presentación |
 
-> **Regla de dependencia:** las dependencias del código apuntan hacia el dominio. La infraestructura implementa los contratos del dominio y la clase `ConfiguracionEvaluaciones` conecta cada contrato con su implementación.
+> **Regla de dependencia:** las dependencias del código apuntan hacia el dominio. La infraestructura implementa los contratos del dominio y el archivo `evaluaciones.module.ts` conecta cada contrato con su implementación.
 
 ---
 
@@ -84,7 +84,7 @@ backend/src/main/java/pe/licencias/
 | Símbolo | Significado | Ejemplo |
 |---|---|---|
 | Flecha discontinua con punta abierta | Dependencia (usa) | `ValidarResultadoUseCase` usa `RepositorioEvaluaciones` |
-| Flecha discontinua con triángulo hueco | Implementa una interfaz | `RepositorioEvaluacionesJpa` implementa `RepositorioEvaluaciones` |
+| Flecha discontinua con triángulo hueco | Implementa una interfaz | `RepositorioEvaluacionesTypeOrm` implementa `RepositorioEvaluaciones` |
 | Flecha continua | Asociación | `Evaluacion` tiene un `EstadoResultado` |
 | Rombo relleno | Composición | `Evaluacion` contiene un `Resultado` |
 | `«interface»`, `«entidad»`, `«caso de uso»` | Estereotipo: indica el rol de la clase | — |
@@ -101,7 +101,7 @@ backend/src/main/java/pe/licencias/
 2. `EvaluacionesController` comprueba el rol `SUPERVISOR` (RF01) y llama a `ValidarResultadoUseCase`.
 3. El caso de uso obtiene la evaluación mediante `RepositorioEvaluaciones`.
 4. La entidad `Evaluacion` ejecuta `validar()`:
-   - Si ya estaba **VALIDADO**, lanza `ResultadoBloqueadoException` y la API responde **409 Conflict** (EQ-09).
+   - Si ya estaba **VALIDADO**, lanza `ResultadoBloqueadoError` y la API responde **409 Conflict** (EQ-09).
    - Si estaba **REGISTRADO**, cambia a **VALIDADO** y queda bloqueada.
 5. El caso de uso guarda la evaluación.
 6. Si el resultado fue aprobado, solicita a Expedientes avanzar a la siguiente etapa (RF20).
@@ -114,144 +114,162 @@ backend/src/main/java/pe/licencias/
 
 ### 6.1 Dominio · entidad y contrato
 
-```java
-public class Evaluacion {
-    private Long id;
-    private Long expedienteId;
-    private TipoEvaluacion tipo;
-    private EstadoResultado estado = EstadoResultado.PENDIENTE;
-    private Resultado resultado;
-    private int intentos = 0;
-    private static final int MAXIMO_INTENTOS = 3;
+```ts
+// dominio/modelo/evaluacion.ts — TypeScript puro, sin NestJS ni TypeORM
+export class Evaluacion {
+  static readonly MAXIMO_INTENTOS = 3;
 
-    public void registrar(Resultado nuevo) {
-        if (estado == EstadoResultado.VALIDADO) throw new ResultadoBloqueadoException(id);
-        if (intentos >= MAXIMO_INTENTOS) throw new IntentosAgotadosException(id);   // RF08
-        this.intentos++;
-        this.resultado = nuevo;
-        this.estado = EstadoResultado.REGISTRADO;
-    }
+  constructor(
+    readonly id: number,
+    readonly expedienteId: number,
+    readonly postulanteId: number,
+    readonly tipo: TipoEvaluacion,
+    private estado: EstadoResultado = EstadoResultado.PENDIENTE,
+    private resultado: Resultado | null = null,
+    private intentos = 0,
+  ) {}
 
-    public void corregir(Resultado corregido) {
-        if (estado == EstadoResultado.VALIDADO) throw new ResultadoBloqueadoException(id);
-        this.resultado = corregido;                 // corrige el registro sin consumir un intento (RF09)
-    }
+  registrar(nuevo: Resultado): void {
+    if (this.estado === EstadoResultado.VALIDADO) throw new ResultadoBloqueadoError(this.id);
+    if (this.intentos >= Evaluacion.MAXIMO_INTENTOS) throw new IntentosAgotadosError(this.id); // RF08
+    this.intentos++;
+    this.resultado = nuevo;
+    this.estado = EstadoResultado.REGISTRADO;
+  }
 
-    public void validar() {
-        if (estado == EstadoResultado.VALIDADO) throw new ResultadoBloqueadoException(id);
-        if (estado != EstadoResultado.REGISTRADO) throw new IllegalStateException("No hay resultado registrado");
-        this.estado = EstadoResultado.VALIDADO;     // a partir de aquí queda bloqueado (DA04)
-    }
+  corregir(corregido: Resultado): void {
+    if (this.estado === EstadoResultado.VALIDADO) throw new ResultadoBloqueadoError(this.id);
+    this.resultado = corregido; // corrige sin consumir un intento (RF09)
+  }
 
-    public boolean fueAprobada() { return resultado != null && resultado.aprobado(); }
-    public boolean estaBloqueada() { return estado == EstadoResultado.VALIDADO; }
+  validar(): void {
+    if (this.estado === EstadoResultado.VALIDADO) throw new ResultadoBloqueadoError(this.id);
+    if (this.estado !== EstadoResultado.REGISTRADO) throw new Error('No hay resultado registrado');
+    this.estado = EstadoResultado.VALIDADO; // a partir de aquí queda bloqueado (DA04)
+  }
+
+  fueAprobada(): boolean { return this.resultado?.aprobado ?? false; }
+  estaBloqueada(): boolean { return this.estado === EstadoResultado.VALIDADO; }
 }
 ```
 
-```java
-public interface RepositorioEvaluaciones {
-    Evaluacion buscarPorId(Long id);
-    void guardar(Evaluacion evaluacion);
+```ts
+// dominio/contratos/repositorio-evaluaciones.ts
+export interface RepositorioEvaluaciones {
+  buscarPorId(id: number): Promise<Evaluacion>;
+  guardar(evaluacion: Evaluacion): Promise<void>;
 }
+export const REPOSITORIO_EVALUACIONES = Symbol('RepositorioEvaluaciones'); // token de inyección
 ```
 
 ### 6.2 Aplicación · caso de uso
 
-```java
-public class ValidarResultadoUseCase {
-    private final RepositorioEvaluaciones repositorio;
-    private final ExpedientesApi expedientes;
-    private final RegistroAuditoria auditoria;
-    private final ServicioNotificaciones notificaciones;
+```ts
+// aplicacion/validar-resultado.use-case.ts
+@Injectable()
+export class ValidarResultadoUseCase {
+  constructor(
+    @Inject(REPOSITORIO_EVALUACIONES) private readonly repositorio: RepositorioEvaluaciones,
+    @Inject(EXPEDIENTES_API) private readonly expedientes: ExpedientesApi,
+    @Inject(REGISTRO_AUDITORIA) private readonly auditoria: RegistroAuditoria,
+    @Inject(SERVICIO_NOTIFICACIONES) private readonly notificaciones: ServicioNotificaciones,
+  ) {}
 
-    public ValidarResultadoUseCase(RepositorioEvaluaciones repositorio, ExpedientesApi expedientes,
-                                   RegistroAuditoria auditoria, ServicioNotificaciones notificaciones) {
-        this.repositorio = repositorio;
-        this.expedientes = expedientes;
-        this.auditoria = auditoria;
-        this.notificaciones = notificaciones;
-    }
-
-    @Transactional
-    public Evaluacion ejecutar(Long evaluacionId, Long supervisorId) {
-        Evaluacion evaluacion = repositorio.buscarPorId(evaluacionId);
-        evaluacion.validar();
-        repositorio.guardar(evaluacion);
-        if (evaluacion.fueAprobada()) {
-            expedientes.avanzarEtapa(evaluacion.getExpedienteId());
-        }
-        auditoria.registrar(EventoAuditoria.resultadoValidado(evaluacion, supervisorId));
-        notificaciones.notificar(evaluacion.getPostulanteId(), "Tu resultado fue validado");
-        return evaluacion;
-    }
+  async ejecutar(evaluacionId: number, supervisorId: number): Promise<Evaluacion> {
+    const evaluacion = await this.repositorio.buscarPorId(evaluacionId);
+    evaluacion.validar();
+    await this.repositorio.guardar(evaluacion);
+    if (evaluacion.fueAprobada()) await this.expedientes.avanzarEtapa(evaluacion.expedienteId);
+    await this.auditoria.registrar(EventoAuditoria.resultadoValidado(evaluacion, supervisorId));
+    await this.notificaciones.notificar(evaluacion.postulanteId, 'Tu resultado fue validado');
+    return evaluacion;
+  }
 }
 ```
 
 ### 6.3 Infraestructura · repositorio
 
-```java
-@Repository
-public class RepositorioEvaluacionesJpa implements RepositorioEvaluaciones {
-    private final EvaluacionJpaRepository jpa;          // Spring Data JPA
+```ts
+// infraestructura/repositorio-evaluaciones.typeorm.ts
+@Injectable()
+export class RepositorioEvaluacionesTypeOrm implements RepositorioEvaluaciones {
+  constructor(@InjectRepository(EvaluacionOrmEntity) private readonly orm: Repository<EvaluacionOrmEntity>) {}
 
-    public RepositorioEvaluacionesJpa(EvaluacionJpaRepository jpa) { this.jpa = jpa; }
+  async buscarPorId(id: number): Promise<Evaluacion> {
+    const fila = await this.orm.findOneBy({ id });
+    if (!fila) throw new EvaluacionNoEncontradaError(id);
+    return fila.aDominio();
+  }
 
-    @Override
-    public Evaluacion buscarPorId(Long id) {
-        return jpa.findById(id).map(EvaluacionEntidadJpa::aDominio)
-                  .orElseThrow(() -> new EvaluacionNoEncontradaException(id));
-    }
-
-    @Override
-    public void guardar(Evaluacion evaluacion) {
-        jpa.save(EvaluacionEntidadJpa.desdeDominio(evaluacion));
-    }
+  async guardar(evaluacion: Evaluacion): Promise<void> {
+    await this.orm.save(EvaluacionOrmEntity.desdeDominio(evaluacion));
+  }
 }
 ```
 
 ### 6.4 Presentación · controlador
 
-```java
-@RestController
-@RequestMapping("/api/v1/evaluaciones")
-public class EvaluacionesController {
-    private final ValidarResultadoUseCase validarResultado;
+```ts
+// presentacion/evaluaciones.controller.ts
+@ApiTags('Evaluaciones')
+@ApiBearerAuth()
+@Controller('api/v1/evaluaciones')
+export class EvaluacionesController {
+  constructor(private readonly validarResultado: ValidarResultadoUseCase) {}
 
-    public EvaluacionesController(ValidarResultadoUseCase validarResultado) {
-        this.validarResultado = validarResultado;
-    }
+  @Post(':id/validacion')
+  @Roles(Rol.SUPERVISOR)                       // RF01: solo el supervisor
+  @ApiOkResponse({ type: ResultadoResponse })
+  @ApiConflictResponse({ description: 'El resultado ya fue validado' })
+  async validar(@Param('id', ParseIntPipe) id: number, @UsuarioActual() supervisor: Usuario) {
+    const evaluacion = await this.validarResultado.ejecutar(id, supervisor.id);
+    return ResultadoResponse.desde(evaluacion);
+  }
+}
 
-    @PostMapping("/{id}/validacion")
-    @PreAuthorize("hasRole('SUPERVISOR')")
-    public ResponseEntity<ResultadoResponse> validar(@PathVariable Long id, @AuthenticationPrincipal Usuario supervisor) {
-        Evaluacion evaluacion = validarResultado.ejecutar(id, supervisor.getId());
-        return ResponseEntity.ok(ResultadoResponse.desde(evaluacion));
-    }
-
-    @ExceptionHandler(ResultadoBloqueadoException.class)
-    public ResponseEntity<ErrorResponse> bloqueado(ResultadoBloqueadoException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse.de(e.getMessage()));
-    }
+// compartido/filtro-errores-dominio.ts: convierte ResultadoBloqueadoError en 409 Conflict
+@Catch(ResultadoBloqueadoError)
+export class ResultadoBloqueadoFilter implements ExceptionFilter {
+  catch(error: ResultadoBloqueadoError, host: ArgumentsHost) {
+    host.switchToHttp().getResponse().status(409).json({ mensaje: error.message });
+  }
 }
 ```
 
 ### 6.5 Raíz de composición
 
-```java
-@Configuration
-public class ConfiguracionEvaluaciones {
-
-    @Bean
-    public ValidarResultadoUseCase validarResultadoUseCase(RepositorioEvaluaciones repositorio,
-            ExpedientesApi expedientes, RegistroAuditoria auditoria, ServicioNotificaciones notificaciones) {
-        return new ValidarResultadoUseCase(repositorio, expedientes, auditoria, notificaciones);
-    }
-
-    @Bean
-    public ServicioNotificaciones servicioNotificaciones(JavaMailSender correo) {
-        return new NotificadorCorreo(correo);          // recordatorios por SMTP (ADR-013)
-    }
-}
+```ts
+// evaluaciones.module.ts
+@Module({
+  imports: [TypeOrmModule.forFeature([EvaluacionOrmEntity]), ExpedientesModule, AuditoriaModule],
+  controllers: [EvaluacionesController],
+  providers: [
+    ValidarResultadoUseCase,
+    { provide: REPOSITORIO_EVALUACIONES, useClass: RepositorioEvaluacionesTypeOrm },
+    { provide: SERVICIO_NOTIFICACIONES, useClass: NotificadorCorreo }, // recordatorios por SMTP (ADR-013)
+  ],
+})
+export class EvaluacionesModule {}
 ```
 
-> Para cambiar el envío de avisos, por ejemplo a otro proveedor de correo, se crea un nuevo adaptador de `ServicioNotificaciones` y se registra aquí. El dominio y los casos de uso no cambian (DA08, EQ-06).
+> Para cambiar el envío de avisos, por ejemplo a otro proveedor de correo, se crea un nuevo adaptador de `ServicioNotificaciones` y se cambia solo la línea `useClass` del módulo. El dominio y los casos de uso no cambian (DA08, EQ-06).
+
+### 6.6 Prueba con Jest de la regla de bloqueo
+
+```ts
+// __tests__/evaluacion.spec.ts — prueba del dominio, sin base de datos
+describe('Evaluacion', () => {
+  it('rechaza modificar un resultado validado (RF09, EQ-09)', () => {
+    const evaluacion = new Evaluacion(1, 10, 100, TipoEvaluacion.CONOCIMIENTOS);
+    evaluacion.registrar(new Resultado(16, true));
+    evaluacion.validar();
+    expect(() => evaluacion.corregir(new Resultado(20, true))).toThrow(ResultadoBloqueadoError);
+  });
+
+  it('rechaza el cuarto intento (RF08)', () => {
+    const evaluacion = new Evaluacion(1, 10, 100, TipoEvaluacion.MANEJO);
+    for (let i = 0; i < 3; i++) evaluacion.registrar(new Resultado(8, false));
+    expect(() => evaluacion.registrar(new Resultado(15, true))).toThrow(IntentosAgotadosError);
+  });
+});
+```

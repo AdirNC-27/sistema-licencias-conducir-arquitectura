@@ -15,7 +15,7 @@ Mostrar las piezas que se ejecutan por separado, su tecnología y cómo se comun
 | Contenedor | Tecnología | Responsabilidad |
 |---|---|---|
 | **Portal web** | React + TypeScript | Interfaz por rol en el navegador |
-| **API Licencias** | Java + Spring Boot | Monolito de 12 módulos con JWT, caché en memoria y adaptadores |
+| **API Licencias** | Node.js + NestJS (TypeScript) | Monolito de 12 módulos con JWT, caché en memoria y adaptadores |
 | **PostgreSQL** | Base de datos única | Expedientes, documentos, pagos, citas, resultados y auditoría |
 
 ## Relaciones
@@ -24,7 +24,7 @@ Mostrar las piezas que se ejecutan por separado, su tecnología y cómo se comun
 |---|---|---|
 | Usuarios | Portal web | HTTPS |
 | Portal web | API Licencias | HTTPS/JSON + JWT |
-| API Licencias | PostgreSQL | SQL / JPA |
+| API Licencias | PostgreSQL | SQL / TypeORM |
 | API Licencias | API Perú e IA de orientación | HTTPS/REST |
 | API Licencias | Correo electrónico | SMTP |
 

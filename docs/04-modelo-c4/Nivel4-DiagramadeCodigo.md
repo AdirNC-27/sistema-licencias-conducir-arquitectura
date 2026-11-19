@@ -14,8 +14,8 @@ Mostrar las clases del módulo **Evaluaciones** y cómo colaboran para validar u
 |---|---|
 | **Presentación** | `EvaluacionesController` |
 | **Aplicación** | `RegistrarResultadoUseCase`, `ValidarResultadoUseCase` |
-| **Dominio** | `Evaluacion` (máximo 3 intentos y bloqueo), `CalificacionStrategy`, `IntentosAgotadosException`, `ResultadoBloqueadoException`, interfaces de repositorio, auditoría y notificaciones |
-| **Infraestructura** | `RepositorioEvaluacionesJpa`, `NotificadorCorreo`, `BitacoraAuditoriaJpa` |
+| **Dominio** | `Evaluacion` (máximo 3 intentos y bloqueo), `CalificacionStrategy`, `IntentosAgotadosError`, `ResultadoBloqueadoError`, interfaces de repositorio, auditoría y notificaciones |
+| **Infraestructura** | `RepositorioEvaluacionesTypeOrm`, `NotificadorCorreo`, `BitacoraAuditoriaTypeOrm` |
 
 ## Diagrama de secuencia: validar resultado
 
@@ -33,7 +33,7 @@ Mostrar las clases del módulo **Evaluaciones** y cómo colaboran para validar u
 
 | Elemento | Patrón o principio |
 |---|---|
-| `RepositorioEvaluaciones` y `RepositorioEvaluacionesJpa` | **Repository** |
+| `RepositorioEvaluaciones` y `RepositorioEvaluacionesTypeOrm` | **Repository** |
 | `CalificacionStrategy` (conocimientos y manejo) | **Strategy** |
 | `NotificadorCorreo` | **Adapter** |
 | El caso de uso recibe interfaces | **Inversión de dependencias** (SOLID) |

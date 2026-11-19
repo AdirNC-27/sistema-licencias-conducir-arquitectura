@@ -16,7 +16,7 @@ flowchart TB
 
     ACTORES --> ACCESO["ACCESO SEGURO<br/>Dominio y DNS · HTTPS · CDN"]
     ACCESO --> FRONTEND["PORTAL WEB<br/>React + TypeScript"]
-    FRONTEND -- "HTTPS / JSON" --> API["API REST Y SEGURIDAD<br/>Spring Boot + JWT"]
+    FRONTEND -- "HTTPS / JSON" --> API["API REST Y SEGURIDAD<br/>NestJS + JWT"]
 
     API --> MODULOS["MÓDULOS FUNCIONALES<br/><br/>Identidad · Postulantes · Expedientes<br/>Requisitos y documentos · Pagos · Citas<br/>Evaluaciones · Seguimiento · Notificaciones<br/>Asistente virtual · Administración · Auditoría"]
     MODULOS --> CASOS["CASOS DE USO"]
