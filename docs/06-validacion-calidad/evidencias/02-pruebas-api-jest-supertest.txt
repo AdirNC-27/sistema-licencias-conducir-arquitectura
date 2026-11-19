@@ -1,0 +1,40 @@
+# Pruebas de integración de la API · npm run test:e2e
+# Ejecutado en la laptop del entorno de prueba (Windows, Node.js 22, PostgreSQL 16) el 19/11/2026.
+
+PS D:\Serie 400 PAR\LABO - ARQUITECTURA\sistema-licencias-conducir-arquitectura\tecnologia\backend> npm run test:e2e
+
+> licencias-clase-b-backend@0.0.1 test:e2e
+> jest --config ./test/jest-e2e.json --runInBand
+
+ PASS  test/flujo-tramite.e2e-spec.ts (5.1 s)
+  Flujo completo del trámite de emisión (e2e)
+    √ requisitos públicos con caché (RF22) (6 ms)
+    √ registra un postulante nuevo con DNI (RF03, RF04) (129 ms)
+    √ el postulante crea su expediente II-C (RF02) (11 ms)
+    √ privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02) (71 ms)
+    √ sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04) (178 ms)
+    √ registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06) (43 ms)
+    √ reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21) (48 ms)
+    √ registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09) (69 ms)
+    √ manejo aprobado y validado lleva a EMISION; el supervisor autoriza (RF12) (40 ms)
+    √ las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07) (25 ms)
+    √ el administrador cambia un rol y queda auditado; el endpoint de salud responde (38 ms)
+    Seguridad (EQ-01)
+      √ sin token responde 401 (8 ms)
+      √ credenciales incorrectas responden 401 (59 ms)
+      √ 45892014 no puede get /api/expedientes (403) (5 ms)
+      √ 45892014 no puede get /api/usuarios (403) (4 ms)
+      √ 45892014 no puede get /api/auditoria (403) (3 ms)
+      √ evaluador no puede patch /api/expedientes/1/emision (403) (3 ms)
+      √ evaluador no puede post /api/evaluaciones/1/validacion (403) (3 ms)
+      √ gestor no puede post /api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado (403) (2 ms)
+      √ gestor no puede post /api/cupos (403) (2 ms)
+      √ supervisor no puede patch /api/pagos/1/verificacion (403) (3 ms)
+      √ supervisor no puede patch /api/usuarios/1/rol (403) (3 ms)
+      √ admin no puede post /api/expedientes (403) (2 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        5.305 s
+Ran all test suites.
