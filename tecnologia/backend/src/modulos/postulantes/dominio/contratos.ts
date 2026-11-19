@@ -9,6 +9,7 @@ export interface RepositorioPostulantes {
   existeDni(dni: string): Promise<boolean>;
   crear(datos: Omit<Postulante, 'id' | 'nombreCompleto'>): Promise<Postulante>;
   buscarPorId(id: number): Promise<Postulante | null>;
+  buscarVarios(ids: number[]): Promise<Postulante[]>;
 }
 
 export const VERIFICADOR_IDENTIDAD = Symbol('VerificadorIdentidad');

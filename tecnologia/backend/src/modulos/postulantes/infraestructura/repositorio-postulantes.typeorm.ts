@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RepositorioPostulantes } from '../dominio/contratos';
 import { Postulante } from '../dominio/postulante';
 import { PostulanteOrmEntity } from './postulante.orm-entity';
@@ -19,5 +19,10 @@ export class RepositorioPostulantesTypeOrm implements RepositorioPostulantes {
 
   async buscarPorId(id: number): Promise<Postulante | null> {
     return (await this.orm.findOneBy({ id }))?.aDominio() ?? null;
+  }
+
+  async buscarVarios(ids: number[]): Promise<Postulante[]> {
+    if (ids.length === 0) return [];
+    return (await this.orm.findBy({ id: In(ids) })).map((f) => f.aDominio());
   }
 }

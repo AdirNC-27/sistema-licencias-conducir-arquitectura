@@ -2,7 +2,7 @@ import { ConflictoError, ReglaNegocioError } from '../../../compartido/dominio/e
 import { Rol } from '../../../compartido/dominio/rol';
 import { eventosFalsos, expediente, ExpedientesEnMemoria, usuario } from '../../../test-utils/fakes';
 import { Etapa } from '../../expedientes/dominio/etapa';
-import { ConfigurarCupoUseCase, ReservarCitaUseCase } from '../aplicacion/casos-de-uso';
+import { ConfigurarCupoUseCase, ConsultarCitasUseCase, ReservarCitaUseCase } from '../aplicacion/casos-de-uso';
 import { Cita, RepositorioCitas } from '../dominio/contratos';
 import { Cupo, TipoExamen, validarDiaDeExamen } from '../dominio/cupo';
 
@@ -80,6 +80,7 @@ describe('Casos de uso de Citas (RF07)', () => {
     expect(r.tipo).toBe(TipoExamen.CONOCIMIENTOS);
     expect(expedientes.actual.etapa).toBe(Etapa.EXAMEN_CONOCIMIENTOS);
     expect(eventos.emit).toHaveBeenCalledWith('cita.reservada', expect.objectContaining({ postulanteId: 10 }));
+    expect(await new ConsultarCitasUseCase(repo, expedientes).ejecutar(1, postulante)).toHaveLength(1);
   });
 
   it('no permite manejo antes de aprobar conocimientos, ni dos citas futuras, ni perder la carrera por el último cupo', async () => {

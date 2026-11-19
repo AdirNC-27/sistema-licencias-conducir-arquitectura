@@ -26,6 +26,9 @@ class RepoEnMemoria implements RepositorioEvaluaciones {
   async listarDeExpediente(expedienteId: number) {
     return [...this.datos.values()].filter((x) => x.expedienteId === expedienteId);
   }
+  async listarPorEstado(estado: EstadoResultado) {
+    return [...this.datos.values()].filter((x) => x.estado === estado);
+  }
   async guardar() {}
 }
 
@@ -90,6 +93,7 @@ describe('Casos de uso de Evaluaciones', () => {
     expect(propio[0].resultadoActual).toBeNull();
     const personal = await consultar.ejecutar(1, supervisor);
     expect(personal[0].resultadoActual?.puntaje).toBe(10);
+    expect(await consultar.pendientesDeValidar()).toHaveLength(1);
   });
 
   it('falla si no hay estrategia para el tipo de examen', async () => {

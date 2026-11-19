@@ -5,6 +5,7 @@ import { Expediente } from '../dominio/expediente';
 
 @Entity('expedientes')
 @Index('ix_expedientes_etapa_creado', ['etapa', 'creadoEn'])
+@Index('ix_expedientes_creado', ['creadoEn'])
 export class ExpedienteOrmEntity {
   @PrimaryGeneratedColumn() id!: number;
   @Index({ unique: true }) @Column({ length: 20 }) numero!: string;

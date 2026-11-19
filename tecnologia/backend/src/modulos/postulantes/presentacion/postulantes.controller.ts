@@ -1,7 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiConflictResponse, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiConflictResponse, ApiOperation, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { IsEmail, IsString, Length, Matches, MinLength } from 'class-validator';
-import { Publico } from '../../../compartido/seguridad/decoradores';
+import { ROLES_PERSONAL, UsuarioActual } from '../../../compartido/dominio/rol';
+import { Publico, Roles, Usuario } from '../../../compartido/seguridad/decoradores';
+import { ConsultarPostulantesUseCase } from '../aplicacion/consultar-postulantes.use-case';
 import { RegistrarPostulanteUseCase } from '../aplicacion/registrar-postulante.use-case';
 
 class RegistroDto {
@@ -14,7 +16,10 @@ class RegistroDto {
 @ApiTags('Postulantes')
 @Controller('postulantes')
 export class PostulantesController {
-  constructor(private readonly registrar: RegistrarPostulanteUseCase) {}
+  constructor(
+    private readonly registrar: RegistrarPostulanteUseCase,
+    private readonly consultar: ConsultarPostulantesUseCase,
+  ) {}
 
   @Publico()
   @Post()
@@ -22,5 +27,21 @@ export class PostulantesController {
   @ApiConflictResponse({ description: 'El DNI ya tiene una cuenta' })
   crear(@Body() dto: RegistroDto) {
     return this.registrar.ejecutar(dto);
+  }
+
+  @ApiBearerAuth()
+  @Get()
+  @Roles(...ROLES_PERSONAL)
+  @ApiQuery({ name: 'ids', example: '1,2,3' })
+  @ApiOperation({ summary: 'Nombres y DNI de varios postulantes (para la bandeja del personal)' })
+  varios(@Query('ids') ids = '') {
+    return this.consultar.varios(ids.split(',').map(Number).filter((n) => Number.isInteger(n) && n > 0));
+  }
+
+  @ApiBearerAuth()
+  @Get(':id')
+  @ApiOperation({ summary: 'Datos de un postulante (el propio o, para el personal, cualquiera)' })
+  uno(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {
+    return this.consultar.uno(id, usuario);
   }
 }

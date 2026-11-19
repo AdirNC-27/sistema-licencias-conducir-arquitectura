@@ -57,6 +57,13 @@ export class EvaluacionesController {
     return this.validar.ejecutar(id, supervisor);
   }
 
+  @Get('evaluaciones/por-validar')
+  @Roles(Rol.SUPERVISOR, Rol.EVALUADOR)
+  @ApiOperation({ summary: 'Resultados registrados que esperan la validación del supervisor' })
+  porValidar() {
+    return this.consultar.pendientesDeValidar();
+  }
+
   @Get('expedientes/:id/evaluaciones')
   @ApiOperation({ summary: 'Resultados del expediente (RF19: el postulante ve solo los validados)' })
   listar(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {

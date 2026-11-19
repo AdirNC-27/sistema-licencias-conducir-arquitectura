@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiConflictResponse, ApiOperation, ApiProperty, ApiPrope
 import { IsDateString, IsEnum, IsInt, IsOptional, Matches, Max, Min } from 'class-validator';
 import { Rol, UsuarioActual } from '../../../compartido/dominio/rol';
 import { Roles, Usuario } from '../../../compartido/seguridad/decoradores';
-import { ConfigurarCupoUseCase, ReservarCitaUseCase } from '../aplicacion/casos-de-uso';
+import { ConfigurarCupoUseCase, ConsultarCitasUseCase, ReservarCitaUseCase } from '../aplicacion/casos-de-uso';
 import { TipoExamen } from '../dominio/cupo';
 
 class CupoDto {
@@ -29,6 +29,7 @@ export class CitasController {
   constructor(
     private readonly configurar: ConfigurarCupoUseCase,
     private readonly reservar: ReservarCitaUseCase,
+    private readonly consultarCitas: ConsultarCitasUseCase,
   ) {}
 
   @Post('cupos')
@@ -50,5 +51,11 @@ export class CitasController {
   @ApiConflictResponse({ description: 'Sin cupos o etapa incorrecta' })
   reservarCita(@Param('id', ParseIntPipe) id: number, @Body() dto: ReservaDto, @Usuario() usuario: UsuarioActual) {
     return this.reservar.ejecutar(id, dto.cupoId, usuario);
+  }
+
+  @Get('expedientes/:id/citas')
+  @ApiOperation({ summary: 'Citas programadas del expediente' })
+  citas(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {
+    return this.consultarCitas.ejecutar(id, usuario);
   }
 }

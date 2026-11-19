@@ -55,3 +55,17 @@ export class ReservarCitaUseCase {
     return { id: cita.id, expedienteId, tipo: cita.tipo, fecha: cita.fecha.toISOString().slice(0, 10), hora: cita.hora };
   }
 }
+
+/** Citas programadas del expediente (dueño o personal). */
+@Injectable()
+export class ConsultarCitasUseCase {
+  constructor(
+    @Inject(REPOSITORIO_CITAS) private readonly citas: RepositorioCitas,
+    @Inject(EXPEDIENTES_API) private readonly expedientes: ExpedientesApi,
+  ) {}
+
+  async ejecutar(expedienteId: number, usuario: UsuarioActual) {
+    (await this.expedientes.obtener(expedienteId)).verificarAcceso(usuario);
+    return (await this.citas.citasDeExpediente(expedienteId)).map((c) => ({ id: c.id, tipo: c.tipo, fecha: c.fecha.toISOString().slice(0, 10), hora: c.hora }));
+  }
+}

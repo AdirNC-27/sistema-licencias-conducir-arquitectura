@@ -7,7 +7,7 @@ import { REGISTRO_AUDITORIA, RegistroAuditoria } from '../../auditoria/dominio/r
 import { CalificacionStrategy, DatosCalificacion } from '../dominio/calificacion/calificacion.strategy';
 import { ESTRATEGIAS_CALIFICACION, REPOSITORIO_EVALUACIONES, RepositorioEvaluaciones } from '../dominio/contratos/contratos';
 import { Evaluacion } from '../dominio/modelo/evaluacion';
-import { TipoEvaluacion } from '../dominio/modelo/tipos';
+import { EstadoResultado, TipoEvaluacion } from '../dominio/modelo/tipos';
 
 export const vistaEvaluacion = (e: Evaluacion) => ({
   id: e.id,
@@ -140,5 +140,10 @@ export class ConsultarEvaluacionesUseCase {
     (await this.expedientes.obtener(expedienteId)).verificarAcceso(usuario);
     const vistas = (await this.repositorio.listarDeExpediente(expedienteId)).map(vistaEvaluacion);
     return usuario.rol === 'POSTULANTE' ? vistas.map((v) => ({ ...v, resultadoActual: null })) : vistas;
+  }
+
+  /** Bandeja del supervisor: resultados registrados que esperan validación. */
+  async pendientesDeValidar() {
+    return (await this.repositorio.listarPorEstado(EstadoResultado.REGISTRADO)).map(vistaEvaluacion);
   }
 }

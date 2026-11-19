@@ -4,7 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 /** Configuración común para main.ts y para las pruebas de la API. */
 export function configurarAplicacion(app: INestApplication): INestApplication {
   app.setGlobalPrefix('api');
-  app.enableCors();
+  const origenes = process.env.CORS_ORIGENES?.split(',').map((o) => o.trim()).filter(Boolean);
+  app.enableCors({ origin: origenes?.length ? origenes : true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
   return app;
 }

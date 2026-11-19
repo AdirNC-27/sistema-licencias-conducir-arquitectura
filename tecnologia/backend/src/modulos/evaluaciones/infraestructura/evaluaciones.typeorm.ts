@@ -8,6 +8,7 @@ import { EstadoResultado, IntentoValidado, Resultado, TipoEvaluacion } from '../
 
 @Entity('evaluaciones')
 @Index('ux_evaluaciones_expediente_tipo', ['expedienteId', 'tipo'], { unique: true })
+@Index('ix_evaluaciones_por_validar', ['actualizadoEn'], { where: `"estado" = 'REGISTRADO'` })
 export class EvaluacionOrmEntity {
   @PrimaryGeneratedColumn() id!: number;
   @Column({ name: 'expediente_id' }) expedienteId!: number;
@@ -43,6 +44,10 @@ export class RepositorioEvaluacionesTypeOrm implements RepositorioEvaluaciones {
 
   async listarDeExpediente(expedienteId: number): Promise<Evaluacion[]> {
     return (await this.orm.find({ where: { expedienteId }, order: { id: 'ASC' } })).map((f) => f.aDominio());
+  }
+
+  async listarPorEstado(estado: EstadoResultado): Promise<Evaluacion[]> {
+    return (await this.orm.find({ where: { estado }, order: { actualizadoEn: 'ASC' }, take: 100 })).map((f) => f.aDominio());
   }
 
   async guardar(e: Evaluacion): Promise<void> {

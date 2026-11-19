@@ -86,6 +86,13 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     tokens.ana = login.body.token;
   });
 
+  it('el personal consulta nombres de postulantes; un postulante no ve a otro', async () => {
+    const r = await http.get('/api/postulantes?ids=1').set(auth('gestor')).expect(200);
+    expect(r.body[0].dni).toBe('45892014');
+    await http.get('/api/postulantes/1').set(auth('ana')).expect(403);
+    await http.get('/api/postulantes?ids=1').set(auth('ana')).expect(403);
+  });
+
   it('el postulante crea su expediente II-C (RF02)', async () => {
     const r = await http.post('/api/expedientes').set(auth('45892014')).send({ tipoTramite: 'EMISION', categoria: 'II-C' }).expect(201);
     expedienteId = r.body.id;
@@ -136,6 +143,8 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     await http.post(`/api/expedientes/${expedienteId}/citas`).set(auth('45892014')).send({ cupoId: cupos.body[0].id }).expect(201);
     const exp = await http.get(`/api/expedientes/${expedienteId}`).set(auth('45892014')).expect(200);
     expect(exp.body.etapa).toBe('EXAMEN_CONOCIMIENTOS');
+    const citas = await http.get(`/api/expedientes/${expedienteId}/citas`).set(auth('45892014')).expect(200);
+    expect(citas.body).toHaveLength(1);
     const avisos = await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200);
     expect(avisos.body.some((a: { asunto: string }) => a.asunto.startsWith('Recordatorio'))).toBe(true);
   });
@@ -144,6 +153,8 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     const r = await http.post(`/api/expedientes/${expedienteId}/evaluaciones/CONOCIMIENTOS/resultado`).set(auth('evaluador')).send({ puntaje: 12 }).expect(201);
     evaluacionId = r.body.id;
     expect(r.body.intentos).toBe(1);
+    const pendientes = await http.get('/api/evaluaciones/por-validar').set(auth('supervisor')).expect(200);
+    expect(pendientes.body.map((e: { id: number }) => e.id)).toContain(evaluacionId);
     await http.patch(`/api/evaluaciones/${evaluacionId}/resultado`).set(auth('evaluador')).send({ puntaje: 17, motivo: 'Error de digitación' }).expect(200);
     await http.post(`/api/evaluaciones/${evaluacionId}/validacion`).set(auth('supervisor')).expect(200);
     await http.patch(`/api/evaluaciones/${evaluacionId}/resultado`).set(auth('evaluador')).send({ puntaje: 20, motivo: 'cambio' }).expect(409);

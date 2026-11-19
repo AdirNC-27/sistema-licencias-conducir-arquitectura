@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IdentidadModule } from '../identidad/identidad.module';
+import { ConsultarPostulantesUseCase } from './aplicacion/consultar-postulantes.use-case';
 import { RegistrarPostulanteUseCase } from './aplicacion/registrar-postulante.use-case';
 import { REPOSITORIO_POSTULANTES, VERIFICADOR_IDENTIDAD } from './dominio/contratos';
 import { ApiPeruDniAdapter } from './infraestructura/api-peru-dni.adapter';
@@ -13,6 +14,7 @@ import { PostulantesController } from './presentacion/postulantes.controller';
   controllers: [PostulantesController],
   providers: [
     RegistrarPostulanteUseCase,
+    ConsultarPostulantesUseCase,
     { provide: VERIFICADOR_IDENTIDAD, useClass: ApiPeruDniAdapter },
     { provide: REPOSITORIO_POSTULANTES, useClass: RepositorioPostulantesTypeOrm },
   ],
