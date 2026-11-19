@@ -1,0 +1,207 @@
+Pager usage is off.
+== C1 Bandeja del gestor filtrada por etapa (la más usada) ==
+                                                  QUERY PLAN                                                  
+--------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.027..0.061 rows=15 loops=1)
+   Buffers: shared hit=17
+   ->  Index Scan using ix_expedientes_etapa_creado on expedientes (actual time=0.025..0.057 rows=15 loops=1)
+         Index Cond: (etapa = 'DOCUMENTOS'::expedientes_etapa_enum)
+         Buffers: shared hit=17
+ Planning:
+   Buffers: shared hit=166
+ Planning Time: 0.573 ms
+ Execution Time: 0.112 ms
+(9 rows)
+
+== C2 Conteo de la bandeja por etapa ==
+                                                     QUERY PLAN                                                     
+--------------------------------------------------------------------------------------------------------------------
+ Aggregate (actual time=0.160..0.161 rows=1 loops=1)
+   Buffers: shared hit=6
+   ->  Index Only Scan using ix_expedientes_etapa_creado on expedientes (actual time=0.029..0.110 rows=700 loops=1)
+         Index Cond: (etapa = 'DOCUMENTOS'::expedientes_etapa_enum)
+         Heap Fetches: 0
+         Buffers: shared hit=6
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.088 ms
+ Execution Time: 0.196 ms
+(10 rows)
+
+== C3 Bandeja sin filtro ("Todas"), página 50 ==
+                                    QUERY PLAN                                     
+-----------------------------------------------------------------------------------
+ Limit (actual time=6.959..6.964 rows=15 loops=1)
+   Buffers: shared hit=313
+   ->  Sort (actual time=6.837..6.927 rows=750 loops=1)
+         Sort Key: creado_en
+         Sort Method: top-N heapsort  Memory: 217kB
+         Buffers: shared hit=313
+         ->  Seq Scan on expedientes (actual time=0.005..2.558 rows=30001 loops=1)
+               Buffers: shared hit=310
+ Planning Time: 0.068 ms
+ Execution Time: 7.025 ms
+(10 rows)
+
+== C4 Conteo de la bandeja sin filtro ==
+                                 QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Aggregate (actual time=4.353..4.354 rows=1 loops=1)
+   Buffers: shared hit=310
+   ->  Seq Scan on expedientes (actual time=0.005..2.351 rows=30001 loops=1)
+         Buffers: shared hit=310
+ Planning:
+   Buffers: shared hit=9
+ Planning Time: 0.130 ms
+ Execution Time: 4.379 ms
+(8 rows)
+
+== C5 Bandeja por etapa y categoría ==
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.564..0.565 rows=0 loops=1)
+   Buffers: shared hit=802
+   ->  Index Scan using ix_expedientes_etapa_creado on expedientes (actual time=0.563..0.564 rows=0 loops=1)
+         Index Cond: (etapa = 'PAGO'::expedientes_etapa_enum)
+         Filter: (categoria = 'II-C'::expedientes_categoria_enum)
+         Rows Removed by Filter: 800
+         Buffers: shared hit=802
+ Planning Time: 0.095 ms
+ Execution Time: 0.580 ms
+(9 rows)
+
+== C6 Detalle de un expediente ==
+                                                    QUERY PLAN                                                    
+------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.007..0.008 rows=1 loops=1)
+   Buffers: shared hit=3
+   ->  Index Scan using "PK_a5ea29a2665df2319ecbb8f4408" on expedientes (actual time=0.007..0.007 rows=1 loops=1)
+         Index Cond: (id = 15000)
+         Buffers: shared hit=3
+ Planning Time: 0.054 ms
+ Execution Time: 0.018 ms
+(7 rows)
+
+== C7 Mis trámites (postulante) ==
+                                                    QUERY PLAN                                                    
+------------------------------------------------------------------------------------------------------------------
+ Sort (actual time=0.057..0.057 rows=1 loops=1)
+   Sort Key: creado_en DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=2 read=1
+   ->  Index Scan using "IDX_1e39b0e45a039ea085fc051fc9" on expedientes (actual time=0.049..0.050 rows=1 loops=1)
+         Index Cond: (postulante_id = 15000)
+         Buffers: shared hit=2 read=1
+ Planning:
+   Buffers: shared hit=5
+ Planning Time: 0.063 ms
+ Execution Time: 0.068 ms
+(11 rows)
+
+== C8 Documentos del expediente (sin leer el archivo) ==
+                                                   QUERY PLAN                                                    
+-----------------------------------------------------------------------------------------------------------------
+ Sort (actual time=0.025..0.026 rows=4 loops=1)
+   Sort Key: id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=6
+   ->  Index Scan using "IDX_c2db5de4f75734627dce4357cb" on documentos (actual time=0.011..0.012 rows=4 loops=1)
+         Index Cond: (expediente_id = 15000)
+         Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=56
+ Planning Time: 0.184 ms
+ Execution Time: 0.049 ms
+(11 rows)
+
+== C9 Nombres de la bandeja en una sola consulta (evita N+1) ==
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Index Scan using "PK_d66d640371b755a165726d23c45" on postulantes (actual time=0.016..0.039 rows=15 loops=1)
+   Index Cond: (id = ANY ('{10,20,30,40,50,60,70,80,90,100,110,120,130,140,150}'::integer[]))
+   Buffers: shared hit=35
+ Planning:
+   Buffers: shared hit=52
+ Planning Time: 0.130 ms
+ Execution Time: 0.049 ms
+(7 rows)
+
+== C10 Resultados por validar (supervisor) ==
+                                    QUERY PLAN                                    
+----------------------------------------------------------------------------------
+ Limit (actual time=5.151..5.168 rows=100 loops=1)
+   Buffers: shared hit=1256
+   ->  Sort (actual time=5.150..5.156 rows=100 loops=1)
+         Sort Key: actualizado_en
+         Sort Method: top-N heapsort  Memory: 70kB
+         Buffers: shared hit=1256
+         ->  Seq Scan on evaluaciones (actual time=0.033..4.960 rows=800 loops=1)
+               Filter: (estado = 'REGISTRADO'::evaluaciones_estado_enum)
+               Rows Removed by Filter: 53202
+               Buffers: shared hit=1256
+ Planning:
+   Buffers: shared hit=58
+ Planning Time: 0.131 ms
+ Execution Time: 5.192 ms
+(14 rows)
+
+== C11 Auditoría filtrada por entidad ==
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.014..0.132 rows=200 loops=1)
+   Buffers: shared hit=15
+   ->  Index Scan Backward using "PK_135fe98308816fe3a2d458e6637" on auditoria (actual time=0.013..0.113 rows=200 loops=1)
+         Filter: ((entidad)::text = 'evaluacion'::text)
+         Rows Removed by Filter: 299
+         Buffers: shared hit=15
+ Planning:
+   Buffers: shared hit=74
+ Planning Time: 0.217 ms
+ Execution Time: 0.155 ms
+(10 rows)
+
+== C12 Avisos del postulante ==
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.088..0.090 rows=5 loops=1)
+   Buffers: shared hit=1 read=6
+   ->  Sort (actual time=0.087..0.088 rows=5 loops=1)
+         Sort Key: id DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=1 read=6
+         ->  Index Scan using "IDX_fa45631199bc07c36a928a72f8" on notificaciones (actual time=0.036..0.082 rows=5 loops=1)
+               Index Cond: (postulante_id = 15000)
+               Buffers: shared hit=1 read=6
+ Planning:
+   Buffers: shared hit=49
+ Planning Time: 0.137 ms
+ Execution Time: 0.103 ms
+(13 rows)
+
+== C13 Login (usuario y DNI únicos) ==
+                                                 QUERY PLAN                                                 
+------------------------------------------------------------------------------------------------------------
+ Index Scan using "IDX_db667f87d9e1d9732fd2763f4e" on postulantes (actual time=0.068..0.069 rows=1 loops=1)
+   Index Cond: ((dni)::text = '70015000'::text)
+   Buffers: shared read=3
+ Planning Time: 0.047 ms
+ Execution Time: 0.078 ms
+(5 rows)
+
+== C14 Reserva atómica del cupo (dentro de una transacción que se revierte) ==
+BEGIN
+                            QUERY PLAN                             
+-------------------------------------------------------------------
+ Update on cupos (actual time=0.095..0.096 rows=0 loops=1)
+   Buffers: shared hit=8 read=1 dirtied=1
+   ->  Seq Scan on cupos (actual time=0.014..0.014 rows=1 loops=1)
+         Filter: ((ocupados < capacidad) AND (id = 1))
+         Rows Removed by Filter: 27
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=48
+ Planning Time: 0.118 ms
+ Execution Time: 0.159 ms
+(10 rows)
+
+ROLLBACK

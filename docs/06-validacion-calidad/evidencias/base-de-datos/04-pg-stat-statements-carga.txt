@@ -1,0 +1,6 @@
+ llamadas | ms_promedio | ms_max |                                                                             consulta                                                                             
+----------+-------------+--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     9064 |       0.028 |   2.52 | SELECT … FROM "expedientes" "ExpedienteOrmEntity" WHERE (("ExpedienteOrmEntity"."id" = $1)) LIMIT $2
+     1772 |       0.097 |   1.08 | SELECT … FROM "expedientes" "ExpedienteOrmEntity" WHERE (("ExpedienteOrmEntity"."etapa" = $1))
+     1772 |       0.076 |   1.29 | SELECT … FROM "expedientes" "ExpedienteOrmEntity" WHERE (("ExpedienteOrmEntity"."etapa" = $1)) ORDER BY "ExpedienteOrmEntity"."creado_en" ASC LIMIT $2 OFFSET $3
+(3 rows)
