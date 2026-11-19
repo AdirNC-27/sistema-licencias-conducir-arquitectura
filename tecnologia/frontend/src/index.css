@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-fondo text-slate-800 antialiased; }
+}
+
+@layer components {
+  .tarjeta { @apply rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primario { @apply btn bg-marca text-white hover:bg-marca-oscuro; }
+  .btn-acento { @apply btn bg-acento-fuerte text-white shadow-md shadow-orange-200 hover:brightness-90; }
+  .btn-suave { @apply btn bg-marca-claro text-marca hover:bg-blue-100; }
+  .btn-peligro { @apply btn bg-red-50 text-red-700 ring-1 ring-red-200 hover:bg-red-100; }
+  .campo { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-marca focus:ring-4 focus:ring-blue-100; }
+  .etiqueta { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+  .titulo { @apply text-2xl font-extrabold tracking-tight text-marca-oscuro; }
+  .subtitulo { @apply mt-1 text-sm text-slate-600; }
+}

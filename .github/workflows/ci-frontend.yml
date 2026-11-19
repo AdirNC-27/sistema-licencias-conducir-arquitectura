@@ -1,0 +1,71 @@
+# Integración continua del portal: compila, revisa el código y recorre el trámite completo
+# en un navegador real contra la API y PostgreSQL (pruebas E2E con Playwright).
+name: CI · Portal web
+
+on:
+  push:
+    paths: ["tecnologia/frontend/**", "tecnologia/backend/src/**", ".github/workflows/ci-frontend.yml"]
+  pull_request:
+    paths: ["tecnologia/frontend/**"]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: licencias
+          POSTGRES_PASSWORD: licencias
+          POSTGRES_DB: licencias
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U licencias" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DB_HOST: localhost
+      DB_USUARIO: licencias
+      DB_CLAVE: licencias
+      DB_NOMBRE: licencias
+      JWT_SECRETO: secreto-de-ci
+      CORS_ORIGENES: http://localhost:4173
+      E2E_URL: http://localhost:4173
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            tecnologia/backend/package-lock.json
+            tecnologia/frontend/package-lock.json
+
+      - name: API · instalar, compilar y migrar
+        working-directory: tecnologia/backend
+        run: npm ci && npm run build && npm run migracion:ejecutar
+      - name: API · iniciar
+        working-directory: tecnologia/backend
+        run: |
+          node dist/main.js > api.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/api/health && exit 0; sleep 1; done; cat api.log; exit 1
+
+      - name: Portal · instalar, revisar y compilar
+        working-directory: tecnologia/frontend
+        run: npm ci && npm run lint && npm run build
+        env:
+          VITE_API_URL: http://localhost:3000/api
+      - name: Portal · iniciar
+        working-directory: tecnologia/frontend
+        run: npx vite preview --port 4173 --strictPort &
+      - name: Instalar Chromium
+        working-directory: tecnologia/frontend
+        run: npx playwright install --with-deps chromium
+      - name: Pruebas E2E (Playwright)
+        working-directory: tecnologia/frontend
+        run: npm run e2e
+
+      - name: Guardar el reporte E2E
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-e2e
+          path: tecnologia/frontend/reporte-e2e
