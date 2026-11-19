@@ -28,6 +28,24 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | [`evidencias/03-reglas-arquitectura.txt`](evidencias/03-reglas-arquitectura.txt) | dependency-cruiser: 0 violaciones en 107 módulos |
 | [`evidencias/cobertura-jest/index.html`](evidencias/cobertura-jest/index.html) | Reporte de cobertura navegable (abrir en el navegador) |
 
+### Capturas
+
+**Pruebas unitarias con cobertura (Jest)**
+
+![Pruebas unitarias con Jest](evidencias/capturas/01-pruebas-unitarias-jest.png)
+
+**Reporte de cobertura**
+
+![Reporte de cobertura de Jest](evidencias/capturas/04-reporte-cobertura.png)
+
+**Pruebas de la API con PostgreSQL (Jest + Supertest)**
+
+![Pruebas de la API](evidencias/capturas/02-pruebas-api-jest-supertest.png)
+
+**Reglas de arquitectura (dependency-cruiser)**
+
+![Reglas de arquitectura](evidencias/capturas/03-reglas-arquitectura.png)
+
 ## Pruebas automatizadas
 
 | Tipo | Cantidad | Comando |
