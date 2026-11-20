@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: |
             tecnologia/backend/package-lock.json
@@ -69,3 +69,16 @@ jobs:
         with:
           name: reporte-e2e
           path: tecnologia/frontend/reporte-e2e
+
+  imagen:
+    name: Imagen Docker del portal
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir la imagen (Nginx con el portal compilado)
+        run: docker build -t licencias-portal:${{ github.sha }} --build-arg VITE_API_URL=http://localhost:3000/api tecnologia/frontend
+      - name: Comprobar que sirve el portal y las rutas de React
+        run: |
+          docker run -d --name portal -p 8080:80 licencias-portal:${{ github.sha }}
+          for i in $(seq 1 20); do curl -sf http://localhost:8080/ > /dev/null && break; sleep 1; done
+          curl -sf http://localhost:8080/gestor/expedientes/1 | grep -q '<div id="root">' && echo "Nginx devuelve index.html en las rutas del portal"

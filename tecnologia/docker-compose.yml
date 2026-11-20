@@ -1,35 +1,65 @@
-# Sistema de Licencias Clase B · API NestJS + PostgreSQL (ADR-010)
-# Uso: docker compose up -d   (desde la carpeta tecnologia)
+# Sistema de Licencias Clase B: PostgreSQL, API NestJS y portal React en contenedores (ADR-010, Guía 06)
+# Uso (desde la carpeta tecnologia):  docker compose up --build -d
+#   Portal:  http://localhost:8080
+#   API:     http://localhost:3000/api    · Swagger: http://localhost:3000/api/docs
+#   PostgreSQL desde el equipo: localhost:5433 (el 5432 queda libre para un PostgreSQL instalado)
+# La API ejecuta las migraciones al iniciar: no hace falta ningún script SQL.
+# Para validar DNI y enviar correos reales, cree backend/.env.docker con APIPERU_TOKEN y SMTP_* (no se sube a Git).
+
 services:
-  postgres:
+  db:
     image: postgres:16-alpine
-    restart: always
+    container_name: licencias-db
+    restart: unless-stopped
     command: postgres -c shared_preload_libraries=pg_stat_statements
     environment:
       POSTGRES_USER: licencias
       POSTGRES_PASSWORD: licencias
       POSTGRES_DB: licencias
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - datos-postgres:/var/lib/postgresql/data
+      - datos-postgres:/var/lib/postgresql/data # persistencia de los datos
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U licencias"]
+      test: ["CMD-SHELL", "pg_isready -U licencias -d licencias"]
       interval: 5s
+      timeout: 5s
       retries: 10
 
   api:
     build: ./backend
-    restart: always # EQ-04: reinicio automático si el proceso cae
-    env_file: ./backend/.env
+    container_name: licencias-api
+    restart: unless-stopped # EQ-04: reinicio automático si el proceso cae
     environment:
-      DB_HOST: postgres
+      PUERTO: 3000
+      DB_HOST: db # nombre del servicio en la red de Compose, no localhost
+      DB_PUERTO: 5432
+      DB_USUARIO: licencias
+      DB_CLAVE: licencias
+      DB_NOMBRE: licencias
+      JWT_SECRETO: secreto-local-solo-para-laboratorio
+      CORS_ORIGENES: http://localhost:8080,http://localhost:5173
+    env_file:
+      - path: ./backend/.env.docker
+        required: false
     ports:
       - "3000:3000"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
+
+  portal:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:3000/api # la usa el navegador, por eso es localhost
+    container_name: licencias-portal
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
 
 volumes:
   datos-postgres:

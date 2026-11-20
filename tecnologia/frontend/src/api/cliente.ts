@@ -47,7 +47,8 @@ async function pedir<T>(metodo: string, ruta: string, cuerpo?: unknown): Promise
   if (r.status === 401 && t) alExpirar?.();
   if (!r.ok) {
     const datos = await r.json().catch(() => ({}));
-    const mensaje = Array.isArray(datos.message) ? datos.message.join('. ') : (datos.mensaje ?? datos.message ?? `Error ${r.status}`);
+    // Formato único de la API (ErrorRespuesta): mensaje y, en los 400, el detalle de cada dato inválido
+    const mensaje = datos.detalles?.length ? `${datos.mensaje}: ${datos.detalles.join('; ')}` : (datos.mensaje ?? `Error ${r.status}`);
     throw new ErrorApi(r.status, mensaje);
   }
   const tipo = r.headers.get('content-type') ?? '';
