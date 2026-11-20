@@ -80,12 +80,25 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await capturar(page, '04-gestor-bandeja');
     await page.getByRole('link', { name: /Revisar/ }).first().click();
     await capturar(page, '05-gestor-detalle');
+    // Peor caso de red: cada recarga del expediente responde antes que la anterior. Una respuesta
+    // vieja ("Documentos") no debe reemplazar a la nueva ("Pago"); este error apareció en la CI.
+    let recarga = 0;
+    await page.route(/\/api\/expedientes\/\d+$/, async (ruta) => {
+      const espera = Math.max(0, 1200 - 300 * recarga++);
+      const respuesta = await ruta.fetch();
+      await new Promise((r) => setTimeout(r, espera));
+      await ruta.fulfill({ response: respuesta });
+    });
     const aprobar = page.getByRole('button', { name: 'Aprobar' });
+    // count() no espera: primero se espera a que carguen los 4 documentos (en la CI la página tarda más)
+    await expect(aprobar).toHaveCount(4);
     while ((await aprobar.count()) > 0) {
       const antes = await aprobar.count();
       await aprobar.first().click();
       await expect(aprobar).toHaveCount(antes - 1);
     }
+    // Se espera a que lleguen todas las respuestas: el estado FINAL debe ser Pago, no solo aparecer un instante
+    await page.waitForLoadState('networkidle');
     await expect(page.getByText('Pago', { exact: true }).first()).toBeVisible();
   });
 
