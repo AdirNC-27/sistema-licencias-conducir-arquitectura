@@ -26,11 +26,12 @@ Plataforma web académica para la gestión del trámite de licencias de conducir
 | Estilo arquitectónico | Monolito modular con arquitectura web cliente-servidor |
 | Enfoque arquitectónico | Clean Architecture |
 | Documentación | Modelo C4 (contexto, contenedores, componentes y código) |
-| Frontend | React y TypeScript |
+| Frontend | React y TypeScript (Vite, Tailwind CSS) |
 | Backend | Node.js con NestJS (TypeScript), JWT por roles y TypeORM |
-| Pruebas | Jest (unitarias y de API) con reporte de cobertura, k6 para carga |
+| API | REST documentada con OpenAPI (Swagger), contrato versionado y un solo formato de error |
+| Pruebas | Jest y Supertest, Postman con Newman, Playwright (E2E y accesibilidad) y k6 (carga) |
 | Base de datos | PostgreSQL |
-| Despliegue | Contenedores Docker |
+| Despliegue | Docker Compose (base, API y portal) e integración continua con GitHub Actions |
 
 ## Estructura del repositorio
 
@@ -51,6 +52,7 @@ docs/
 ├── 02-arquitectura-software/
 │   ├── arquitectura-inicial.md
 │   ├── componentes-arquitectonicos.md
+│   ├── diagrama-de-despliegue.md
 │   ├── enfoque-arquitectonico.md
 │   └── estilo-arquitectonico.md
 ├── 03-diseño-de-software/diseño-interno/
@@ -63,12 +65,37 @@ docs/
 │   ├── Nivel3-Diagrama-de-Componentes.md
 │   └── Nivel4-DiagramadeCodigo.md
 ├── 05-especificaciones-sdd/      # SDD-01 … SDD-10 (sprint 2)
-└── 06-validacion-calidad/        # evidencias de los escenarios EQ
+├── 06-validacion-calidad/        # evidencias de los escenarios EQ
+└── 07-contrato-api/              # contrato OpenAPI (openapi.json) y convenciones de la API
 img/
-tecnologia/                       # backend NestJS, k6 y docker-compose
-prototipo/
-.github/workflows/ci.yml
+tecnologia/                       # backend, portal, pruebas de calidad y docker-compose
+prototipo/                        # prototipo navegable (Google Stitch)
+.github/workflows/                # CI del backend y del portal
 ```
+
+## Cómo ejecutar
+
+| Forma | Pasos | Detalle |
+|---|---|---|
+| **Docker** (todo con un comando) | `cd tecnologia` → `docker compose up --build -d` → abrir `http://localhost:8080` | [tecnologia/README.md](tecnologia/README.md#docker) |
+| **Local** (VS Code) | PostgreSQL 16 instalado → `tecnologia/backend`: `npm install`, `npm run start:dev` → `tecnologia/frontend`: `npm install`, `npm run dev` | [backend](tecnologia/backend/README.md) · [portal](tecnologia/frontend/README.md) |
+
+- **Portal:** `http://localhost:8080` con Docker; `http://localhost:5173` en local.
+- **Swagger (contrato OpenAPI):** `http://localhost:3000/api/docs`.
+- **Cuentas de demostración** (clave `demo123`): `45892014` y `70123456` (postulantes), `gestor`, `evaluador`, `supervisor`, `admin`.
+
+## Pruebas
+
+| Tipo | Herramienta | Comando | Resultado |
+|---|---|---|---|
+| Unitarias (dominio, casos de uso, contrato) | Jest | `npm run test:cov` (backend) | 83 pruebas, cobertura de líneas 100 % |
+| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 26 pruebas |
+| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 101 solicitudes, 349 aserciones |
+| Reglas de arquitectura | dependency-cruiser | `npm run arquitectura` (backend) | 0 violaciones |
+| Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 17 pruebas, WCAG 2.1 AA |
+| Carga | k6 | ver [k6](tecnologia/pruebas-calidad/k6) | p95 de 13.7 ms con 2 000 usuarios |
+
+Resultados y capturas en [docs/06-validacion-calidad](docs/06-validacion-calidad/README.md).
 
 ## Prototipo navegable
 

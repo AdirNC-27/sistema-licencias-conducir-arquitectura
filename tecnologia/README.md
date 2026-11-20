@@ -7,7 +7,7 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Capa | Tecnología | Uso en el sistema | Decisión |
 |---|---|---|---|
 | Frontend | React + TypeScript (Vite), Tailwind CSS | Portal web adaptable con interfaces por rol · ver frontend/README.md | ADR-003 |
-| Backend | Node.js 22 + NestJS 11 (TypeScript) | API REST del monolito modular con 12 módulos | ADR-001, ADR-002, ADR-014 |
+| Backend | Node.js 24 + NestJS 11 (TypeScript) | API REST del monolito modular con 12 módulos | ADR-001, ADR-002, ADR-014 |
 | Seguridad | `@nestjs/jwt` + Passport + guardas por rol | Autenticación y autorización por roles | ADR-004 |
 | Validación | class-validator | Validar los datos que llegan a la API | ADR-008 |
 | Persistencia | TypeORM (con migraciones) | Repositorios que implementan los contratos del dominio | ADR-005 |
@@ -50,12 +50,37 @@ tecnologia/
 │   ├── src/paginas/          # pantallas por rol: postulante, gestor, evaluador, supervisor, admin
 │   └── e2e/                  # pruebas E2E y de accesibilidad (Playwright + axe-core)
 ├── pruebas-calidad/k6/       # pruebas de carga hasta 2,000 usuarios
+├── pruebas-calidad/postman/  # colección de Postman: 101 solicitudes con validación del contrato
 ├── postgres/init.sql         # base de pruebas y pg_stat_statements
 ├── postgres/analisis/        # volumen, EXPLAIN ANALYZE y prueba de concurrencia
-└── docker-compose.yml        # PostgreSQL y API
-.github/workflows/ci.yml           # backend: arquitectura, Jest y cobertura en cada push
-.github/workflows/ci-frontend.yml  # portal: lint, compilación y E2E contra la API
+└── docker-compose.yml        # PostgreSQL, API y portal
+.github/workflows/ci.yml           # backend: arquitectura, contrato, Jest, Postman e imagen Docker
+.github/workflows/ci-frontend.yml  # portal: lint, compilación, E2E contra la API e imagen Docker
 ```
+
+## Docker
+
+Levanta la base de datos, la API y el portal con un solo comando (ADR-010, Guía 06). Requiere Docker Desktop iniciado.
+
+| Servicio | Contenedor | Puerto en el equipo | Imagen |
+|---|---|---|---|
+| `db` | `licencias-db` | 5433 (el 5432 queda libre para un PostgreSQL instalado) | `postgres:16-alpine` |
+| `api` | `licencias-api` | 3000 | `backend/Dockerfile`: compila en una etapa y ejecuta solo `dist` y las dependencias de producción |
+| `portal` | `licencias-portal` | 8080 | `frontend/Dockerfile`: compila con Vite y lo sirve con Nginx |
+
+```bash
+cd tecnologia
+docker compose config            # valida el archivo
+docker compose up --build -d     # construye las imágenes y levanta los servicios
+docker compose ps                # los tres en estado running (healthy)
+docker compose logs -f api       # migraciones y "Nest application successfully started"
+```
+
+Abrir `http://localhost:8080` (portal) y `http://localhost:3000/api/docs` (Swagger). La API ejecuta las migraciones al iniciar, así que no se necesita ningún script SQL.
+
+**Persistencia:** los datos viven en el volumen `datos-postgres`. `docker compose down` elimina los contenedores y conserva el volumen; al volver a ejecutar `docker compose up -d`, el expediente creado sigue ahí. **No** usar `docker compose down -v`: borra el volumen.
+
+**Credenciales:** el compose usa valores de laboratorio. El token de API Perú y el correo SMTP van en `backend/.env.docker`, que es opcional y no se sube a Git (`.dockerignore` también lo excluye de la imagen).
 
 Cada módulo del backend se organiza con Clean Architecture en las carpetas `presentacion`, `aplicacion`, `dominio` e `infraestructura`, como se describe en [Diseño interno de módulos](../docs/03-diseño-de-software/diseño-interno/diseño-interno-de-modulos.md).
 
