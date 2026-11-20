@@ -1,5 +1,5 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 
 /** Configuración común para main.ts y para las pruebas de la API. */
 export function configurarAplicacion(app: INestApplication): INestApplication {
@@ -10,18 +10,24 @@ export function configurarAplicacion(app: INestApplication): INestApplication {
   return app;
 }
 
-export function configurarSwagger(app: INestApplication): void {
+/** Contrato OpenAPI generado desde los decoradores @Contrato de los controladores. */
+export function crearDocumentoOpenApi(app: INestApplication): OpenAPIObject {
   const config = new DocumentBuilder()
     .setTitle('API · Sistema de Licencias de Conducir Clase B')
     .setDescription(
       'Municipalidad Provincial de Huamanga. Monolito modular con Clean Architecture (NestJS + PostgreSQL). ' +
         'Inicie sesión en POST /api/auth/login y pulse "Authorize" con el token. ' +
-        'Cuentas de demostración: gestor, evaluador, supervisor, admin y el DNI 45892014 (clave demo123).',
+        'Cuentas de demostración: gestor, evaluador, supervisor, admin y el DNI 45892014 (clave demo123). ' +
+        'Todos los errores usan el esquema ErrorRespuesta.',
     )
-    .setVersion('1.0 · Sprint 2')
+    .setVersion('1.0.0')
     .addBearerAuth()
     .build();
-  SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, config), {
+  return SwaggerModule.createDocument(app, config);
+}
+
+export function configurarSwagger(app: INestApplication): void {
+  SwaggerModule.setup('api/docs', app, crearDocumentoOpenApi(app), {
     jsonDocumentUrl: 'api/docs-json',
     swaggerOptions: { persistAuthorization: true },
   });

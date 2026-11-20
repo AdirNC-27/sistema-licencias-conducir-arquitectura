@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FiltroErroresDominio } from './compartido/presentacion/filtro-errores-dominio';
+import { FiltroErrores } from './compartido/presentacion/filtro-errores';
 import { GuardaJwt, GuardaRoles } from './compartido/seguridad/guardas';
 import { opcionesBaseDeDatos } from './configuracion/base-de-datos';
 import { AuditoriaModule } from './modulos/auditoria/auditoria.module';
@@ -41,7 +41,7 @@ import { SaludModule } from './modulos/salud/salud.module';
   providers: [
     { provide: APP_GUARD, useClass: GuardaJwt },
     { provide: APP_GUARD, useClass: GuardaRoles },
-    { provide: APP_FILTER, useClass: FiltroErroresDominio },
+    { provide: APP_FILTER, useClass: FiltroErrores },
   ],
 })
 export class AppModule {}

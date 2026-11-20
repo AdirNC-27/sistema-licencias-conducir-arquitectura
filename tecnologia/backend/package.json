@@ -20,7 +20,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
     "migracion:generar": "typeorm-ts-node-commonjs migration:generate -d src/configuracion/data-source.ts",
     "migracion:ejecutar": "typeorm-ts-node-commonjs migration:run -d src/configuracion/data-source.ts",
-    "arquitectura": "depcruise src --config .dependency-cruiser.cjs"
+    "arquitectura": "depcruise src --config .dependency-cruiser.cjs",
+    "contrato": "ts-node scripts/contrato.ts",
+    "contrato:verificar": "ts-node scripts/contrato.ts --verificar"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^3.1.3",

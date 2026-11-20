@@ -149,6 +149,19 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     expect(avisos.body.some((a: { asunto: string }) => a.asunto.startsWith('Recordatorio'))).toBe(true);
   });
 
+  it('un horario repetido se rechaza con 409, no con un error interno (RF21)', async () => {
+    const [cupo] = (await http.get('/api/cupos?tipo=CONOCIMIENTOS').set(auth('admin')).expect(200)).body as { fecha: string; hora: string }[];
+    const r = await http.post('/api/cupos').set(auth('admin')).send({ fecha: cupo.fecha, hora: cupo.hora, tipo: 'CONOCIMIENTOS', capacidad: 10 }).expect(409);
+    expect(r.body).toEqual({ estado: 409, error: 'ConflictoError', mensaje: `Ya existe un horario de conocimientos el ${cupo.fecha} a las ${cupo.hora}` });
+  });
+
+  it('todos los errores tienen el mismo formato y mensajes en español', async () => {
+    expect((await http.get('/api/expedientes').expect(401)).body).toEqual({ estado: 401, error: 'NoAutenticado', mensaje: 'Inicie sesión: el token falta, no es válido o expiró' });
+    expect((await http.get('/api/no-existe').set(auth('gestor')).expect(404)).body.mensaje).toBe('La ruta solicitada no existe');
+    const invalido = await http.post('/api/expedientes').set(auth('45892014')).send({ tipoTramite: 'EMISION', categoria: 'II-X' }).expect(400);
+    expect(invalido.body.detalles).toEqual(['categoria debe ser uno de estos valores: II-B, II-C']);
+  });
+
   it('registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09)', async () => {
     const r = await http.post(`/api/expedientes/${expedienteId}/evaluaciones/CONOCIMIENTOS/resultado`).set(auth('evaluador')).send({ puntaje: 12 }).expect(201);
     evaluacionId = r.body.id;

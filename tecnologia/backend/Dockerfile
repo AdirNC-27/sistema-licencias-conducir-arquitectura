@@ -1,5 +1,5 @@
 # Etapa 1: compilar
-FROM node:22-alpine AS compilacion
+FROM node:24-alpine AS compilacion
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Etapa 2: imagen liviana para producción
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 COPY package*.json ./

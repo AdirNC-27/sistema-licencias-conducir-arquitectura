@@ -4,25 +4,24 @@ Backend del sistema: **monolito modular con Clean Architecture** en **NestJS (Ty
 
 ## Requisitos
 
-- Node.js 22 LTS y npm
-- Docker Desktop (para PostgreSQL)
+- Node.js 22 o 24 LTS y npm
+- PostgreSQL 16 instalado, o Docker Desktop
 
 ## Puesta en marcha (VS Code)
 
-```bash
-# 1. Base de datos (desde la carpeta tecnologia)
-cd tecnologia
-docker compose up -d postgres
+**Opción A · PostgreSQL instalado en el equipo** (base `licencias`, usuario `licencias`, clave `licencias`, puerto 5432):
 
-# 2. API
-cd backend
+```bash
+cd tecnologia/backend
 npm install
 copy .env.example .env      # en Git Bash o Linux: cp .env.example .env
 npm run start:dev
 ```
 
+**Opción B · Todo con Docker** (base, API y portal): ver [Docker](../README.md#docker).
+
 - API: `http://localhost:3000/api`
-- **Swagger (OpenAPI):** `http://localhost:3000/api/docs`
+- **Swagger (OpenAPI):** `http://localhost:3000/api/docs` · JSON: `http://localhost:3000/api/docs-json`
 - Salud: `http://localhost:3000/api/health`
 
 Las migraciones se ejecutan solas al iniciar: crean las 11 tablas y los datos de demostración.
@@ -32,21 +31,31 @@ Las migraciones se ejecutan solas al iniciar: crean las 11 tablas y los datos de
 | Usuario | Rol |
 |---|---|
 | `45892014` | Postulante (Juan Carlos Quispe Mendoza) |
+| `70123456` | Postulante (María Elena Rojas Palomino), para las pruebas de privacidad |
 | `gestor` | Gestor de trámites |
 | `evaluador` | Evaluador |
 | `supervisor` | Supervisor |
 | `admin` | Administrador |
 
+## Contrato de la API
+
+Cada operación declara con `@Contrato` su respuesta exitosa y los errores que puede devolver. Todos los errores usan el mismo formato (`ErrorRespuesta`), en español. El contrato se versiona en [`docs/07-contrato-api/openapi.json`](../../docs/07-contrato-api/openapi.json).
+
+| Comando | Qué hace |
+|---|---|
+| `npm run contrato` | Regenera `openapi.json` desde el código (después de cambiar un endpoint) |
+| `npm run contrato:verificar` | Falla si el archivo no coincide con el código (lo usa la CI) |
+
 ## Pruebas
 
 | Comando | Qué ejecuta |
 |---|---|
-| `npm test` | Pruebas unitarias de dominio y casos de uso (Jest) |
+| `npm test` | Pruebas unitarias de dominio, casos de uso, formato de errores y reglas del contrato (Jest) |
 | `npm run test:cov` | Las mismas, con reporte de cobertura en `coverage/index.html` |
 | `npm run test:e2e` | Pruebas de la API con PostgreSQL real (Jest + Supertest), base `licencias_test` |
 | `npm run arquitectura` | Reglas de Clean Architecture y del monolito modular (dependency-cruiser) |
 
-GitHub Actions ejecuta los cuatro en cada push (`.github/workflows/ci.yml`).
+La colección de Postman está en [`tecnologia/pruebas-calidad/postman`](../pruebas-calidad/postman/README.md). GitHub Actions ejecuta todo en cada push (`.github/workflows/ci.yml`).
 
 ## Estructura de un módulo
 
@@ -55,7 +64,7 @@ src/modulos/evaluaciones/
 ├── dominio/          # entidades, reglas y contratos (TypeScript puro)
 ├── aplicacion/       # casos de uso
 ├── infraestructura/  # TypeORM y adaptadores externos
-├── presentacion/     # controladores REST y DTO con Swagger
+├── presentacion/     # controladores REST, DTO de entrada y clases de respuesta (contrato)
 ├── __tests__/        # pruebas Jest
 └── evaluaciones.module.ts   # raíz de composición
 ```

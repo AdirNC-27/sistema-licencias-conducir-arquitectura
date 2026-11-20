@@ -1,9 +1,11 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { ApiOperation, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
+import { ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { IsEnum, IsOptional } from 'class-validator';
 import { Categoria, TASA_EMISION, TipoTramite } from '../../../compartido/dominio/categoria';
 import { Publico } from '../../../compartido/seguridad/decoradores';
 import { REPOSITORIO_REQUISITOS, RepositorioRequisitos } from '../dominio/requisito';
+import { Contrato } from '../../../compartido/presentacion/contrato';
+import { RequisitosRespuesta } from './respuestas';
 
 class ConsultaDto {
   @ApiPropertyOptional({ enum: TipoTramite, default: TipoTramite.EMISION }) @IsOptional() @IsEnum(TipoTramite) tramite: TipoTramite = TipoTramite.EMISION;
@@ -17,7 +19,7 @@ export class RequisitosController {
 
   @Publico()
   @Get()
-  @ApiOperation({ summary: 'Requisitos del TUPA por trámite y categoría, con caché en memoria (RF22, ADR-009)' })
+  @Contrato({ resumen: 'Requisitos del TUPA por trámite y categoría (RF22)', descripcion: 'Se responde desde la caché en memoria (ADR-009). No requiere sesión.', publico: true, exito: { descripcion: 'Requisitos, tasa y plazo', tipo: RequisitosRespuesta }, errores: [400] })
   async listar(@Query() consulta: ConsultaDto) {
     const requisitos = await this.requisitos.listar(consulta.tramite, consulta.categoria);
     return {

@@ -1,0 +1,3897 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "description": "Devuelve un token JWT con el rol de la cuenta. Postulantes con su DNI; personal con su usuario.",
+        "operationId": "IdentidadController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sesión iniciada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuario o contraseña incorrectos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Iniciar sesión (RF01)",
+        "tags": [
+          "Identidad y acceso"
+        ]
+      }
+    },
+    "/api/auth/yo": {
+      "get": {
+        "operationId": "IdentidadController_yo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuario del token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioTokenRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Datos del usuario autenticado",
+        "tags": [
+          "Identidad y acceso"
+        ]
+      }
+    },
+    "/api/usuarios": {
+      "get": {
+        "operationId": "IdentidadController_listar",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Cuentas del sistema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CuentaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar cuentas (RF16)",
+        "tags": [
+          "Identidad y acceso"
+        ]
+      }
+    },
+    "/api/usuarios/{id}/rol": {
+      "patch": {
+        "operationId": "IdentidadController_cambiar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambiarRolDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rol actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolCambiadoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Un postulante no puede pasar a ser personal ni al revés",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cambiar el rol de una cuenta del personal (RF16, auditable)",
+        "tags": [
+          "Identidad y acceso"
+        ]
+      }
+    },
+    "/api/postulantes": {
+      "post": {
+        "operationId": "PostulantesController_crear",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cuenta creada con el nombre que devuelve API Perú",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostulanteCreadoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "El DNI no existe en el servicio de identidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El DNI ya tiene una cuenta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Falta configurar el token de API Perú en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear cuenta de postulante con DNI validado en API Perú (RF03, RF04)",
+        "tags": [
+          "Postulantes"
+        ]
+      },
+      "get": {
+        "operationId": "PostulantesController_varios",
+        "parameters": [
+          {
+            "name": "ids",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "1,2,3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postulantes encontrados; los identificadores inexistentes se omiten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostulanteRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Nombres y DNI de varios postulantes (bandeja del personal, una sola consulta)",
+        "tags": [
+          "Postulantes"
+        ]
+      }
+    },
+    "/api/postulantes/{id}": {
+      "get": {
+        "operationId": "PostulantesController_uno",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos del postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostulanteRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Un postulante solo puede ver sus propios datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Datos de un postulante (el propio o, para el personal, cualquiera)",
+        "tags": [
+          "Postulantes"
+        ]
+      }
+    },
+    "/api/requisitos": {
+      "get": {
+        "description": "Se responde desde la caché en memoria (ADR-009). No requiere sesión.",
+        "operationId": "RequisitosController_listar",
+        "parameters": [
+          {
+            "name": "tramite",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "EMISION",
+              "type": "string",
+              "enum": [
+                "EMISION",
+                "REVALIDACION",
+                "DUPLICADO"
+              ]
+            }
+          },
+          {
+            "name": "categoria",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "II-B",
+              "type": "string",
+              "enum": [
+                "II-B",
+                "II-C"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisitos, tasa y plazo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequisitosRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Requisitos del TUPA por trámite y categoría (RF22)",
+        "tags": [
+          "Requisitos (TUPA)"
+        ]
+      }
+    },
+    "/api/expedientes": {
+      "post": {
+        "operationId": "ExpedientesController_registrar",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearExpedienteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Expediente creado en la etapa DOCUMENTOS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpedienteRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Solo un postulante puede iniciar un trámite",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya tiene un trámite en curso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "En esta versión solo se atiende la emisión",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar una solicitud de licencia (RF02)",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      },
+      "get": {
+        "operationId": "ExpedientesController_bandeja",
+        "parameters": [
+          {
+            "name": "etapa",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DOCUMENTOS",
+                "PAGO",
+                "CITA",
+                "EXAMEN_CONOCIMIENTOS",
+                "EXAMEN_MANEJO",
+                "EMISION",
+                "EMITIDA"
+              ]
+            }
+          },
+          {
+            "name": "categoria",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "II-B",
+                "II-C"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "tamano",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página de expedientes ordenada por antigüedad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaExpedientesRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Bandeja de expedientes del personal, con filtros y paginación",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      }
+    },
+    "/api/expedientes/mios": {
+      "get": {
+        "operationId": "ExpedientesController_mios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Trámites del postulante, del más reciente al más antiguo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpedienteRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mis trámites con etapa y plazo (RF10)",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      }
+    },
+    "/api/expedientes/{id}": {
+      "get": {
+        "operationId": "ExpedientesController_detalle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpedienteRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante (EQ-02)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Estado, etapa y plazo de un expediente (RF10)",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/emision": {
+      "patch": {
+        "operationId": "ExpedientesController_emitir",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expediente en la etapa EMITIDA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpedienteRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El expediente no está en la etapa EMISION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Autorizar la emisión de la licencia (RF12, auditable)",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/documentos": {
+      "post": {
+        "description": "multipart/form-data con el campo archivo: PDF, JPG o PNG de hasta 2 MB.",
+        "operationId": "DocumentosController_adjuntar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tipo": {
+                    "enum": [
+                      "DECLARACION_JURADA",
+                      "CERTIFICADO_MEDICO",
+                      "FOTOGRAFIA",
+                      "CONSTANCIA_COFIPRO"
+                    ]
+                  },
+                  "fechaEmision": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Documento registrado en estado PENDIENTE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El expediente no está en la etapa DOCUMENTOS o el documento ya fue aprobado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "El archivo supera 2 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Formato no permitido, certificado médico vencido o sin fecha de emisión",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Adjuntar un documento del expediente (RF03)",
+        "tags": [
+          "Requisitos y documentos"
+        ]
+      },
+      "get": {
+        "operationId": "DocumentosController_listar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Documentos del expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DocumentoRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Documentos del expediente y su estado",
+        "tags": [
+          "Requisitos y documentos"
+        ]
+      }
+    },
+    "/api/documentos/{id}/archivo": {
+      "get": {
+        "operationId": "DocumentosController_descargar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "El archivo, con su tipo de contenido",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El documento pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el documento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Descargar el archivo de un documento (solo el dueño o el personal, EQ-02)",
+        "tags": [
+          "Requisitos y documentos"
+        ]
+      }
+    },
+    "/api/documentos/{id}/revision": {
+      "patch": {
+        "description": "Cuando todos los documentos quedan aprobados, el expediente pasa a la etapa PAGO.",
+        "operationId": "DocumentosController_revisarDocumento",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Documento revisado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevisionDocumentoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el documento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El documento ya fue aprobado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Indique el motivo de la observación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Aprobar u observar un documento (RF04, auditable)",
+        "tags": [
+          "Requisitos y documentos"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/pagos": {
+      "post": {
+        "operationId": "PagosController_crear",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarPagoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pago registrado en estado PENDIENTE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Etapa incorrecta, número de operación repetido o pago pendiente de verificación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "El monto no es la tasa de la categoría o la fecha es futura",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar el recibo pagado en el SAT Huamanga (RF05)",
+        "tags": [
+          "Pagos"
+        ]
+      },
+      "get": {
+        "operationId": "PagosController_listar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pagos del expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PagoRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Pagos del expediente",
+        "tags": [
+          "Pagos"
+        ]
+      }
+    },
+    "/api/pagos/{id}/verificacion": {
+      "patch": {
+        "description": "Al verificarlo, el expediente pasa a la etapa CITA.",
+        "operationId": "PagosController_verificarPago",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificarPagoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pago revisado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el pago",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El pago ya fue verificado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Indique el motivo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Verificar, observar o rechazar un pago (RF06, auditable)",
+        "tags": [
+          "Pagos"
+        ]
+      }
+    },
+    "/api/cupos": {
+      "post": {
+        "description": "Conocimientos de lunes a miércoles; manejo de martes a viernes.",
+        "operationId": "CitasController_crearCupo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CupoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Horario habilitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CupoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya existe un horario de ese tipo en esa fecha y hora",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Día no permitido para el tipo de examen, fecha pasada o capacidad inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Habilitar un horario con cupos (RF21)",
+        "tags": [
+          "Citas"
+        ]
+      },
+      "get": {
+        "operationId": "CitasController_cupos",
+        "parameters": [
+          {
+            "name": "tipo",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CONOCIMIENTOS",
+                "MANEJO"
+              ]
+            }
+          },
+          {
+            "name": "desde",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "2026-11-19",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Horarios desde la fecha indicada (por defecto, hoy)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CupoRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Horarios con cupos disponibles",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/citas": {
+      "post": {
+        "description": "Envía un recordatorio por correo y el expediente avanza de CITA a EXAMEN_CONOCIMIENTOS.",
+        "operationId": "CitasController_reservarCita",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cita reservada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitaReservadaRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente o el cupo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Sin cupos disponibles o etapa incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No se puede reservar una fecha pasada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Reservar la cita de examen (RF07)",
+        "tags": [
+          "Citas"
+        ]
+      },
+      "get": {
+        "operationId": "CitasController_citas",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Citas del expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CitaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Citas programadas del expediente",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/evaluaciones/{tipo}/resultado": {
+      "post": {
+        "operationId": "EvaluacionesController_registrarResultado",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "tipo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultadoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resultado registrado; queda pendiente de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Intentos agotados, resultado sin validar o etapa incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar el resultado de un intento (RF08, máximo 3)",
+        "tags": [
+          "Evaluaciones"
+        ]
+      }
+    },
+    "/api/evaluaciones/{id}/resultado": {
+      "patch": {
+        "operationId": "EvaluacionesController_corregirResultado",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorreccionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado corregido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe la evaluación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El resultado ya fue validado: no se puede modificar (EQ-09)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Corregir el resultado antes de la validación (RF09, auditable)",
+        "tags": [
+          "Evaluaciones"
+        ]
+      }
+    },
+    "/api/evaluaciones/{id}/validacion": {
+      "post": {
+        "description": "Si el postulante aprobó, el expediente avanza a la siguiente etapa.",
+        "operationId": "EvaluacionesController_validarResultado",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado validado y bloqueado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe la evaluación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El resultado ya estaba validado o no hay resultado registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Validar el resultado: queda bloqueado (RF09, DA04)",
+        "tags": [
+          "Evaluaciones"
+        ]
+      }
+    },
+    "/api/evaluaciones/por-validar": {
+      "get": {
+        "operationId": "EvaluacionesController_porValidar",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Evaluaciones en estado REGISTRADO",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluacionRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Resultados registrados que esperan la validación del supervisor",
+        "tags": [
+          "Evaluaciones"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/evaluaciones": {
+      "get": {
+        "description": "El postulante recibe resultadoActual en null; el personal lo recibe completo.",
+        "operationId": "EvaluacionesController_listar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evaluaciones del expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluacionRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Resultados del expediente (RF19)",
+        "tags": [
+          "Evaluaciones"
+        ]
+      }
+    },
+    "/api/auditoria": {
+      "get": {
+        "description": "Usuario, fecha, acción, valor anterior y nuevo. Últimos 200 registros.",
+        "operationId": "AuditoriaController_listar",
+        "parameters": [
+          {
+            "name": "entidad",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "evaluacion",
+              "type": "string"
+            }
+          },
+          {
+            "name": "entidadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registros de auditoría",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegistroAuditoriaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Bitácora de solo lectura (RF17)",
+        "tags": [
+          "Auditoría"
+        ]
+      }
+    },
+    "/api/notificaciones/mias": {
+      "get": {
+        "operationId": "NotificacionesController_mias",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Últimos 50 avisos, del más reciente al más antiguo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AvisoRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Avisos del postulante (RF13)",
+        "tags": [
+          "Notificaciones"
+        ]
+      }
+    },
+    "/api/health": {
+      "get": {
+        "operationId": "SaludController_revisar",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Estado de la API y de PostgreSQL (EQ-04, monitoreo con UptimeRobot)",
+        "tags": [
+          "Salud"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API · Sistema de Licencias de Conducir Clase B",
+    "description": "Municipalidad Provincial de Huamanga. Monolito modular con Clean Architecture (NestJS + PostgreSQL). Inicie sesión en POST /api/auth/login y pulse \"Authorize\" con el token. Cuentas de demostración: gestor, evaluador, supervisor, admin y el DNI 45892014 (clave demo123). Todos los errores usan el esquema ErrorRespuesta.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "example": "gestor",
+            "description": "DNI del postulante o usuario del personal"
+          },
+          "clave": {
+            "type": "string",
+            "example": "demo123"
+          }
+        },
+        "required": [
+          "usuario",
+          "clave"
+        ]
+      },
+      "Rol": {
+        "type": "string",
+        "enum": [
+          "POSTULANTE",
+          "GESTOR",
+          "EVALUADOR",
+          "SUPERVISOR",
+          "ADMINISTRADOR"
+        ]
+      },
+      "UsuarioSesionRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 5
+          },
+          "usuario": {
+            "type": "string",
+            "example": "45892014",
+            "description": "DNI del postulante o usuario del personal"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Juan Carlos Quispe Mendoza"
+          },
+          "rol": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Rol"
+              }
+            ]
+          },
+          "postulanteId": {
+            "type": "number",
+            "nullable": true,
+            "example": 1,
+            "description": "Solo para postulantes"
+          }
+        },
+        "required": [
+          "id",
+          "usuario",
+          "nombre",
+          "rol",
+          "postulanteId"
+        ]
+      },
+      "SesionRespuesta": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…",
+            "description": "JWT para el encabezado Authorization: Bearer"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/UsuarioSesionRespuesta"
+          }
+        },
+        "required": [
+          "token",
+          "usuario"
+        ]
+      },
+      "ErrorRespuesta": {
+        "type": "object",
+        "properties": {
+          "estado": {
+            "type": "number",
+            "example": 409,
+            "description": "Código HTTP"
+          },
+          "error": {
+            "type": "string",
+            "example": "ConflictoError",
+            "description": "Tipo de error"
+          },
+          "mensaje": {
+            "type": "string",
+            "example": "Ya tiene un trámite en curso",
+            "description": "Mensaje para mostrar al usuario"
+          },
+          "detalles": {
+            "example": [
+              "categoria debe ser uno de estos valores: II-B, II-C"
+            ],
+            "description": "Solo en 400: cada dato inválido",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "estado",
+          "error",
+          "mensaje"
+        ]
+      },
+      "UsuarioTokenRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 5
+          },
+          "usuario": {
+            "type": "string",
+            "example": "45892014"
+          },
+          "rol": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Rol"
+              }
+            ]
+          },
+          "postulanteId": {
+            "type": "number",
+            "nullable": true,
+            "example": 1
+          }
+        },
+        "required": [
+          "id",
+          "usuario",
+          "rol",
+          "postulanteId"
+        ]
+      },
+      "CuentaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "usuario": {
+            "type": "string",
+            "example": "gestor"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Carlos Mendoza"
+          },
+          "rol": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Rol"
+              }
+            ]
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "id",
+          "usuario",
+          "nombre",
+          "rol",
+          "activo"
+        ]
+      },
+      "CambiarRolDto": {
+        "type": "object",
+        "properties": {
+          "rol": {
+            "type": "string",
+            "enum": [
+              "POSTULANTE",
+              "GESTOR",
+              "EVALUADOR",
+              "SUPERVISOR",
+              "ADMINISTRADOR"
+            ],
+            "example": "SUPERVISOR"
+          }
+        },
+        "required": [
+          "rol"
+        ]
+      },
+      "RolCambiadoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 2
+          },
+          "usuario": {
+            "type": "string",
+            "example": "evaluador"
+          },
+          "rol": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Rol"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "usuario",
+          "rol"
+        ]
+      },
+      "RegistroDto": {
+        "type": "object",
+        "properties": {
+          "dni": {
+            "type": "string",
+            "example": "45892014"
+          },
+          "correo": {
+            "type": "string",
+            "example": "postulante@correo.com"
+          },
+          "celular": {
+            "type": "string",
+            "example": "987654321"
+          },
+          "clave": {
+            "type": "string",
+            "example": "demo123"
+          }
+        },
+        "required": [
+          "dni",
+          "correo",
+          "celular",
+          "clave"
+        ]
+      },
+      "PostulanteCreadoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "dni": {
+            "type": "string",
+            "example": "45892014"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "JUAN CARLOS QUISPE MENDOZA",
+            "description": "Nombre obtenido de API Perú"
+          },
+          "correo": {
+            "type": "string",
+            "example": "postulante@correo.com"
+          }
+        },
+        "required": [
+          "id",
+          "dni",
+          "nombre",
+          "correo"
+        ]
+      },
+      "PostulanteRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "dni": {
+            "type": "string",
+            "example": "45892014"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "JUAN CARLOS QUISPE MENDOZA",
+            "description": "Nombre obtenido de API Perú"
+          },
+          "correo": {
+            "type": "string",
+            "example": "postulante@correo.com"
+          },
+          "celular": {
+            "type": "string",
+            "example": "987654321"
+          }
+        },
+        "required": [
+          "id",
+          "dni",
+          "nombre",
+          "correo",
+          "celular"
+        ]
+      },
+      "TipoTramite": {
+        "type": "string",
+        "enum": [
+          "EMISION",
+          "REVALIDACION",
+          "DUPLICADO"
+        ]
+      },
+      "Categoria": {
+        "type": "string",
+        "enum": [
+          "II-B",
+          "II-C"
+        ]
+      },
+      "RequisitoRespuesta": {
+        "type": "object",
+        "properties": {
+          "orden": {
+            "type": "number",
+            "example": 2
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Certificado médico de una clínica autorizada por el MTC, registrado en el SNC (vigencia de 6 meses)"
+          },
+          "documento": {
+            "type": "string",
+            "nullable": true,
+            "example": "CERTIFICADO_MEDICO",
+            "description": "Tipo de documento que se adjunta; null si no se adjunta archivo"
+          }
+        },
+        "required": [
+          "orden",
+          "descripcion",
+          "documento"
+        ]
+      },
+      "RequisitosRespuesta": {
+        "type": "object",
+        "properties": {
+          "tramite": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoTramite"
+              }
+            ]
+          },
+          "categoria": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            ]
+          },
+          "tasa": {
+            "type": "number",
+            "nullable": true,
+            "example": 69.4,
+            "description": "Tasa en soles según el TUPA"
+          },
+          "plazoDiasHabiles": {
+            "type": "number",
+            "example": 10
+          },
+          "consultaOficial": {
+            "type": "string",
+            "example": "https://licencias.mtc.gob.pe/#/index"
+          },
+          "requisitos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequisitoRespuesta"
+            }
+          }
+        },
+        "required": [
+          "tramite",
+          "categoria",
+          "tasa",
+          "plazoDiasHabiles",
+          "consultaOficial",
+          "requisitos"
+        ]
+      },
+      "CrearExpedienteDto": {
+        "type": "object",
+        "properties": {
+          "tipoTramite": {
+            "type": "string",
+            "enum": [
+              "EMISION",
+              "REVALIDACION",
+              "DUPLICADO"
+            ],
+            "example": "EMISION"
+          },
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "II-B",
+              "II-C"
+            ],
+            "example": "II-C"
+          }
+        },
+        "required": [
+          "tipoTramite",
+          "categoria"
+        ]
+      },
+      "Etapa": {
+        "type": "string",
+        "enum": [
+          "DOCUMENTOS",
+          "PAGO",
+          "CITA",
+          "EXAMEN_CONOCIMIENTOS",
+          "EXAMEN_MANEJO",
+          "EMISION",
+          "EMITIDA"
+        ]
+      },
+      "PlazoRespuesta": {
+        "type": "object",
+        "properties": {
+          "diasTranscurridos": {
+            "type": "number",
+            "example": 3
+          },
+          "diasRestantes": {
+            "type": "number",
+            "example": 7
+          },
+          "vencido": {
+            "type": "boolean",
+            "example": false
+          },
+          "porcentaje": {
+            "type": "number",
+            "example": 30,
+            "description": "Avance del plazo legal de 10 días hábiles (0 a 100)"
+          }
+        },
+        "required": [
+          "diasTranscurridos",
+          "diasRestantes",
+          "vencido",
+          "porcentaje"
+        ]
+      },
+      "ExpedienteRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "numero": {
+            "type": "string",
+            "example": "EXP-2026-00001"
+          },
+          "postulanteId": {
+            "type": "number",
+            "example": 1
+          },
+          "tipoTramite": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoTramite"
+              }
+            ]
+          },
+          "categoria": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            ]
+          },
+          "etapa": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Etapa"
+              }
+            ]
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-19T14:24:15.255Z"
+          },
+          "plazo": {
+            "$ref": "#/components/schemas/PlazoRespuesta"
+          }
+        },
+        "required": [
+          "id",
+          "numero",
+          "postulanteId",
+          "tipoTramite",
+          "categoria",
+          "etapa",
+          "creadoEn",
+          "plazo"
+        ]
+      },
+      "PaginaExpedientesRespuesta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 42
+          },
+          "pagina": {
+            "type": "number",
+            "example": 1
+          },
+          "tamano": {
+            "type": "number",
+            "example": 20
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpedienteRespuesta"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "pagina",
+          "tamano",
+          "datos"
+        ]
+      },
+      "TipoDocumento": {
+        "type": "string",
+        "enum": [
+          "DECLARACION_JURADA",
+          "CERTIFICADO_MEDICO",
+          "FOTOGRAFIA",
+          "CONSTANCIA_COFIPRO"
+        ]
+      },
+      "EstadoDocumento": {
+        "type": "string",
+        "enum": [
+          "PENDIENTE",
+          "APROBADO",
+          "OBSERVADO"
+        ]
+      },
+      "DocumentoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoDocumento"
+              }
+            ]
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoDocumento"
+              }
+            ]
+          },
+          "observacion": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "tipo",
+          "estado",
+          "observacion"
+        ]
+      },
+      "RevisionDto": {
+        "type": "object",
+        "properties": {
+          "estado": {
+            "type": "string",
+            "enum": [
+              "APROBADO",
+              "OBSERVADO"
+            ]
+          },
+          "observacion": {
+            "type": "string",
+            "example": "La foto no es a color"
+          }
+        },
+        "required": [
+          "estado"
+        ]
+      },
+      "RevisionDocumentoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoDocumento"
+              }
+            ]
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoDocumento"
+              }
+            ]
+          },
+          "observacion": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "expedienteCompleto": {
+            "type": "boolean",
+            "example": false,
+            "description": "true cuando todos los documentos quedaron aprobados y el expediente pasó a PAGO"
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "tipo",
+          "estado",
+          "observacion",
+          "expedienteCompleto"
+        ]
+      },
+      "RegistrarPagoDto": {
+        "type": "object",
+        "properties": {
+          "numeroOperacion": {
+            "type": "string",
+            "example": "0012345678"
+          },
+          "monto": {
+            "type": "number",
+            "example": 69.4
+          },
+          "fechaPago": {
+            "type": "string",
+            "example": "2026-11-18"
+          }
+        },
+        "required": [
+          "numeroOperacion",
+          "monto",
+          "fechaPago"
+        ]
+      },
+      "EstadoPago": {
+        "type": "string",
+        "enum": [
+          "PENDIENTE",
+          "VERIFICADO",
+          "OBSERVADO",
+          "RECHAZADO"
+        ]
+      },
+      "PagoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "numeroOperacion": {
+            "type": "string",
+            "example": "0012345678"
+          },
+          "monto": {
+            "type": "number",
+            "example": 69.4
+          },
+          "fechaPago": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-19T00:00:00.000Z"
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoPago"
+              }
+            ]
+          },
+          "observacion": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "numeroOperacion",
+          "monto",
+          "fechaPago",
+          "estado",
+          "observacion"
+        ]
+      },
+      "VerificarPagoDto": {
+        "type": "object",
+        "properties": {
+          "estado": {
+            "type": "string",
+            "enum": [
+              "VERIFICADO",
+              "OBSERVADO",
+              "RECHAZADO"
+            ]
+          },
+          "observacion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "estado"
+        ]
+      },
+      "CupoDto": {
+        "type": "object",
+        "properties": {
+          "fecha": {
+            "type": "string",
+            "example": "2026-11-23"
+          },
+          "hora": {
+            "type": "string",
+            "example": "08:30"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CONOCIMIENTOS",
+              "MANEJO"
+            ]
+          },
+          "capacidad": {
+            "type": "number",
+            "example": 15
+          }
+        },
+        "required": [
+          "fecha",
+          "hora",
+          "tipo",
+          "capacidad"
+        ]
+      },
+      "TipoExamen": {
+        "type": "string",
+        "enum": [
+          "CONOCIMIENTOS",
+          "MANEJO"
+        ]
+      },
+      "CupoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "fecha": {
+            "type": "string",
+            "example": "2026-11-23"
+          },
+          "hora": {
+            "type": "string",
+            "example": "08:30"
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoExamen"
+              }
+            ]
+          },
+          "capacidad": {
+            "type": "number",
+            "example": 15
+          },
+          "disponibles": {
+            "type": "number",
+            "example": 12
+          }
+        },
+        "required": [
+          "id",
+          "fecha",
+          "hora",
+          "tipo",
+          "capacidad",
+          "disponibles"
+        ]
+      },
+      "ReservaDto": {
+        "type": "object",
+        "properties": {
+          "cupoId": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "cupoId"
+        ]
+      },
+      "CitaReservadaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoExamen"
+              }
+            ]
+          },
+          "fecha": {
+            "type": "string",
+            "example": "2026-11-23"
+          },
+          "hora": {
+            "type": "string",
+            "example": "08:30"
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "id",
+          "tipo",
+          "fecha",
+          "hora",
+          "expedienteId"
+        ]
+      },
+      "CitaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoExamen"
+              }
+            ]
+          },
+          "fecha": {
+            "type": "string",
+            "example": "2026-11-23"
+          },
+          "hora": {
+            "type": "string",
+            "example": "08:30"
+          }
+        },
+        "required": [
+          "id",
+          "tipo",
+          "fecha",
+          "hora"
+        ]
+      },
+      "ResultadoDto": {
+        "type": "object",
+        "properties": {
+          "puntaje": {
+            "type": "number",
+            "example": 16,
+            "description": "Nota de 0 a 20"
+          },
+          "faltaEliminatoria": {
+            "type": "boolean",
+            "example": false,
+            "description": "Solo manejo"
+          },
+          "observaciones": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "puntaje"
+        ]
+      },
+      "TipoEvaluacion": {
+        "type": "string",
+        "enum": [
+          "CONOCIMIENTOS",
+          "MANEJO"
+        ]
+      },
+      "EstadoResultado": {
+        "type": "string",
+        "enum": [
+          "PENDIENTE",
+          "REGISTRADO",
+          "VALIDADO",
+          "AGOTADO"
+        ]
+      },
+      "ResultadoRespuesta": {
+        "type": "object",
+        "properties": {
+          "puntaje": {
+            "type": "number",
+            "example": 16,
+            "description": "Nota de 0 a 20"
+          },
+          "aprobado": {
+            "type": "boolean",
+            "example": true
+          },
+          "observaciones": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          }
+        },
+        "required": [
+          "puntaje",
+          "aprobado",
+          "observaciones"
+        ]
+      },
+      "IntentoRespuesta": {
+        "type": "object",
+        "properties": {
+          "puntaje": {
+            "type": "number",
+            "example": 16,
+            "description": "Nota de 0 a 20"
+          },
+          "aprobado": {
+            "type": "boolean",
+            "example": true
+          },
+          "observaciones": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "numero": {
+            "type": "number",
+            "example": 1,
+            "description": "Número de intento (1 a 3)"
+          }
+        },
+        "required": [
+          "puntaje",
+          "aprobado",
+          "observaciones",
+          "numero"
+        ]
+      },
+      "EvaluacionRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoEvaluacion"
+              }
+            ]
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoResultado"
+              }
+            ]
+          },
+          "intentos": {
+            "type": "number",
+            "example": 1
+          },
+          "intentosRestantes": {
+            "type": "number",
+            "example": 2
+          },
+          "resultadoActual": {
+            "nullable": true,
+            "description": "null para el postulante (RF19) o si aún no hay resultado",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResultadoRespuesta"
+              }
+            ]
+          },
+          "historial": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntentoRespuesta"
+            }
+          },
+          "bloqueada": {
+            "type": "boolean",
+            "example": true,
+            "description": "true cuando el supervisor validó el resultado: ya no se puede modificar"
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "tipo",
+          "estado",
+          "intentos",
+          "intentosRestantes",
+          "resultadoActual",
+          "historial",
+          "bloqueada"
+        ]
+      },
+      "CorreccionDto": {
+        "type": "object",
+        "properties": {
+          "puntaje": {
+            "type": "number",
+            "example": 16,
+            "description": "Nota de 0 a 20"
+          },
+          "faltaEliminatoria": {
+            "type": "boolean",
+            "example": false,
+            "description": "Solo manejo"
+          },
+          "observaciones": {
+            "type": "string"
+          },
+          "motivo": {
+            "type": "string",
+            "example": "Error de digitación"
+          }
+        },
+        "required": [
+          "puntaje",
+          "motivo"
+        ]
+      },
+      "RegistroAuditoriaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 15
+          },
+          "usuarioId": {
+            "type": "number",
+            "example": 3,
+            "description": "Usuario que realizó la acción"
+          },
+          "accion": {
+            "type": "string",
+            "example": "VALIDAR_RESULTADO"
+          },
+          "entidad": {
+            "type": "string",
+            "example": "evaluacion"
+          },
+          "entidadId": {
+            "type": "number",
+            "example": 1
+          },
+          "valorAnterior": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true,
+            "example": {
+              "estado": "REGISTRADO"
+            }
+          },
+          "valorNuevo": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true,
+            "example": {
+              "estado": "VALIDADO"
+            }
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "fecha": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-19T14:24:26.445Z"
+          }
+        },
+        "required": [
+          "id",
+          "usuarioId",
+          "accion",
+          "entidad",
+          "entidadId",
+          "valorAnterior",
+          "valorNuevo",
+          "motivo",
+          "fecha"
+        ]
+      },
+      "AvisoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 8
+          },
+          "postulanteId": {
+            "type": "number",
+            "example": 1
+          },
+          "asunto": {
+            "type": "string",
+            "example": "Tu trámite EXP-2026-00001 avanzó"
+          },
+          "texto": {
+            "type": "string",
+            "example": "Tu expediente EXP-2026-00001 pasó a la etapa: pago."
+          },
+          "enviadoPorCorreo": {
+            "type": "boolean",
+            "example": true
+          },
+          "leida": {
+            "type": "boolean",
+            "example": false
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-19T14:24:26.447Z"
+          }
+        },
+        "required": [
+          "id",
+          "postulanteId",
+          "asunto",
+          "texto",
+          "enviadoPorCorreo",
+          "leida",
+          "creadoEn"
+        ]
+      }
+    }
+  }
+}

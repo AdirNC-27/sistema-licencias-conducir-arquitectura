@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
-import { ApiBearerAuth, ApiConflictResponse, ApiForbiddenResponse, ApiOperation, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
@@ -7,6 +7,8 @@ import { Rol, ROLES_PERSONAL, UsuarioActual } from '../../../compartido/dominio/
 import { Roles, Usuario } from '../../../compartido/seguridad/decoradores';
 import { AutorizarEmisionUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
 import { Etapa } from '../dominio/etapa';
+import { Contrato } from '../../../compartido/presentacion/contrato';
+import { ExpedienteRespuesta, PaginaExpedientesRespuesta } from './respuestas';
 
 class CrearExpedienteDto {
   @ApiProperty({ enum: TipoTramite, example: TipoTramite.EMISION }) @IsEnum(TipoTramite) tipoTramite!: TipoTramite;
@@ -32,37 +34,34 @@ export class ExpedientesController {
 
   @Post()
   @Roles(Rol.POSTULANTE)
-  @ApiOperation({ summary: 'Registrar una solicitud de licencia (RF02)' })
-  @ApiConflictResponse({ description: 'Ya tiene un trámite en curso' })
+  @Contrato({ resumen: 'Registrar una solicitud de licencia (RF02)', exito: { estado: 201, descripcion: 'Expediente creado en la etapa DOCUMENTOS', tipo: ExpedienteRespuesta }, errores: [400, [403, 'Solo un postulante puede iniciar un trámite'], [409, 'Ya tiene un trámite en curso'], [422, 'En esta versión solo se atiende la emisión']] })
   registrar(@Body() dto: CrearExpedienteDto, @Usuario() usuario: UsuarioActual) {
     return this.crear.ejecutar(usuario, dto.tipoTramite, dto.categoria);
   }
 
   @Get('mios')
   @Roles(Rol.POSTULANTE)
-  @ApiOperation({ summary: 'Mis trámites con etapa y plazo (RF10)' })
+  @Contrato({ resumen: 'Mis trámites con etapa y plazo (RF10)', exito: { descripcion: 'Trámites del postulante, del más reciente al más antiguo', tipo: ExpedienteRespuesta, lista: true }, errores: [403] })
   mios(@Usuario() usuario: UsuarioActual) {
     return this.consultar.mios(usuario);
   }
 
   @Get()
   @Roles(...ROLES_PERSONAL)
-  @ApiOperation({ summary: 'Bandeja de expedientes del personal, con filtros y paginación' })
+  @Contrato({ resumen: 'Bandeja de expedientes del personal, con filtros y paginación', exito: { descripcion: 'Página de expedientes ordenada por antigüedad', tipo: PaginaExpedientesRespuesta }, errores: [400, 403] })
   bandeja(@Query() filtro: FiltroDto) {
     return this.consultar.bandeja({ etapa: filtro.etapa, categoria: filtro.categoria, pagina: filtro.pagina, tamano: filtro.tamano });
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Estado, etapa y plazo de un expediente (RF10)' })
-  @ApiForbiddenResponse({ description: 'El expediente pertenece a otro postulante (EQ-02)' })
+  @Contrato({ resumen: 'Estado, etapa y plazo de un expediente (RF10)', exito: { descripcion: 'Expediente', tipo: ExpedienteRespuesta }, errores: [400, [403, 'El expediente pertenece a otro postulante (EQ-02)'], [404, 'No existe el expediente']] })
   detalle(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {
     return this.consultar.ejecutar(id, usuario);
   }
 
   @Patch(':id/emision')
   @Roles(Rol.SUPERVISOR)
-  @ApiOperation({ summary: 'Autorizar la emisión de la licencia (RF12, auditable)' })
-  @ApiConflictResponse({ description: 'El expediente no está en la etapa EMISION' })
+  @Contrato({ resumen: 'Autorizar la emisión de la licencia (RF12, auditable)', exito: { descripcion: 'Expediente en la etapa EMITIDA', tipo: ExpedienteRespuesta }, errores: [400, 403, [404, 'No existe el expediente'], [409, 'El expediente no está en la etapa EMISION']] })
   emitir(@Param('id', ParseIntPipe) id: number, @Usuario() supervisor: UsuarioActual) {
     return this.autorizar.ejecutar(id, supervisor);
   }

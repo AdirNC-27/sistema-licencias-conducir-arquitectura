@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Check, Column, CreateDateColumn, Entity, Index, MoreThanOrEqual, PrimaryGeneratedColumn, Repository } from 'typeorm';
-import { RecursoNoEncontradoError } from '../../../compartido/dominio/errores';
+import { Check, Column, CreateDateColumn, Entity, Index, MoreThanOrEqual, PrimaryGeneratedColumn, QueryFailedError, Repository } from 'typeorm';
+import { ConflictoError, RecursoNoEncontradoError } from '../../../compartido/dominio/errores';
 import { Cita, RepositorioCitas } from '../dominio/contratos';
 import { Cupo, TipoExamen } from '../dominio/cupo';
 
@@ -37,8 +37,16 @@ export class RepositorioCitasTypeOrm implements RepositorioCitas {
   ) {}
 
   async crearCupo(datos: { fecha: Date; hora: string; tipo: TipoExamen; capacidad: number }): Promise<Cupo> {
-    const fila = await this.cupos.save(this.cupos.create({ ...datos, fecha: datos.fecha.toISOString().slice(0, 10), ocupados: 0 }));
-    return fila.aDominio();
+    const fecha = datos.fecha.toISOString().slice(0, 10);
+    try {
+      return (await this.cupos.save(this.cupos.create({ ...datos, fecha, ocupados: 0 }))).aDominio();
+    } catch (error) {
+      // ux_cupos_fecha_hora_tipo: el horario ya existe
+      if (error instanceof QueryFailedError && (error.driverError as { code?: string }).code === '23505') {
+        throw new ConflictoError(`Ya existe un horario de ${datos.tipo.toLowerCase()} el ${fecha} a las ${datos.hora}`);
+      }
+      throw error;
+    }
   }
 
   async buscarCupo(id: number): Promise<Cupo> {
