@@ -1,0 +1,14 @@
+# Finales de línea uniformes en Windows, Linux y GitHub Actions
+* text=auto
+
+# Archivos que deben llegar idénticos a todos los equipos
+*.sh                     text eol=lf
+*.json                   text eol=lf
+*.yml                    text eol=lf
+docs/07-contrato-api/**  text eol=lf
+
+# Binarios: Git no los modifica
+*.pdf    binary
+*.png    binary
+*.jpg    binary
+*.drawio binary

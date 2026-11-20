@@ -87,6 +87,7 @@ describe('Contrato OpenAPI', () => {
 
   it('el archivo docs/07-contrato-api/openapi.json coincide con el código (si falla, ejecute "npm run contrato")', () => {
     expect(existsSync(ARCHIVO_CONTRATO)).toBe(true);
-    expect(readFileSync(ARCHIVO_CONTRATO, 'utf8')).toBe(serializarContrato(contrato));
+    // Se ignora el tipo de fin de línea (CRLF en Windows, LF en Linux)
+    expect(readFileSync(ARCHIVO_CONTRATO, 'utf8').replace(/\r\n/g, '\n')).toBe(serializarContrato(contrato));
   });
 });

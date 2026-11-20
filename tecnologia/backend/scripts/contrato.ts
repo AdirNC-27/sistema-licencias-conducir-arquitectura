@@ -9,7 +9,8 @@ import { ARCHIVO_CONTRATO, generarContrato, serializarContrato } from '../src/co
 async function principal() {
   const actual = serializarContrato(await generarContrato());
   if (process.argv.includes('--verificar')) {
-    const guardado = existsSync(ARCHIVO_CONTRATO) ? readFileSync(ARCHIVO_CONTRATO, 'utf8') : '';
+    // Se ignora el tipo de fin de línea (CRLF en Windows, LF en Linux)
+    const guardado = existsSync(ARCHIVO_CONTRATO) ? readFileSync(ARCHIVO_CONTRATO, 'utf8').replace(/\r\n/g, '\n') : '';
     if (guardado !== actual) {
       console.error('El contrato OpenAPI no coincide con el código. Ejecute "npm run contrato" y haga commit del archivo.');
       process.exit(1);
