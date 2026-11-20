@@ -1,14 +1,29 @@
-# Integración continua: en cada push se ejecutan las reglas de arquitectura y las pruebas con Jest
+# Integración continua del backend (Guía 07): en cada push se compila, se revisan las reglas de arquitectura,
+# se ejecutan las pruebas, se valida el contrato OpenAPI con Postman y se construye la imagen Docker.
 name: CI · Backend
 
 on:
   push:
-    paths: ["tecnologia/backend/**", ".github/workflows/ci.yml"]
+    paths:
+      - "tecnologia/backend/**"
+      - "tecnologia/pruebas-calidad/postman/**"
+      - "docs/07-contrato-api/**"
+      - ".github/workflows/ci.yml"
   pull_request:
-    paths: ["tecnologia/backend/**"]
+    paths:
+      - "tecnologia/backend/**"
+      - "tecnologia/pruebas-calidad/postman/**"
+      - "docs/07-contrato-api/**"
+
+env:
+  DB_HOST: localhost
+  DB_USUARIO: licencias
+  DB_CLAVE: licencias
+  JWT_SECRETO: secreto-de-ci
 
 jobs:
   pruebas:
+    name: Arquitectura, Jest y contrato
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,16 +39,12 @@ jobs:
         options: >-
           --health-cmd "pg_isready -U licencias" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
-      DB_HOST: localhost
-      DB_USUARIO: licencias
-      DB_CLAVE: licencias
       DB_NOMBRE: licencias_test
-      JWT_SECRETO: secreto-de-ci
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: tecnologia/backend/package-lock.json
       - run: npm ci
@@ -41,6 +52,8 @@ jobs:
         run: npm run build
       - name: Reglas de arquitectura (dependency-cruiser · EQ-06)
         run: npm run arquitectura
+      - name: El contrato OpenAPI coincide con el código
+        run: npm run contrato:verificar
       - name: Pruebas unitarias con cobertura (Jest)
         run: npm run test:cov
       - name: Pruebas de la API con PostgreSQL (Jest + Supertest)
@@ -51,3 +64,66 @@ jobs:
         with:
           name: cobertura-jest
           path: tecnologia/backend/coverage
+
+  postman:
+    name: Contrato y Postman (Newman)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: licencias
+          POSTGRES_PASSWORD: licencias
+          POSTGRES_DB: licencias
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U licencias" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DB_NOMBRE: licencias
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: tecnologia/backend/package-lock.json
+      - name: API · instalar, compilar y migrar
+        working-directory: tecnologia/backend
+        run: npm ci && npm run build && npm run migracion:ejecutar
+      - name: API · iniciar
+        working-directory: tecnologia/backend
+        run: |
+          node dist/main.js > api.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/api/health && exit 0; sleep 1; done; cat api.log; exit 1
+      - name: Colección de Postman con Newman (101 solicitudes, validación del contrato)
+        working-directory: tecnologia/pruebas-calidad/postman
+        run: |
+          npm install -g newman@6 newman-reporter-htmlextra@1
+          newman run licencias-clase-b.postman_collection.json -e local.postman_environment.json --working-dir . \
+            -r cli,htmlextra --reporter-htmlextra-export reporte-newman.html \
+            --reporter-htmlextra-title "Licencias Clase B · Pruebas de la API"
+      - name: Guardar el reporte de Newman
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-newman
+          path: tecnologia/pruebas-calidad/postman/reporte-newman.html
+
+  imagen:
+    name: Imagen Docker de la API
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir la imagen
+        run: docker build -t licencias-api:${{ github.sha }} tecnologia/backend
+      - name: Comprobar que la imagen inicia y responde
+        run: |
+          docker network create red-ci
+          docker run -d --name bd --network red-ci -e POSTGRES_USER=licencias -e POSTGRES_PASSWORD=licencias -e POSTGRES_DB=licencias postgres:16-alpine
+          for i in $(seq 1 30); do docker exec bd pg_isready -U licencias && break; sleep 1; done
+          docker run -d --name api --network red-ci -p 3000:3000 -e DB_HOST=bd -e JWT_SECRETO=secreto-de-ci licencias-api:${{ github.sha }}
+          for i in $(seq 1 40); do curl -sf http://localhost:3000/api/health && break; sleep 1; done
+          curl -sf -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{"usuario":"gestor","clave":"demo123"}' > /dev/null \
+            && echo "La imagen migra la base al iniciar y responde" || { docker logs api; exit 1; }

@@ -1,0 +1,687 @@
+newman
+
+Sistema de Licencias Clase B · API
+
+❏ 01 · Inicio de sesión (RF01)
+↳ Postulante 45892014
+  POST http://localhost:3000/api/auth/login [200 OK, 592B, 132ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Rol POSTULANTE
+
+↳ Postulante 70123456
+  POST http://localhost:3000/api/auth/login [200 OK, 592B, 94ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Personal: gestor
+  POST http://localhost:3000/api/auth/login [200 OK, 595B, 95ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Personal: evaluador
+  POST http://localhost:3000/api/auth/login [200 OK, 597B, 92ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Personal: supervisor
+  POST http://localhost:3000/api/auth/login [200 OK, 604B, 100ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Personal: admin
+  POST http://localhost:3000/api/auth/login [200 OK, 609B, 102ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Clave incorrecta
+  POST http://localhost:3000/api/auth/login [401 Unauthorized, 356B, 96ms]
+  ✓  Responde 401
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (401)
+  ✓  Mensaje: Usuario o contraseña incorrectos
+
+↳ Sin datos
+  POST http://localhost:3000/api/auth/login [400 Bad Request, 456B, 4ms]
+  ✓  Responde 400
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (400)
+  ✓  Explica cada dato faltante
+
+↳ Usuario del token
+  GET http://localhost:3000/api/auth/yo [200 OK, 314B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Es el postulante
+
+❏ 02 · Requisitos del TUPA (RF22)
+↳ Moto II-B
+  GET http://localhost:3000/api/requisitos?categoria=II-B [200 OK, 1.14kB, 3ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Tasa S/ 69.90
+
+↳ Mototaxi II-C
+  GET http://localhost:3000/api/requisitos?categoria=II-C [200 OK, 1.39kB, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Tasa S/ 69.40
+  ✓  Pide la constancia COFIPRO
+
+↳ Categoría inexistente
+  GET http://localhost:3000/api/requisitos?categoria=II-X [400 Bad Request, 408B, 2ms]
+  ✓  Responde 400
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (400)
+
+❏ 03 · Expediente y seguimiento (RF02, RF10)
+↳ Iniciar trámite II-C
+  POST http://localhost:3000/api/expedientes [201 Created, 490B, 9ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  El expediente está en DOCUMENTOS
+  ✓  Plazo de 10 días hábiles
+
+↳ Segundo trámite en curso
+  POST http://localhost:3000/api/expedientes [409 Conflict, 336B, 4ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+  ✓  Mensaje: Ya tiene un trámite en curso
+
+↳ Categoría inválida
+  POST http://localhost:3000/api/expedientes [400 Bad Request, 408B, 3ms]
+  ✓  Responde 400
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (400)
+  ✓  Explica el error en español
+
+↳ Mis trámites
+  GET http://localhost:3000/api/expedientes/mios [200 OK, 487B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Incluye el trámite
+
+↳ Detalle del expediente
+  GET http://localhost:3000/api/expedientes/1 [200 OK, 485B, 8ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en DOCUMENTOS
+
+↳ Expediente inexistente
+  GET http://localhost:3000/api/expedientes/999999 [404 Not Found, 348B, 4ms]
+  ✓  Responde 404
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (404)
+
+↳ Identificador no numérico
+  GET http://localhost:3000/api/expedientes/abc [400 Bad Request, 426B, 4ms]
+  ✓  Responde 400
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (400)
+
+↳ Postulante 2 inicia su trámite II-B
+  POST http://localhost:3000/api/expedientes [201 Created, 490B, 7ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Postulante 2 adjunta su fotografía
+  POST http://localhost:3000/api/expedientes/2/documentos (node:3150) [DEP0044] DeprecationWarning: The `util.isArray` API is deprecated. Please use `Array.isArray()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[201 Created, 339B, 14ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Bandeja del gestor
+  GET http://localhost:3000/api/expedientes?etapa=DOCUMENTOS&pagina=1&tamano=20 [200 OK, 767B, 12ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Muestra los dos trámites
+
+❏ 04 · Documentos (RF03, RF04)
+↳ Formato no permitido
+  POST http://localhost:3000/api/expedientes/1/documentos [422 Unprocessable Entity, 352B, 7ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+  ✓  Mensaje: Solo se aceptan PDF, JPG o PNG
+
+↳ Certificado sin fecha de emisión
+  POST http://localhost:3000/api/expedientes/1/documentos [422 Unprocessable Entity, 366B, 5ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+  ✓  Mensaje: Indique la fecha de emisión
+
+↳ Adjuntar DECLARACION_JURADA
+  POST http://localhost:3000/api/expedientes/1/documentos [201 Created, 347B, 9ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Queda PENDIENTE
+
+↳ Adjuntar CERTIFICADO_MEDICO
+  POST http://localhost:3000/api/expedientes/1/documentos [201 Created, 347B, 12ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Queda PENDIENTE
+
+↳ Adjuntar FOTOGRAFIA
+  POST http://localhost:3000/api/expedientes/1/documentos [201 Created, 339B, 9ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Queda PENDIENTE
+
+↳ Adjuntar CONSTANCIA_COFIPRO
+  POST http://localhost:3000/api/expedientes/1/documentos [201 Created, 347B, 11ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Queda PENDIENTE
+
+↳ Documentos del expediente
+  GET http://localhost:3000/api/expedientes/1/documentos [200 OK, 620B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Los 4 documentos
+
+↳ El gestor abre el archivo
+  GET http://localhost:3000/api/documentos/3/archivo [200 OK, 482B, 5ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Es un PDF
+
+↳ Observar sin motivo
+  PATCH http://localhost:3000/api/documentos/4/revision [422 Unprocessable Entity, 358B, 11ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+  ✓  Mensaje: Indique el motivo
+
+↳ Un postulante no puede revisar
+  PATCH http://localhost:3000/api/documentos/4/revision [403 Forbidden, 352B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Aprobar DECLARACION_JURADA
+  PATCH http://localhost:3000/api/documentos/2/revision [200 OK, 369B, 8ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Aprobado
+
+↳ Aprobar CERTIFICADO_MEDICO
+  PATCH http://localhost:3000/api/documentos/3/revision [200 OK, 369B, 7ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Aprobado
+
+↳ Aprobar FOTOGRAFIA
+  PATCH http://localhost:3000/api/documentos/4/revision [200 OK, 361B, 7ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Aprobado
+
+↳ Aprobar CONSTANCIA_COFIPRO
+  PATCH http://localhost:3000/api/documentos/5/revision [200 OK, 368B, 11ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Con el último aprobado, el expediente queda completo
+
+↳ El expediente pasa a PAGO
+  GET http://localhost:3000/api/expedientes/1 [200 OK, 479B, 3ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en PAGO
+
+❏ 05 · Pagos (RF05, RF06)
+↳ Monto que no es la tasa
+  POST http://localhost:3000/api/expedientes/1/pagos [422 Unprocessable Entity, 352B, 3ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+
+↳ Registrar el recibo
+  POST http://localhost:3000/api/expedientes/1/pagos [201 Created, 403B, 8ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Queda PENDIENTE
+
+↳ Segundo recibo pendiente
+  POST http://localhost:3000/api/expedientes/1/pagos [409 Conflict, 350B, 6ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+
+↳ El gestor verifica el pago
+  PATCH http://localhost:3000/api/pagos/1/verificacion [200 OK, 399B, 8ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  VERIFICADO
+
+↳ El expediente pasa a CITA
+  GET http://localhost:3000/api/expedientes/1 [200 OK, 479B, 3ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en CITA
+
+❏ 06 · Cupos y citas (RF07, RF21)
+↳ El gestor no habilita cupos
+  POST http://localhost:3000/api/cupos [403 Forbidden, 352B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Habilitar horario de conocimientos
+  POST http://localhost:3000/api/cupos [201 Created, 355B, 6ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  Con 10 cupos libres
+
+↳ Horario repetido
+  POST http://localhost:3000/api/cupos [409 Conflict, 371B, 5ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+  ✓  Mensaje: Ya existe un horario de conocimientos
+
+↳ Conocimientos en jueves
+  POST http://localhost:3000/api/cupos [422 Unprocessable Entity, 388B, 4ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+
+↳ Horarios disponibles
+  GET http://localhost:3000/api/cupos?tipo=CONOCIMIENTOS [200 OK, 1.56kB, 5ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Incluye el horario nuevo
+
+↳ Reservar la cita de conocimientos
+  POST http://localhost:3000/api/expedientes/1/citas [201 Created, 338B, 10ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Citas del expediente
+  GET http://localhost:3000/api/expedientes/1/citas [200 OK, 318B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Una cita
+
+↳ El expediente pasa a EXAMEN_CONOCIMIENTOS
+  GET http://localhost:3000/api/expedientes/1 [200 OK, 495B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en EXAMEN_CONOCIMIENTOS
+
+❏ 07 · Evaluaciones (RF08, RF09, EQ-09)
+↳ Un postulante no registra notas
+  POST http://localhost:3000/api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado [403 Forbidden, 352B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Nota fuera de rango
+  POST http://localhost:3000/api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado [400 Bad Request, 394B, 3ms]
+  ✓  Responde 400
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (400)
+  ✓  Explica el rango
+
+↳ Registrar conocimientos: 16
+  POST http://localhost:3000/api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado [201 Created, 463B, 11ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+  ✓  REGISTRADO, aún sin bloquear
+
+↳ Corregir antes de validar
+  PATCH http://localhost:3000/api/evaluaciones/1/resultado [200 OK, 458B, 8ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Nota corregida
+
+↳ Resultados por validar
+  GET http://localhost:3000/api/evaluaciones/por-validar [200 OK, 460B, 8ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Incluye la evaluación
+
+↳ Validar y bloquear
+  POST http://localhost:3000/api/evaluaciones/1/validacion [200 OK, 518B, 11ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Queda bloqueada
+
+↳ Corregir un resultado validado (EQ-09)
+  PATCH http://localhost:3000/api/evaluaciones/1/resultado [409 Conflict, 389B, 6ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+
+↳ Validar dos veces (EQ-09)
+  POST http://localhost:3000/api/evaluaciones/1/validacion [409 Conflict, 389B, 4ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+
+↳ El postulante ve su historial, no el resultado interno (RF19)
+  GET http://localhost:3000/api/expedientes/1/evaluaciones [200 OK, 472B, 5ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  resultadoActual oculto
+
+↳ Habilitar horario de manejo
+  POST http://localhost:3000/api/cupos [201 Created, 345B, 7ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Reservar la cita de manejo
+  POST http://localhost:3000/api/expedientes/1/citas [201 Created, 331B, 13ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Registrar manejo: 15
+  POST http://localhost:3000/api/expedientes/1/evaluaciones/MANEJO/resultado [201 Created, 456B, 9ms]
+  ✓  Responde 201
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (201)
+
+↳ Validar manejo
+  POST http://localhost:3000/api/evaluaciones/2/validacion [200 OK, 511B, 9ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ El expediente pasa a EMISION
+  GET http://localhost:3000/api/expedientes/1 [200 OK, 482B, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en EMISION
+
+❏ 08 · Emisión, avisos y auditoría (RF12, RF13, RF16, RF17, EQ-07)
+↳ El gestor no autoriza la emisión
+  PATCH http://localhost:3000/api/expedientes/1/emision [403 Forbidden, 352B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Autorizar la emisión
+  PATCH http://localhost:3000/api/expedientes/1/emision [200 OK, 482B, 6ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  El expediente está en EMITIDA
+
+↳ Autorizar dos veces
+  PATCH http://localhost:3000/api/expedientes/1/emision [409 Conflict, 368B, 4ms]
+  ✓  Responde 409
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (409)
+
+↳ Avisos del postulante
+  GET http://localhost:3000/api/notificaciones/mias [200 OK, 2.21kB, 4ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Recibió avisos del avance
+
+↳ Auditoría de evaluaciones
+  GET http://localhost:3000/api/auditoria?entidad=evaluacion [200 OK, 1.92kB, 5ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  La corrección quedó con su motivo (EQ-07)
+
+↳ Cuentas del sistema
+  GET http://localhost:3000/api/usuarios [200 OK, 873B, 5ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Cambiar el rol del evaluador
+  PATCH http://localhost:3000/api/usuarios/2/rol [200 OK, 298B, 6ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+  ✓  Ahora es SUPERVISOR
+
+↳ Devolver el rol de evaluador
+  PATCH http://localhost:3000/api/usuarios/2/rol [200 OK, 297B, 6ms]
+  ✓  Responde 200
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (200)
+
+↳ Un postulante no pasa a personal
+  PATCH http://localhost:3000/api/usuarios/5/rol [422 Unprocessable Entity, 382B, 4ms]
+  ✓  Responde 422
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (422)
+
+❏ 09 · Seguridad: autenticación y roles (EQ-01)
+↳ Bandeja sin token
+  GET http://localhost:3000/api/expedientes [401 Unauthorized, 366B, 2ms]
+  ✓  Responde 401
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (401)
+
+↳ Auditoría sin token
+  GET http://localhost:3000/api/auditoria [401 Unauthorized, 366B, 2ms]
+  ✓  Responde 401
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (401)
+
+↳ Habilitar cupos sin token
+  POST http://localhost:3000/api/cupos [401 Unauthorized, 366B, 2ms]
+  ✓  Responde 401
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (401)
+
+↳ Token falso
+  GET http://localhost:3000/api/expedientes/mios [401 Unauthorized, 366B, 2ms]
+  ✓  Responde 401
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (401)
+
+↳ Postulante en la bandeja del personal
+  GET http://localhost:3000/api/expedientes [403 Forbidden, 352B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante en la auditoría
+  GET http://localhost:3000/api/auditoria [403 Forbidden, 352B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante en las cuentas
+  GET http://localhost:3000/api/usuarios [403 Forbidden, 352B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Evaluador valida resultados
+  POST http://localhost:3000/api/evaluaciones/1/validacion [403 Forbidden, 352B, 5ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+❏ 10 · Privacidad entre postulantes: 20 accesos ajenos (EQ-02)
+↳ Postulante 1 ve el expediente del otro
+  GET http://localhost:3000/api/expedientes/2 [403 Forbidden, 346B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve el expediente del otro
+  GET http://localhost:3000/api/expedientes/1 [403 Forbidden, 346B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 ve los documentos del otro
+  GET http://localhost:3000/api/expedientes/2/documentos [403 Forbidden, 346B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve los documentos del otro
+  GET http://localhost:3000/api/expedientes/1/documentos [403 Forbidden, 346B, 5ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 ve los pagos del otro
+  GET http://localhost:3000/api/expedientes/2/pagos [403 Forbidden, 346B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve los pagos del otro
+  GET http://localhost:3000/api/expedientes/1/pagos [403 Forbidden, 346B, 6ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 ve las citas del otro
+  GET http://localhost:3000/api/expedientes/2/citas [403 Forbidden, 346B, 6ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve las citas del otro
+  GET http://localhost:3000/api/expedientes/1/citas [403 Forbidden, 346B, 5ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 ve las evaluaciones del otro
+  GET http://localhost:3000/api/expedientes/2/evaluaciones [403 Forbidden, 346B, 3ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve las evaluaciones del otro
+  GET http://localhost:3000/api/expedientes/1/evaluaciones [403 Forbidden, 346B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 ve los datos personales del otro
+  GET http://localhost:3000/api/postulantes/2 [403 Forbidden, 354B, 2ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 ve los datos personales del otro
+  GET http://localhost:3000/api/postulantes/1 [403 Forbidden, 354B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 adjunta un documento del otro
+  POST http://localhost:3000/api/expedientes/2/documentos [403 Forbidden, 346B, 6ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 adjunta un documento del otro
+  POST http://localhost:3000/api/expedientes/1/documentos [403 Forbidden, 346B, 5ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 registra un pago del otro
+  POST http://localhost:3000/api/expedientes/2/pagos [403 Forbidden, 346B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 registra un pago del otro
+  POST http://localhost:3000/api/expedientes/1/pagos [403 Forbidden, 346B, 6ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 reserva una cita del otro
+  POST http://localhost:3000/api/expedientes/2/citas [403 Forbidden, 346B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 reserva una cita del otro
+  POST http://localhost:3000/api/expedientes/1/citas [403 Forbidden, 346B, 4ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 1 descarga un archivo del otro
+  GET http://localhost:3000/api/documentos/1/archivo [403 Forbidden, 346B, 6ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+↳ Postulante 2 descarga un archivo del otro
+  GET http://localhost:3000/api/documentos/3/archivo [403 Forbidden, 346B, 5ms]
+  ✓  Responde 403
+  ✓  Responde en menos de 1 s (EQ-03)
+  ✓  Cumple el contrato OpenAPI (403)
+
+┌─────────────────────────┬───────────────────┬──────────────────┐
+│                         │          executed │           failed │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              iterations │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│                requests │               101 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│            test-scripts │               101 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│      prerequest-scripts │                 2 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              assertions │               349 │                0 │
+├─────────────────────────┴───────────────────┴──────────────────┤
+│ total run duration: 3.2s                                       │
+├────────────────────────────────────────────────────────────────┤
+│ total data received: 21.47kB (approx)                          │
+├────────────────────────────────────────────────────────────────┤
+│ average response time: 12ms [min: 2ms, max: 132ms, s.d.: 24ms] │
+└────────────────────────────────────────────────────────────────┘
