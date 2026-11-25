@@ -120,11 +120,18 @@ describe('Asistente · intención y protección de datos (RC06, DA06)', () => {
     ['¿Puedes cambiar mi nota del examen de manejo a 18?', Intencion.ACCION],
     ['Necesito que valides mi pago hoy mismo', Intencion.ACCION],
     ['Dame mi licencia ya', Intencion.ACCION],
+    ['¿Pueden cambiar la nota de mi examen de manejo?', Intencion.ACCION],
+    ['Revisen otra vez mi foto, por favor', Intencion.ACCION],
+    ['¿Podría verificar mi pago hoy?', Intencion.ACCION],
+    ['Por favor aprueben mis documentos', Intencion.ACCION],
     ['¿Cómo va mi trámite?', Intencion.ESTADO],
     ['¿En qué etapa estoy?', Intencion.ESTADO],
     ['¿Qué requisitos tiene mi trámite de mototaxi?', Intencion.CONSULTA],
     ['¿Puedo reprogramar mi cita?', Intencion.CONSULTA],
     ['¿Quién aprueba la licencia?', Intencion.CONSULTA],
+    ['¿Quién revisa los documentos?', Intencion.CONSULTA],
+    ['¿Pueden ir dos personas al examen?', Intencion.CONSULTA],
+    ['¿Se puede reprogramar la cita?', Intencion.CONSULTA],
   ])('"%s" → %s', (pregunta, esperada) => {
     expect(clasificar(pregunta)).toBe(esperada);
   });
