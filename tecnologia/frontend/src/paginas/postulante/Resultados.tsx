@@ -1,5 +1,5 @@
-import { api } from '../../api/cliente';
-import type { Evaluacion } from '../../api/tipos';
+import { api, ErrorApi } from '../../api/cliente';
+import type { Evaluacion, Licencia } from '../../api/tipos';
 import { useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, ChipEstado, Encabezado, Vacio } from '../../componentes/ui';
 import { SinTramite } from './SinTramite';
@@ -9,13 +9,26 @@ import { useMiExpediente } from './useMiExpediente';
 export function Resultados() {
   const { expediente, cargando } = useMiExpediente();
   const evaluaciones = useDatos(() => (expediente ? api.get<Evaluacion[]>(`/expedientes/${expediente.id}/evaluaciones`) : Promise.resolve([])), [expediente?.id]);
+  // RF24: el número aparece cuando el gestor registra la licencia para el SNC (404 mientras tanto)
+  const licencia = useDatos(
+    () =>
+      expediente?.etapa === 'EMITIDA'
+        ? api.get<Licencia>(`/expedientes/${expediente.id}/licencia`).catch((e) => (e instanceof ErrorApi && e.estado === 404 ? null : Promise.reject(e)))
+        : Promise.resolve(null),
+    [expediente?.id, expediente?.etapa],
+  );
   if (cargando || evaluaciones.cargando) return <Cargando />;
   if (!expediente) return <SinTramite />;
 
   return (
     <div className="space-y-6">
       <Encabezado titulo="Mis resultados" subtitulo="Solo se muestran los resultados validados por el supervisor" />
-      {expediente.etapa === 'EMITIDA' && <Aviso tipo="ok">¡Tu licencia fue emitida! Acércate a la Subgerencia de Tránsito para recogerla.</Aviso>}
+      {expediente.etapa === 'EMITIDA' && (
+        <Aviso tipo="ok">
+          ¡Tu licencia fue emitida! Acércate a la Subgerencia de Tránsito para recogerla.
+          {licencia.datos && <> Número de licencia: <b>{licencia.datos.numero}</b> (registrada para el SNC).</>}
+        </Aviso>
+      )}
       {!evaluaciones.datos?.length ? <div className="tarjeta"><Vacio titulo="Aún no hay resultados" texto="Aparecerán después de tu examen." icono="quiz" /></div> : (
         <div className="grid gap-6 md:grid-cols-2">
           {evaluaciones.datos.map((ev) => (

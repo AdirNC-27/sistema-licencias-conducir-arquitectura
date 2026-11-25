@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { Rol, ROLES_PERSONAL, UsuarioActual } from '../../../compartido/dominio/rol';
 import { Roles, Usuario } from '../../../compartido/seguridad/decoradores';
-import { AutorizarEmisionUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
+import { ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
 import { Etapa } from '../dominio/etapa';
 import { Contrato } from '../../../compartido/presentacion/contrato';
 import { ExpedienteRespuesta, PaginaExpedientesRespuesta } from './respuestas';
@@ -29,7 +29,6 @@ export class ExpedientesController {
   constructor(
     private readonly crear: CrearExpedienteUseCase,
     private readonly consultar: ConsultarExpedienteUseCase,
-    private readonly autorizar: AutorizarEmisionUseCase,
   ) {}
 
   @Post()
@@ -57,12 +56,5 @@ export class ExpedientesController {
   @Contrato({ resumen: 'Estado, etapa y plazo de un expediente (RF10)', exito: { descripcion: 'Expediente', tipo: ExpedienteRespuesta }, errores: [400, [403, 'El expediente pertenece a otro postulante (EQ-02)'], [404, 'No existe el expediente']] })
   detalle(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {
     return this.consultar.ejecutar(id, usuario);
-  }
-
-  @Patch(':id/emision')
-  @Roles(Rol.SUPERVISOR)
-  @Contrato({ resumen: 'Autorizar la emisión de la licencia (RF12, auditable)', exito: { descripcion: 'Expediente en la etapa EMITIDA', tipo: ExpedienteRespuesta }, errores: [400, 403, [404, 'No existe el expediente'], [409, 'El expediente no está en la etapa EMISION']] })
-  emitir(@Param('id', ParseIntPipe) id: number, @Usuario() supervisor: UsuarioActual) {
-    return this.autorizar.ejecutar(id, supervisor);
   }
 }

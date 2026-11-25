@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../api/cliente';
 import { ETAPAS } from '../../api/textos';
-import type { Expediente } from '../../api/tipos';
+import type { Expediente, ObservacionExpediente } from '../../api/tipos';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
 import { useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, Encabezado, Icono, Vacio } from '../../componentes/ui';
@@ -17,10 +17,27 @@ export function Bandeja() {
   const consulta = new URLSearchParams({ pagina: String(pagina), tamano: '15', ...(etapa && { etapa }), ...(categoria && { categoria }) });
   const { datos, cargando, error } = useDatos(() => api.get<Pagina>(`/expedientes?${consulta}`), [etapa, categoria, pagina]);
   const paginas = datos ? Math.max(1, Math.ceil(datos.total / datos.tamano)) : 1;
+  const devueltos = useDatos(() => api.get<ObservacionExpediente[]>('/observaciones/abiertas'));
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Bandeja de expedientes" subtitulo="Revisa documentos y pagos. Antecedentes: verificar en SNC, SAT y Sanciones del MTC." />
+      <Encabezado titulo="Bandeja de expedientes" subtitulo="Revisa documentos y pagos, y deja constancia de lo verificado en el SNC y el récord del conductor." />
+      {!!devueltos.datos?.length && (
+        <div className="tarjeta ring-2 ring-amber-300">
+          <h2 className="mb-2 flex items-center gap-2 font-bold text-amber-900"><Icono nombre="undo" className="text-lg" />Devueltos por el supervisor ({devueltos.datos.length})</h2>
+          <ul className="divide-y divide-slate-100">
+            {devueltos.datos.map((o) => (
+              <li key={o.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                <div className="min-w-0">
+                  <p className="font-semibold text-marca">{o.numeroExpediente}</p>
+                  <p className="truncate text-sm text-slate-600">{o.motivo}</p>
+                </div>
+                <Link to={`/gestor/expedientes/${o.expedienteId}`} className="btn-suave">Atender <Icono nombre="chevron_right" className="text-lg" /></Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         {[{ clave: '', corto: 'Todas' }, ...ETAPAS].map((e) => (
           <button key={e.clave} onClick={() => { setEtapa(e.clave); setPagina(1); }}

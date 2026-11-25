@@ -372,14 +372,79 @@ pm.collectionVariables.set('horaCupo', '19:' + String(Math.floor(Math.random() *
     ],
   },
   {
-    name: '08 · Emisión, avisos y auditoría (RF12, RF13, RF16, RF17, EQ-07)',
+    name: '08 · Revisión, emisión, avisos y auditoría (RF11, RF12, RF13, RF16, RF17, RF24, RF27, EQ-07)',
     item: [
+      s('Revisión: faltan las verificaciones', 'GET /api/expedientes/{id}/revision', 200, {
+        url: '/expedientes/{{expedienteId}}/revision',
+        como: 'supervisor',
+        pruebas: `
+pm.test('II-C: certificado, COFIPRO y sanciones', () => pm.expect(cuerpo.verificacionesObligatorias).to.eql(['SNC_CERTIFICADO_MEDICO', 'SNC_COFIPRO', 'SANCIONES']));
+pm.test('Aún no se puede emitir', () => pm.expect(cuerpo.listoParaEmitir).to.eql(false));`,
+      }),
+      s('El postulante no ve la revisión interna', 'GET /api/expedientes/{id}/revision', 403, { url: '/expedientes/{{expedienteId}}/revision', como: 'postulante' }),
+      s('Emitir sin verificaciones (RF24)', 'PATCH /api/expedientes/{id}/emision', 422, { url: '/expedientes/{{expedienteId}}/emision', como: 'supervisor', pruebas: mensaje('Falta verificar') }),
+      s('Certificado médico en el SNC: conforme', 'POST /api/expedientes/{id}/verificaciones', 201, {
+        url: '/expedientes/{{expedienteId}}/verificaciones',
+        como: 'gestor',
+        json: { tipo: 'SNC_CERTIFICADO_MEDICO', resultado: 'CONFORME', detalle: 'Registrado en el SNC por la clínica' },
+      }),
+      s('COFIPRO en el SNC: conforme', 'POST /api/expedientes/{id}/verificaciones', 201, { url: '/expedientes/{{expedienteId}}/verificaciones', como: 'gestor', json: { tipo: 'SNC_COFIPRO', resultado: 'CONFORME' } }),
+      s('No conforme sin detalle', 'POST /api/expedientes/{id}/verificaciones', 422, { url: '/expedientes/{{expedienteId}}/verificaciones', como: 'gestor', json: { tipo: 'SANCIONES', resultado: 'NO_CONFORME' } }),
+      s('Sanciones: papeleta pendiente (RF27)', 'POST /api/expedientes/{id}/verificaciones', 201, {
+        url: '/expedientes/{{expedienteId}}/verificaciones',
+        como: 'gestor',
+        json: { tipo: 'SANCIONES', resultado: 'NO_CONFORME', detalle: 'Papeleta pendiente en el récord del conductor' },
+      }),
+      s('Con sanción pendiente no se emite (RF27)', 'PATCH /api/expedientes/{id}/emision', 422, { url: '/expedientes/{{expedienteId}}/emision', como: 'supervisor', pruebas: mensaje('No conforme') }),
+      s('Sanciones: papeleta pagada', 'POST /api/expedientes/{id}/verificaciones', 201, {
+        url: '/expedientes/{{expedienteId}}/verificaciones',
+        como: 'gestor',
+        json: { tipo: 'SANCIONES', resultado: 'CONFORME', detalle: 'Récord sin pendientes' },
+      }),
+      s('El supervisor no registra verificaciones', 'POST /api/expedientes/{id}/verificaciones', 403, { url: '/expedientes/{{expedienteId}}/verificaciones', como: 'supervisor', json: { tipo: 'SANCIONES', resultado: 'CONFORME' } }),
+      s('El supervisor observa el expediente (RF11)', 'POST /api/expedientes/{id}/observaciones', 201, {
+        url: '/expedientes/{{expedienteId}}/observaciones',
+        como: 'supervisor',
+        json: { motivo: 'La constancia COFIPRO del SNC no coincide con el DNI' },
+        pruebas: `pm.collectionVariables.set('observacionId', cuerpo.id);
+pm.test('Queda ABIERTA', () => pm.expect(cuerpo.estado).to.eql('ABIERTA'));`,
+      }),
+      s('Segunda observación abierta', 'POST /api/expedientes/{id}/observaciones', 409, { url: '/expedientes/{{expedienteId}}/observaciones', como: 'supervisor', json: { motivo: 'Otra observación del mismo expediente' } }),
+      s('Expedientes devueltos al gestor', 'GET /api/observaciones/abiertas', 200, {
+        como: 'gestor',
+        pruebas: `pm.test('Aparece el expediente observado', () => pm.expect(cuerpo.map((o) => o.id)).to.include(pm.collectionVariables.get('observacionId')));`,
+      }),
+      s('Con observación abierta no se emite', 'PATCH /api/expedientes/{id}/emision', 422, { url: '/expedientes/{{expedienteId}}/emision', como: 'supervisor', pruebas: mensaje('observación') }),
+      s('El gestor atiende la observación', 'PATCH /api/observaciones/{id}/atencion', 200, {
+        url: '/observaciones/{{observacionId}}/atencion',
+        como: 'gestor',
+        json: { respuesta: 'Se volvió a consultar el SNC: la constancia es correcta' },
+        pruebas: `pm.test('Queda ATENDIDA', () => pm.expect(cuerpo.estado).to.eql('ATENDIDA'));`,
+      }),
+      s('Atender dos veces', 'PATCH /api/observaciones/{id}/atencion', 409, { url: '/observaciones/{{observacionId}}/atencion', como: 'gestor', json: { respuesta: 'Segunda atención de la misma' } }),
+      s('Revisión: lista para emitir', 'GET /api/expedientes/{id}/revision', 200, {
+        url: '/expedientes/{{expedienteId}}/revision',
+        como: 'supervisor',
+        pruebas: `pm.test('Sin pendientes', () => { pm.expect(cuerpo.pendientes).to.eql([]); pm.expect(cuerpo.listoParaEmitir).to.eql(true); });`,
+      }),
       s('El gestor no autoriza la emisión', 'PATCH /api/expedientes/{id}/emision', 403, { url: '/expedientes/{{expedienteId}}/emision', como: 'gestor' }),
       s('Autorizar la emisión', 'PATCH /api/expedientes/{id}/emision', 200, { url: '/expedientes/{{expedienteId}}/emision', como: 'supervisor', pruebas: etapa('EMITIDA') }),
       s('Autorizar dos veces', 'PATCH /api/expedientes/{id}/emision', 409, { url: '/expedientes/{{expedienteId}}/emision', como: 'supervisor' }),
+      s('Licencia aún no registrada', 'GET /api/expedientes/{id}/licencia', 404, { url: '/expedientes/{{expedienteId}}/licencia', como: 'postulante' }),
+      s('Registrar la licencia para el SNC (RF24)', 'POST /api/expedientes/{id}/licencia', 201, {
+        url: '/expedientes/{{expedienteId}}/licencia',
+        como: 'gestor',
+        json: { numero: 'q{{numeroOperacion}}' },
+        pruebas: `pm.test('Número en mayúsculas', () => pm.expect(cuerpo.numero).to.eql('Q' + pm.collectionVariables.get('numeroOperacion')));`,
+      }),
+      s('Registrar la licencia dos veces', 'POST /api/expedientes/{id}/licencia', 409, { url: '/expedientes/{{expedienteId}}/licencia', como: 'gestor', json: { numero: 'Q00000001' } }),
+      s('El postulante ve su licencia', 'GET /api/expedientes/{id}/licencia', 200, { url: '/expedientes/{{expedienteId}}/licencia', como: 'postulante' }),
+      s('Otro postulante no ve la licencia (EQ-02)', 'GET /api/expedientes/{id}/licencia', 403, { url: '/expedientes/{{expedienteId}}/licencia', como: 'postulante2' }),
       s('Avisos del postulante', 'GET /api/notificaciones/mias', 200, {
         como: 'postulante',
-        pruebas: `pm.test('Recibió avisos del avance', () => pm.expect(cuerpo.length).to.be.at.least(5));`,
+        pruebas: `
+pm.test('Recibió avisos del avance', () => pm.expect(cuerpo.length).to.be.at.least(5));
+pm.test('El último es el de la licencia', () => pm.expect(cuerpo[0].asunto).to.include('fue registrada'));`,
       }),
       s('Auditoría de evaluaciones', 'GET /api/auditoria', 200, {
         como: 'supervisor',
@@ -446,13 +511,72 @@ pm.collectionVariables.set('usuarioPostulanteId', postulante.id);`,
       ),
     ],
   },
+  {
+    name: '11 · Asistente virtual con la IA de orientación (RF14, RF15, HU25, EQ-08)',
+    description: 'Sin IA_API_KEY el asistente responde con el texto aprobado (origen CONTENIDO); con la clave, la IA lo redacta (origen IA). En ambos casos, un pedido de acción o una pregunta ajena se deriva al gestor.',
+    item: [
+      s('Pregunta del trámite', 'POST /api/asistente/consultas', 201, {
+        como: 'postulante',
+        json: { pregunta: '¿Cuánto cuesta la licencia de mototaxi?' },
+        pruebas: `
+pm.test('Responde con contenido aprobado', () => { pm.expect(['IA', 'CONTENIDO']).to.include(cuerpo.origen); pm.expect(cuerpo.derivada).to.eql(false); });
+pm.test('Menciona la tasa de la II-C', () => pm.expect(cuerpo.respuesta).to.include('69.40'));`,
+      }),
+      s('Estado del propio trámite', 'POST /api/asistente/consultas', 201, {
+        como: 'postulante2',
+        json: { pregunta: '¿Cómo va mi trámite?' },
+        pruebas: `pm.test('Responde con su expediente', () => { pm.expect(cuerpo.origen).to.eql('ESTADO'); pm.expect(cuerpo.respuesta).to.include('revisión de documentos'); });`,
+      }),
+      s('Pedido de acción: se deriva (0 acciones)', 'POST /api/asistente/consultas', 201, {
+        como: 'postulante',
+        json: { pregunta: 'Aprueba mi expediente por favor' },
+        pruebas: `pm.test('Derivada al gestor', () => { pm.expect(cuerpo.origen).to.eql('DERIVADA'); pm.expect(cuerpo.respuesta).to.include('no apruebo'); });`,
+      }),
+      s('Pregunta ajena al trámite: se deriva', 'POST /api/asistente/consultas', 201, {
+        como: 'postulante',
+        json: { pregunta: '¿Quién ganó el partido de fútbol ayer?' },
+        pruebas: `pm.collectionVariables.set('consultaDerivadaId', cuerpo.id);
+pm.test('Derivada al gestor', () => pm.expect(cuerpo.derivada).to.eql(true));`,
+      }),
+      s('Pregunta vacía', 'POST /api/asistente/consultas', 400, { como: 'postulante', json: { pregunta: '' } }),
+      s('El personal no usa el chat del postulante', 'POST /api/asistente/consultas', 403, { como: 'gestor', json: { pregunta: '¿Cuánto cuesta?' } }),
+      s('Consultas derivadas al gestor', 'GET /api/asistente/derivadas', 200, {
+        como: 'gestor',
+        pruebas: `pm.test('Incluye la consulta', () => pm.expect(cuerpo.map((c) => c.id)).to.include(pm.collectionVariables.get('consultaDerivadaId')));`,
+      }),
+      s('El postulante no ve la bandeja del gestor', 'GET /api/asistente/derivadas', 403, { como: 'postulante' }),
+      s('El gestor responde (RF15)', 'PATCH /api/asistente/consultas/{id}/respuesta', 200, {
+        url: '/asistente/consultas/{{consultaDerivadaId}}/respuesta',
+        como: 'gestor',
+        json: { respuesta: 'Solo atendemos consultas sobre la licencia de conducir.' },
+      }),
+      s('Responder dos veces', 'PATCH /api/asistente/consultas/{id}/respuesta', 409, { url: '/asistente/consultas/{{consultaDerivadaId}}/respuesta', como: 'gestor', json: { respuesta: 'Otra respuesta' } }),
+      s('Mi conversación', 'GET /api/asistente/consultas/mias', 200, {
+        como: 'postulante',
+        pruebas: `pm.test('Ve la respuesta del gestor', () => pm.expect(cuerpo.map((c) => c.respuestaGestor)).to.include('Solo atendemos consultas sobre la licencia de conducir.'));`,
+      }),
+      s('Contenido aprobado (HU25)', 'GET /api/asistente/contenidos', 200, { como: 'admin', pruebas: `pm.test('25 contenidos iniciales o más', () => pm.expect(cuerpo.length).to.be.at.least(25));` }),
+      s('Agregar contenido', 'POST /api/asistente/contenidos', 201, {
+        como: 'admin',
+        json: { tema: 'CITAS', pregunta: '¿Hay exámenes en días feriados?', respuesta: 'No, en los feriados no se toman exámenes.', palabrasClave: 'feriado' },
+        pruebas: `pm.collectionVariables.set('contenidoId', cuerpo.id);`,
+      }),
+      s('Desactivar el contenido', 'PUT /api/asistente/contenidos/{id}', 200, {
+        url: '/asistente/contenidos/{{contenidoId}}',
+        como: 'admin',
+        json: { tema: 'CITAS', pregunta: '¿Hay exámenes en días feriados?', respuesta: 'No, en los feriados no se toman exámenes.', activo: false },
+        pruebas: `pm.test('Inactivo', () => pm.expect(cuerpo.activo).to.eql(false));`,
+      }),
+      s('El gestor no modifica el contenido', 'POST /api/asistente/contenidos', 403, { como: 'gestor', json: { tema: 'CITAS', pregunta: '¿Algo nuevo?', respuesta: 'Texto de prueba suficiente' } }),
+    ],
+  },
 ];
 
 const coleccion = {
   info: {
     name: 'Sistema de Licencias Clase B · API',
     description:
-      'Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07) e integridad (EQ-09). ' +
+      'Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). ' +
       'Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.',
     schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
   },

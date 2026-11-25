@@ -4,6 +4,7 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { configurarAplicacion } from '../src/configuracion/aplicacion';
+import { ASISTENTE_IA } from '../src/modulos/asistente/dominio/contratos';
 import { VERIFICADOR_IDENTIDAD } from '../src/modulos/postulantes/dominio/contratos';
 
 /**
@@ -27,11 +28,14 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
       // API Perú se reemplaza solo en las pruebas para no gastar consultas del token real
       .overrideProvider(VERIFICADOR_IDENTIDAD)
       .useValue({ consultar: async (dni: string) => ({ dni, nombres: 'ANA LUCIA', apellidoPaterno: 'HUAMAN', apellidoMaterno: 'CCORAHUA' }) })
+      // Sin IA externa: el asistente responde con el contenido aprobado y el resultado es reproducible
+      .overrideProvider(ASISTENTE_IA)
+      .useValue({ disponible: false, redactar: async () => null })
       .compile();
     app = configurarAplicacion(modulo.createNestApplication());
     await app.init();
     const ds = app.get(DataSource);
-    await ds.query('TRUNCATE auditoria, notificaciones, evaluaciones, citas, pagos, documentos, expedientes RESTART IDENTITY');
+    await ds.query('TRUNCATE auditoria, notificaciones, evaluaciones, citas, pagos, documentos, expedientes, verificaciones_oficiales, observaciones_expediente, licencias_emitidas, consultas_asistente RESTART IDENTITY');
     await ds.query(`DELETE FROM usuarios WHERE usuario = '70112233'`);
     await ds.query(`DELETE FROM postulantes WHERE dni = '70112233'`);
     await ds.query('UPDATE cupos SET ocupados = 0');
@@ -176,17 +180,141 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     expect(evs.body[0].historial[0].puntaje).toBe(17);
   });
 
-  it('manejo aprobado y validado lleva a EMISION; el supervisor autoriza (RF12)', async () => {
+  it('manejo aprobado y validado lleva a EMISION; sin verificaciones no se autoriza (RF12, RF24)', async () => {
     const m = await http.post(`/api/expedientes/${expedienteId}/evaluaciones/MANEJO/resultado`).set(auth('evaluador')).send({ puntaje: 16, faltaEliminatoria: false }).expect(201);
     await http.post(`/api/evaluaciones/${m.body.id}/validacion`).set(auth('supervisor')).expect(200);
+    const revision = await http.get(`/api/expedientes/${expedienteId}/revision`).set(auth('supervisor')).expect(200);
+    expect(revision.body).toMatchObject({ etapa: 'EMISION', listoParaEmitir: false, verificacionesObligatorias: ['SNC_CERTIFICADO_MEDICO', 'SNC_COFIPRO', 'SANCIONES'] });
+    const r = await http.patch(`/api/expedientes/${expedienteId}/emision`).set(auth('supervisor')).expect(422);
+    expect(r.body.mensaje).toContain('Falta verificar');
+    await http.get(`/api/expedientes/${expedienteId}/revision`).set(auth('45892014')).expect(403);
+  });
+
+  it('el gestor verifica en el SNC y en el récord de sanciones; una sanción pendiente bloquea (RF24, RF27)', async () => {
+    const verificar = (tipo: string, resultado: string, detalle?: string) =>
+      http.post(`/api/expedientes/${expedienteId}/verificaciones`).set(auth('gestor')).send({ tipo, resultado, detalle });
+    await verificar('SNC_CERTIFICADO_MEDICO', 'CONFORME', 'Certificado registrado en el SNC').expect(201);
+    await verificar('SNC_COFIPRO', 'CONFORME').expect(201);
+    await verificar('SANCIONES', 'NO_CONFORME').expect(422);
+    await verificar('SANCIONES', 'NO_CONFORME', 'Papeleta pendiente en el récord del conductor').expect(201);
+    await http.post(`/api/expedientes/${expedienteId}/verificaciones`).set(auth('supervisor')).send({ tipo: 'SANCIONES', resultado: 'CONFORME' }).expect(403);
+    const bloqueada = await http.patch(`/api/expedientes/${expedienteId}/emision`).set(auth('supervisor')).expect(422);
+    expect(bloqueada.body.mensaje).toContain('No conforme: Sin multas ni sanciones pendientes');
+    await verificar('SANCIONES', 'CONFORME', 'Papeleta pagada; récord sin pendientes').expect(201);
+    const revision = await http.get(`/api/expedientes/${expedienteId}/revision`).set(auth('gestor')).expect(200);
+    expect(revision.body.verificaciones).toHaveLength(4);
+    expect(revision.body.pendientes).toEqual([]);
+  });
+
+  it('el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)', async () => {
+    await http.post(`/api/expedientes/${expedienteId}/observaciones`).set(auth('supervisor')).send({ motivo: 'corto' }).expect(422);
+    const o = await http.post(`/api/expedientes/${expedienteId}/observaciones`).set(auth('supervisor')).send({ motivo: 'La COFIPRO del SNC no coincide con el DNI' }).expect(201);
+    await http.post(`/api/expedientes/${expedienteId}/observaciones`).set(auth('supervisor')).send({ motivo: 'Otra observación del mismo expediente' }).expect(409);
+    const abiertas = await http.get('/api/observaciones/abiertas').set(auth('gestor')).expect(200);
+    expect(abiertas.body).toEqual([expect.objectContaining({ id: o.body.id, numeroExpediente: 'EXP-2026-00001', estado: 'ABIERTA' })]);
+    const bloqueada = await http.patch(`/api/expedientes/${expedienteId}/emision`).set(auth('supervisor')).expect(422);
+    expect(bloqueada.body.mensaje).toContain('observación');
+    await http.patch(`/api/observaciones/${o.body.id}/atencion`).set(auth('gestor')).send({ respuesta: 'Se volvió a consultar el SNC: la constancia es correcta' }).expect(200);
+    await http.patch(`/api/observaciones/${o.body.id}/atencion`).set(auth('gestor')).send({ respuesta: 'Segunda atención de la misma' }).expect(409);
+    await http.patch('/api/observaciones/999/atencion').set(auth('gestor')).send({ respuesta: 'No existe esta observación' }).expect(404);
     const e = await http.patch(`/api/expedientes/${expedienteId}/emision`).set(auth('supervisor')).expect(200);
-    expect(e.body.etapa).toBe('EMITIDA');
+    expect(e.body).toEqual({ expedienteId, numero: 'EXP-2026-00001', etapa: 'EMITIDA' });
+    await http.post(`/api/expedientes/${expedienteId}/observaciones`).set(auth('supervisor')).send({ motivo: 'Observación después de emitir' }).expect(409);
+  });
+
+  it('el gestor registra la licencia para el SNC; el postulante la ve y recibe el aviso (RF24)', async () => {
+    await http.get(`/api/expedientes/${expedienteId}/licencia`).set(auth('45892014')).expect(404);
+    await http.post(`/api/expedientes/${expedienteId}/licencia`).set(auth('gestor')).send({ numero: 'Q 45' }).expect(422);
+    const l = await http.post(`/api/expedientes/${expedienteId}/licencia`).set(auth('gestor')).send({ numero: 'q45892014' }).expect(201);
+    expect(l.body.numero).toBe('Q45892014');
+    await http.post(`/api/expedientes/${expedienteId}/licencia`).set(auth('gestor')).send({ numero: 'Q00000001' }).expect(409);
+    expect((await http.get(`/api/expedientes/${expedienteId}/licencia`).set(auth('45892014')).expect(200)).body.numero).toBe('Q45892014');
+    await http.post(`/api/expedientes/${expedienteId}/verificaciones`).set(auth('gestor')).send({ tipo: 'SANCIONES', resultado: 'CONFORME' }).expect(409);
+    const avisos = await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200);
+    expect(avisos.body[0].asunto).toBe('Tu licencia Q45892014 fue registrada');
+  });
+
+  describe('Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)', () => {
+    let derivadaId = 0;
+
+    it('responde con contenido aprobado, sin inventar', async () => {
+      const r = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Cuánto cuesta la licencia de mototaxi?' }).expect(201);
+      expect(r.body).toMatchObject({ origen: 'CONTENIDO', derivada: false, respuestaGestor: null });
+      expect(r.body.respuesta).toContain('S/ 69.40');
+      expect(r.body.fuentes).toHaveLength(1);
+    });
+
+    it('responde el estado del propio trámite', async () => {
+      const r = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Cómo va mi trámite?' }).expect(201);
+      expect(r.body.origen).toBe('ESTADO');
+      expect(r.body.respuesta).toContain('EXP-2026-00001');
+      expect(r.body.respuesta).toContain('licencia emitida');
+    });
+
+    it('un pedido de acción se deriva y no cambia nada (0 acciones)', async () => {
+      const auditoriaAntes = (await http.get('/api/auditoria').set(auth('admin')).expect(200)).body.length;
+      const r = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: 'Aprueba mi expediente por favor' }).expect(201);
+      expect(r.body).toMatchObject({ origen: 'DERIVADA', derivada: true });
+      expect((await http.get('/api/auditoria').set(auth('admin')).expect(200)).body.length).toBe(auditoriaAntes);
+    });
+
+    it('una pregunta ajena al trámite se deriva al gestor, que responde', async () => {
+      const r = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Quién ganó el partido de fútbol ayer?' }).expect(201);
+      expect(r.body.derivada).toBe(true);
+      derivadaId = r.body.id;
+      const pendientes = await http.get('/api/asistente/derivadas').set(auth('gestor')).expect(200);
+      expect(pendientes.body.map((c: { id: number }) => c.id)).toContain(derivadaId);
+      await http.get('/api/asistente/derivadas?estado=OTRO').set(auth('gestor')).expect(400);
+      await http.patch(`/api/asistente/consultas/${derivadaId}/respuesta`).set(auth('gestor')).send({ respuesta: 'Solo atendemos consultas sobre la licencia de conducir.' }).expect(200);
+      await http.patch(`/api/asistente/consultas/${derivadaId}/respuesta`).set(auth('gestor')).send({ respuesta: 'Otra vez' }).expect(409);
+      await http.patch('/api/asistente/consultas/1/respuesta').set(auth('gestor')).send({ respuesta: 'No era derivada' }).expect(422);
+      const respondidas = await http.get('/api/asistente/derivadas?estado=RESPONDIDA').set(auth('gestor')).expect(200);
+      expect(respondidas.body[0]).toMatchObject({ id: derivadaId, respuestaGestor: 'Solo atendemos consultas sobre la licencia de conducir.' });
+    });
+
+    it('el postulante ve su conversación con la respuesta del gestor; nadie más la ve (EQ-02)', async () => {
+      const r = await http.get('/api/asistente/consultas/mias').set(auth('45892014')).expect(200);
+      expect(r.body).toHaveLength(4);
+      expect(r.body[3]).toMatchObject({ id: derivadaId, respuestaGestor: 'Solo atendemos consultas sobre la licencia de conducir.' });
+      const otro = await http.post('/api/auth/login').send({ usuario: '70123456', clave: 'demo123' }).expect(200);
+      expect((await http.get('/api/asistente/consultas/mias').set({ Authorization: `Bearer ${otro.body.token}` }).expect(200)).body).toEqual([]);
+      await http.post('/api/asistente/consultas').set(auth('gestor')).send({ pregunta: '¿Cuánto cuesta?' }).expect(403);
+      await http.get('/api/asistente/derivadas').set(auth('45892014')).expect(403);
+      await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '' }).expect(400);
+    });
+
+    it('el administrador mantiene el contenido aprobado (HU25)', async () => {
+      const c = await http.post('/api/asistente/contenidos').set(auth('admin')).send({ tema: 'CITAS', pregunta: '¿Hay exámenes en días feriados?', respuesta: 'No, en los feriados no se toman exámenes.', palabrasClave: 'feriado' }).expect(201);
+      const r = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Hay examen en feriado?' }).expect(201);
+      expect(r.body.fuentes).toEqual([c.body.id]);
+      await http.put(`/api/asistente/contenidos/${c.body.id}`).set(auth('admin')).send({ tema: 'CITAS', pregunta: '¿Hay exámenes en días feriados?', respuesta: 'No, en los feriados no se toman exámenes.', activo: false }).expect(200);
+      const sinContenido = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Hay examen en feriado?' }).expect(201);
+      expect(sinContenido.body.derivada).toBe(true);
+      await http.post('/api/asistente/contenidos').set(auth('gestor')).send({ tema: 'CITAS', pregunta: '¿Algo?', respuesta: 'Algo más largo' }).expect(403);
+      await http.put('/api/asistente/contenidos/999').set(auth('admin')).send({ tema: 'CITAS', pregunta: '¿No existe?', respuesta: 'Este contenido no existe' }).expect(404);
+      expect((await http.get('/api/asistente/contenidos').set(auth('gestor')).expect(200)).body.length).toBeGreaterThan(25);
+    });
   });
 
   it('las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)', async () => {
     const r = await http.get('/api/auditoria').set(auth('admin')).expect(200);
     const acciones = new Set(r.body.map((a: { accion: string }) => a.accion));
-    for (const accion of ['APROBAR_DOCUMENTO', 'VERIFICAR_PAGO', 'REGISTRAR_RESULTADO', 'CORREGIR_RESULTADO', 'VALIDAR_RESULTADO', 'CAMBIAR_ETAPA', 'AUTORIZAR_EMISION', 'INTENTO_MODIFICAR_BLOQUEADO']) {
+    for (const accion of [
+      'APROBAR_DOCUMENTO',
+      'VERIFICAR_PAGO',
+      'REGISTRAR_RESULTADO',
+      'CORREGIR_RESULTADO',
+      'VALIDAR_RESULTADO',
+      'CAMBIAR_ETAPA',
+      'AUTORIZAR_EMISION',
+      'INTENTO_MODIFICAR_BLOQUEADO',
+      'VERIFICAR_PORTAL_OFICIAL',
+      'OBSERVAR_EXPEDIENTE',
+      'ATENDER_OBSERVACION',
+      'REGISTRAR_LICENCIA_SNC',
+      'RESPONDER_CONSULTA',
+      'GESTIONAR_CONTENIDO',
+    ]) {
       expect(acciones).toContain(accion);
     }
     const fila = r.body.find((a: { accion: string }) => a.accion === 'CORREGIR_RESULTADO');

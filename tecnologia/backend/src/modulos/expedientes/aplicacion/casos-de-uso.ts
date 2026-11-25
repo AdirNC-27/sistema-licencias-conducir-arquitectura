@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { AccesoDenegadoError, ConflictoError, ReglaNegocioError } from '../../../compartido/dominio/errores';
 import { Rol, UsuarioActual } from '../../../compartido/dominio/rol';
-import { EXPEDIENTES_API, ExpedientesApi, FiltroExpedientes, REPOSITORIO_EXPEDIENTES, RepositorioExpedientes } from '../dominio/contratos';
-import { Etapa } from '../dominio/etapa';
+import { FiltroExpedientes, REPOSITORIO_EXPEDIENTES, RepositorioExpedientes } from '../dominio/contratos';
 import { Expediente } from '../dominio/expediente';
 import { calcularPlazo, EstadoPlazo } from '../dominio/plazo';
+import { Etapa } from '../dominio/etapa';
 
 export interface ExpedienteVista {
   id: number;
@@ -69,15 +69,5 @@ export class ConsultarExpedienteUseCase {
   async bandeja(filtro: FiltroExpedientes) {
     const { total, datos } = await this.repositorio.listar(filtro);
     return { total, pagina: filtro.pagina, tamano: filtro.tamano, datos: datos.map((e) => aVista(e)) };
-  }
-}
-
-/** RF12: el supervisor autoriza la emisión cuando el expediente está conforme. */
-@Injectable()
-export class AutorizarEmisionUseCase {
-  constructor(@Inject(EXPEDIENTES_API) private readonly expedientes: ExpedientesApi) {}
-
-  async ejecutar(id: number, supervisor: UsuarioActual): Promise<ExpedienteVista> {
-    return aVista(await this.expedientes.avanzarEtapa(id, Etapa.EMISION, supervisor.id));
   }
 }

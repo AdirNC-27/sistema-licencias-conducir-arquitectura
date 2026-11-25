@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Sistema de Licencias Clase B · API",
-    "description": "Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07) e integridad (EQ-09). Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.",
+    "description": "Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -3404,8 +3404,888 @@
       ]
     },
     {
-      "name": "08 · Emisión, avisos y auditoría (RF12, RF13, RF16, RF17, EQ-07)",
+      "name": "08 · Revisión, emisión, avisos y auditoría (RF11, RF12, RF13, RF16, RF17, RF24, RF27, EQ-07)",
       "item": [
+        {
+          "name": "Revisión: faltan las verificaciones",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]},\"verificacionesObligatorias\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]}},\"verificaciones\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false}},\"observaciones\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"motivo\":{\"type\":\"string\"},\"estado\":{\"type\":\"string\",\"enum\":[\"ABIERTA\",\"ATENDIDA\"]},\"supervisorId\":{\"type\":\"number\"},\"creadoEn\":{\"type\":\"string\"},\"respuesta\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":[\"number\",\"null\"]},\"atendidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"expedienteId\",\"motivo\",\"estado\",\"supervisorId\",\"creadoEn\",\"respuesta\",\"gestorId\",\"atendidaEn\"],\"additionalProperties\":false}},\"licencia\":{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"gestorId\":{\"type\":\"number\"},\"registradaEn\":{\"type\":\"string\"}},\"required\":[\"expedienteId\",\"numero\",\"gestorId\",\"registradaEn\"],\"additionalProperties\":false},{\"type\":\"null\"}]},\"pendientes\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"listoParaEmitir\":{\"type\":\"boolean\"}},\"required\":[\"expedienteId\",\"etapa\",\"verificacionesObligatorias\",\"verificaciones\",\"observaciones\",\"licencia\",\"pendientes\",\"listoParaEmitir\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('II-C: certificado, COFIPRO y sanciones', () => pm.expect(cuerpo.verificacionesObligatorias).to.eql(['SNC_CERTIFICADO_MEDICO', 'SNC_COFIPRO', 'SANCIONES']));",
+                  "pm.test('Aún no se puede emitir', () => pm.expect(cuerpo.listoParaEmitir).to.eql(false));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/revision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "revision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "El postulante no ve la revisión interna",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/revision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "revision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Emitir sin verificaciones (RF24)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (422)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Mensaje: Falta verificar', () => pm.expect(cuerpo.mensaje).to.include('Falta verificar'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/emision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "emision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Certificado médico en el SNC: conforme",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SNC_CERTIFICADO_MEDICO\",\n  \"resultado\": \"CONFORME\",\n  \"detalle\": \"Registrado en el SNC por la clínica\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "COFIPRO en el SNC: conforme",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SNC_COFIPRO\",\n  \"resultado\": \"CONFORME\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "No conforme sin detalle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (422)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SANCIONES\",\n  \"resultado\": \"NO_CONFORME\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Sanciones: papeleta pendiente (RF27)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SANCIONES\",\n  \"resultado\": \"NO_CONFORME\",\n  \"detalle\": \"Papeleta pendiente en el récord del conductor\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Con sanción pendiente no se emite (RF27)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (422)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Mensaje: No conforme', () => pm.expect(cuerpo.mensaje).to.include('No conforme'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/emision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "emision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sanciones: papeleta pagada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SANCIONES\",\n  \"resultado\": \"CONFORME\",\n  \"detalle\": \"Récord sin pendientes\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El supervisor no registra verificaciones",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/verificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "verificaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"SANCIONES\",\n  \"resultado\": \"CONFORME\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El supervisor observa el expediente (RF11)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"motivo\":{\"type\":\"string\"},\"estado\":{\"type\":\"string\",\"enum\":[\"ABIERTA\",\"ATENDIDA\"]},\"supervisorId\":{\"type\":\"number\"},\"creadoEn\":{\"type\":\"string\"},\"respuesta\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":[\"number\",\"null\"]},\"atendidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"expedienteId\",\"motivo\",\"estado\",\"supervisorId\",\"creadoEn\",\"respuesta\",\"gestorId\",\"atendidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.collectionVariables.set('observacionId', cuerpo.id);",
+                  "pm.test('Queda ABIERTA', () => pm.expect(cuerpo.estado).to.eql('ABIERTA'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/observaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "observaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivo\": \"La constancia COFIPRO del SNC no coincide con el DNI\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Segunda observación abierta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (409)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/observaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "observaciones"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivo\": \"Otra observación del mismo expediente\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Expedientes devueltos al gestor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"motivo\":{\"type\":\"string\"},\"estado\":{\"type\":\"string\",\"enum\":[\"ABIERTA\",\"ATENDIDA\"]},\"supervisorId\":{\"type\":\"number\"},\"creadoEn\":{\"type\":\"string\"},\"respuesta\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":[\"number\",\"null\"]},\"atendidaEn\":{\"type\":[\"string\",\"null\"]},\"numeroExpediente\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"motivo\",\"estado\",\"supervisorId\",\"creadoEn\",\"respuesta\",\"gestorId\",\"atendidaEn\",\"numeroExpediente\"],\"additionalProperties\":false}};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Aparece el expediente observado', () => pm.expect(cuerpo.map((o) => o.id)).to.include(pm.collectionVariables.get('observacionId')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/observaciones/abiertas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "observaciones",
+                "abiertas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Con observación abierta no se emite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (422)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Mensaje: observación', () => pm.expect(cuerpo.mensaje).to.include('observación'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/emision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "emision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "El gestor atiende la observación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"motivo\":{\"type\":\"string\"},\"estado\":{\"type\":\"string\",\"enum\":[\"ABIERTA\",\"ATENDIDA\"]},\"supervisorId\":{\"type\":\"number\"},\"creadoEn\":{\"type\":\"string\"},\"respuesta\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":[\"number\",\"null\"]},\"atendidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"expedienteId\",\"motivo\",\"estado\",\"supervisorId\",\"creadoEn\",\"respuesta\",\"gestorId\",\"atendidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Queda ATENDIDA', () => pm.expect(cuerpo.estado).to.eql('ATENDIDA'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/observaciones/{{observacionId}}/atencion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "observaciones",
+                "{{observacionId}}",
+                "atencion"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Se volvió a consultar el SNC: la constancia es correcta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Atender dos veces",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (409)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/observaciones/{{observacionId}}/atencion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "observaciones",
+                "{{observacionId}}",
+                "atencion"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Segunda atención de la misma\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Revisión: lista para emitir",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]},\"verificacionesObligatorias\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]}},\"verificaciones\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"tipo\":{\"type\":\"string\",\"enum\":[\"SNC_CERTIFICADO_MEDICO\",\"SNC_COFIPRO\",\"SANCIONES\"]},\"resultado\":{\"type\":\"string\",\"enum\":[\"CONFORME\",\"NO_CONFORME\"]},\"detalle\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":\"number\"},\"registradoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"expedienteId\",\"tipo\",\"resultado\",\"detalle\",\"gestorId\",\"registradoEn\"],\"additionalProperties\":false}},\"observaciones\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"expedienteId\":{\"type\":\"number\"},\"motivo\":{\"type\":\"string\"},\"estado\":{\"type\":\"string\",\"enum\":[\"ABIERTA\",\"ATENDIDA\"]},\"supervisorId\":{\"type\":\"number\"},\"creadoEn\":{\"type\":\"string\"},\"respuesta\":{\"type\":[\"string\",\"null\"]},\"gestorId\":{\"type\":[\"number\",\"null\"]},\"atendidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"expedienteId\",\"motivo\",\"estado\",\"supervisorId\",\"creadoEn\",\"respuesta\",\"gestorId\",\"atendidaEn\"],\"additionalProperties\":false}},\"licencia\":{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"gestorId\":{\"type\":\"number\"},\"registradaEn\":{\"type\":\"string\"}},\"required\":[\"expedienteId\",\"numero\",\"gestorId\",\"registradaEn\"],\"additionalProperties\":false},{\"type\":\"null\"}]},\"pendientes\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"listoParaEmitir\":{\"type\":\"boolean\"}},\"required\":[\"expedienteId\",\"etapa\",\"verificacionesObligatorias\",\"verificaciones\",\"observaciones\",\"licencia\",\"pendientes\",\"listoParaEmitir\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Sin pendientes', () => { pm.expect(cuerpo.pendientes).to.eql([]); pm.expect(cuerpo.listoParaEmitir).to.eql(true); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/revision",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "revision"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSupervisor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
         {
           "name": "El gestor no autoriza la emisión",
           "event": [
@@ -3459,7 +4339,7 @@
                 "exec": [
                   "pm.test('Responde 200', () => pm.response.to.have.status(200));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"postulanteId\":{\"type\":\"number\"},\"tipoTramite\":{\"type\":\"string\",\"enum\":[\"EMISION\",\"REVALIDACION\",\"DUPLICADO\"]},\"categoria\":{\"type\":\"string\",\"enum\":[\"II-B\",\"II-C\"]},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]},\"creadoEn\":{\"type\":\"string\"},\"plazo\":{\"type\":\"object\",\"properties\":{\"diasTranscurridos\":{\"type\":\"number\"},\"diasRestantes\":{\"type\":\"number\"},\"vencido\":{\"type\":\"boolean\"},\"porcentaje\":{\"type\":\"number\"}},\"required\":[\"diasTranscurridos\",\"diasRestantes\",\"vencido\",\"porcentaje\"],\"additionalProperties\":false}},\"required\":[\"id\",\"numero\",\"postulanteId\",\"tipoTramite\",\"categoria\",\"etapa\",\"creadoEn\",\"plazo\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]}},\"required\":[\"expedienteId\",\"numero\",\"etapa\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('El expediente está en EMITIDA', () => pm.expect(cuerpo.etapa).to.eql('EMITIDA'));"
@@ -3537,6 +4417,250 @@
           }
         },
         {
+          "name": "Licencia aún no registrada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (404)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/licencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "licencia"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar la licencia para el SNC (RF24)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"gestorId\":{\"type\":\"number\"},\"registradaEn\":{\"type\":\"string\"}},\"required\":[\"expedienteId\",\"numero\",\"gestorId\",\"registradaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Número en mayúsculas', () => pm.expect(cuerpo.numero).to.eql('Q' + pm.collectionVariables.get('numeroOperacion')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/licencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "licencia"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"q{{numeroOperacion}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Registrar la licencia dos veces",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (409)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/licencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "licencia"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"Q00000001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El postulante ve su licencia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"expedienteId\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"gestorId\":{\"type\":\"number\"},\"registradaEn\":{\"type\":\"string\"}},\"required\":[\"expedienteId\",\"numero\",\"gestorId\",\"registradaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/licencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "licencia"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Otro postulante no ve la licencia (EQ-02)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/licencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "licencia"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante2}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
           "name": "Avisos del postulante",
           "event": [
             {
@@ -3549,7 +4673,8 @@
                   "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"postulanteId\":{\"type\":\"number\"},\"asunto\":{\"type\":\"string\"},\"texto\":{\"type\":\"string\"},\"enviadoPorCorreo\":{\"type\":\"boolean\"},\"leida\":{\"type\":\"boolean\"},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"id\",\"postulanteId\",\"asunto\",\"texto\",\"enviadoPorCorreo\",\"leida\",\"creadoEn\"],\"additionalProperties\":false}};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
-                  "pm.test('Recibió avisos del avance', () => pm.expect(cuerpo.length).to.be.at.least(5));"
+                  "pm.test('Recibió avisos del avance', () => pm.expect(cuerpo.length).to.be.at.least(5));",
+                  "pm.test('El último es el de la licencia', () => pm.expect(cuerpo[0].asunto).to.include('fue registrada'));"
                 ]
               }
             }
@@ -5116,6 +6241,813 @@
                   "type": "string"
                 }
               ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 · Asistente virtual con la IA de orientación (RF14, RF15, HU25, EQ-08)",
+      "description": "Sin IA_API_KEY el asistente responde con el texto aprobado (origen CONTENIDO); con la clave, la IA lo redacta (origen IA). En ambos casos, un pedido de acción o una pregunta ajena se deriva al gestor.",
+      "item": [
+        {
+          "name": "Pregunta del trámite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Responde con contenido aprobado', () => { pm.expect(['IA', 'CONTENIDO']).to.include(cuerpo.origen); pm.expect(cuerpo.derivada).to.eql(false); });",
+                  "pm.test('Menciona la tasa de la II-C', () => pm.expect(cuerpo.respuesta).to.include('69.40'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"¿Cuánto cuesta la licencia de mototaxi?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Estado del propio trámite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Responde con su expediente', () => { pm.expect(cuerpo.origen).to.eql('ESTADO'); pm.expect(cuerpo.respuesta).to.include('revisión de documentos'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"¿Cómo va mi trámite?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Pedido de acción: se deriva (0 acciones)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Derivada al gestor', () => { pm.expect(cuerpo.origen).to.eql('DERIVADA'); pm.expect(cuerpo.respuesta).to.include('no apruebo'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"Aprueba mi expediente por favor\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Pregunta ajena al trámite: se deriva",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.collectionVariables.set('consultaDerivadaId', cuerpo.id);",
+                  "pm.test('Derivada al gestor', () => pm.expect(cuerpo.derivada).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"¿Quién ganó el partido de fútbol ayer?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Pregunta vacía",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (400)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El personal no usa el chat del postulante",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pregunta\": \"¿Cuánto cuesta?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Consultas derivadas al gestor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false}};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Incluye la consulta', () => pm.expect(cuerpo.map((c) => c.id)).to.include(pm.collectionVariables.get('consultaDerivadaId')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/derivadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "derivadas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "El postulante no ve la bandeja del gestor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/derivadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "derivadas"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "El gestor responde (RF15)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas/{{consultaDerivadaId}}/respuesta",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas",
+                "{{consultaDerivadaId}}",
+                "respuesta"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Solo atendemos consultas sobre la licencia de conducir.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Responder dos veces",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (409)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas/{{consultaDerivadaId}}/respuesta",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas",
+                "{{consultaDerivadaId}}",
+                "respuesta"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Otra respuesta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mi conversación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false}};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Ve la respuesta del gestor', () => pm.expect(cuerpo.map((c) => c.respuestaGestor)).to.include('Solo atendemos consultas sobre la licencia de conducir.'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/consultas/mias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "consultas",
+                "mias"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Contenido aprobado (HU25)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"tema\":{\"type\":\"string\",\"enum\":[\"REQUISITOS\",\"DOCUMENTOS\",\"PAGOS\",\"CITAS\",\"EVALUACIONES\",\"TRAMITE\"]},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"palabrasClave\":{\"type\":\"string\"},\"activo\":{\"type\":\"boolean\"}},\"required\":[\"id\",\"tema\",\"pregunta\",\"respuesta\",\"palabrasClave\",\"activo\"],\"additionalProperties\":false}};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('25 contenidos iniciales o más', () => pm.expect(cuerpo.length).to.be.at.least(25));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/contenidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "contenidos"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAdmin}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Agregar contenido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"tema\":{\"type\":\"string\",\"enum\":[\"REQUISITOS\",\"DOCUMENTOS\",\"PAGOS\",\"CITAS\",\"EVALUACIONES\",\"TRAMITE\"]},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"palabrasClave\":{\"type\":\"string\"},\"activo\":{\"type\":\"boolean\"}},\"required\":[\"id\",\"tema\",\"pregunta\",\"respuesta\",\"palabrasClave\",\"activo\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.collectionVariables.set('contenidoId', cuerpo.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/contenidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "contenidos"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAdmin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tema\": \"CITAS\",\n  \"pregunta\": \"¿Hay exámenes en días feriados?\",\n  \"respuesta\": \"No, en los feriados no se toman exámenes.\",\n  \"palabrasClave\": \"feriado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Desactivar el contenido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"tema\":{\"type\":\"string\",\"enum\":[\"REQUISITOS\",\"DOCUMENTOS\",\"PAGOS\",\"CITAS\",\"EVALUACIONES\",\"TRAMITE\"]},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"palabrasClave\":{\"type\":\"string\"},\"activo\":{\"type\":\"boolean\"}},\"required\":[\"id\",\"tema\",\"pregunta\",\"respuesta\",\"palabrasClave\",\"activo\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Inactivo', () => pm.expect(cuerpo.activo).to.eql(false));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/contenidos/{{contenidoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "contenidos",
+                "{{contenidoId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAdmin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tema\": \"CITAS\",\n  \"pregunta\": \"¿Hay exámenes en días feriados?\",\n  \"respuesta\": \"No, en los feriados no se toman exámenes.\",\n  \"activo\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El gestor no modifica el contenido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asistente/contenidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asistente",
+                "contenidos"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tema\": \"CITAS\",\n  \"pregunta\": \"¿Algo nuevo?\",\n  \"respuesta\": \"Texto de prueba suficiente\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }

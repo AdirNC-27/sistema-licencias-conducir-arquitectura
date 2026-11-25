@@ -8,7 +8,7 @@ Colección de pruebas funcionales y de contrato de la API (Guía 05). Recorre el
 
 | Archivo | Contenido |
 |---|---|
-| `licencias-clase-b.postman_collection.json` | 101 solicitudes en 10 carpetas |
+| `licencias-clase-b.postman_collection.json` | 138 solicitudes en 11 carpetas |
 | `local.postman_environment.json` | Variable `baseUrl` = `http://localhost:3000/api` |
 | `archivos/` | PDF de prueba y un `.txt` para el caso de formato no permitido |
 | `generar-coleccion.mjs` | Genera la colección a partir del contrato OpenAPI |
@@ -24,9 +24,10 @@ Colección de pruebas funcionales y de contrato de la API (Guía 05). Recorre el
 | 05 Pagos | Monto incorrecto (422), registro, pago repetido (409), verificación | RF05, RF06 |
 | 06 Cupos y citas | Rol no permitido (403), horario repetido (409), día no permitido (422), reserva | RF07, RF21 |
 | 07 Evaluaciones | Nota fuera de rango (400), corrección, validación, **modificar un validado (409)** | RF08, RF09, EQ-09 |
-| 08 Emisión y auditoría | Emisión, avisos, motivo de la corrección en la bitácora, cambio de rol | RF12, RF13, RF16, RF17, EQ-07 |
+| 08 Revisión, emisión y auditoría | Verificaciones en el SNC y sanciones, sanción pendiente (422), observación del supervisor, emisión, licencia para el SNC, avisos, bitácora, cambio de rol | RF11, RF12, RF13, RF16, RF17, RF24, RF27, EQ-07 |
 | 09 Seguridad | Sin token y token falso (401), postulante en áreas del personal (403) | EQ-01 |
 | 10 Privacidad | **20 accesos de un postulante al trámite del otro: 20 de 20 con 403** | EQ-02 |
+| 11 Asistente | Respuesta con contenido aprobado, estado del trámite, pedido de acción y pregunta ajena derivados, respuesta del gestor, contenido del administrador | RF14, RF15, HU25 |
 
 ## Requisito
 

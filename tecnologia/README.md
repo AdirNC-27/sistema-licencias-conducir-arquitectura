@@ -7,7 +7,7 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Capa | Tecnología | Uso en el sistema | Decisión |
 |---|---|---|---|
 | Frontend | React + TypeScript (Vite), Tailwind CSS | Portal web adaptable con interfaces por rol · ver frontend/README.md | ADR-003 |
-| Backend | Node.js 24 + NestJS 11 (TypeScript) | API REST del monolito modular con 12 módulos | ADR-001, ADR-002, ADR-014 |
+| Backend | Node.js 24 + NestJS 11 (TypeScript) | API REST del monolito modular (un módulo por componente, en `src/modulos`) | ADR-001, ADR-002, ADR-014 |
 | Seguridad | `@nestjs/jwt` + Passport + guardas por rol | Autenticación y autorización por roles | ADR-004 |
 | Validación | class-validator | Validar los datos que llegan a la API | ADR-008 |
 | Persistencia | TypeORM (con migraciones) | Repositorios que implementan los contratos del dominio | ADR-005 |
@@ -16,6 +16,7 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Eventos internos | `@nestjs/event-emitter` | Avisar a Notificaciones y Auditoría cuando cambia un estado | ADR-006 |
 | Documentación de la API | OpenAPI con `@nestjs/swagger` | Swagger UI en `/api/docs` | ADR-003 |
 | Correo | Nodemailer (SMTP) | Recordatorios de examen y vencimientos | ADR-013 |
+| IA de orientación | API de Gemini (plan gratuito), por `fetch` | Redacta respuestas solo con el contenido aprobado | ADR-015 |
 | Despliegue | Docker y Docker Compose | Frontend, backend y base de datos en contenedores | ADR-010 |
 | Integración continua | GitHub Actions | Backend: arquitectura, Jest y cobertura. Portal: compilación y pruebas E2E con API y PostgreSQL | ADR-014 |
 
@@ -50,7 +51,8 @@ tecnologia/
 │   ├── src/paginas/          # pantallas por rol: postulante, gestor, evaluador, supervisor, admin
 │   └── e2e/                  # pruebas E2E y de accesibilidad (Playwright + axe-core)
 ├── pruebas-calidad/k6/       # pruebas de carga hasta 2,000 usuarios
-├── pruebas-calidad/postman/  # colección de Postman: 101 solicitudes con validación del contrato
+├── pruebas-calidad/postman/  # colección de Postman: 138 solicitudes con validación del contrato
+├── pruebas-calidad/promptfoo/ # EQ-08: 30 preguntas al asistente con IA
 ├── postgres/init.sql         # base de pruebas y pg_stat_statements
 ├── postgres/analisis/        # volumen, EXPLAIN ANALYZE y prueba de concurrencia
 └── docker-compose.yml        # PostgreSQL, API y portal

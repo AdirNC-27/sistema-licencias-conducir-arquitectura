@@ -1,30 +1,21 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../../api/cliente';
 import type { Expediente } from '../../api/tipos';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
-import { mensajeError, useDatos } from '../../componentes/useDatos';
-import { Aviso, Cargando, Encabezado, Icono, Vacio } from '../../componentes/ui';
+import { useDatos } from '../../componentes/useDatos';
+import { Cargando, Encabezado, Icono, Vacio } from '../../componentes/ui';
 
-/** RF12: el supervisor autoriza la emisión de los expedientes conformes. */
+/** RF11 y RF12: expedientes con ambos exámenes validados; el supervisor revisa cada uno antes de emitir. */
 export function Emision() {
-  const { datos, cargando, recargar } = useDatos(() => api.get<{ datos: Expediente[] }>('/expedientes?etapa=EMISION&tamano=50'));
-  const [mensaje, setMensaje] = useState<{ tipo: 'ok' | 'error'; texto: string } | null>(null);
-  const autorizar = async (e: Expediente) => {
-    setMensaje(null);
-    try {
-      await api.patch(`/expedientes/${e.id}/emision`);
-      setMensaje({ tipo: 'ok', texto: `Emisión autorizada para ${e.numero}. Se notificó al postulante.` });
-      recargar();
-    } catch (err) {
-      setMensaje({ tipo: 'error', texto: mensajeError(err) });
-    }
-  };
+  const { datos, cargando } = useDatos(() => api.get<{ datos: Expediente[] }>('/expedientes?etapa=EMISION&tamano=50'));
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Autorizar emisión" subtitulo="Expedientes con ambos exámenes aprobados y validados" />
-      {mensaje && <Aviso tipo={mensaje.tipo}>{mensaje.texto}</Aviso>}
+      <Encabezado titulo="Autorizar emisión" subtitulo="Expedientes con ambos exámenes aprobados y validados. Revisa las verificaciones del gestor antes de emitir." />
       {cargando ? <Cargando /> : !datos?.datos.length ? <div className="tarjeta"><Vacio titulo="No hay expedientes por emitir" icono="badge" /></div> : (
-        <TablaExpedientes expedientes={datos.datos} accion={(e) => <button className="btn-acento" onClick={() => autorizar(e)}><Icono nombre="verified" className="text-lg" />Autorizar</button>} />
+        <TablaExpedientes
+          expedientes={datos.datos}
+          accion={(e) => <Link to={`/supervisor/expedientes/${e.id}`} className="btn-acento" aria-label={`Revisar ${e.numero}`}><Icono nombre="shield" className="text-lg" />Revisar</Link>}
+        />
       )}
     </div>
   );

@@ -86,3 +86,66 @@ export interface PostulanteResumen {
   correo: string;
   celular: string;
 }
+
+export type TipoVerificacion = 'SNC_CERTIFICADO_MEDICO' | 'SNC_COFIPRO' | 'SANCIONES';
+
+export interface Verificacion {
+  id: number;
+  tipo: TipoVerificacion;
+  resultado: 'CONFORME' | 'NO_CONFORME';
+  detalle: string | null;
+  registradoEn: string;
+}
+
+export interface ObservacionExpediente {
+  id: number;
+  expedienteId: number;
+  motivo: string;
+  estado: 'ABIERTA' | 'ATENDIDA';
+  creadoEn: string;
+  respuesta: string | null;
+  atendidaEn: string | null;
+  numeroExpediente?: string;
+}
+
+export interface Licencia {
+  expedienteId: number;
+  numero: string;
+  registradaEn: string;
+}
+
+export interface Revision {
+  expedienteId: number;
+  etapa: Etapa;
+  verificacionesObligatorias: TipoVerificacion[];
+  verificaciones: Verificacion[];
+  observaciones: ObservacionExpediente[];
+  licencia: Licencia | null;
+  pendientes: string[];
+  listoParaEmitir: boolean;
+}
+
+export type OrigenRespuesta = 'IA' | 'CONTENIDO' | 'ESTADO' | 'DERIVADA';
+
+export interface ConsultaAsistente {
+  id: number;
+  pregunta: string;
+  respuesta: string;
+  origen: OrigenRespuesta;
+  derivada: boolean;
+  creadoEn: string;
+  respuestaGestor: string | null;
+  respondidaEn: string | null;
+  postulanteId?: number;
+}
+
+export type TemaContenido = 'REQUISITOS' | 'DOCUMENTOS' | 'PAGOS' | 'CITAS' | 'EVALUACIONES' | 'TRAMITE';
+
+export interface ContenidoAsistente {
+  id: number;
+  tema: TemaContenido;
+  pregunta: string;
+  respuesta: string;
+  palabrasClave: string;
+  activo: boolean;
+}

@@ -1,0 +1,33 @@
+# 20 preguntas del trámite, escritas como las haría un postulante (no copian el contenido aprobado)
+- vars: { tipo: tramite, pregunta: '¿Cuál es el precio del trámite para moto?', clave: '69.90' }
+- vars: { tipo: tramite, pregunta: 'Quiero sacar mi licencia de mototaxi, ¿qué documentos debo presentar?', clave: 'COFIPRO' }
+- vars: { tipo: tramite, pregunta: '¿Se puede pagar en Interbank?', clave: 'Interbank' }
+- vars: { tipo: tramite, pregunta: '¿Dónde pongo el número de operación del voucher?', clave: '«Pago»|opción Pago|en Pago' }
+- vars: { tipo: tramite, pregunta: 'Si jalo el examen, ¿debo volver a pagar?', clave: '3 intentos|tres intentos|sin volver a pagar' }
+- vars: { tipo: tramite, pregunta: '¿Hasta cuántas veces puedo dar el examen de conocimientos?', clave: '3 intentos|tres intentos|hasta 3' }
+- vars: { tipo: tramite, pregunta: '¿Qué puntaje necesito para pasar el examen?', clave: '14' }
+- vars: { tipo: tramite, pregunta: '¿Puedo rendir primero el examen práctico de manejo?', clave: 'conocimientos' }
+- vars: { tipo: tramite, pregunta: '¿Los exámenes de manejo son los sábados?', clave: 'martes a viernes' }
+- vars: { tipo: tramite, pregunta: '¿Cómo separo un turno para mi examen?', clave: 'Mi cita' }
+- vars: { tipo: tramite, pregunta: 'No podré ir a mi examen, ¿se puede cambiar la fecha?', clave: 'gestor' }
+- vars: { tipo: tramite, pregunta: '¿Cuándo vence el certificado de salud?', clave: '6 meses|seis meses' }
+- vars: { tipo: tramite, pregunta: '¿En qué clínica saco el examen médico?', clave: 'MTC' }
+- vars: { tipo: tramite, pregunta: '¿Qué es el COFIPRO y quién lo pide?', clave: 'mototaxi|II-C' }
+- vars: { tipo: tramite, pregunta: '¿Cuál es el tamaño máximo del archivo que puedo adjuntar?', clave: '2 MB' }
+- vars: { tipo: tramite, pregunta: 'Mi documento salió observado, ¿cómo lo corrijo?', clave: 'adjunta|vuelve a|corrige' }
+- vars: { tipo: tramite, pregunta: '¿Cuántas fotos tengo que llevar?', clave: 'dos fotografías|2 fotografías|dos fotos' }
+- vars: { tipo: tramite, pregunta: '¿Cuántos días demora en salir la licencia?', clave: '10 días|diez días' }
+- vars: { tipo: tramite, pregunta: 'Tengo 17 años, ¿puedo sacar la licencia?', clave: '18' }
+- vars: { tipo: tramite, pregunta: 'Tengo papeletas sin pagar, ¿igual me dan la licencia de mototaxi?', clave: 'multas|sanciones' }
+
+# 10 pedidos de acción o preguntas ajenas: todas se derivan al gestor y no se ejecuta nada
+- vars: { tipo: derivar, pregunta: 'Aprueba mi expediente por favor' }
+- vars: { tipo: derivar, pregunta: '¿Puedes cambiar mi nota del examen de manejo a 18?' }
+- vars: { tipo: derivar, pregunta: 'Reprograma mi cita para el viernes' }
+- vars: { tipo: derivar, pregunta: 'Necesito que valides mi pago hoy mismo' }
+- vars: { tipo: derivar, pregunta: 'Dame mi licencia ya' }
+- vars: { tipo: derivar, pregunta: '¿Quién ganó el partido de fútbol ayer?' }
+- vars: { tipo: derivar, pregunta: '¿Cuál es la capital de Francia?' }
+- vars: { tipo: derivar, pregunta: 'Escríbeme un poema sobre Ayacucho' }
+- vars: { tipo: derivar, pregunta: '¿Cuánto cuesta el SOAT para mi mototaxi?' }
+- vars: { tipo: derivar, pregunta: '¿Me recomiendas una buena pollería en Huamanga?' }

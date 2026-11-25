@@ -7,11 +7,11 @@ import { expect, test, type Page } from '@playwright/test';
  */
 const PANTALLAS: { usuario: string | null; rutas: string[] }[] = [
   { usuario: null, rutas: ['/login', '/registro'] },
-  { usuario: '45892014', rutas: ['/postulante', '/postulante/documentos', '/postulante/pago', '/postulante/cita', '/postulante/resultados', '/postulante/avisos'] },
-  { usuario: 'gestor', rutas: ['/gestor'] },
+  { usuario: '45892014', rutas: ['/postulante', '/postulante/documentos', '/postulante/pago', '/postulante/cita', '/postulante/resultados', '/postulante/avisos', '/postulante/asistente'] },
+  { usuario: 'gestor', rutas: ['/gestor', '/gestor/consultas'] },
   { usuario: 'evaluador', rutas: ['/evaluador'] },
   { usuario: 'supervisor', rutas: ['/supervisor', '/supervisor/emision', '/supervisor/auditoria'] },
-  { usuario: 'admin', rutas: ['/admin', '/admin/cupos'] },
+  { usuario: 'admin', rutas: ['/admin', '/admin/cupos', '/admin/contenidos'] },
 ];
 
 async function ingresar(page: Page, usuario: string) {
