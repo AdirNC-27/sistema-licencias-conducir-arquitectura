@@ -17,7 +17,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | EQ-06 Mantenibilidad | dependency-cruiser y Jest | Reglas al 100 %; cobertura ≥ 80 % | 0 violaciones en 109 módulos; cobertura de líneas 99.8 % | Cumple |
 | EQ-07 Trazabilidad | Jest + Supertest | 8 de 8 operaciones auditadas | 8 de 8, con usuario, fecha, valor anterior y nuevo | Cumple |
 | EQ-09 Integridad | Jest + Supertest y Postman | 100 % de modificaciones a un validado con 409 | Corrección y segunda validación con 409 en ambas herramientas; el resultado no cambia | Cumple |
-| Contrato de la API (Guía 05) | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 138 solicitudes y 480 aserciones sin fallas; 45 de 45 operaciones documentadas | Cumple |
+| Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 138 solicitudes y 480 aserciones sin fallas; 45 de 45 operaciones documentadas | Cumple |
 | EQ-04 Disponibilidad | Terminus, UptimeRobot, pg_dump | 99 % en horario; restauración ≤ 30 min | `/api/health` listo; falta el monitoreo de 2 semanas | Sprint 3 (con el despliegue) |
 | EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 18 pantallas | Cumple |
 | EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Por ejecutar con los 5 participantes |

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Mostrar dónde se ejecuta cada contenedor del sistema, cómo se comunican y qué puertos expone. Esta versión corresponde al **entorno local con Docker** del Sprint 2 (ADR-010, Guía 06). El despliegue en la nube, con dominio, HTTPS y CDN, se agrega en el Sprint 3.
+Mostrar dónde se ejecuta cada contenedor del sistema, cómo se comunican y qué puertos expone. Esta versión corresponde al **entorno local con Docker** del Sprint 2 (ADR-010). El despliegue en la nube, con dominio, HTTPS y CDN, se agrega en el Sprint 3.
 
 ![Diagrama de despliegue local](../../img/despliegue-local.png)
 
