@@ -4,7 +4,7 @@ import type { OperationObject, PathItemObject, ResponseObject } from '@nestjs/sw
 import { ARCHIVO_CONTRATO, generarContrato, serializarContrato } from '../contrato-openapi';
 
 /**
- * Reglas del contrato de la API (Guía 05): cada operación declara su respuesta exitosa con esquema
+ * Reglas del contrato de la API: cada operación declara su respuesta exitosa con esquema
  * y los errores que puede devolver, todos con el mismo formato. Si alguien agrega un endpoint sin
  * documentarlo, o cambia uno sin actualizar docs/07-contrato-api/openapi.json, esta prueba falla.
  */

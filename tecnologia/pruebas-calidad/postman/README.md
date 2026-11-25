@@ -1,6 +1,6 @@
 # Pruebas de la API con Postman y Newman
 
-Colección de pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los cinco roles. Cada solicitud comprueba tres cosas:
+Colección de pruebas funcionales y de contrato de la API. Recorre el trámite completo con los cinco roles. Cada solicitud comprueba tres cosas:
 
 1. El código HTTP esperado.
 2. Que la respuesta llegue en menos de 1 s (EQ-03).

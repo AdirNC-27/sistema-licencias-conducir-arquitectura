@@ -1,4 +1,4 @@
-# Integración y entrega continua (Guía 07)
+# Integración y entrega continua
 
 Cada cambio pasa por verificaciones automáticas en GitHub Actions antes de integrarse a `main`.
 

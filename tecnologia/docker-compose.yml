@@ -1,4 +1,4 @@
-# Sistema de Licencias Clase B: PostgreSQL, API NestJS y portal React en contenedores (ADR-010, Guía 06)
+# Sistema de Licencias Clase B: PostgreSQL, API NestJS y portal React en contenedores (ADR-010)
 # Uso (desde la carpeta tecnologia):  docker compose up --build -d
 #   Portal:  http://localhost:8080
 #   API:     http://localhost:3000/api    · Swagger: http://localhost:3000/api/docs

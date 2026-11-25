@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Sistema de Licencias Clase B · API",
-    "description": "Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.",
+    "description": "Pruebas funcionales y de contrato de la API. Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [

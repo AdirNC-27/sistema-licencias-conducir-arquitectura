@@ -1,4 +1,4 @@
-# Integración continua del backend (Guía 07): en cada push se compila, se revisan las reglas de arquitectura,
+# Integración continua del backend: en cada push se compila, se revisan las reglas de arquitectura,
 # se ejecutan las pruebas, se valida el contrato OpenAPI con Postman y se construye la imagen Docker.
 # Entrega continua: si todo pasa en main, la imagen se publica en GitHub Container Registry (GHCR).
 # No hay despliegue automático: el servidor se actualiza aparte (sprint 3).

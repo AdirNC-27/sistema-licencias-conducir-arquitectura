@@ -62,7 +62,7 @@ tecnologia/
 
 ## Docker
 
-Levanta la base de datos, la API y el portal con un solo comando (ADR-010, Guía 06). Requiere Docker Desktop iniciado.
+Levanta la base de datos, la API y el portal con un solo comando (ADR-010). Requiere Docker Desktop iniciado.
 
 | Servicio | Contenedor | Puerto en el equipo | Imagen |
 |---|---|---|---|

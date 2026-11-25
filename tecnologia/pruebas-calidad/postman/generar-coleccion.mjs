@@ -1,7 +1,7 @@
 /**
  * Genera la colección de Postman a partir del contrato OpenAPI (docs/07-contrato-api/openapi.json).
  * Cada solicitud comprueba su código HTTP y que el JSON cumpla exactamente el esquema documentado
- * (validación del contrato, Guía 05). Uso: node generar-coleccion.mjs
+ * (validación del contrato). Uso: node generar-coleccion.mjs
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -576,7 +576,7 @@ const coleccion = {
   info: {
     name: 'Sistema de Licencias Clase B · API',
     description:
-      'Pruebas funcionales y de contrato de la API (Guía 05). Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). ' +
+      'Pruebas funcionales y de contrato de la API. Recorre el trámite completo con los 5 roles y comprueba seguridad (EQ-01), privacidad (EQ-02), trazabilidad (EQ-07), integridad (EQ-09) y el asistente (EQ-08). ' +
       'Requiere la base recién migrada. Generada desde docs/07-contrato-api/openapi.json con generar-coleccion.mjs.',
     schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
   },
