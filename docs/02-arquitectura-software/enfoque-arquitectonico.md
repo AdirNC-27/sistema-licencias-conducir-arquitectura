@@ -23,7 +23,7 @@
 |---|---|
 | `RepositorioEvaluaciones` | TypeORM y PostgreSQL |
 | `VerificadorIdentidad` | `ApiPeruDniAdapter` (API Perú) |
-| `AsistenteIA` | `AdaptadorIA` |
+| `AsistenteIA` | `AdaptadorIAGemini` |
 | `ServicioNotificaciones` | `NotificadorCorreo` (SMTP) |
 
 ## Ejemplo: validar una nota

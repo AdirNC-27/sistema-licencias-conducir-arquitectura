@@ -17,8 +17,8 @@ Abrir el contenedor API Licencias y mostrar sus módulos, sus adaptadores y la b
 | **API REST y seguridad** | Rutas `/api/v1`, JWT y validación | RF01 |
 | **Identidad y acceso** | Usuarios y roles | RF01 |
 | **Postulantes** | Datos personales y DNI | RF03, RF04 |
-| **Expedientes** | Emisión, revalidación, duplicado y etapas | RF02, RF11, RF12, RF20, RF25, RF26 |
-| **Requisitos y documentos** | Requisitos del TUPA y vigencia del certificado | RF22, RF23, RF24 |
+| **Expedientes** | Emisión, revalidación, duplicado, etapas y revisión del supervisor | RF02, RF11, RF12, RF20, RF24, RF25, RF26, RF27 |
+| **Requisitos y documentos** | Requisitos del TUPA y vigencia del certificado | RF22, RF23 |
 | **Pagos** | Recibo del SAT | RF05, RF06 |
 | **Citas** | Días de examen y cupos | RF07, RF21 |
 | **Evaluaciones** | Resultados, máximo 3 intentos | RF08, RF09, RF19 |
@@ -37,13 +37,14 @@ Abrir el contenedor API Licencias y mostrar sus módulos, sus adaptadores y la b
 | Evaluaciones | Expedientes | Avanza la etapa mediante la fachada |
 | Expedientes | Requisitos y documentos | Comprueba documentos y vigencia del certificado |
 | Expedientes | Notificaciones y Auditoría | Avisa y registra cada cambio de estado |
+| Asistente virtual | Expedientes | Lee el estado del trámite del postulante (solo lectura) |
 
 ## Adaptadores
 
 | Módulo | Adaptador | Servicio externo |
 |---|---|---|
 | Postulantes | `ApiPeruDniAdapter` | API Perú |
-| Asistente virtual | `AdaptadorIA` | IA de orientación |
+| Asistente virtual | `AdaptadorIAGemini` | IA de orientación (Gemini, ADR-015) |
 | Notificaciones | `NotificadorCorreo` | Correo electrónico (SMTP) |
 
 ## Reglas del monolito modular

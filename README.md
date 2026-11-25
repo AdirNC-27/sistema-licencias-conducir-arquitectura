@@ -88,11 +88,12 @@ prototipo/                        # prototipo navegable (Google Stitch)
 
 | Tipo | Herramienta | Comando | Resultado |
 |---|---|---|---|
-| Unitarias (dominio, casos de uso, contrato) | Jest | `npm run test:cov` (backend) | 83 pruebas, cobertura de líneas 100 % |
-| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 26 pruebas |
-| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 101 solicitudes, 349 aserciones |
+| Unitarias (dominio, casos de uso, contrato) | Jest | `npm run test:cov` (backend) | 136 pruebas, cobertura de líneas 99.7 % |
+| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 35 pruebas |
+| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 138 solicitudes, 480 aserciones |
+| Asistente con IA (EQ-08) | promptfoo | ver [promptfoo](tecnologia/pruebas-calidad/promptfoo/README.md) | 30 de 30 (sin clave de IA) |
 | Reglas de arquitectura | dependency-cruiser | `npm run arquitectura` (backend) | 0 violaciones |
-| Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 17 pruebas, WCAG 2.1 AA |
+| Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 20 pruebas, WCAG 2.1 AA |
 | Carga | k6 | ver [k6](tecnologia/pruebas-calidad/k6) | p95 de 13.7 ms con 2 000 usuarios |
 
 Resultados y capturas en [docs/06-validacion-calidad](docs/06-validacion-calidad/README.md).

@@ -9,7 +9,7 @@ El contrato **se genera desde el código**, no se escribe a mano. Cada operació
 | Control | Qué comprueba | Dónde |
 |---|---|---|
 | `npm run contrato:verificar` | `openapi.json` es igual al que genera el código | GitHub Actions |
-| Prueba `contrato-openapi.spec.ts` | Las 31 operaciones tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
+| Prueba `contrato-openapi.spec.ts` | Las 45 operaciones tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
 | Colección de Postman | Cada respuesta real cumple exactamente el esquema documentado (sin campos de más ni de menos) | Newman en GitHub Actions |
 
 Después de cambiar un endpoint: `npm run contrato` en `tecnologia/backend` y `node generar-coleccion.mjs` en `tecnologia/pruebas-calidad/postman`.

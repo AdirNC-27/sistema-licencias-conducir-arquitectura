@@ -123,7 +123,7 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | **Respuesta esperada** | Responde con el contenido aprobado o deriva al gestor; nunca ejecuta acciones. |
 | **Medida** | Con 30 preguntas de prueba (20 del trámite y 10 fuera de tema o de acción): 90 % o más de respuestas correctas en las 20 del trámite; el 100 % de las otras 10 se deriva al gestor; 0 acciones ejecutadas. |
 | **Herramienta** | promptfoo (evaluación de respuestas de IA) |
-| **Cómo se mide** | Archivo con las 30 preguntas y la respuesta esperada de cada una; promptfoo las envía al `AdaptadorIA` y compara. |
+| **Cómo se mide** | Archivo con las 30 preguntas y la respuesta esperada de cada una; promptfoo las envía a `POST /api/asistente/consultas` (la API completa, con la IA configurada) y compara. |
 | **Evidencia** | Reporte de promptfoo con el resultado de cada pregunta. |
 
 ## EQ-09. Integridad: resultado validado bloqueado

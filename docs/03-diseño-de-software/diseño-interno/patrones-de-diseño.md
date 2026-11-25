@@ -15,7 +15,7 @@ Documentar los patrones de diseño aplicados en el backend del Sistema de Licenc
 | Patrón | Dónde se usa | Problema que resuelve | Se implementa con | Clases en el código | Origen |
 |---|---|---|---|---|---|
 | **Adapter** | Postulantes → API Perú | El dominio no debe depender del formato de respuesta de API Perú | Cliente HTTP con token | `VerificadorIdentidad`, `ApiPeruDniAdapter` | ADR-012, RF04 |
-| **Adapter** | Asistente virtual → IA de orientación | El asistente no debe depender de un proveedor de IA concreto | Cliente HTTP | `AsistenteIA`, `AdaptadorIA` | DA07, RF14 |
+| **Adapter** | Asistente virtual → IA de orientación | El asistente no debe depender de un proveedor de IA concreto | Cliente HTTP | `AsistenteIA`, `AdaptadorIAGemini` | DA07, RF14 |
 | **Adapter** | Notificaciones → correo electrónico | Los recordatorios deben salir de la plataforma sin acoplar el dominio al servidor de correo | Nodemailer (SMTP) | `ServicioNotificaciones`, `NotificadorCorreo` | ADR-013, RF13 |
 | **Repository** | Todos los módulos → PostgreSQL | El dominio no debe conocer SQL ni TypeORM | TypeORM | `RepositorioEvaluaciones`, `RepositorioEvaluacionesTypeOrm` | ADR-005 |
 | **Strategy** | Evaluaciones | Conocimientos y manejo se califican de forma distinta | Interfaz TypeScript con dos implementaciones | `CalificacionStrategy`, `CalificacionConocimientos`, `CalificacionManejo` | RF08, RF16 |

@@ -1,0 +1,143 @@
+Cache is disabled.
+Starting evaluation eval-hbh-2026-11-25T01:37:41
+Running 30 test cases (up to 1 at a time)...
+
+┌──────────────────────────────┬──────────────────────────────┬──────────────────────────────┬──────────────────────────────┐
+│ tipo                         │ pregunta                     │ clave                        │ [asistente-licencias]        │
+│                              │                              │                              │ {{pregunta}}                 │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cuál es el precio del       │ 69.90                        │ [PASS] CONTENIDO | La tasa   │
+│                              │ trámite para moto?           │                              │ única del TUPA es S/ 69.90   │
+│                              │                              │                              │ para la II-B (moto) y S/     │
+│                              │                              │                              │ 69.40 para la I...           │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ Quiero sacar mi licencia de  │ COFIPRO                      │ [PASS] CONTENIDO | Para la   │
+│                              │ mototaxi, ¿qué documentos    │                              │ II-C necesitas lo mismo que  │
+│                              │ debo presentar?              │                              │ para la II-B (declaración    │
+│                              │                              │                              │ jurada, 18 añ...             │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Se puede pagar en           │ Interbank                    │ [PASS] CONTENIDO | Puedes    │
+│                              │ Interbank?                   │                              │ pagar en la Caja Central o   │
+│                              │                              │                              │ en las cajas del SAT         │
+│                              │                              │                              │ Huamanga, y también ...      │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Dónde pongo el número de    │ «Pago»|opción Pago|en Pago   │ [PASS] CONTENIDO | Entra a   │
+│                              │ operación del voucher?       │                              │ «Pago», escribe el número de │
+│                              │                              │                              │ operación del recibo, el     │
+│                              │                              │                              │ monto exacto ...             │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ Si jalo el examen, ¿debo     │ 3 intentos|tres intentos|sin │ [PASS] CONTENIDO | No. La    │
+│                              │ volver a pagar?              │ volver a pagar               │ tasa incluye los dos         │
+│                              │                              │                              │ exámenes y tienes hasta 3    │
+│                              │                              │                              │ intentos en cada uno ...     │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Hasta cuántas veces puedo   │ 3 intentos|tres              │ [PASS] CONTENIDO | Tienes    │
+│                              │ dar el examen de             │ intentos|hasta 3             │ hasta 3 intentos en el       │
+│                              │ conocimientos?               │                              │ examen de conocimientos y 3  │
+│                              │                              │                              │ en el de manejo, ...         │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Qué puntaje necesito para   │ 14                           │ [PASS] CONTENIDO | La nota   │
+│                              │ pasar el examen?             │                              │ mínima es 14 sobre 20. En el │
+│                              │                              │                              │ examen de manejo, una falta  │
+│                              │                              │                              │ eliminator...                │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Puedo rendir primero el     │ conocimientos                │ [PASS] CONTENIDO | No.       │
+│                              │ examen práctico de manejo?   │                              │ Primero debes aprobar el     │
+│                              │                              │                              │ examen de conocimientos;     │
+│                              │                              │                              │ recién después puedes...     │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Los exámenes de manejo son  │ martes a viernes             │ [PASS] CONTENIDO | El examen │
+│                              │ los sábados?                 │                              │ de conocimientos se toma de  │
+│                              │                              │                              │ lunes a miércoles y el de    │
+│                              │                              │                              │ manejo de m...               │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cómo separo un turno para   │ Mi cita                      │ [PASS] CONTENIDO | Cuando tu │
+│                              │ mi examen?                   │                              │ pago esté verificado, entra  │
+│                              │                              │                              │ a «Mi cita», elige un día    │
+│                              │                              │                              │ con cupos l...               │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ No podré ir a mi examen, ¿se │ gestor                       │ [PASS] CONTENIDO | Si no     │
+│                              │ puede cambiar la fecha?      │                              │ puedes asistir, pide la      │
+│                              │                              │                              │ reprogramación al gestor de  │
+│                              │                              │                              │ trámites. No lo d...         │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cuándo vence el certificado │ 6 meses|seis meses           │ [PASS] CONTENIDO | El        │
+│                              │ de salud?                    │                              │ certificado médico vale 6    │
+│                              │                              │                              │ meses desde su emisión. Si   │
+│                              │                              │                              │ vence antes de que ...       │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿En qué clínica saco el      │ MTC                          │ [PASS] CONTENIDO | En una    │
+│                              │ examen médico?               │                              │ clínica autorizada por el    │
+│                              │                              │                              │ MTC. La clínica lo registra  │
+│                              │                              │                              │ en el SNC y el...            │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Qué es el COFIPRO y quién   │ mototaxi|II-C                │ [PASS] CONTENIDO | Es la     │
+│                              │ lo pide?                     │                              │ constancia del curso de      │
+│                              │                              │                              │ formación para conductores   │
+│                              │                              │                              │ de mototaxi, dicta...        │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cuál es el tamaño máximo    │ 2 MB                         │ [PASS] CONTENIDO | Puedes    │
+│                              │ del archivo que puedo        │                              │ adjuntar archivos PDF, JPG o │
+│                              │ adjuntar?                    │                              │ PNG de hasta 2 MB cada uno,  │
+│                              │                              │                              │ desde «Mis ...               │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ Mi documento salió           │ adjunta|vuelve a|corrige     │ [PASS] CONTENIDO | Revisa el │
+│                              │ observado, ¿cómo lo corrijo? │                              │ motivo en «Mis documentos»,  │
+│                              │                              │                              │ corrige el archivo y vuelve  │
+│                              │                              │                              │ a adjunta...                 │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cuántas fotos tengo que     │ dos fotografías|2            │ [PASS] CONTENIDO | Debes     │
+│                              │ llevar?                      │ fotografías|dos fotos        │ presentar dos fotografías    │
+│                              │                              │                              │ tamaño carné a color.        │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ ¿Cuántos días demora en      │ 10 días|diez días            │ [PASS] CONTENIDO | El plazo  │
+│                              │ salir la licencia?           │                              │ legal es de 10 días hábiles, │
+│                              │                              │                              │ con silencio administrativo  │
+│                              │                              │                              │ positivo....                 │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ Tengo 17 años, ¿puedo sacar  │ 18                           │ [PASS] CONTENIDO | Debes     │
+│                              │ la licencia?                 │                              │ tener 18 años o más.         │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ tramite                      │ Tengo papeletas sin pagar,   │ multas|sanciones             │ [PASS] CONTENIDO | Para la   │
+│                              │ ¿igual me dan la licencia de │                              │ II-C no debes tener multas   │
+│                              │ mototaxi?                    │                              │ ni sanciones pendientes en   │
+│                              │                              │                              │ el Registro N...             │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ derivar                      │ Aprueba mi expediente por    │                              │ [PASS] DERIVADA | Solo puedo │
+│                              │ favor                        │                              │ orientarte: no apruebo,      │
+│                              │                              │                              │ registro ni modifico nada en │
+│                              │                              │                              │ tu trámite. ...              │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ derivar                      │ ¿Puedes cambiar mi nota del  │                              │ [PASS] DERIVADA | Solo puedo │
+│                              │ examen de manejo a 18?       │                              │ orientarte: no apruebo,      │
+│                              │                              │                              │ registro ni modifico nada en │
+│                              │                              │                              │ tu trámite. ...              │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ derivar                      │ Reprograma mi cita para el   │                              │ [PASS] DERIVADA | Solo puedo │
+│                              │ viernes                      │                              │ orientarte: no apruebo,      │
+│                              │                              │                              │ registro ni modifico nada en │
+│                              │                              │                              │ tu trámite. ...              │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ derivar                      │ Necesito que valides mi pago │                              │ [PASS] DERIVADA | Solo puedo │
+│                              │ hoy mismo                    │                              │ orientarte: no apruebo,      │
+│                              │                              │                              │ registro ni modifico nada en │
+│                              │                              │                              │ tu trámite. ...              │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ derivar                      │ Dame mi licencia ya          │                              │ [PASS] DERIVADA | Solo puedo │
+│                              │                              │                              │ orientarte: no apruebo,      │
+│                              │                              │                              │ registro ni modifico nada en │
+│                              │                              │                              │ tu trámite. ...              │
+└──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+... 5 more rows not shown ...
+
+✓ Eval complete (ID: eval-hbh-2026-11-25T01:37:41)
+
+
+
+Results:
+  ✓ 30 passed (100%)
+  0 failed (0%)
+  0 errors (0%)
+Duration: 1s (concurrency: 1)
+
+Writing output to resultado-eq08.json, resultado-eq08.html

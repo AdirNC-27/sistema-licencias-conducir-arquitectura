@@ -819,92 +819,6 @@
         ]
       }
     },
-    "/api/expedientes/{id}/emision": {
-      "patch": {
-        "operationId": "ExpedientesController_emitir",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Expediente en la etapa EMITIDA",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpedienteRespuesta"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Datos de entrada inválidos (ver \"detalles\")",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorRespuesta"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Falta el token, no es válido o expiró",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorRespuesta"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Su rol no tiene permiso para esta operación",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorRespuesta"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No existe el expediente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorRespuesta"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "El expediente no está en la etapa EMISION",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorRespuesta"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Autorizar la emisión de la licencia (RF12, auditable)",
-        "tags": [
-          "Expedientes y seguimiento"
-        ]
-      }
-    },
     "/api/expedientes/{id}/documentos": {
       "post": {
         "description": "multipart/form-data con el campo archivo: PDF, JPG o PNG de hasta 2 MB.",
@@ -2441,6 +2355,1258 @@
         ]
       }
     },
+    "/api/expedientes/{id}/revision": {
+      "get": {
+        "operationId": "RevisionController_revision",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estado de la revisión",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevisionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Revisión del expediente: verificaciones, observaciones, licencia y pendientes (RF11)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/verificaciones": {
+      "post": {
+        "description": "El gestor consulta el portal oficial y deja constancia. Cada registro se guarda como historial.",
+        "operationId": "RevisionController_registrarVerificacion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificacionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Verificación registrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El expediente ya fue emitido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No corresponde a la categoría o falta el detalle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar una verificación en el SNC o en el récord de sanciones (RF24, RF27, auditable)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/observaciones": {
+      "post": {
+        "operationId": "RevisionController_registrarObservacion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObservacionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Observación abierta; la emisión queda bloqueada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "No está en la etapa EMISION o ya tiene una observación abierta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Motivo demasiado corto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Observar el expediente y devolverlo al gestor (RF11, auditable)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/observaciones/abiertas": {
+      "get": {
+        "operationId": "RevisionController_abiertas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Observaciones abiertas, de la más antigua a la más reciente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ObservacionBandejaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Expedientes devueltos por el supervisor y aún no atendidos",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/observaciones/{id}/atencion": {
+      "patch": {
+        "operationId": "RevisionController_atenderObservacion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtencionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Observación atendida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservacionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe la observación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya fue atendida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Descripción demasiado corta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atender una observación del supervisor (RF11, auditable)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/emision": {
+      "patch": {
+        "description": "Exige las verificaciones conformes de la categoría y ninguna observación abierta.",
+        "operationId": "RevisionController_emitir",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expediente en la etapa EMITIDA",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmisionRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El expediente no está en la etapa EMISION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Faltan verificaciones o hay una observación abierta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Autorizar la emisión de la licencia (RF12, auditable)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/expedientes/{id}/licencia": {
+      "post": {
+        "operationId": "RevisionController_registrarLicencia",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LicenciaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Licencia registrada; se avisa al postulante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LicenciaRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "No está emitido, ya tiene licencia o el número está repetido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Formato de número no válido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar la licencia emitida para su carga en el SNC (RF24, auditable)",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      },
+      "get": {
+        "operationId": "RevisionController_licencia",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Licencia registrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LicenciaRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "El expediente pertenece a otro postulante (EQ-02)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente o la licencia aún no fue registrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Licencia emitida del expediente",
+        "tags": [
+          "Revisión y emisión"
+        ]
+      }
+    },
+    "/api/asistente/consultas": {
+      "post": {
+        "description": "Responde con contenido aprobado o con el estado del propio trámite. Si pide una acción o no hay respuesta confiable, deriva la consulta al gestor. Nunca modifica el trámite (RC06).",
+        "operationId": "AsistenteController_preguntar",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreguntaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Consulta respondida o derivada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Pregunta vacía o demasiado larga",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Preguntar a la IA de orientación (RF14, RF15)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/consultas/mias": {
+      "get": {
+        "operationId": "AsistenteController_mias",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Últimas 50 consultas, de la más antigua a la más reciente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsultaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mi conversación con el asistente",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/derivadas": {
+      "get": {
+        "operationId": "AsistenteController_derivadas",
+        "parameters": [
+          {
+            "name": "estado",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "PENDIENTE",
+              "type": "string",
+              "enum": [
+                "PENDIENTE",
+                "RESPONDIDA"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pendientes (de la más antigua) o respondidas (de la más reciente)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsultaDerivadaRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultas derivadas al gestor (RF15)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/consultas/{id}/respuesta": {
+      "patch": {
+        "description": "El postulante recibe un aviso y ve la respuesta en su conversación.",
+        "operationId": "AsistenteController_responder",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RespuestaGestorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consulta respondida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaDerivadaRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe la consulta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya fue respondida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No es una consulta derivada o la respuesta está vacía",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Responder una consulta derivada (RF15, auditable)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/contenidos": {
+      "get": {
+        "operationId": "AsistenteController_listarContenidos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Todos los contenidos, activos e inactivos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContenidoRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Contenido aprobado del asistente (HU25)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      },
+      "post": {
+        "operationId": "AsistenteController_crearContenido",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContenidoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contenido creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContenidoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Pregunta o respuesta demasiado corta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Agregar contenido aprobado (HU25, auditable)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/contenidos/{id}": {
+      "put": {
+        "operationId": "AsistenteController_actualizarContenido",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContenidoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contenido actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContenidoRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el contenido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Pregunta o respuesta demasiado corta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar o desactivar contenido aprobado (HU25, auditable)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
     "/api/notificaciones/mias": {
       "get": {
         "operationId": "NotificacionesController_mias",
@@ -3847,6 +5013,654 @@
           "valorNuevo",
           "motivo",
           "fecha"
+        ]
+      },
+      "TipoVerificacion": {
+        "type": "string",
+        "enum": [
+          "SNC_CERTIFICADO_MEDICO",
+          "SNC_COFIPRO",
+          "SANCIONES"
+        ],
+        "description": "Según la categoría: la II-C agrega COFIPRO y sanciones"
+      },
+      "ResultadoVerificacion": {
+        "type": "string",
+        "enum": [
+          "CONFORME",
+          "NO_CONFORME"
+        ]
+      },
+      "VerificacionRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "tipo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TipoVerificacion"
+              }
+            ]
+          },
+          "resultado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResultadoVerificacion"
+              }
+            ]
+          },
+          "detalle": {
+            "type": "string",
+            "nullable": true,
+            "example": "Certificado N.° 0045821 de la clínica San Juan, vigente"
+          },
+          "gestorId": {
+            "type": "number",
+            "example": 2
+          },
+          "registradoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "tipo",
+          "resultado",
+          "detalle",
+          "gestorId",
+          "registradoEn"
+        ]
+      },
+      "EstadoObservacion": {
+        "type": "string",
+        "enum": [
+          "ABIERTA",
+          "ATENDIDA"
+        ]
+      },
+      "ObservacionRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "motivo": {
+            "type": "string",
+            "example": "La constancia COFIPRO del SNC no coincide con el DNI del postulante"
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoObservacion"
+              }
+            ]
+          },
+          "supervisorId": {
+            "type": "number",
+            "example": 4
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          },
+          "respuesta": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "gestorId": {
+            "type": "number",
+            "nullable": true,
+            "example": null
+          },
+          "atendidaEn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "motivo",
+          "estado",
+          "supervisorId",
+          "creadoEn",
+          "respuesta",
+          "gestorId",
+          "atendidaEn"
+        ]
+      },
+      "LicenciaRespuesta": {
+        "type": "object",
+        "properties": {
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "numero": {
+            "type": "string",
+            "example": "Q45892014"
+          },
+          "gestorId": {
+            "type": "number",
+            "example": 2
+          },
+          "registradaEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          }
+        },
+        "required": [
+          "expedienteId",
+          "numero",
+          "gestorId",
+          "registradaEn"
+        ]
+      },
+      "RevisionRespuesta": {
+        "type": "object",
+        "properties": {
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "etapa": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Etapa"
+              }
+            ]
+          },
+          "verificacionesObligatorias": {
+            "type": "array",
+            "description": "Según la categoría: la II-C agrega COFIPRO y sanciones",
+            "items": {
+              "$ref": "#/components/schemas/TipoVerificacion"
+            }
+          },
+          "verificaciones": {
+            "description": "Historial; la vigente de cada tipo es la última",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VerificacionRespuesta"
+            }
+          },
+          "observaciones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ObservacionRespuesta"
+            }
+          },
+          "licencia": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LicenciaRespuesta"
+              }
+            ]
+          },
+          "pendientes": {
+            "example": [
+              "Falta verificar: Sin multas ni sanciones pendientes"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "listoParaEmitir": {
+            "type": "boolean",
+            "example": false,
+            "description": "Etapa EMISION y nada pendiente"
+          }
+        },
+        "required": [
+          "expedienteId",
+          "etapa",
+          "verificacionesObligatorias",
+          "verificaciones",
+          "observaciones",
+          "licencia",
+          "pendientes",
+          "listoParaEmitir"
+        ]
+      },
+      "VerificacionDto": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "SNC_CERTIFICADO_MEDICO",
+              "SNC_COFIPRO",
+              "SANCIONES"
+            ],
+            "example": "SNC_CERTIFICADO_MEDICO"
+          },
+          "resultado": {
+            "type": "string",
+            "enum": [
+              "CONFORME",
+              "NO_CONFORME"
+            ],
+            "example": "CONFORME"
+          },
+          "detalle": {
+            "type": "string",
+            "example": "Certificado N.° 0045821 de la clínica San Juan, vigente",
+            "description": "Obligatorio si no es conforme"
+          }
+        },
+        "required": [
+          "tipo",
+          "resultado"
+        ]
+      },
+      "ObservacionDto": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "example": "La constancia COFIPRO del SNC no coincide con el DNI del postulante"
+          }
+        },
+        "required": [
+          "motivo"
+        ]
+      },
+      "ObservacionBandejaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "motivo": {
+            "type": "string",
+            "example": "La constancia COFIPRO del SNC no coincide con el DNI del postulante"
+          },
+          "estado": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EstadoObservacion"
+              }
+            ]
+          },
+          "supervisorId": {
+            "type": "number",
+            "example": 4
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          },
+          "respuesta": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "gestorId": {
+            "type": "number",
+            "nullable": true,
+            "example": null
+          },
+          "atendidaEn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          },
+          "numeroExpediente": {
+            "type": "string",
+            "example": "EXP-2026-00001"
+          }
+        },
+        "required": [
+          "id",
+          "expedienteId",
+          "motivo",
+          "estado",
+          "supervisorId",
+          "creadoEn",
+          "respuesta",
+          "gestorId",
+          "atendidaEn",
+          "numeroExpediente"
+        ]
+      },
+      "AtencionDto": {
+        "type": "object",
+        "properties": {
+          "respuesta": {
+            "type": "string",
+            "example": "Se volvió a consultar el SNC y se registró la constancia correcta"
+          }
+        },
+        "required": [
+          "respuesta"
+        ]
+      },
+      "EmisionRespuesta": {
+        "type": "object",
+        "properties": {
+          "expedienteId": {
+            "type": "number",
+            "example": 1
+          },
+          "numero": {
+            "type": "string",
+            "example": "EXP-2026-00001"
+          },
+          "etapa": {
+            "example": "EMITIDA",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Etapa"
+              }
+            ]
+          }
+        },
+        "required": [
+          "expedienteId",
+          "numero",
+          "etapa"
+        ]
+      },
+      "LicenciaDto": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "string",
+            "example": "Q45892014"
+          }
+        },
+        "required": [
+          "numero"
+        ]
+      },
+      "PreguntaDto": {
+        "type": "object",
+        "properties": {
+          "pregunta": {
+            "type": "string",
+            "example": "¿Cuánto cuesta la licencia para mototaxi?"
+          }
+        },
+        "required": [
+          "pregunta"
+        ]
+      },
+      "OrigenRespuesta": {
+        "type": "string",
+        "enum": [
+          "IA",
+          "CONTENIDO",
+          "ESTADO",
+          "DERIVADA"
+        ],
+        "description": "IA: redactada por la IA con contenido aprobado; CONTENIDO: texto aprobado; ESTADO: datos del expediente; DERIVADA: la responde el gestor"
+      },
+      "ConsultaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "pregunta": {
+            "type": "string",
+            "example": "¿Cuánto cuesta la licencia para mototaxi?"
+          },
+          "respuesta": {
+            "type": "string",
+            "example": "La tasa para la categoría II-C es S/ 69.40 e incluye los dos exámenes."
+          },
+          "origen": {
+            "description": "IA: redactada por la IA con contenido aprobado; CONTENIDO: texto aprobado; ESTADO: datos del expediente; DERIVADA: la responde el gestor",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrigenRespuesta"
+              }
+            ]
+          },
+          "derivada": {
+            "type": "boolean",
+            "example": false
+          },
+          "fuentes": {
+            "example": [
+              3
+            ],
+            "description": "Contenidos aprobados usados",
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          },
+          "respuestaGestor": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "respondidaEn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          }
+        },
+        "required": [
+          "id",
+          "pregunta",
+          "respuesta",
+          "origen",
+          "derivada",
+          "fuentes",
+          "creadoEn",
+          "respuestaGestor",
+          "respondidaEn"
+        ]
+      },
+      "ConsultaDerivadaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "pregunta": {
+            "type": "string",
+            "example": "¿Cuánto cuesta la licencia para mototaxi?"
+          },
+          "respuesta": {
+            "type": "string",
+            "example": "La tasa para la categoría II-C es S/ 69.40 e incluye los dos exámenes."
+          },
+          "origen": {
+            "description": "IA: redactada por la IA con contenido aprobado; CONTENIDO: texto aprobado; ESTADO: datos del expediente; DERIVADA: la responde el gestor",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrigenRespuesta"
+              }
+            ]
+          },
+          "derivada": {
+            "type": "boolean",
+            "example": false
+          },
+          "fuentes": {
+            "example": [
+              3
+            ],
+            "description": "Contenidos aprobados usados",
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-24T15:10:00.000Z"
+          },
+          "respuestaGestor": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "respondidaEn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          },
+          "postulanteId": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "id",
+          "pregunta",
+          "respuesta",
+          "origen",
+          "derivada",
+          "fuentes",
+          "creadoEn",
+          "respuestaGestor",
+          "respondidaEn",
+          "postulanteId"
+        ]
+      },
+      "RespuestaGestorDto": {
+        "type": "object",
+        "properties": {
+          "respuesta": {
+            "type": "string",
+            "example": "Sí, puede presentar el certificado de cualquier clínica autorizada por el MTC."
+          }
+        },
+        "required": [
+          "respuesta"
+        ]
+      },
+      "TemaContenido": {
+        "type": "string",
+        "enum": [
+          "REQUISITOS",
+          "DOCUMENTOS",
+          "PAGOS",
+          "CITAS",
+          "EVALUACIONES",
+          "TRAMITE"
+        ]
+      },
+      "ContenidoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "tema": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TemaContenido"
+              }
+            ]
+          },
+          "pregunta": {
+            "type": "string",
+            "example": "¿Cuánto cuesta la licencia?"
+          },
+          "respuesta": {
+            "type": "string",
+            "example": "La tasa del TUPA es S/ 69.90 para la II-B y S/ 69.40 para la II-C."
+          },
+          "palabrasClave": {
+            "type": "string",
+            "example": "precio, tasa, cuánto pago"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "id",
+          "tema",
+          "pregunta",
+          "respuesta",
+          "palabrasClave",
+          "activo"
+        ]
+      },
+      "ContenidoDto": {
+        "type": "object",
+        "properties": {
+          "tema": {
+            "type": "string",
+            "enum": [
+              "REQUISITOS",
+              "DOCUMENTOS",
+              "PAGOS",
+              "CITAS",
+              "EVALUACIONES",
+              "TRAMITE"
+            ]
+          },
+          "pregunta": {
+            "type": "string",
+            "example": "¿Cuánto cuesta la licencia?"
+          },
+          "respuesta": {
+            "type": "string",
+            "example": "La tasa del TUPA es S/ 69.90 para la II-B y S/ 69.40 para la II-C."
+          },
+          "palabrasClave": {
+            "type": "string",
+            "example": "precio, tasa, cuánto pago"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true,
+            "default": true
+          }
+        },
+        "required": [
+          "tema",
+          "pregunta",
+          "respuesta"
         ]
       },
       "AvisoRespuesta": {

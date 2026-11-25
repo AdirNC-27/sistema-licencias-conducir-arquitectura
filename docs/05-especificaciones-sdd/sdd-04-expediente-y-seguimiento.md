@@ -17,7 +17,7 @@ Como **postulante** quiero registrar mi solicitud y ver en qué etapa estoy y cu
 | CA3 | Etapas en orden | el expediente está en DOCUMENTOS | otro módulo intenta avanzarlo desde PAGO | recibe 409 y la etapa no cambia |
 | CA4 | Plazo | el expediente se creó hace 5 días hábiles | se consulta | muestra 5 días transcurridos y 5 restantes |
 | CA5 | Privacidad | un postulante consulta el expediente de otro | llama a `GET /api/expedientes/{id}` | recibe 403 |
-| CA6 | Emisión | el expediente está en EMISION | el supervisor autoriza | pasa a EMITIDA y queda en auditoría |
+| CA6 | Emisión | el expediente está en EMISION y no tiene pendientes ([SDD-12](sdd-12-revision-del-supervisor.md)) | el supervisor autoriza | pasa a EMITIDA y queda en auditoría |
 
 ## Tareas técnicas
 
@@ -35,7 +35,7 @@ Como **postulante** quiero registrar mi solicitud y ver en qué etapa estoy y cu
 | GET | `/api/expedientes/mios` | POSTULANTE |
 | GET | `/api/expedientes?etapa=&categoria=&pagina=` | Personal |
 | GET | `/api/expedientes/{id}` | Dueño o personal |
-| PATCH | `/api/expedientes/{id}/emision` | SUPERVISOR |
+| PATCH | `/api/expedientes/{id}/emision` | SUPERVISOR (desde el sprint 2 lo atiende el módulo `revision`, ver SDD-12) |
 
 ## Pruebas que lo comprueban
 
