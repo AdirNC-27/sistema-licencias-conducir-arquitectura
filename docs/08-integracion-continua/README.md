@@ -10,7 +10,7 @@ Cada cambio pasa por verificaciones automáticas en GitHub Actions antes de inte
 
 ## Workflows
 
-**`CI · Backend`** (`.github/workflows/ci.yml`): se ejecuta cuando cambian el backend, la colección de Postman o el contrato.
+**`CI · Backend`** (`.github/workflows/ci.yml`): en un push, se ejecuta cuando cambian el backend, la colección de Postman o el contrato; en un Pull Request hacia `main`, siempre.
 
 | Job | Qué comprueba | Si falla |
 |---|---|---|
@@ -19,7 +19,7 @@ Cada cambio pasa por verificaciones automáticas en GitHub Actions antes de inte
 | Imagen Docker de la API | Construye la imagen, la inicia junto a PostgreSQL y comprueba que migra y responde al login | No se publica la imagen |
 | Publicar la imagen en GHCR | Solo en `main` y solo si los anteriores pasan. Publica `latest` y la etiqueta del commit (`sha-xxxxxxx`) | — |
 
-**`CI · Portal web`** (`.github/workflows/ci-frontend.yml`): se ejecuta cuando cambian el portal o el código de la API.
+**`CI · Portal web`** (`.github/workflows/ci-frontend.yml`): en un push, se ejecuta cuando cambian el portal o el código de la API; en un Pull Request hacia `main`, siempre.
 
 | Job | Qué comprueba |
 |---|---|
@@ -39,7 +39,7 @@ Cada cambio pasa por verificaciones automáticas en GitHub Actions antes de inte
 3. Abrir un Pull Request hacia `main`: GitHub Actions ejecuta los dos workflows.
 4. Integrar solo si todos los checks están en verde. En `main` se ejecutan otra vez y se publica la imagen.
 
-Protección de `main` (Settings → Rules → Rulesets): exigir Pull Request y que pasen los checks antes de integrar.
+Protección de `main` (Settings → Rules → Rulesets → `proteger-main`): no se puede borrar ni forzar; todo cambio entra por Pull Request y solo si pasan `Arquitectura, Jest y contrato` y `e2e`. Por eso los dos workflows se ejecutan en todos los Pull Request, aunque solo cambien documentos: si no, los checks obligatorios quedarían esperando para siempre.
 
 ## Usar la imagen publicada
 

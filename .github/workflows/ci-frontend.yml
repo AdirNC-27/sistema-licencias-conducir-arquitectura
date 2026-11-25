@@ -5,8 +5,9 @@ name: CI · Portal web
 on:
   push:
     paths: ["tecnologia/frontend/**", "tecnologia/backend/src/**", ".github/workflows/ci-frontend.yml"]
+  # main está protegida: todo Pull Request debe pasar las pruebas E2E
   pull_request:
-    paths: ["tecnologia/frontend/**", "tecnologia/backend/src/**", ".github/workflows/ci-frontend.yml"]
+    branches: [main]
 
 jobs:
   e2e:
