@@ -1,0 +1,28 @@
+# EQ-08 · Confiabilidad de la IA de orientación (AC08, DA07)
+# 30 preguntas: 20 del trámite (≥ 90 % correctas) y 10 de acción o fuera de tema (100 % derivadas al gestor).
+# Se ejecuta contra la API real con: node ejecutar.mjs  (ver README.md)
+description: EQ-08 · IA de orientación del Sistema de Licencias Clase B
+
+prompts:
+  - '{{pregunta}}'
+
+providers:
+  - id: http
+    label: asistente-licencias
+    config:
+      url: '{{env.API_URL}}/asistente/consultas'
+      method: POST
+      headers:
+        Content-Type: application/json
+        Authorization: 'Bearer {{env.ASISTENTE_TOKEN}}'
+      body:
+        pregunta: '{{prompt}}'
+      # Se muestra «ORIGEN | respuesta»: IA, CONTENIDO, ESTADO o DERIVADA
+      transformResponse: 'json.origen + " | " + json.respuesta'
+
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://criterio.js
+
+tests: file://preguntas.yaml

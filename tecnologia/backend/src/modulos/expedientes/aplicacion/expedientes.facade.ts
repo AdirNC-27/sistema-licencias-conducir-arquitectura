@@ -17,6 +17,10 @@ export class ExpedientesFacade implements ExpedientesApi {
     return this.repositorio.buscarPorId(id);
   }
 
+  async ultimoDePostulante(postulanteId: number): Promise<Expediente | null> {
+    return (await this.repositorio.listarDePostulante(postulanteId))[0] ?? null;
+  }
+
   async avanzarEtapa(id: number, desde: Etapa, usuarioId: number): Promise<Expediente> {
     const expediente = await this.repositorio.buscarPorId(id);
     const anterior = expediente.avanzarDesde(desde);

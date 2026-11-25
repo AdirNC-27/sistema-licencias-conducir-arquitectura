@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FiltroErrores } from './compartido/presentacion/filtro-errores';
 import { GuardaJwt, GuardaRoles } from './compartido/seguridad/guardas';
 import { opcionesBaseDeDatos } from './configuracion/base-de-datos';
+import { AsistenteModule } from './modulos/asistente/asistente.module';
 import { AuditoriaModule } from './modulos/auditoria/auditoria.module';
 import { CitasModule } from './modulos/citas/citas.module';
 import { DocumentosModule } from './modulos/documentos/documentos.module';
@@ -17,6 +18,7 @@ import { NotificacionesModule } from './modulos/notificaciones/notificaciones.mo
 import { PagosModule } from './modulos/pagos/pagos.module';
 import { PostulantesModule } from './modulos/postulantes/postulantes.module';
 import { RequisitosModule } from './modulos/requisitos/requisitos.module';
+import { RevisionModule } from './modulos/revision/revision.module';
 import { SaludModule } from './modulos/salud/salud.module';
 
 /** Monolito modular (ADR-001): un solo despliegue con módulos independientes. */
@@ -34,6 +36,8 @@ import { SaludModule } from './modulos/salud/salud.module';
     PagosModule,
     CitasModule,
     EvaluacionesModule,
+    RevisionModule,
+    AsistenteModule,
     NotificacionesModule,
     AuditoriaModule,
     SaludModule,

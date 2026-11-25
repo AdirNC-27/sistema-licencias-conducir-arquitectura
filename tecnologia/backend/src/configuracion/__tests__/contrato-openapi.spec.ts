@@ -36,8 +36,8 @@ describe('Contrato OpenAPI', () => {
       );
   }, 30_000);
 
-  it('documenta las 31 operaciones de negocio', () => {
-    expect(operaciones).toHaveLength(31);
+  it('documenta las 45 operaciones de negocio', () => {
+    expect(operaciones).toHaveLength(45);
   });
 
   it('cada operación tiene un resumen', () => {
@@ -69,7 +69,7 @@ describe('Contrato OpenAPI', () => {
 
   it('las operaciones protegidas exigen token y documentan el 401', () => {
     const protegidas = operaciones.filter(esProtegida);
-    expect(protegidas.length).toBe(28);
+    expect(protegidas.length).toBe(42);
     expect(protegidas.filter((o) => !tiene(o, '401')).map(nombre)).toEqual([]);
   });
 

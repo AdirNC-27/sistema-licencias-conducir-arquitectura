@@ -5,14 +5,9 @@ import { fecha, NOMBRE_DOCUMENTO, nombreEtapa, soles } from '../../api/textos';
 import type { Documento, Expediente, Pago, PostulanteResumen } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, Chip, ChipEstado, Icono, Vacio } from '../../componentes/ui';
+import { PanelRevision } from './PanelRevision';
 
-const PORTALES = [
-  ['SNC · Récord de conductor', 'https://recordconductor.mtc.gob.pe/'],
-  ['Sanciones MTC', 'https://slcp.mtc.gob.pe/'],
-  ['Licencias MTC', 'https://licencias.mtc.gob.pe/#/index'],
-];
-
-/** Detalle del expediente para el gestor: revisión de documentos (RF04) y verificación de pagos (RF06). */
+/** Detalle del expediente para el gestor: documentos (RF04), pagos (RF06), verificaciones oficiales (RF24, RF27) y observaciones del supervisor (RF11). */
 export function Detalle() {
   const id = Number(useParams().id);
   const expediente = useDatos(() => api.get<Expediente>(`/expedientes/${id}`), [id]);
@@ -115,16 +110,7 @@ export function Detalle() {
             )}
           </div>
         </div>
-        <div className="tarjeta h-fit">
-          <h2 className="mb-1 font-bold text-marca-oscuro">Verificación en portales oficiales</h2>
-          <p className="mb-3 text-sm text-slate-500">Consulta con el DNI {p?.dni} antes de aprobar.</p>
-          <ul className="space-y-2">
-            {PORTALES.map(([t, u]) => (
-              <li key={u}><a href={u} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl bg-fondo px-3 py-2.5 text-sm font-semibold text-marca hover:bg-marca-claro">{t}<Icono nombre="open_in_new" className="text-base" /></a></li>
-            ))}
-          </ul>
-          <p className="mt-3 text-xs text-slate-500">Integración prevista vía PIDE.</p>
-        </div>
+        <PanelRevision expediente={e} dni={p?.dni} alCambiar={expediente.recargar} />
       </div>
     </div>
   );

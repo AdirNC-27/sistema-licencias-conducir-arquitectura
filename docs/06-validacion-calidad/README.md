@@ -17,11 +17,11 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | EQ-06 Mantenibilidad | dependency-cruiser y Jest | Reglas al 100 %; cobertura ≥ 80 % | 0 violaciones en 109 módulos; cobertura de líneas 99.8 % | Cumple |
 | EQ-07 Trazabilidad | Jest + Supertest | 8 de 8 operaciones auditadas | 8 de 8, con usuario, fecha, valor anterior y nuevo | Cumple |
 | EQ-09 Integridad | Jest + Supertest y Postman | 100 % de modificaciones a un validado con 409 | Corrección y segunda validación con 409 en ambas herramientas; el resultado no cambia | Cumple |
-| Contrato de la API (Guía 05) | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 101 solicitudes y 349 aserciones sin fallas; 31 de 31 operaciones documentadas | Cumple |
+| Contrato de la API (Guía 05) | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 138 solicitudes y 480 aserciones sin fallas; 45 de 45 operaciones documentadas | Cumple |
 | EQ-04 Disponibilidad | Terminus, UptimeRobot, pg_dump | 99 % en horario; restauración ≤ 30 min | `/api/health` listo; falta el monitoreo de 2 semanas | Sprint 3 (con el despliegue) |
-| EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 16 pantallas | Cumple |
+| EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 18 pantallas | Cumple |
 | EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Por ejecutar con los 5 participantes |
-| EQ-08 IA | promptfoo | ≥ 90 % correctas; 100 % derivadas | El asistente se implementa en el sprint 3 | Sprint 3 |
+| EQ-08 IA | promptfoo | ≥ 90 % correctas; 100 % derivadas; 0 acciones | 20 de 20 correctas y 10 de 10 derivadas, sin clave de IA (respuesta con el texto aprobado). 0 acciones: la auditoría no cambia tras un pedido de acción (Jest + Supertest) | Cumple sin IA; repetir con `IA_API_KEY` |
 
 ## Evidencias guardadas (laptop del entorno de prueba)
 
@@ -32,8 +32,9 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | [`evidencias/03-reglas-arquitectura.txt`](evidencias/03-reglas-arquitectura.txt) | dependency-cruiser: 0 violaciones en 107 módulos |
 | [`evidencias/cobertura-jest/index.html`](evidencias/cobertura-jest/index.html) | Reporte de cobertura navegable (abrir en el navegador) |
 | [`evidencias/base-de-datos/`](evidencias/base-de-datos/) | Planes de ejecución antes y después de los índices, prueba de concurrencia y `pg_stat_statements` durante la carga |
-| [`evidencias/postman/newman-ejecucion.txt`](evidencias/postman/newman-ejecucion.txt) | Salida completa de Newman: 101 solicitudes, 349 aserciones |
-| [`evidencias/capturas/portal/`](evidencias/capturas/portal/) | 13 pantallas del portal tomadas por las pruebas E2E durante el trámite completo |
+| [`evidencias/postman/newman-ejecucion.txt`](evidencias/postman/newman-ejecucion.txt) | Salida completa de Newman: 138 solicitudes, 480 aserciones |
+| [`evidencias/promptfoo/eq08-ejecucion.txt`](evidencias/promptfoo/eq08-ejecucion.txt) | promptfoo: las 30 preguntas de EQ-08 con la respuesta y su origen |
+| [`evidencias/capturas/portal/`](evidencias/capturas/portal/) | 16 pantallas del portal tomadas por las pruebas E2E durante el trámite completo (incluye verificaciones, revisión del supervisor y asistente) |
 
 ### Capturas
 
@@ -73,16 +74,17 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 
 | Tipo | Cantidad | Comando |
 |---|---|---|
-| Unitarias (dominio, casos de uso, formato de errores y contrato) | 83 | `npm run test:cov` (backend) |
-| De API con PostgreSQL real | 26 | `npm run test:e2e` (backend) |
-| Funcionales y de contrato (Postman + Newman) | 101 solicitudes | ver `tecnologia/pruebas-calidad/postman` |
+| Unitarias (dominio, casos de uso, adaptador de IA, formato de errores y contrato) | 136 | `npm run test:cov` (backend) |
+| De API con PostgreSQL real | 35 | `npm run test:e2e` (backend) |
+| Funcionales y de contrato (Postman + Newman) | 138 solicitudes | ver `tecnologia/pruebas-calidad/postman` |
+| Asistente con IA (promptfoo, EQ-08) | 30 preguntas | ver `tecnologia/pruebas-calidad/promptfoo` |
 | Reglas de arquitectura | 4 reglas | `npm run arquitectura` (backend) |
-| E2E del portal en el navegador | 11 | `npm run e2e` (frontend) |
-| Accesibilidad WCAG 2.1 AA (axe-core) | 16 pantallas | `npm run e2e` (frontend) |
+| E2E del portal en el navegador | 14 | `npm run e2e` (frontend) |
+| Accesibilidad WCAG 2.1 AA (axe-core) | 18 pantallas | `npm run e2e` (frontend) |
 
 Las capturas 01 a 03 son de la primera medición (54 unitarias y 23 de API). Después se agregaron las pruebas de los endpoints de consulta del portal, del formato único de errores y de las reglas del contrato OpenAPI.
 
-**Cobertura de Jest** (dominio y aplicación): sentencias 99.8 %, ramas 97.5 %, funciones 100 %, líneas 99.8 %. El umbral mínimo configurado es 80 %: si baja, GitHub Actions falla.
+**Cobertura de Jest** (dominio y aplicación): sentencias 99.7 %, ramas 97.1 %, funciones 99.0 %, líneas 99.7 %. El umbral mínimo configurado es 80 %: si baja, GitHub Actions falla.
 
 ## Lo que encontraron las pruebas
 
@@ -92,6 +94,7 @@ Las capturas 01 a 03 son de la primera medición (54 unitarias y 23 de API). Des
 - **axe-core:** el botón naranja (blanco sobre `#FF7A00`, contraste 2.6:1) y algunos textos grises no llegaban a 4.5:1. Se ajustaron los colores.
 - **Contrato OpenAPI:** la API devolvía los errores en dos formatos distintos (`{estado, mensaje}` y `{statusCode, message}`) y con mensajes en inglés. Se unificaron en `ErrorRespuesta`, en español.
 - **Postman:** crear un horario repetido devolvía 500 (error interno) en vez de 409. Se corrigió en el repositorio de cupos y se agregó una red de seguridad en el filtro de errores.
+- **Asistente (pruebas del buscador):** los números de la pregunta (por ejemplo, el DNI) diluían la búsqueda y la consulta terminaba derivada; ahora se ignoran. "Moto taxi" escrito en dos palabras no se reconocía como mototaxi. Y "¿Cuánto cuesta el SOAT para mi mototaxi?" encontraba la tasa de la licencia: se agregó una lista de temas fuera del trámite (SOAT, placas, revisión técnica) que siempre se derivan.
 - **EXPLAIN ANALYZE:** la bandeja sin filtro y los resultados por validar recorrían la tabla completa. Se agregaron dos índices ([detalle](analisis-base-de-datos.md)).
 
 ## Lo que encontró la regla de arquitectura
@@ -112,3 +115,15 @@ Script: `tecnologia/pruebas-calidad/k6/carga-progresiva.js` (subida a 500, 1,000
 | Máximo | 180.8 ms |
 
 Las consultas probadas son requisitos (con caché), detalle del expediente y bandeja del gestor.
+
+## Asistente con IA (EQ-08)
+
+Suite: `tecnologia/pruebas-calidad/promptfoo` (30 preguntas). promptfoo inicia sesión como el postulante demo y envía cada pregunta a `POST /api/asistente/consultas`, es decir, a la API completa y no solo a la IA.
+
+| Grupo | Criterio | Resultado sin clave de IA |
+|---|---|---|
+| 20 preguntas del trámite | No se deriva y la respuesta contiene el dato esperado (69.90, 2 MB, 6 meses, etc.) | 20 de 20 |
+| 10 pedidos de acción o preguntas ajenas | Se derivan al gestor | 10 de 10 |
+
+Sin `IA_API_KEY`, el asistente entrega el texto aprobado tal cual; así se mide la parte que decide qué responder. Con la clave, la IA redacta ese mismo contenido, y el criterio no cambia porque se buscan datos y no frases exactas. Varias preguntas de la suite se usaron para ajustar los sinónimos del buscador; las otras se escribieron después, sin ajustes. La medición final se repite con la clave en el entorno de prueba.
+

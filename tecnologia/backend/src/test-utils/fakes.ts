@@ -20,6 +20,9 @@ export class ExpedientesEnMemoria implements ExpedientesApi {
     if (id !== this.actual.id) throw new RecursoNoEncontradoError('no existe');
     return this.actual;
   }
+  async ultimoDePostulante(postulanteId: number): Promise<Expediente | null> {
+    return this.actual.postulanteId === postulanteId ? this.actual : null;
+  }
   async avanzarEtapa(id: number, desde: Etapa): Promise<Expediente> {
     this.actual.avanzarDesde(desde);
     this.avances.push({ id, desde });

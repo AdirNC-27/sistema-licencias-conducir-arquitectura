@@ -6,7 +6,7 @@ on:
   push:
     paths: ["tecnologia/frontend/**", "tecnologia/backend/src/**", ".github/workflows/ci-frontend.yml"]
   pull_request:
-    paths: ["tecnologia/frontend/**"]
+    paths: ["tecnologia/frontend/**", "tecnologia/backend/src/**", ".github/workflows/ci-frontend.yml"]
 
 jobs:
   e2e:

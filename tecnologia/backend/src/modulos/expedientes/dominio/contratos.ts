@@ -24,6 +24,8 @@ export const REPOSITORIO_EXPEDIENTES = Symbol('RepositorioExpedientes');
 export interface ExpedientesApi {
   obtener(id: number): Promise<Expediente>;
   avanzarEtapa(id: number, desde: Etapa, usuarioId: number): Promise<Expediente>;
+  /** Trámite más reciente del postulante, o null si no tiene ninguno. */
+  ultimoDePostulante(postulanteId: number): Promise<Expediente | null>;
 }
 
 export const EXPEDIENTES_API = Symbol('ExpedientesApi');

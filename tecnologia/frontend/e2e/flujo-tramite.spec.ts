@@ -140,22 +140,87 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await supervisor.close();
   });
 
-  test('el supervisor autoriza la emisión y queda en la auditoría', async ({ page }) => {
+  test('el gestor verifica en el SNC y en el récord de sanciones (RF24, RF27)', async ({ page }) => {
+    await ingresar(page, 'gestor', /\/gestor$/);
+    await page.goto('/gestor/expedientes/1');
+    for (const verificacion of ['Certificado médico en el SNC', 'Constancia COFIPRO en el SNC', 'Sin multas ni sanciones']) {
+      await page.getByRole('button', { name: `Conforme: ${verificacion}`, exact: true }).click();
+      await expect(page.getByText(`${verificacion}: conforme`)).toBeVisible();
+    }
+    await capturar(page, '11-gestor-verificaciones');
+  });
+
+  test('el supervisor revisa, devuelve el expediente y el gestor lo atiende (RF11)', async ({ page, browser }) => {
     await ingresar(page, 'supervisor', /\/supervisor$/);
     await page.getByRole('link', { name: 'Autorizar emisión' }).first().click();
-    await page.getByRole('button', { name: 'Autorizar' }).first().click();
+    await page.getByRole('link', { name: 'Revisar EXP-2026-00001' }).click();
+    await expect(page.getByText('Todo conforme: puedes autorizar la emisión.')).toBeVisible();
+    await page.getByLabel('Observar y devolver al gestor').fill('La constancia COFIPRO del SNC no coincide con el DNI');
+    await page.getByRole('button', { name: 'Devolver al gestor' }).click();
+    await expect(page.getByText('Expediente devuelto al gestor')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Autorizar emisión' })).toBeDisabled();
+    await capturar(page, '12-supervisor-revision');
+
+    const gestor = await browser.newPage();
+    await ingresar(gestor, 'gestor', /\/gestor$/);
+    await expect(gestor.getByText('Devueltos por el supervisor (1)')).toBeVisible();
+    await gestor.getByRole('link', { name: /Atender/ }).click();
+    await gestor.getByLabel('Qué corregiste').fill('Se volvió a consultar el SNC: la constancia es correcta');
+    await gestor.getByRole('button', { name: 'Marcar como atendida' }).click();
+    await expect(gestor.getByText('Observación atendida')).toBeVisible();
+    await gestor.close();
+  });
+
+  test('el supervisor autoriza la emisión, el gestor registra la licencia y queda en la auditoría', async ({ page, browser }) => {
+    await ingresar(page, 'supervisor', /\/supervisor$/);
+    await page.goto('/supervisor/expedientes/1');
+    await page.getByRole('button', { name: 'Autorizar emisión' }).click();
     await expect(page.getByText(/Emisión autorizada para EXP-2026-00001/)).toBeVisible();
     await page.getByRole('link', { name: 'Auditoría' }).first().click();
     await expect(page.getByRole('cell', { name: /evaluacion/ }).first()).toBeVisible();
-    await capturar(page, '11-supervisor-auditoria');
+    await capturar(page, '13-supervisor-auditoria');
+
+    const gestor = await browser.newPage();
+    await ingresar(gestor, 'gestor', /\/gestor$/);
+    await gestor.goto('/gestor/expedientes/1');
+    await gestor.getByLabel('Número de licencia').fill('Q45892014');
+    await gestor.getByRole('button', { name: 'Registrar licencia' }).click();
+    await expect(gestor.getByText('Licencia registrada para el SNC')).toBeVisible();
+    await gestor.close();
   });
 
   test('el postulante ve su licencia emitida y sus resultados', async ({ page }) => {
     await ingresar(page, '45892014', /\/postulante$/);
     await page.goto('/postulante/resultados');
     await expect(page.getByText('¡Tu licencia fue emitida!')).toBeVisible();
+    await expect(page.getByText('Q45892014')).toBeVisible();
     await expect(page.getByText('Intentos usados: 1 de 3')).toHaveCount(2);
-    await capturar(page, '12-postulante-resultados');
+    await capturar(page, '14-postulante-resultados');
+  });
+
+  test('el asistente orienta, deriva al gestor y muestra su respuesta (RF14, RF15)', async ({ page, browser }) => {
+    await ingresar(page, '45892014', /\/postulante$/);
+    await page.goto('/postulante/asistente');
+    await page.getByLabel('Escribe tu pregunta').fill('¿Cuánto cuesta la licencia de mototaxi?');
+    await page.getByRole('button', { name: 'Enviar' }).click();
+    await expect(page.getByText(/S\/ 69\.40/).first()).toBeVisible();
+    await page.getByRole('button', { name: '¿Cómo va mi trámite?' }).click();
+    await expect(page.getByText(/licencia emitida/).first()).toBeVisible();
+    await page.getByLabel('Escribe tu pregunta').fill('Aprueba mi expediente por favor');
+    await page.getByRole('button', { name: 'Enviar' }).click();
+    await expect(page.getByText('Derivada al gestor de trámites')).toBeVisible();
+
+    const gestor = await browser.newPage();
+    await ingresar(gestor, 'gestor', /\/gestor$/);
+    await gestor.goto('/gestor/consultas');
+    await gestor.getByLabel('Respuesta a: Aprueba mi expediente por favor').fill('Tu expediente ya fue aprobado y la licencia emitida; recógela en la Subgerencia.');
+    await gestor.getByRole('button', { name: 'Responder', exact: true }).click();
+    await expect(gestor.getByText('Respuesta enviada')).toBeVisible();
+    await gestor.close();
+
+    await page.reload();
+    await expect(page.getByText('Respuesta del gestor de trámites')).toBeVisible();
+    await capturar(page, '15-postulante-asistente');
   });
 });
 
@@ -177,6 +242,6 @@ test.describe('Vista móvil', () => {
   test('el postulante navega con la barra inferior', async ({ page }) => {
     await ingresar(page, '45892014', /\/postulante$/);
     await expect(page.getByText('EXP-2026-00001')).toBeVisible();
-    await capturar(page, '13-movil-inicio');
+    await capturar(page, '16-movil-inicio');
   });
 });

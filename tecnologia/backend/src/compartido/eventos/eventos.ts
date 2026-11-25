@@ -3,6 +3,8 @@ export const EVENTOS = {
   OPERACION_AUDITABLE: 'auditoria.operacion',
   ETAPA_CAMBIADA: 'expediente.etapa-cambiada',
   CITA_RESERVADA: 'cita.reservada',
+  LICENCIA_REGISTRADA: 'licencia.registrada',
+  CONSULTA_RESPONDIDA: 'asistente.consulta-respondida',
 } as const;
 
 export interface OperacionAuditable {
@@ -28,4 +30,17 @@ export interface CitaReservada {
   postulanteId: number;
   tipo: string;
   fecha: string;
+}
+
+export interface LicenciaRegistrada {
+  expedienteId: number;
+  numeroExpediente: string;
+  postulanteId: number;
+  numeroLicencia: string;
+}
+
+export interface ConsultaRespondida {
+  consultaId: number;
+  postulanteId: number;
+  pregunta: string;
 }

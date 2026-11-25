@@ -25,16 +25,17 @@ Cada funcionalidad se escribió primero como especificación y después se progr
 | [SDD-08](sdd-08-evaluaciones.md) | Evaluaciones: 3 intentos y bloqueo | RF08, RF09, RF19 | 5 |
 | [SDD-09](sdd-09-notificaciones.md) | Notificaciones y recordatorios | RF13 | 3 |
 | [SDD-10](sdd-10-auditoria.md) | Auditoría de operaciones | RF17 | 3 |
+| [SDD-11](sdd-11-verificaciones-oficiales.md) | Verificación en el SNC y en el récord de sanciones | RF24, RF27 | 6 |
+| [SDD-12](sdd-12-revision-del-supervisor.md) | Revisión del supervisor y emisión | RF11, RF12 | 6 |
+| [SDD-13](sdd-13-asistente-virtual.md) | Asistente virtual con la IA de orientación | RF14, RF15 | 7 |
 
 ## Flujo que conectan
 
-`Registro (SDD-02)` → `Expediente (SDD-04)` → `Documentos (SDD-05)` → `Pago (SDD-06)` → `Cita (SDD-07)` → `Evaluaciones (SDD-08)` → `Emisión (SDD-04)`, con `Notificaciones (SDD-09)` y `Auditoría (SDD-10)` en cada paso, y `Identidad (SDD-01)` protegiendo todo.
+`Registro (SDD-02)` → `Expediente (SDD-04)` → `Documentos (SDD-05)` → `Pago (SDD-06)` → `Cita (SDD-07)` → `Evaluaciones (SDD-08)` → `Verificaciones (SDD-11)` → `Revisión y emisión (SDD-12)`, con `Notificaciones (SDD-09)` y `Auditoría (SDD-10)` en cada paso, y `Identidad (SDD-01)` protegiendo todo. El `Asistente (SDD-13)` acompaña al postulante en cualquier etapa.
 
 ## Fuera de este sprint
 
 | Funcionalidad | Requisitos | Sprint |
 |---|---|---|
-| Asistente virtual con IA | RF14, RF15 | 3 |
 | Revalidación y duplicado | RF25, RF26 | 3 |
 | Reportes | RF18 | 3 |
-| Verificación de sanciones (II-C) | RF27 | 3 |

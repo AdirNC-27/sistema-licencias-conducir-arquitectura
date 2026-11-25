@@ -9,6 +9,8 @@ import { CitaOrmEntity, CupoOrmEntity } from '../modulos/citas/infraestructura/c
 import { EvaluacionOrmEntity } from '../modulos/evaluaciones/infraestructura/evaluaciones.typeorm';
 import { AuditoriaOrmEntity } from '../modulos/auditoria/infraestructura/bitacora-auditoria.typeorm';
 import { NotificacionOrmEntity } from '../modulos/notificaciones/infraestructura/notificacion.orm-entity';
+import { LicenciaOrmEntity, ObservacionOrmEntity, VerificacionOrmEntity } from '../modulos/revision/infraestructura/revision.typeorm';
+import { ConsultaOrmEntity, ContenidoOrmEntity } from '../modulos/asistente/infraestructura/asistente.typeorm';
 import { MIGRACIONES } from '../migraciones';
 
 export const ENTIDADES = [
@@ -23,6 +25,11 @@ export const ENTIDADES = [
   EvaluacionOrmEntity,
   AuditoriaOrmEntity,
   NotificacionOrmEntity,
+  VerificacionOrmEntity,
+  ObservacionOrmEntity,
+  LicenciaOrmEntity,
+  ContenidoOrmEntity,
+  ConsultaOrmEntity,
 ];
 
 /** Una sola base de datos PostgreSQL (ADR-005). El esquema se crea con migraciones, nunca con synchronize. */

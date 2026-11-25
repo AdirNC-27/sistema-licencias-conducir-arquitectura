@@ -2,7 +2,7 @@ import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { AccesoDenegadoError, ConflictoError, ReglaNegocioError } from '../../../compartido/dominio/errores';
 import { Rol } from '../../../compartido/dominio/rol';
 import { eventosFalsos, expediente, usuario } from '../../../test-utils/fakes';
-import { AutorizarEmisionUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
+import { ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
 import { ExpedientesFacade } from '../aplicacion/expedientes.facade';
 import { RepositorioExpedientes } from '../dominio/contratos';
 import { Etapa, ORDEN_ETAPAS, siguienteEtapa } from '../dominio/etapa';
@@ -108,7 +108,7 @@ describe('Casos de uso de Expedientes', () => {
     expect((await consultar.bandeja({ pagina: 1, tamano: 20 })).total).toBe(1);
   });
 
-  it('la fachada avanza, audita y notifica; autorizar emisión requiere etapa EMISION', async () => {
+  it('la fachada avanza, audita, notifica y devuelve el último trámite del postulante', async () => {
     const repo = new RepoEnMemoria();
     await repo.crear({ postulanteId: 10, tipoTramite: TipoTramite.EMISION, categoria: Categoria.II_B });
     const eventos = eventosFalsos();
@@ -116,6 +116,7 @@ describe('Casos de uso de Expedientes', () => {
     await fachada.avanzarEtapa(1, Etapa.DOCUMENTOS, 5);
     expect(eventos.emit).toHaveBeenCalledTimes(2);
     expect((await fachada.obtener(1)).etapa).toBe(Etapa.PAGO);
-    await expect(new AutorizarEmisionUseCase(fachada).ejecutar(1, usuario(Rol.SUPERVISOR))).rejects.toThrow(ConflictoError);
+    expect((await fachada.ultimoDePostulante(10))?.numero).toBe('EXP-2026-00001');
+    expect(await fachada.ultimoDePostulante(99)).toBeNull();
   });
 });

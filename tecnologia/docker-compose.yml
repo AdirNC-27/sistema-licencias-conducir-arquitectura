@@ -4,7 +4,7 @@
 #   API:     http://localhost:3000/api    · Swagger: http://localhost:3000/api/docs
 #   PostgreSQL desde el equipo: localhost:5433 (el 5432 queda libre para un PostgreSQL instalado)
 # La API ejecuta las migraciones al iniciar: no hace falta ningún script SQL.
-# Para validar DNI y enviar correos reales, cree backend/.env.docker con APIPERU_TOKEN y SMTP_* (no se sube a Git).
+# Para validar DNI, enviar correos y usar la IA, cree backend/.env.docker con APIPERU_TOKEN, SMTP_* e IA_API_KEY (no se sube a Git).
 
 services:
   db:

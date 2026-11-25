@@ -24,7 +24,7 @@ npm run start:dev
 - **Swagger (OpenAPI):** `http://localhost:3000/api/docs` · JSON: `http://localhost:3000/api/docs-json`
 - Salud: `http://localhost:3000/api/health`
 
-Las migraciones se ejecutan solas al iniciar: crean las 11 tablas y los datos de demostración.
+Las migraciones se ejecutan solas al iniciar: crean las 16 tablas, los datos de demostración y el contenido inicial del asistente.
 
 ## Cuentas de demostración (clave `demo123`)
 
