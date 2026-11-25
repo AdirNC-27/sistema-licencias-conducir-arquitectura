@@ -2,11 +2,13 @@
 
 | Requisitos | Relación con la arquitectura | Estado |
 |---|---|---|
-| RF14, RF15 · HU11, HU25 | DA07 · RC06 · ADR-007, ADR-009, ADR-015 · EQ-08 | Implementado (sprint 2) |
+| RF14, RF15 · HU11, HU25 | DA07 · RC06 · ADR-007, ADR-009, ADR-015, ADR-016 · EQ-08 | Implementado (sprint 2) |
 
 ## Historia
 
 Como **postulante** quiero preguntarle al asistente sobre requisitos, pagos, citas, exámenes y el estado de mi trámite, y recibir una respuesta confiable o la respuesta del gestor si el asistente no sabe (HU11). Como **administrador** quiero mantener el contenido aprobado que usa el asistente (HU25).
+
+Como **gestor, evaluador, supervisor o administrador** quiero ver al entrar lo que tengo pendiente y lo que está por vencer, y preguntar cómo se hace cada paso, para no olvidar tareas que bloquean a otros.
 
 ## Cómo decide el asistente
 
@@ -16,6 +18,20 @@ Como **postulante** quiero preguntarle al asistente sobre requisitos, pagos, cit
 4. **No hay contenido aprobado** o la IA indica que no alcanza: se deriva al gestor, que responde desde su bandeja.
 
 La IA recibe la pregunta sin DNI, celulares ni correos, y solo el contenido encontrado. No ve datos del expediente ni puede escribir nada. Si su respuesta afirma haber hecho algo, se descarta.
+
+## Pendientes y asistente por rol
+
+Los pendientes se calculan con los datos del sistema (ADR-016), no con la IA. Aparecen en la pantalla principal de cada rol y en su asistente; los urgentes van primero y cada uno enlaza a la pantalla donde se atiende.
+
+| Rol | Pendientes |
+|---|---|
+| Gestor | Documentos por revisar, pagos por verificar, expedientes devueltos por el supervisor, verificaciones en el SNC, licencias sin número, consultas sin responder (urgentes si pasan 48 h), plazo legal vencido o por vencer |
+| Evaluador | Exámenes rendidos sin resultado, citados hoy, exámenes de los próximos 7 días, resultados que esperan validación |
+| Supervisor | Resultados por validar, expedientes listos para emitir, con verificación no conforme o devueltos, plazo legal |
+| Administrador | Días sin horarios o con pocos cupos, consultas atrasadas, consultas derivadas que piden contenido nuevo |
+| Postulante | Documentos faltantes u observados, certificado médico por vencer, pago por registrar, próxima cita, reintentos, respuestas del gestor |
+
+El asistente del personal responde «¿qué tengo pendiente?» con esa lista y las dudas de procedimiento con el contenido aprobado **para el personal** (18 procedimientos iniciales). El contenido para postulantes y para el personal se separa con el campo `audiencia`: el postulante nunca recibe un procedimiento interno. Un pedido de acción no se ejecuta; se indica dónde hacerlo. La conversación del personal no se guarda.
 
 ## Criterios de aceptación
 
@@ -28,6 +44,9 @@ La IA recibe la pregunta sin DNI, celulares ni correos, y solo el contenido enco
 | CA5 | Respuesta del gestor | hay una consulta derivada | el gestor responde | el postulante la ve en su chat y recibe un aviso |
 | CA6 | Contenido | el administrador desactiva un contenido | se pregunta lo mismo | el asistente ya no lo usa |
 | CA7 | IA caída | la IA no responde a tiempo | el postulante pregunta | recibe el texto aprobado |
+| CA8 | Pendientes | el gestor tiene pagos por verificar | entra a su bandeja o pregunta qué tiene pendiente | ve «N pagos por verificar en el SAT» con enlace a la bandeja |
+| CA9 | Recordatorio | el certificado del postulante vence en 30 días o menos | entra al portal | ve la fecha de vencimiento como urgente |
+| CA10 | Procedimiento | el personal pregunta cómo hacer un paso | envía la pregunta | responde con el contenido aprobado para el personal y no ejecuta nada |
 
 ## Tareas técnicas
 
@@ -36,6 +55,8 @@ La IA recibe la pregunta sin DNI, celulares ni correos, y solo el contenido enco
 - [x] Caché en memoria del contenido activo, se vacía al modificarlo (ADR-009)
 - [x] 25 contenidos iniciales del TUPA MPH en la migración
 - [x] Auditoría: `RESPONDER_CONSULTA` y `GESTIONAR_CONTENIDO`; evento `asistente.consulta-respondida`
+- [x] `pendientesDelPersonal()` y `recordatoriosDelPostulante()` en el dominio; adaptador `LecturaPendientesSql` (ADR-016)
+- [x] Campo `audiencia` y 18 procedimientos del personal en la migración `asistente-por-rol`
 
 ## Endpoints (Swagger: `/api/docs`)
 
@@ -48,9 +69,11 @@ La IA recibe la pregunta sin DNI, celulares ni correos, y solo el contenido enco
 | GET | `/api/asistente/contenidos` | ADMINISTRADOR, GESTOR |
 | POST | `/api/asistente/contenidos` | ADMINISTRADOR |
 | PUT | `/api/asistente/contenidos/{id}` | ADMINISTRADOR |
+| GET | `/api/asistente/pendientes` | Todos los roles |
+| POST | `/api/asistente/personal/consultas` | GESTOR, EVALUADOR, SUPERVISOR, ADMINISTRADOR |
 
 ## Pruebas que lo comprueban
 
-- `modulos/asistente/__tests__/asistente.spec.ts` y `adaptador-ia-gemini.spec.ts`
-- `test/flujo-tramite.e2e-spec.ts` (respuesta, estado, derivación y contenido)
+- `modulos/asistente/__tests__/asistente.spec.ts`, `pendientes.spec.ts` y `adaptador-ia-gemini.spec.ts`
+- `test/flujo-tramite.e2e-spec.ts` (respuesta, estado, derivación, contenido, pendientes y asistente del personal)
 - promptfoo (EQ-08): `tecnologia/pruebas-calidad/promptfoo`

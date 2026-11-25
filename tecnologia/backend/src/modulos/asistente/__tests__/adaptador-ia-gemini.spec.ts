@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
-import { TemaContenido } from '../dominio/contenido';
+import { Audiencia, TemaContenido } from '../dominio/contenido';
 import { AdaptadorIAGemini, INSTRUCCIONES_IA, interpretar } from '../infraestructura/adaptador-ia-gemini';
 
-const contenido = { id: 3, tema: TemaContenido.PAGOS, pregunta: '¿Cuánto cuesta la licencia?', respuesta: 'S/ 69.90 la II-B y S/ 69.40 la II-C.', palabrasClave: '', activo: true };
+const contenido = { id: 3, tema: TemaContenido.PAGOS, audiencia: Audiencia.POSTULANTE, pregunta: '¿Cuánto cuesta la licencia?', respuesta: 'S/ 69.90 la II-B y S/ 69.40 la II-C.', palabrasClave: '', activo: true };
 const config = (valores: Record<string, string>) => new ConfigService(valores);
 const respuestaGemini = (texto: string, ok = true, estado = 200) =>
   ({ ok, status: estado, json: async () => (ok ? { candidates: [{ content: { parts: [{ text: texto }] } }] } : { error: { message: 'cuota agotada' } }) }) as Response;

@@ -17,7 +17,7 @@ Cada componente es un módulo del monolito. Todos se despliegan juntos en una so
 | **Evaluaciones** | Resultados, máximo 3 intentos | RF08, RF09, RF19 |
 | **Seguimiento** | Estado y plazo legal | RF10 |
 | **Notificaciones** | Avisos y recordatorios por correo | RF13 |
-| **Asistente virtual** | Orientación con la IA y contenido aprobado | RF14, RF15 |
+| **Asistente virtual** | Orientación con la IA y contenido aprobado; pendientes y recordatorios de cada rol | RF14, RF15 |
 | **Administración** | Configuración y reportes | RF16, RF18 |
 | **Auditoría** | Registro de operaciones | RF17 |
 

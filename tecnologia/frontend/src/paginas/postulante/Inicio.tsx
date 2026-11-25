@@ -4,6 +4,7 @@ import { api } from '../../api/cliente';
 import { ETAPAS, fecha, nombreEtapa } from '../../api/textos';
 import type { Categoria, Etapa } from '../../api/tipos';
 import { mensajeError } from '../../componentes/useDatos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Barra, Cargando, Chip, Icono } from '../../componentes/ui';
 import { useSesion } from '../../sesion/sesion';
 import { useMiExpediente } from './useMiExpediente';
@@ -67,6 +68,7 @@ export function Inicio() {
         <p className="subtitulo">Aquí ves en qué etapa está tu trámite y qué te falta.</p>
       </div>
       {error && <Aviso tipo="error">{error}</Aviso>}
+      {expediente && <Pendientes titulo="Lo que te toca ahora" />}
       {!expediente && !error && <CrearTramite alCrear={recargar} />}
       {expediente && accion && (
         <div className="grid gap-6 lg:grid-cols-5">

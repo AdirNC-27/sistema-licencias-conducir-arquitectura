@@ -294,6 +294,35 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
       await http.put('/api/asistente/contenidos/999').set(auth('admin')).send({ tema: 'CITAS', pregunta: '¿No existe?', respuesta: 'Este contenido no existe' }).expect(404);
       expect((await http.get('/api/asistente/contenidos').set(auth('gestor')).expect(200)).body.length).toBeGreaterThan(25);
     });
+
+    it('cada rol ve sus pendientes; el postulante, sus recordatorios', async () => {
+      await http.get('/api/asistente/pendientes').expect(401);
+      const gestor = await http.get('/api/asistente/pendientes').set(auth('gestor')).expect(200);
+      expect(gestor.body.map((p: { codigo: string }) => p.codigo)).not.toContain('LICENCIAS'); // ya se registró
+      for (const rol of ['evaluador', 'supervisor', 'admin']) {
+        expect(Array.isArray((await http.get('/api/asistente/pendientes').set(auth(rol)).expect(200)).body)).toBe(true);
+      }
+      const postulante = await http.get('/api/asistente/pendientes').set(auth('45892014')).expect(200);
+      expect(postulante.body).toEqual(expect.arrayContaining([expect.objectContaining({ codigo: 'LICENCIA', texto: 'Tu licencia Q45892014 fue registrada.' })]));
+    });
+
+    it('la IA de orientación del personal responde pendientes y procedimientos, sin ejecutar nada', async () => {
+      const pendientes = await http.post('/api/asistente/personal/consultas').set(auth('supervisor')).send({ pregunta: '¿Qué tengo pendiente?' }).expect(201);
+      expect(pendientes.body.origen).toBe('ESTADO');
+      const procedimiento = await http.post('/api/asistente/personal/consultas').set(auth('gestor')).send({ pregunta: '¿Cómo verifico un pago?' }).expect(201);
+      expect(procedimiento.body).toMatchObject({ origen: 'CONTENIDO', pregunta: '¿Cómo verifico un pago?' });
+      expect(procedimiento.body.respuesta).toContain('reporte del SAT');
+      const contenidos = (await http.get('/api/asistente/contenidos').set(auth('admin')).expect(200)).body as { id: number; audiencia: string }[];
+      expect(contenidos.find((c) => c.id === procedimiento.body.fuentes[0])?.audiencia).toBe('PERSONAL');
+      const auditoriaAntes = (await http.get('/api/auditoria').set(auth('admin')).expect(200)).body.length;
+      const accion = await http.post('/api/asistente/personal/consultas').set(auth('supervisor')).send({ pregunta: 'Autoriza la emisión del expediente 1' }).expect(201);
+      expect(accion.body.respuesta).toContain('No ejecuto acciones');
+      expect((await http.get('/api/auditoria').set(auth('admin')).expect(200)).body.length).toBe(auditoriaAntes);
+      await http.post('/api/asistente/personal/consultas').set(auth('45892014')).send({ pregunta: '¿Qué tengo pendiente?' }).expect(403);
+      // un procedimiento interno nunca se usa para responder al postulante
+      const ciudadano = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: '¿Cómo verifico un pago en el SAT?' }).expect(201);
+      expect(ciudadano.body.fuentes.every((id: number) => contenidos.find((c) => c.id === id)?.audiencia === 'POSTULANTE')).toBe(true);
+    });
   });
 
   it('las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)', async () => {

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { api } from '../../api/cliente';
-import type { ContenidoAsistente, TemaContenido } from '../../api/tipos';
+import type { Audiencia, ContenidoAsistente, TemaContenido } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, Chip, Encabezado, Icono } from '../../componentes/ui';
 
@@ -14,13 +14,16 @@ const TEMAS: Record<TemaContenido, string> = {
 };
 
 type Formulario = Omit<ContenidoAsistente, 'id'> & { id?: number };
-const VACIO: Formulario = { tema: 'TRAMITE', pregunta: '', respuesta: '', palabrasClave: '', activo: true };
+const AUDIENCIA: Record<Audiencia, string> = { POSTULANTE: 'Para postulantes', PERSONAL: 'Para el personal' };
+const VACIO: Formulario = { tema: 'TRAMITE', audiencia: 'POSTULANTE', pregunta: '', respuesta: '', palabrasClave: '', activo: true };
 
 /** HU25: el administrador mantiene el contenido aprobado; el asistente solo responde con esto (RF15). */
 export function Contenidos() {
   const contenidos = useDatos(() => api.get<ContenidoAsistente[]>('/asistente/contenidos'));
   const [form, setForm] = useState<Formulario | null>(null);
   const [mensaje, setMensaje] = useState<{ tipo: 'ok' | 'error'; texto: string } | null>(null);
+  const [filtro, setFiltro] = useState<Audiencia>('POSTULANTE');
+  const visibles = contenidos.datos?.filter((c) => c.audiencia === filtro);
 
   const guardar = async (c: Formulario, texto: string) => {
     setMensaje(null);
@@ -45,8 +48,8 @@ export function Contenidos() {
     <div className="space-y-6">
       <Encabezado
         titulo="Contenido del asistente"
-        subtitulo="El asistente solo responde con este contenido. Lo que no esté aquí lo deriva al gestor."
-        accion={<button className="btn-primario" onClick={() => setForm({ ...VACIO })}><Icono nombre="assignment_add" className="text-lg" />Agregar</button>}
+        subtitulo="La IA de orientación solo responde con este contenido: a los postulantes (lo que no esté aquí se deriva al gestor) y al personal (procedimientos internos)."
+        accion={<button className="btn-primario" onClick={() => setForm({ ...VACIO, audiencia: filtro })}><Icono nombre="assignment_add" className="text-lg" />Agregar</button>}
       />
       {mensaje && <Aviso tipo={mensaje.tipo}>{mensaje.texto}</Aviso>}
 
@@ -59,6 +62,12 @@ export function Contenidos() {
             </select>
           </div>
           <div>
+            <label htmlFor="audiencia" className="etiqueta">Responde a</label>
+            <select id="audiencia" className="campo" value={form.audiencia} onChange={(e) => setForm({ ...form, audiencia: e.target.value as Audiencia })}>
+              {Object.entries(AUDIENCIA).map(([clave, nombre]) => <option key={clave} value={clave}>{nombre}</option>)}
+            </select>
+          </div>
+          <div className="md:col-span-2">
             <label htmlFor="palabras" className="etiqueta">Otras formas de preguntarlo (separadas por comas)</label>
             <input id="palabras" className="campo" maxLength={300} value={form.palabrasClave} onChange={(e) => setForm({ ...form, palabrasClave: e.target.value })} />
           </div>
@@ -77,9 +86,18 @@ export function Contenidos() {
         </form>
       )}
 
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por audiencia">
+        {(Object.keys(AUDIENCIA) as Audiencia[]).map((a) => (
+          <button key={a} type="button" aria-pressed={filtro === a} onClick={() => setFiltro(a)}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold ring-1 ${filtro === a ? 'bg-marca text-white ring-marca' : 'bg-white text-slate-600 ring-slate-200'}`}>
+            {AUDIENCIA[a]} ({contenidos.datos?.filter((c) => c.audiencia === a).length ?? 0})
+          </button>
+        ))}
+      </div>
+
       {contenidos.cargando ? <Cargando /> : contenidos.error ? <Aviso tipo="error">{contenidos.error}</Aviso> : (
         <ul className="space-y-3">
-          {contenidos.datos?.map((c) => (
+          {visibles?.map((c) => (
             <li key={c.id} className={`tarjeta ${c.activo ? '' : 'opacity-70'}`}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">

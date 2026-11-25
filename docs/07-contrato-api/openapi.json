@@ -3077,6 +3077,125 @@
         ]
       }
     },
+    "/api/asistente/pendientes": {
+      "get": {
+        "description": "Personal: lo que su rol tiene por hacer (documentos, pagos, exámenes, validaciones, emisiones, cupos, plazos). Postulante: lo que le toca y lo que vence pronto. Calculado con los datos del sistema; urgentes primero.",
+        "operationId": "AsistenteController_misPendientes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Pendientes ordenados por urgencia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PendienteRespuesta"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mis pendientes y recordatorios",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
+    "/api/asistente/personal/consultas": {
+      "post": {
+        "description": "Responde «¿qué tengo pendiente?» con los datos del sistema y las dudas de procedimiento con el contenido aprobado para el personal. No ejecuta acciones ni guarda la conversación.",
+        "operationId": "AsistenteController_preguntarPersonal",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreguntaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Respuesta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaPersonalRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Su rol no tiene permiso para esta operación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Pregunta vacía o demasiado larga",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Preguntar a la IA de orientación (personal)",
+        "tags": [
+          "Asistente virtual"
+        ]
+      }
+    },
     "/api/asistente/consultas": {
       "post": {
         "description": "Responde con contenido aprobado o con el estado del propio trámite. Si pide una acción o no hay respuesta confiable, deriva la consulta al gestor. Nunca modifica el trámite (RC06).",
@@ -5403,6 +5522,40 @@
           "numero"
         ]
       },
+      "PendienteRespuesta": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "example": "PAGOS"
+          },
+          "texto": {
+            "type": "string",
+            "example": "2 pagos por verificar en el SAT"
+          },
+          "cantidad": {
+            "type": "number",
+            "example": 2
+          },
+          "urgente": {
+            "type": "boolean",
+            "example": false,
+            "description": "Vence pronto o bloquea a otra persona"
+          },
+          "ruta": {
+            "type": "string",
+            "example": "/gestor?etapa=PAGO",
+            "description": "Pantalla del portal donde se atiende"
+          }
+        },
+        "required": [
+          "codigo",
+          "texto",
+          "cantidad",
+          "urgente",
+          "ruta"
+        ]
+      },
       "PreguntaDto": {
         "type": "object",
         "properties": {
@@ -5423,7 +5576,49 @@
           "ESTADO",
           "DERIVADA"
         ],
-        "description": "IA: redactada por la IA con contenido aprobado; CONTENIDO: texto aprobado; ESTADO: datos del expediente; DERIVADA: la responde el gestor"
+        "description": "ESTADO: pendientes calculados; IA o CONTENIDO: procedimiento aprobado; DERIVADA: sin contenido aprobado"
+      },
+      "ConsultaPersonalRespuesta": {
+        "type": "object",
+        "properties": {
+          "pregunta": {
+            "type": "string",
+            "example": "¿Qué tengo pendiente?"
+          },
+          "respuesta": {
+            "type": "string",
+            "example": "Esto tienes pendiente:\n• 2 pagos por verificar en el SAT"
+          },
+          "origen": {
+            "description": "ESTADO: pendientes calculados; IA o CONTENIDO: procedimiento aprobado; DERIVADA: sin contenido aprobado",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrigenRespuesta"
+              }
+            ]
+          },
+          "fuentes": {
+            "example": [
+              27
+            ],
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "creadoEn": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-11-25T15:10:00.000Z"
+          }
+        },
+        "required": [
+          "pregunta",
+          "respuesta",
+          "origen",
+          "fuentes",
+          "creadoEn"
+        ]
       },
       "ConsultaRespuesta": {
         "type": "object",
@@ -5585,6 +5780,14 @@
           "TRAMITE"
         ]
       },
+      "Audiencia": {
+        "type": "string",
+        "enum": [
+          "POSTULANTE",
+          "PERSONAL"
+        ],
+        "description": "POSTULANTE: responde al ciudadano; PERSONAL: procedimiento interno"
+      },
       "ContenidoRespuesta": {
         "type": "object",
         "properties": {
@@ -5596,6 +5799,14 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/TemaContenido"
+              }
+            ]
+          },
+          "audiencia": {
+            "description": "POSTULANTE: responde al ciudadano; PERSONAL: procedimiento interno",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Audiencia"
               }
             ]
           },
@@ -5619,6 +5830,7 @@
         "required": [
           "id",
           "tema",
+          "audiencia",
           "pregunta",
           "respuesta",
           "palabrasClave",
@@ -5638,6 +5850,14 @@
               "EVALUACIONES",
               "TRAMITE"
             ]
+          },
+          "audiencia": {
+            "type": "string",
+            "enum": [
+              "POSTULANTE",
+              "PERSONAL"
+            ],
+            "default": "POSTULANTE"
           },
           "pregunta": {
             "type": "string",

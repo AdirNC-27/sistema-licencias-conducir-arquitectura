@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { api } from '../../api/cliente';
 import type { Evaluacion } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Cargando, Chip, Encabezado, Icono, Vacio } from '../../componentes/ui';
 
 /** RF09 y DA04: al validar, el resultado queda bloqueado y el expediente avanza si aprobó. */
@@ -23,6 +24,7 @@ export function PorValidar() {
   return (
     <div className="space-y-6">
       <Encabezado titulo="Resultados por validar" subtitulo="Una vez validado, el resultado no se puede modificar" />
+      <Pendientes />
       {mensaje && <Aviso tipo={mensaje.tipo}>{mensaje.texto}</Aviso>}
       {cargando ? <Cargando /> : !datos?.length ? <div className="tarjeta"><Vacio titulo="No hay resultados pendientes" icono="task_alt" /></div> : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

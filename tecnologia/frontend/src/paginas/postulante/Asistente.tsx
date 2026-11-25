@@ -3,6 +3,7 @@ import { api } from '../../api/cliente';
 import { fechaHora } from '../../api/textos';
 import type { ConsultaAsistente, OrigenRespuesta } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Cargando, Chip, Encabezado, Icono } from '../../componentes/ui';
 
 const ORIGEN: Record<OrigenRespuesta, { texto: string; color: string }> = {
@@ -50,6 +51,7 @@ export function Asistente() {
   return (
     <div className="space-y-6">
       <Encabezado titulo="Asistente" subtitulo="Te orienta sobre requisitos, pagos, citas, exámenes y el estado de tu trámite. No aprueba ni modifica nada." />
+      <Pendientes titulo="Recordatorios" />
       <div className="tarjeta flex flex-col gap-4">
         {conversacion.cargando ? <Cargando /> : conversacion.error ? <Aviso tipo="error">{conversacion.error}</Aviso> : (
           <div className="flex max-h-[55vh] flex-col gap-4 overflow-y-auto pr-1" aria-live="polite">

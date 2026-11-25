@@ -1,15 +1,16 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AccesoDenegadoError, ReglaNegocioError } from '../../../compartido/dominio/errores';
-import { UsuarioActual } from '../../../compartido/dominio/rol';
+import { esPersonal, UsuarioActual } from '../../../compartido/dominio/rol';
 import { ConsultaRespondida, EVENTOS, OperacionAuditable } from '../../../compartido/eventos/eventos';
 import { EXPEDIENTES_API, ExpedientesApi } from '../../expedientes/dominio/contratos';
 import { buscarContenidos } from '../dominio/buscador';
 import { ConsultaAsistente, LONGITUD_PREGUNTA, MENSAJE_ACCION, MENSAJE_SIN_RESPUESTA, OrigenRespuesta } from '../dominio/consulta';
-import { ContenidoAprobado, DatosContenido, validarContenido } from '../dominio/contenido';
-import { ASISTENTE_IA, AsistenteIA, REPOSITORIO_CONSULTAS, REPOSITORIO_CONTENIDOS, RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
+import { Audiencia, ContenidoAprobado, DatosContenido, validarContenido } from '../dominio/contenido';
+import { ASISTENTE_IA, AsistenteIA, LECTURA_PENDIENTES, LecturaPendientes, REPOSITORIO_CONSULTAS, REPOSITORIO_CONTENIDOS, RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
 import { describirEstado } from '../dominio/estado-tramite';
-import { afirmaAccion, anonimizar, clasificar, Intencion } from '../dominio/intencion';
+import { afirmaAccion, anonimizar, clasificar, Intencion, pidePendientes } from '../dominio/intencion';
+import { describirPendientes, Pendiente, pendientesDelPersonal, recordatoriosDelPostulante } from '../dominio/pendientes';
 
 export const vistaConsulta = (c: ConsultaAsistente) => ({
   id: c.id,
@@ -44,6 +45,7 @@ export class ConsultarAsistenteUseCase {
     @Inject(REPOSITORIO_CONSULTAS) private readonly consultas: RepositorioConsultas,
     @Inject(ASISTENTE_IA) private readonly ia: AsistenteIA,
     @Inject(EXPEDIENTES_API) private readonly expedientes: ExpedientesApi,
+    @Inject(LECTURA_PENDIENTES) private readonly lectura: LecturaPendientes,
   ) {}
 
   async preguntar(usuario: UsuarioActual, pregunta: string) {
@@ -67,10 +69,15 @@ export class ConsultarAsistenteUseCase {
     switch (clasificar(pregunta)) {
       case Intencion.ACCION:
         return { ...derivar, respuesta: MENSAJE_ACCION };
-      case Intencion.ESTADO:
-        return { respuesta: describirEstado(await this.expedientes.ultimoDePostulante(postulanteId)), origen: OrigenRespuesta.ESTADO, fuentes: [] };
+      case Intencion.ESTADO: {
+        const hoy = new Date();
+        const estado = describirEstado(await this.expedientes.ultimoDePostulante(postulanteId), hoy);
+        const urgentes = recordatoriosDelPostulante(await this.lectura.datosPostulante(postulanteId, hoy), hoy).filter((r) => r.urgente);
+        const recordatorio = urgentes.length ? ` Importante: ${urgentes.slice(0, 2).map((r) => r.texto).join(' ')}` : '';
+        return { respuesta: `${estado}${recordatorio}`.slice(0, 1500), origen: OrigenRespuesta.ESTADO, fuentes: [] };
+      }
       case Intencion.CONSULTA: {
-        const coincidencias = buscarContenidos(pregunta, await this.contenidos.activos());
+        const coincidencias = buscarContenidos(pregunta, (await this.contenidos.activos()).filter((c) => c.audiencia === Audiencia.POSTULANTE));
         if (coincidencias.length === 0) return derivar;
         const elegidos = coincidencias.map((c) => c.contenido);
         const fuentes = elegidos.map((c) => c.id);
@@ -86,6 +93,72 @@ export class ConsultarAsistenteUseCase {
         return { respuesta: redaccion.respuesta, origen: OrigenRespuesta.IA, fuentes };
       }
     }
+  }
+}
+
+/** Lo que cada usuario tiene por hacer: pendientes del personal o recordatorios del postulante. */
+@Injectable()
+export class ConsultarPendientesUseCase {
+  constructor(@Inject(LECTURA_PENDIENTES) private readonly lectura: LecturaPendientes) {}
+
+  async ejecutar(usuario: UsuarioActual, hoy = new Date()): Promise<Pendiente[]> {
+    if (esPersonal(usuario)) return pendientesDelPersonal(usuario.rol, await this.lectura.indicadoresPersonal(hoy), hoy);
+    if (!usuario.postulanteId) return [];
+    return recordatoriosDelPostulante(await this.lectura.datosPostulante(usuario.postulanteId, hoy), hoy);
+  }
+}
+
+export const MENSAJE_SIN_CONTENIDO_PERSONAL =
+  'No tengo un procedimiento aprobado para esa pregunta. El administrador puede agregarlo en «Contenido del asistente».';
+export const MENSAJE_ACCION_PERSONAL = 'No ejecuto acciones: hazlo desde la pantalla correspondiente del portal, donde queda registrado en la auditoría.';
+
+/**
+ * La IA de orientación para el personal: responde «¿qué tengo pendiente?» con los datos del sistema
+ * y las dudas de procedimiento con el contenido aprobado para el personal. Igual que con el
+ * postulante, nunca ejecuta nada. No se guarda la conversación: no hay datos de ciudadanos en ella.
+ */
+@Injectable()
+export class ConsultarAsistentePersonalUseCase {
+  private readonly log = new Logger(ConsultarAsistentePersonalUseCase.name);
+
+  constructor(
+    @Inject(REPOSITORIO_CONTENIDOS) private readonly contenidos: RepositorioContenidos,
+    @Inject(ASISTENTE_IA) private readonly ia: AsistenteIA,
+    private readonly pendientes: ConsultarPendientesUseCase,
+  ) {}
+
+  async preguntar(usuario: UsuarioActual, pregunta: string) {
+    if (!esPersonal(usuario)) throw new AccesoDenegadoError('Esta conversación es para el personal municipal');
+    const texto = pregunta.trim().replace(/\s+/g, ' ');
+    if (texto.length < LONGITUD_PREGUNTA.minimo || texto.length > LONGITUD_PREGUNTA.maximo) {
+      throw new ReglaNegocioError(`Escriba una pregunta de ${LONGITUD_PREGUNTA.minimo} a ${LONGITUD_PREGUNTA.maximo} caracteres`);
+    }
+    return { pregunta: texto, ...(await this.decidir(texto, usuario)), creadoEn: new Date() };
+  }
+
+  private async decidir(pregunta: string, usuario: UsuarioActual): Promise<Decision> {
+    const accion = clasificar(pregunta) === Intencion.ACCION;
+    if (!accion && pidePendientes(pregunta)) {
+      return { respuesta: describirPendientes(await this.pendientes.ejecutar(usuario), true), origen: OrigenRespuesta.ESTADO, fuentes: [] };
+    }
+    const activos = await this.contenidos.activos();
+    // Primero los procedimientos internos; si no, las reglas públicas del trámite.
+    const coincidencias = buscarContenidos(pregunta, activos.filter((c) => c.audiencia === Audiencia.PERSONAL));
+    const elegidos = (coincidencias.length ? coincidencias : buscarContenidos(pregunta, activos.filter((c) => c.audiencia === Audiencia.POSTULANTE))).map((c) => c.contenido);
+    if (elegidos.length === 0) {
+      return { respuesta: accion ? MENSAJE_ACCION_PERSONAL : MENSAJE_SIN_CONTENIDO_PERSONAL, origen: OrigenRespuesta.DERIVADA, fuentes: [] };
+    }
+    const prefijo = accion ? `${MENSAJE_ACCION_PERSONAL} ` : '';
+    const directa: Decision = { respuesta: `${prefijo}${elegidos[0].respuesta}`, origen: OrigenRespuesta.CONTENIDO, fuentes: [elegidos[0].id] };
+    if (!this.ia.disponible) return directa;
+    const redaccion = await this.ia.redactar(anonimizar(pregunta), elegidos, Audiencia.PERSONAL);
+    if (!redaccion) return directa;
+    if (!redaccion.confiable) return { respuesta: MENSAJE_SIN_CONTENIDO_PERSONAL, origen: OrigenRespuesta.DERIVADA, fuentes: [] };
+    if (afirmaAccion(redaccion.respuesta)) {
+      this.log.warn('La IA afirmó haber realizado una acción; se entrega el contenido aprobado');
+      return directa;
+    }
+    return { respuesta: `${prefijo}${redaccion.respuesta}`, origen: OrigenRespuesta.IA, fuentes: elegidos.map((c) => c.id) };
   }
 }
 

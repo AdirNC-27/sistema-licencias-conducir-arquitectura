@@ -17,7 +17,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | EQ-06 Mantenibilidad | dependency-cruiser y Jest | Reglas al 100 %; cobertura ≥ 80 % | 0 violaciones en 109 módulos; cobertura de líneas 99.8 % | Cumple |
 | EQ-07 Trazabilidad | Jest + Supertest | 8 de 8 operaciones auditadas | 8 de 8, con usuario, fecha, valor anterior y nuevo | Cumple |
 | EQ-09 Integridad | Jest + Supertest y Postman | 100 % de modificaciones a un validado con 409 | Corrección y segunda validación con 409 en ambas herramientas; el resultado no cambia | Cumple |
-| Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 138 solicitudes y 480 aserciones sin fallas; 45 de 45 operaciones documentadas | Cumple |
+| Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 145 solicitudes y 506 aserciones sin fallas; 47 de 47 operaciones documentadas | Cumple |
 | EQ-04 Disponibilidad | Terminus, UptimeRobot, pg_dump | 99 % en horario; restauración ≤ 30 min | `/api/health` listo; falta el monitoreo de 2 semanas | Sprint 3 (con el despliegue) |
 | EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 18 pantallas | Cumple |
 | EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Por ejecutar con los 5 participantes |
@@ -32,7 +32,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | [`evidencias/03-reglas-arquitectura.txt`](evidencias/03-reglas-arquitectura.txt) | dependency-cruiser: 0 violaciones en 107 módulos |
 | [`evidencias/cobertura-jest/index.html`](evidencias/cobertura-jest/index.html) | Reporte de cobertura navegable (abrir en el navegador) |
 | [`evidencias/base-de-datos/`](evidencias/base-de-datos/) | Planes de ejecución antes y después de los índices, prueba de concurrencia y `pg_stat_statements` durante la carga |
-| [`evidencias/postman/newman-ejecucion.txt`](evidencias/postman/newman-ejecucion.txt) | Salida completa de Newman: 138 solicitudes, 480 aserciones |
+| [`evidencias/postman/newman-ejecucion.txt`](evidencias/postman/newman-ejecucion.txt) | Salida completa de Newman: 145 solicitudes, 506 aserciones |
 | [`evidencias/promptfoo/eq08-ejecucion.txt`](evidencias/promptfoo/eq08-ejecucion.txt) | promptfoo: las 30 preguntas de EQ-08 con la respuesta y su origen |
 | [`evidencias/capturas/portal/`](evidencias/capturas/portal/) | 16 pantallas del portal tomadas por las pruebas E2E durante el trámite completo (incluye verificaciones, revisión del supervisor y asistente) |
 
@@ -76,7 +76,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 |---|---|---|
 | Unitarias (dominio, casos de uso, adaptador de IA, formato de errores y contrato) | 136 | `npm run test:cov` (backend) |
 | De API con PostgreSQL real | 35 | `npm run test:e2e` (backend) |
-| Funcionales y de contrato (Postman + Newman) | 138 solicitudes | ver `tecnologia/pruebas-calidad/postman` |
+| Funcionales y de contrato (Postman + Newman) | 145 solicitudes | ver `tecnologia/pruebas-calidad/postman` |
 | Asistente con IA (promptfoo, EQ-08) | 30 preguntas | ver `tecnologia/pruebas-calidad/promptfoo` |
 | Reglas de arquitectura | 4 reglas | `npm run arquitectura` (backend) |
 | E2E del portal en el navegador | 14 | `npm run e2e` (frontend) |

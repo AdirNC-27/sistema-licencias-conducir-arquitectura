@@ -222,6 +222,18 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await expect(page.getByText('Respuesta del gestor de trámites')).toBeVisible();
     await capturar(page, '15-postulante-asistente');
   });
+
+  test('el personal ve sus pendientes y consulta a la IA de orientación', async ({ page }) => {
+    await ingresar(page, 'supervisor', /\/supervisor$/);
+    await page.goto('/supervisor/asistente');
+    await page.getByRole('button', { name: '¿Qué tengo pendiente?' }).click();
+    await expect(page.getByText('Datos del sistema')).toBeVisible();
+    await page.getByLabel('Escribe tu pregunta').fill('¿Cómo valido un resultado?');
+    await page.getByRole('button', { name: 'Enviar' }).click();
+    await expect(page.getByText(/Queda bloqueada para siempre/)).toBeVisible();
+    await expect(page.getByText('Procedimiento aprobado')).toBeVisible();
+    await capturar(page, '16-supervisor-asistente');
+  });
 });
 
 test.describe('Control de acceso en el portal (EQ-02)', () => {

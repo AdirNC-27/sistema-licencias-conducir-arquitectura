@@ -141,11 +141,31 @@ export interface ConsultaAsistente {
 
 export type TemaContenido = 'REQUISITOS' | 'DOCUMENTOS' | 'PAGOS' | 'CITAS' | 'EVALUACIONES' | 'TRAMITE';
 
+export type Audiencia = 'POSTULANTE' | 'PERSONAL';
+
 export interface ContenidoAsistente {
   id: number;
   tema: TemaContenido;
+  audiencia: Audiencia;
   pregunta: string;
   respuesta: string;
   palabrasClave: string;
   activo: boolean;
+}
+
+/** Lo que cada usuario tiene por hacer, calculado con los datos del sistema. */
+export interface Pendiente {
+  codigo: string;
+  texto: string;
+  cantidad: number;
+  urgente: boolean;
+  ruta: string;
+}
+
+export interface ConsultaPersonal {
+  pregunta: string;
+  respuesta: string;
+  origen: OrigenRespuesta;
+  fuentes: number[];
+  creadoEn: string;
 }

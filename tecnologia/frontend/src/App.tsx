@@ -5,6 +5,7 @@ import { Layout } from './componentes/Layout';
 import { Usuarios } from './paginas/admin/Usuarios';
 import { Cupos } from './paginas/admin/Cupos';
 import { Contenidos } from './paginas/admin/Contenidos';
+import { AsistentePersonal } from './paginas/compartido/AsistentePersonal';
 import { Auditoria } from './paginas/compartido/Auditoria';
 import { Examenes } from './paginas/evaluador/Examenes';
 import { Bandeja } from './paginas/gestor/Bandeja';
@@ -59,21 +60,25 @@ export default function App() {
             <Route index element={<Bandeja />} />
             <Route path="expedientes/:id" element={<Detalle />} />
             <Route path="consultas" element={<Consultas />} />
+            <Route path="asistente" element={<AsistentePersonal />} />
           </Route>
           <Route path="/evaluador" element={area('EVALUADOR')}>
             <Route index element={<Examenes />} />
+            <Route path="asistente" element={<AsistentePersonal />} />
           </Route>
           <Route path="/supervisor" element={area('SUPERVISOR')}>
             <Route index element={<PorValidar />} />
             <Route path="emision" element={<Emision />} />
             <Route path="expedientes/:id" element={<Revision />} />
             <Route path="auditoria" element={<Auditoria />} />
+            <Route path="asistente" element={<AsistentePersonal />} />
           </Route>
           <Route path="/admin" element={area('ADMINISTRADOR')}>
             <Route index element={<Usuarios />} />
             <Route path="cupos" element={<Cupos />} />
             <Route path="contenidos" element={<Contenidos />} />
             <Route path="auditoria" element={<Auditoria />} />
+            <Route path="asistente" element={<AsistentePersonal />} />
           </Route>
           <Route path="*" element={<Raiz />} />
         </Routes>
