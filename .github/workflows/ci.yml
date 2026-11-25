@@ -1,5 +1,7 @@
 # Integración continua del backend (Guía 07): en cada push se compila, se revisan las reglas de arquitectura,
 # se ejecutan las pruebas, se valida el contrato OpenAPI con Postman y se construye la imagen Docker.
+# Entrega continua: si todo pasa en main, la imagen se publica en GitHub Container Registry (GHCR).
+# No hay despliegue automático: el servidor se actualiza aparte (sprint 3).
 name: CI · Backend
 
 on:
@@ -14,6 +16,7 @@ on:
       - "tecnologia/backend/**"
       - "tecnologia/pruebas-calidad/postman/**"
       - "docs/07-contrato-api/**"
+      - ".github/workflows/ci.yml"
 
 env:
   DB_HOST: localhost
@@ -96,7 +99,7 @@ jobs:
         run: |
           node dist/main.js > api.log 2>&1 &
           for i in $(seq 1 30); do curl -sf http://localhost:3000/api/health && exit 0; sleep 1; done; cat api.log; exit 1
-      - name: Colección de Postman con Newman (101 solicitudes, validación del contrato)
+      - name: Colección de Postman con Newman (138 solicitudes, validación del contrato)
         working-directory: tecnologia/pruebas-calidad/postman
         run: |
           npm install -g newman@6 newman-reporter-htmlextra@1
@@ -127,3 +130,47 @@ jobs:
           for i in $(seq 1 40); do curl -sf http://localhost:3000/api/health && break; sleep 1; done
           curl -sf -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{"usuario":"gestor","clave":"demo123"}' > /dev/null \
             && echo "La imagen migra la base al iniciar y responde" || { docker logs api; exit 1; }
+
+  publicar:
+    name: Publicar la imagen en GHCR
+    needs: [postman, imagen]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # solo este job puede publicar; usa el token temporal de Actions, sin contraseñas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Iniciar sesión en GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Etiquetas de la imagen
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/licencias-api # en minúsculas automáticamente
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+          labels: |
+            org.opencontainers.image.title=API · Licencias de conducir Clase B
+            org.opencontainers.image.description=Monolito modular NestJS del Sistema de Licencias Clase B (MPH Huamanga)
+      - name: Construir y publicar
+        uses: docker/build-push-action@v6
+        with:
+          context: tecnologia/backend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Resumen
+        run: |
+          echo "### Imagen publicada" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
