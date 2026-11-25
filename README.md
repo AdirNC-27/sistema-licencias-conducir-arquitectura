@@ -64,9 +64,10 @@ docs/
 │   ├── Nivel2-DiagramadeContenedores.md
 │   ├── Nivel3-Diagrama-de-Componentes.md
 │   └── Nivel4-DiagramadeCodigo.md
-├── 05-especificaciones-sdd/      # SDD-01 … SDD-10 (sprint 2)
+├── 05-especificaciones-sdd/      # SDD-01 … SDD-13 (sprint 2)
 ├── 06-validacion-calidad/        # evidencias de los escenarios EQ
-└── 07-contrato-api/              # contrato OpenAPI (openapi.json) y convenciones de la API
+├── 07-contrato-api/              # contrato OpenAPI (openapi.json) y convenciones de la API
+└── 08-integracion-continua/      # pipelines de GitHub Actions y publicación de la imagen (Guía 07)
 img/
 tecnologia/                       # backend, portal, pruebas de calidad y docker-compose
 prototipo/                        # prototipo navegable (Google Stitch)

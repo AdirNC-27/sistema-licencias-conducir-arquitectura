@@ -19,7 +19,7 @@ Fuente editable: [`img/fuentes/despliegue-local.drawio`](../../img/fuentes/despl
 | `licencias-db` | Contenedor `postgres:16-alpine` | Base de datos única del sistema (ADR-005) | 5433 → 5432 |
 | `datos-postgres` | Volumen | Conserva los datos aunque se eliminen los contenedores | — |
 | API Perú y servidor SMTP | Servicios externos | Validación del DNI y envío de avisos | — |
-| GitHub Actions | Integración continua | En cada push construye las mismas imágenes y comprueba que inician | — |
+| GitHub Actions y GHCR | Integración y entrega continua | En cada push construye las mismas imágenes y comprueba que inician; en `main` publica la imagen de la API en `ghcr.io` | — |
 
 ## Comunicación
 

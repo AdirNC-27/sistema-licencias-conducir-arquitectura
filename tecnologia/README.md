@@ -18,7 +18,7 @@ Stack tecnológico definido para implementar el Sistema de Licencias de Conducir
 | Correo | Nodemailer (SMTP) | Recordatorios de examen y vencimientos | ADR-013 |
 | IA de orientación | API de Gemini (plan gratuito), por `fetch` | Redacta respuestas solo con el contenido aprobado | ADR-015 |
 | Despliegue | Docker y Docker Compose | Frontend, backend y base de datos en contenedores | ADR-010 |
-| Integración continua | GitHub Actions | Backend: arquitectura, Jest y cobertura. Portal: compilación y pruebas E2E con API y PostgreSQL | ADR-014 |
+| Integración y entrega continua | GitHub Actions y GitHub Container Registry | Pruebas, contrato, Postman e imágenes Docker en cada push y Pull Request; en `main` publica la imagen de la API · ver docs/08-integracion-continua | ADR-010, ADR-014 |
 
 ## Herramientas de prueba
 
