@@ -1,0 +1,9 @@
+$ git diff --stat (cambio del proveedor de correo: Brevo junto a SMTP)
+ tecnologia/backend/.env.example                    |  3 ++
+ .../__tests__/notificador-brevo.spec.ts            | 50 ++++++++++++++++++++++
+ .../infraestructura/notificador-brevo.ts           | 46 ++++++++++++++++++++
+ .../notificaciones/notificaciones.module.ts        |  9 +++-
+ 4 files changed, 107 insertions(+), 1 deletion(-)
+
+$ git diff --stat -- dominio aplicacion de Notificaciones (debe estar vacío)
+(sin cambios)

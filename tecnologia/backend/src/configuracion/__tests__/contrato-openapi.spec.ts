@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { OpenAPIObject } from '@nestjs/swagger';
 import type { OperationObject, PathItemObject, ResponseObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { ARCHIVO_CONTRATO, generarContrato, serializarContrato } from '../contrato-openapi';
+import { ARCHIVO_CONTRATO, GUIA_CONTRATO, generarContrato, guiaConTabla, serializarContrato } from '../contrato-openapi';
 
 /**
  * Reglas del contrato de la API: cada operación declara su respuesta exitosa con esquema
@@ -89,5 +89,17 @@ describe('Contrato OpenAPI', () => {
     expect(existsSync(ARCHIVO_CONTRATO)).toBe(true);
     // Se ignora el tipo de fin de línea (CRLF en Windows, LF en Linux)
     expect(readFileSync(ARCHIVO_CONTRATO, 'utf8').replace(/\r\n/g, '\n')).toBe(serializarContrato(contrato));
+  });
+
+  it('la tabla de operaciones de la guía y sus conteos salen del contrato (si falla, ejecute "npm run contrato")', () => {
+    const guia = readFileSync(GUIA_CONTRATO, 'utf8').replace(/\r\n/g, '\n');
+    expect(guiaConTabla(guia, contrato)).toBe(guia);
+    expect(guia).toContain(`**${Object.keys(contrato.paths).length} rutas y ${operaciones.length + 1} operaciones**`);
+  });
+
+  it('la auditoría es de solo lectura: su único endpoint es GET /auditoria (SDD-10 CA3, RF17)', () => {
+    const deAuditoria = operaciones.filter((o) => o.ruta.startsWith('/api/auditoria'));
+    expect(deAuditoria.map(nombre)).toEqual(['GET /api/auditoria']);
+    expect(operaciones.filter((o) => o.metodo === 'DELETE')).toEqual([]);
   });
 });

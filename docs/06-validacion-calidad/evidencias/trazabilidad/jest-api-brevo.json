@@ -1,0 +1,307 @@
+{
+ "numTotalTests": 39,
+ "numPassedTests": 39,
+ "numFailedTests": 0,
+ "startTime": 1795714387740,
+ "testResults": [
+  {
+   "name": "tecnologia/backend/test/flujo-tramite.e2e-spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "sin token responde 401",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "credenciales incorrectas responden 401",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "45892014 no puede get /api/expedientes (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "45892014 no puede get /api/usuarios (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "45892014 no puede get /api/auditoria (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "evaluador no puede patch /api/expedientes/1/emision (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "evaluador no puede post /api/evaluaciones/1/validacion (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "gestor no puede post /api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "gestor no puede post /api/cupos (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "supervisor no puede patch /api/pagos/1/verificacion (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "supervisor no puede patch /api/usuarios/1/rol (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Seguridad (EQ-01)"
+     ],
+     "title": "admin no puede post /api/expedientes (403)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "requisitos públicos con caché (RF22)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "registra un postulante nuevo con DNI (RF03, RF04)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el personal consulta nombres de postulantes; un postulante no ve a otro",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el postulante crea su expediente II-C (RF02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "un horario repetido se rechaza con 409, no con un error interno (RF21)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "todos los errores tienen el mismo formato y mensajes en español",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "manejo aprobado y validado lleva a EMISION; sin verificaciones no se autoriza (RF12, RF24)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el gestor verifica en el SNC y en el récord de sanciones; una sanción pendiente bloquea (RF24, RF27)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el gestor registra la licencia para el SNC; el postulante la ve y recibe el aviso (RF24)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "responde con contenido aprobado, sin inventar",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "responde el estado del propio trámite",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "un pedido de acción se deriva y no cambia nada (0 acciones)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "una pregunta ajena al trámite se deriva al gestor, que responde",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "el postulante ve su conversación con la respuesta del gestor; nadie más la ve (EQ-02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "el administrador mantiene el contenido aprobado (HU25)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "Lucía responde la charla sin derivarla y saluda por el nombre",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "cada rol ve sus pendientes; el postulante, sus recordatorios",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)",
+      "Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)"
+     ],
+     "title": "la IA de orientación del personal responde pendientes y procedimientos, sin ejecutar nada",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el correo usa el proveedor configurado y el trámite funciona igual con cualquiera (EQ-06)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el administrador cambia un rol y queda auditado; el endpoint de salud responde",
+     "status": "passed"
+    }
+   ]
+  }
+ ]
+}

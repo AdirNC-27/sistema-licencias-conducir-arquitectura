@@ -1,0 +1,1442 @@
+{
+ "numTotalTests": 192,
+ "numPassedTests": 192,
+ "numFailedTests": 0,
+ "startTime": 1795714328370,
+ "testResults": [
+  {
+   "name": "tecnologia/backend/src/modulos/notificaciones/__tests__/notificador-brevo.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "NotificadorBrevo · adaptador de correo por API HTTP"
+     ],
+     "title": "envía el correo a la API de Brevo con el remitente configurado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "NotificadorBrevo · adaptador de correo por API HTTP"
+     ],
+     "title": "sin clave no llama a la API y devuelve false (el aviso interno se guarda igual)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "NotificadorBrevo · adaptador de correo por API HTTP"
+     ],
+     "title": "si Brevo rechaza o no responde, devuelve false sin lanzar error",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/requisitos/__tests__/requisitos-cache.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Requisitos con caché (RF22, EQ-03)"
+     ],
+     "title": "consulta PostgreSQL una sola vez y repite la respuesta desde la memoria por 10 minutos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Requisitos con caché (RF22, EQ-03)"
+     ],
+     "title": "cada categoría tiene su propia entrada en la caché",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/asistente/__tests__/pendientes.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "estado de un expediente en emisión según verificaciones y observaciones",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "gestor: lo que debe revisar, con singular y plural, y los urgentes primero",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "gestor y supervisor: avisa el plazo legal vencido o por vencer",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "evaluador y supervisor: exámenes sin resultado, validaciones y emisiones",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "administrador: horarios faltantes o casi llenos, consultas atrasadas y contenido por agregar",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pendientes del personal (RF14 para todos los roles)"
+     ],
+     "title": "el texto para el chat lista hasta 6 pendientes y marca los urgentes",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "sin trámite, lo invita a iniciarlo",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "documentos: faltantes, observados o en revisión",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "certificado médico por vencer o vencido (6 meses)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "pago: registrar con la tasa de su categoría, corregir uno observado o esperar la verificación",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "citas y exámenes: elegir, recordar la fecha, reintentar o intentos agotados",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Recordatorios del postulante"
+     ],
+     "title": "emisión, plazo vencido y respuestas del gestor",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "reconoce cuándo el personal pregunta por sus pendientes",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "cada rol recibe sus pendientes; el postulante, sus recordatorios",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "«¿qué tengo pendiente?» responde con los datos del sistema, sin la IA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "responde procedimientos con el contenido del personal y la IA en modo personal",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "si no hay procedimiento, usa las reglas públicas del trámite; si no hay nada, lo dice",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "un pedido de acción no se ejecuta: explica dónde hacerlo",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "solo para el personal y con la misma validación de longitud",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "Lucía saluda al personal por su nombre y no consulta a la IA para la charla",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente del personal y pendientes (casos de uso)"
+     ],
+     "title": "el postulante que pregunta por su trámite recibe además sus recordatorios urgentes",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/configuracion/__tests__/contrato-openapi.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "documenta las 47 operaciones de negocio",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "cada operación tiene un resumen",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "cada operación declara una sola respuesta exitosa, con esquema",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "todos los errores usan el esquema ErrorRespuesta en JSON",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "las operaciones protegidas exigen token y documentan el 401",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "solo login, registro y requisitos son públicos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "las operaciones con identificador en la ruta documentan 400 y 404",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "las operaciones con cuerpo documentan el 400 de validación",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "el archivo docs/07-contrato-api/openapi.json coincide con el código (si falla, ejecute \"npm run contrato\")",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "la tabla de operaciones de la guía y sus conteos salen del contrato (si falla, ejecute \"npm run contrato\")",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Contrato OpenAPI"
+     ],
+     "title": "la auditoría es de solo lectura: su único endpoint es GET /auditoria (SDD-10 CA3, RF17)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/asistente/__tests__/asistente.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "normaliza tildes, categorías y \"moto taxi\"",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"Hola, ¿qué papeles me piden para sacar brevete de moto lineal?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿En qué banco puedo pagar la tasa?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"Si jalo el examen, ¿debo volver a pagar?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Por cuántos meses es válido el certificado médico?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Los exámenes de manejo son los sábados?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Cuántos días demora en salir la licencia?\" encuentra el contenido correcto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Quién ganó el partido de fútbol ayer?\" no tiene contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Cuál es la capital de Francia?\" no tiene contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Cuánto cuesta el SOAT para mi mototaxi?\" no tiene contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"¿Cómo saco mi pasaporte?\" no tiene contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "\"hola\" no tiene contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · búsqueda en el contenido aprobado (RF15)"
+     ],
+     "title": "reconoce temas fuera de alcance y devuelve como máximo 3 contenidos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"Aprueba mi expediente por favor\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Puedes cambiar mi nota del examen de manejo a 18?\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"Necesito que valides mi pago hoy mismo\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"Dame mi licencia ya\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Pueden cambiar la nota de mi examen de manejo?\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"Revisen otra vez mi foto, por favor\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Podría verificar mi pago hoy?\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"Por favor aprueben mis documentos\" → ACCION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Cómo va mi trámite?\" → ESTADO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿En qué etapa estoy?\" → ESTADO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Qué requisitos tiene mi trámite de mototaxi?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Puedo reprogramar mi cita?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Quién aprueba la licencia?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Quién revisa los documentos?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Pueden ir dos personas al examen?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "\"¿Se puede reprogramar la cita?\" → CONSULTA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "oculta DNI, celulares y correos antes de enviar la pregunta a la IA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · intención y protección de datos (RC06, DA06)"
+     ],
+     "title": "detecta cuando un texto afirma haber hecho una acción",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · estado del trámite y entidades"
+     ],
+     "title": "describe la etapa, el plazo y el siguiente paso",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · estado del trámite y entidades"
+     ],
+     "title": "valida el contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Asistente · estado del trámite y entidades"
+     ],
+     "title": "solo se responden consultas derivadas, una vez y con texto",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "sin IA configurada entrega el contenido aprobado tal cual",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "con IA, envía la pregunta anonimizada y solo el contenido encontrado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "si la IA dice que el contenido no alcanza, deriva al gestor",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "si la IA falla o afirma haber hecho algo, entrega el contenido aprobado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "un pedido de acción se deriva sin consultar a la IA (0 acciones)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "una pregunta ajena al trámite se deriva",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "responde el estado con el expediente del propio postulante",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "valida la pregunta, exige un postulante y guarda el historial",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "el gestor responde la derivada: se audita y se avisa al postulante",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso del asistente (RF14, RF15)"
+     ],
+     "title": "el administrador crea, modifica y desactiva contenido; el asistente deja de usarlo",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/compartido/__tests__/filtro-errores.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "conserva el mensaje de los errores del dominio (0)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "conserva el mensaje de los errores del dominio (1)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "conserva el mensaje de los errores del dominio (2)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "reemplaza los mensajes genéricos en inglés de NestJS",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "conserva un mensaje propio en español",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "devuelve cada dato inválido traducido en \"detalles\"",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "explica un parámetro de ruta inválido",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "convierte una restricción UNIQUE no anticipada en 409, no en 500",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "FiltroErrores: un solo formato de error para toda la API"
+     ],
+     "title": "no expone detalles internos de un error inesperado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "puntaje must not be greater than 20",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "puntaje must not be less than 0",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "cupoId must be an integer number",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "fechaPago must be a valid ISO 8601 date string",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "correo must be an email",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "celular must be longer than or equal to 9 and shorter than or equal to 9 characters",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "clave must be longer than or equal to 6 characters",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "motivo should not be empty",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "monto must be a number conforming to the specified constraints",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Traducción de los mensajes de validación"
+     ],
+     "title": "no toca los mensajes propios del DTO",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/revision/__tests__/revision.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Verificaciones en portales oficiales · reglas (RF24, RF27)"
+     ],
+     "title": "la II-B solo exige el certificado en el SNC; la II-C agrega COFIPRO y sanciones",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Verificaciones en portales oficiales · reglas (RF24, RF27)"
+     ],
+     "title": "rechaza una verificación que no corresponde a la categoría y exige detalle si no es conforme",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Verificaciones en portales oficiales · reglas (RF24, RF27)"
+     ],
+     "title": "la constancia vigente de cada tipo es la última registrada",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Verificaciones en portales oficiales · reglas (RF24, RF27)"
+     ],
+     "title": "lista lo pendiente: faltantes, no conformes y observaciones abiertas (RF27: sanciones pendientes bloquean)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Verificaciones en portales oficiales · reglas (RF24, RF27)"
+     ],
+     "title": "normaliza el número de licencia y rechaza formatos inválidos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Observación del supervisor · reglas (RF11)"
+     ],
+     "title": "exige un motivo y una respuesta claros, y solo se atiende una vez",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "no autoriza la emisión sin verificaciones; con todo conforme, autoriza y audita",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "una sanción pendiente impide la emisión (RF27)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "el supervisor observa, la emisión se bloquea y el gestor atiende (RF11)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "solo se observa en la etapa EMISION",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "registra la licencia una sola vez, con número único, y avisa al postulante (RF24)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Revisión"
+     ],
+     "title": "no registra la licencia antes de la emisión ni con un número repetido",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/asistente/__tests__/adaptador-ia-gemini.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Adaptador de la IA de orientación (Gemini)"
+     ],
+     "title": "sin IA_API_KEY no está disponible y no llama a ningún servicio",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Adaptador de la IA de orientación (Gemini)"
+     ],
+     "title": "envía las reglas, el contenido aprobado y la pregunta; interpreta la respuesta JSON",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Adaptador de la IA de orientación (Gemini)"
+     ],
+     "title": "si el servicio falla, responde con error o tarda demasiado, devuelve null",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Adaptador de la IA de orientación (Gemini)"
+     ],
+     "title": "descarta respuestas sin el formato esperado",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/pagos/__tests__/pagos.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Pago · reglas (RF05, RF06)"
+     ],
+     "title": "exige la tasa exacta de la categoría",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Pago · reglas (RF05, RF06)"
+     ],
+     "title": "un pago verificado no cambia y observar exige motivo",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Pagos"
+     ],
+     "title": "registra, verifica y avanza el expediente a CITA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Pagos"
+     ],
+     "title": "rechaza operación repetida y un segundo pago pendiente",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Pagos"
+     ],
+     "title": "observar no hace avanzar el expediente",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/documentos/__tests__/documentos.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Documentos · reglas del TUPA"
+     ],
+     "title": "la II-C exige además la constancia COFIPRO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Documentos · reglas del TUPA"
+     ],
+     "title": "el certificado médico vence a los 6 meses (RF23)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Documentos · reglas del TUPA"
+     ],
+     "title": "no aprueba un certificado vencido; observar exige motivo; un aprobado no cambia",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Documentos (RF03, RF04)"
+     ],
+     "title": "con todos los documentos aprobados el expediente pasa a PAGO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Documentos (RF03, RF04)"
+     ],
+     "title": "valida tipo de archivo, tamaño, categoría, fecha del certificado y duplicados",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/identidad/__tests__/identidad.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Identidad y acceso (RF01)"
+     ],
+     "title": "inicia sesión y el rol sale de la cuenta",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Identidad y acceso (RF01)"
+     ],
+     "title": "rechaza clave incorrecta o usuario inexistente",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Identidad y acceso (RF01)"
+     ],
+     "title": "el administrador cambia el rol del personal y queda auditado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Identidad y acceso (RF01)"
+     ],
+     "title": "no convierte postulantes en personal y valida que exista el usuario",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Identidad y acceso (RF01)"
+     ],
+     "title": "distingue al personal del postulante",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/expedientes/__tests__/expediente.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Expediente · etapas en orden (RF20)"
+     ],
+     "title": "avanza solo desde la etapa esperada",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Expediente · etapas en orden (RF20)"
+     ],
+     "title": "no permite saltarse una etapa",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Expediente · etapas en orden (RF20)"
+     ],
+     "title": "no avanza después de EMITIDA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Expediente · etapas en orden (RF20)"
+     ],
+     "title": "exigirEtapa rechaza operaciones fuera de etapa",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Expediente · privacidad (EQ-02)"
+     ],
+     "title": "el dueño y el personal pueden verlo; otro postulante no",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Plazo legal de 10 días hábiles (RF10)"
+     ],
+     "title": "cuenta solo de lunes a viernes",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Plazo legal de 10 días hábiles (RF10)"
+     ],
+     "title": "marca vencido después de 10 días hábiles",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Expedientes"
+     ],
+     "title": "crea una solicitud de emisión en etapa DOCUMENTOS (RF02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Expedientes"
+     ],
+     "title": "rechaza un segundo trámite activo, otro tipo de trámite o un usuario que no es postulante",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Expedientes"
+     ],
+     "title": "consulta, lista y bandeja",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Expedientes"
+     ],
+     "title": "la fachada avanza, audita, notifica y devuelve el último trámite del postulante",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/postulantes/__tests__/postulantes.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Registro del postulante con DNI (RF03, RF04)"
+     ],
+     "title": "valida el formato del DNI",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Registro del postulante con DNI (RF03, RF04)"
+     ],
+     "title": "crea el postulante con los nombres de API Perú y una cuenta con rol POSTULANTE",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Registro del postulante con DNI (RF03, RF04)"
+     ],
+     "title": "no permite dos cuentas con el mismo DNI",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Registro del postulante con DNI (RF03, RF04)"
+     ],
+     "title": "el personal consulta a cualquiera; el postulante solo a sí mismo (EQ-02)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/notificaciones/__tests__/notificaciones.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Notificaciones · Observer (RF13)"
+     ],
+     "title": "envía el recordatorio de la cita por correo y guarda el aviso",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Notificaciones · Observer (RF13)"
+     ],
+     "title": "avisa el cambio de etapa aunque el correo falle o no exista el postulante",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/citas/__tests__/citas.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Cupos · días y capacidad (RF21)"
+     ],
+     "title": "conocimientos solo de lunes a miércoles; manejo de martes a viernes",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Cupos · días y capacidad (RF21)"
+     ],
+     "title": "no reserva sin cupos ni en fechas pasadas",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Citas (RF07)"
+     ],
+     "title": "configura cupos y lista disponibles",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Citas (RF07)"
+     ],
+     "title": "reserva conocimientos, avanza a EXAMEN_CONOCIMIENTOS y emite el recordatorio",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Citas (RF07)"
+     ],
+     "title": "no permite manejo antes de aprobar conocimientos, ni dos citas futuras, ni perder la carrera por el último cupo",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/evaluaciones/__tests__/casos-de-uso.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "registra, valida y hace avanzar el expediente a EXAMEN_MANEJO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "no registra manejo si el expediente aún está en conocimientos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "un desaprobado validado no hace avanzar el expediente",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "corrige antes de validar y lo deja en auditoría con motivo",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "rechaza corregir un validado y registra el intento en auditoría (EQ-09)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "el postulante solo ve resultados validados (RF19)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Casos de uso de Evaluaciones"
+     ],
+     "title": "falla si no hay estrategia para el tipo de examen",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/asistente/__tests__/conversacion.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«hola» es SALUDO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«¡Hola Lucía!» es SALUDO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«Buenas tardes» es SALUDO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«¿Cómo estás?» es ANIMO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«bien y tú» es ANIMO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«Muchas gracias, Lucía» es GRACIAS",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«ok» es ACUERDO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«chau» es DESPEDIDA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«¿Quién eres?» es IDENTIDAD",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«¿Eres un robot?» es IDENTIDAD",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«ayuda» es AYUDA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«¿Qué puedes hacer?» es AYUDA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«jajaja» es RISA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«eres una idiota» es OFENSA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«hola, ¿cuánto cuesta? tonta» es OFENSA",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«asdfgh» es INCOHERENTE",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "«kkkkkk» es INCOHERENTE",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "un saludo con pregunta deja la pregunta para el flujo del trámite",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "las preguntas del trámite y los pedidos de acción no son charla",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "responde con su nombre, el del usuario y lo que puede hacer según el público",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Lucía: charla con frases fijas, sin IA"
+     ],
+     "title": "primer nombre para saludar",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/src/modulos/evaluaciones/__tests__/evaluacion.spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "registra el primer intento y queda REGISTRADO",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "permite corregir antes de validar sin consumir intento (RF09)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "al validar un aprobado lo bloquea: no se puede corregir ni volver a validar (EQ-09)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "un desaprobado validado guarda el historial y habilita el siguiente intento",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "rechaza el cuarto intento (RF08)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "no permite registrar otro intento mientras hay uno sin validar",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "no valida si no hay resultado registrado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Evaluacion · reglas del dominio (RF08, RF09, DA04)"
+     ],
+     "title": "no corrige si no hay resultado registrado",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Calificación · patrón Strategy"
+     ],
+     "title": "conocimientos aprueba con la nota mínima",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Calificación · patrón Strategy"
+     ],
+     "title": "manejo desaprueba con falta eliminatoria aunque tenga buena nota",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Calificación · patrón Strategy"
+     ],
+     "title": "la nota mínima es configurable (RF16)",
+     "status": "passed"
+    }
+   ]
+  }
+ ]
+}
