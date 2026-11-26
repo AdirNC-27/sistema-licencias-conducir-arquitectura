@@ -2,28 +2,28 @@ import { ConflictoError, RecursoNoEncontradoError, ReglaNegocioError } from '../
 import { Categoria } from '../../../compartido/dominio/categoria';
 import { Rol } from '../../../compartido/dominio/rol';
 import { CONTENIDOS_INICIALES } from '../../../migraciones/1795094100000-asistente-virtual';
+import { CONTENIDOS_PERSONAL } from '../../../migraciones/1795094200000-asistente-por-rol';
 import { eventosFalsos, expediente, ExpedientesEnMemoria, usuario } from '../../../test-utils/fakes';
 import { Etapa } from '../../expedientes/dominio/etapa';
 import { AtenderConsultasUseCase, ConsultarAsistenteUseCase, GestionarContenidosUseCase } from '../aplicacion/casos-de-uso';
 import { buscarContenidos, fueraDeAlcance, normalizar, terminos } from '../dominio/buscador';
 import { ConsultaAsistente, MENSAJE_ACCION, MENSAJE_SIN_RESPUESTA, OrigenRespuesta } from '../dominio/consulta';
-import { ContenidoAprobado, DatosContenido, TemaContenido, validarContenido } from '../dominio/contenido';
-import { AsistenteIA, RedaccionIA, RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
+import { Audiencia, ContenidoAprobado, DatosContenido, TemaContenido, validarContenido } from '../dominio/contenido';
+import { AsistenteIA, LecturaPendientes, RedaccionIA, RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
 import { describirEstado } from '../dominio/estado-tramite';
 import { afirmaAccion, anonimizar, clasificar, Intencion } from '../dominio/intencion';
 
-const CONTENIDOS: ContenidoAprobado[] = CONTENIDOS_INICIALES.map(([tema, pregunta, respuesta, palabrasClave], i) => ({
-  id: i + 1,
-  tema: tema as TemaContenido,
-  pregunta,
-  respuesta,
-  palabrasClave,
-  activo: true,
-}));
+const aContenidos = (filas: [string, string, string, string][], audiencia: Audiencia, desde: number): ContenidoAprobado[] =>
+  filas.map(([tema, pregunta, respuesta, palabrasClave], i) => ({ id: desde + i, tema: tema as TemaContenido, audiencia, pregunta, respuesta, palabrasClave, activo: true }));
+const CONTENIDOS = aContenidos(CONTENIDOS_INICIALES, Audiencia.POSTULANTE, 1);
+/** El repositorio guarda ambos públicos; el asistente del postulante nunca usa los del personal. */
+const DEL_PERSONAL = aContenidos(CONTENIDOS_PERSONAL, Audiencia.PERSONAL, CONTENIDOS_INICIALES.length + 1);
+/** Sin datos del trámite: los recordatorios se prueban en pendientes.spec.ts. */
+const lecturaVacia: LecturaPendientes = { indicadoresPersonal: async () => { throw new Error('no usado'); }, datosPostulante: async () => null };
 const id = (texto: string) => CONTENIDOS.find((c) => c.pregunta === texto)!.id;
 
 class RepoContenidos implements RepositorioContenidos {
-  constructor(public datos: ContenidoAprobado[] = [...CONTENIDOS]) {}
+  constructor(public datos: ContenidoAprobado[] = [...CONTENIDOS, ...DEL_PERSONAL]) {}
   async activos() {
     return this.datos.filter((c) => c.activo);
   }
@@ -68,13 +68,13 @@ class RepoConsultas implements RepositorioConsultas {
 }
 
 class IAFalsa implements AsistenteIA {
-  recibido: { pregunta: string; contenidos: ContenidoAprobado[] } | null = null;
+  recibido: { pregunta: string; contenidos: ContenidoAprobado[]; audiencia?: Audiencia } | null = null;
   constructor(
     public disponible = true,
     private readonly salida: RedaccionIA | null = { respuesta: 'La tasa para mototaxi es S/ 69.40.', confiable: true },
   ) {}
-  async redactar(pregunta: string, contenidos: ContenidoAprobado[]) {
-    this.recibido = { pregunta, contenidos };
+  async redactar(pregunta: string, contenidos: ContenidoAprobado[], audiencia?: Audiencia) {
+    this.recibido = { pregunta, contenidos, audiencia };
     return this.salida;
   }
 }
@@ -120,11 +120,18 @@ describe('Asistente · intención y protección de datos (RC06, DA06)', () => {
     ['¿Puedes cambiar mi nota del examen de manejo a 18?', Intencion.ACCION],
     ['Necesito que valides mi pago hoy mismo', Intencion.ACCION],
     ['Dame mi licencia ya', Intencion.ACCION],
+    ['¿Pueden cambiar la nota de mi examen de manejo?', Intencion.ACCION],
+    ['Revisen otra vez mi foto, por favor', Intencion.ACCION],
+    ['¿Podría verificar mi pago hoy?', Intencion.ACCION],
+    ['Por favor aprueben mis documentos', Intencion.ACCION],
     ['¿Cómo va mi trámite?', Intencion.ESTADO],
     ['¿En qué etapa estoy?', Intencion.ESTADO],
     ['¿Qué requisitos tiene mi trámite de mototaxi?', Intencion.CONSULTA],
     ['¿Puedo reprogramar mi cita?', Intencion.CONSULTA],
     ['¿Quién aprueba la licencia?', Intencion.CONSULTA],
+    ['¿Quién revisa los documentos?', Intencion.CONSULTA],
+    ['¿Pueden ir dos personas al examen?', Intencion.CONSULTA],
+    ['¿Se puede reprogramar la cita?', Intencion.CONSULTA],
   ])('"%s" → %s', (pregunta, esperada) => {
     expect(clasificar(pregunta)).toBe(esperada);
   });
@@ -152,10 +159,11 @@ describe('Asistente · estado del trámite y entidades', () => {
   });
 
   it('valida el contenido aprobado', () => {
-    expect(() => validarContenido({ tema: TemaContenido.PAGOS, pregunta: '¿?', respuesta: 'Respuesta larga suficiente', palabrasClave: '', activo: true })).toThrow(ReglaNegocioError);
-    expect(() => validarContenido({ tema: TemaContenido.PAGOS, pregunta: '¿Cuánto cuesta?', respuesta: 'corta', palabrasClave: '', activo: true })).toThrow(ReglaNegocioError);
-    expect(validarContenido({ tema: TemaContenido.PAGOS, pregunta: ' ¿Cuánto cuesta? ', respuesta: ' S/ 69.90 la II-B ', palabrasClave: ' precio ', activo: true })).toEqual({
+    expect(() => validarContenido({ tema: TemaContenido.PAGOS, audiencia: Audiencia.POSTULANTE, pregunta: '¿?', respuesta: 'Respuesta larga suficiente', palabrasClave: '', activo: true })).toThrow(ReglaNegocioError);
+    expect(() => validarContenido({ tema: TemaContenido.PAGOS, audiencia: Audiencia.POSTULANTE, pregunta: '¿Cuánto cuesta?', respuesta: 'corta', palabrasClave: '', activo: true })).toThrow(ReglaNegocioError);
+    expect(validarContenido({ tema: TemaContenido.PAGOS, audiencia: Audiencia.POSTULANTE, pregunta: ' ¿Cuánto cuesta? ', respuesta: ' S/ 69.90 la II-B ', palabrasClave: ' precio ', activo: true })).toEqual({
       tema: TemaContenido.PAGOS,
+      audiencia: Audiencia.POSTULANTE,
       pregunta: '¿Cuánto cuesta?',
       respuesta: 'S/ 69.90 la II-B',
       palabrasClave: 'precio',
@@ -178,7 +186,7 @@ describe('Asistente · estado del trámite y entidades', () => {
 describe('Casos de uso del asistente (RF14, RF15)', () => {
   const crear = (ia: AsistenteIA = new IAFalsa(false), etapa = Etapa.PAGO) => {
     const consultas = new RepoConsultas();
-    const caso = new ConsultarAsistenteUseCase(new RepoContenidos(), consultas, ia, new ExpedientesEnMemoria(expediente(etapa)));
+    const caso = new ConsultarAsistenteUseCase(new RepoContenidos(), consultas, ia, new ExpedientesEnMemoria(expediente(etapa)), lecturaVacia);
     return { caso, consultas };
   };
 
@@ -262,8 +270,8 @@ describe('Casos de uso del asistente (RF14, RF15)', () => {
     const eventos = eventosFalsos();
     const gestion = new GestionarContenidosUseCase(repo, eventos);
     const admin = usuario(Rol.ADMINISTRADOR, { id: 5 });
-    const c = await gestion.crear({ tema: TemaContenido.CITAS, pregunta: '¿Hay exámenes en feriados?', respuesta: 'No, los feriados no se toman exámenes.', palabrasClave: 'feriado', activo: true }, admin);
-    const caso = new ConsultarAsistenteUseCase(repo, new RepoConsultas(), new IAFalsa(false), new ExpedientesEnMemoria(expediente(Etapa.CITA)));
+    const c = await gestion.crear({ tema: TemaContenido.CITAS, audiencia: Audiencia.POSTULANTE, pregunta: '¿Hay exámenes en feriados?', respuesta: 'No, los feriados no se toman exámenes.', palabrasClave: 'feriado', activo: true }, admin);
+    const caso = new ConsultarAsistenteUseCase(repo, new RepoConsultas(), new IAFalsa(false), new ExpedientesEnMemoria(expediente(Etapa.CITA)), lecturaVacia);
     expect((await caso.preguntar(postulante, '¿Hay examen en feriado?')).origen).toBe(OrigenRespuesta.CONTENIDO);
     await gestion.actualizar(c.id, { ...c, activo: false }, admin);
     expect((await caso.preguntar(postulante, '¿Hay examen en feriado?')).derivada).toBe(true);

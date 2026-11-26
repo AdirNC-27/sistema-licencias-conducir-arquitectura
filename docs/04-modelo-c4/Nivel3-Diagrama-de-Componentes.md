@@ -24,7 +24,7 @@ Abrir el contenedor API Licencias y mostrar sus módulos, sus adaptadores y la b
 | **Evaluaciones** | Resultados, máximo 3 intentos | RF08, RF09, RF19 |
 | **Seguimiento** | Estado y plazo legal | RF10 |
 | **Notificaciones** | Avisos y correo | RF13 |
-| **Asistente virtual** | Orientación con IA | RF14, RF15 |
+| **Asistente virtual** | Orientación con IA, pendientes de cada rol | RF14, RF15 |
 | **Administración** | Configuración y reportes | RF16, RF18 |
 | **Auditoría** | Registro de operaciones | RF17 |
 
@@ -38,6 +38,7 @@ Abrir el contenedor API Licencias y mostrar sus módulos, sus adaptadores y la b
 | Expedientes | Requisitos y documentos | Comprueba documentos y vigencia del certificado |
 | Expedientes | Notificaciones y Auditoría | Avisa y registra cada cambio de estado |
 | Asistente virtual | Expedientes | Lee el estado del trámite del postulante (solo lectura) |
+| Asistente virtual | `LecturaPendientesSql` | Cuenta lo pendiente de cada rol con consultas de solo lectura (ADR-016) |
 
 ## Adaptadores
 

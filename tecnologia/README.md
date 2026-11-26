@@ -51,7 +51,7 @@ tecnologia/
 │   ├── src/paginas/          # pantallas por rol: postulante, gestor, evaluador, supervisor, admin
 │   └── e2e/                  # pruebas E2E y de accesibilidad (Playwright + axe-core)
 ├── pruebas-calidad/k6/       # pruebas de carga hasta 2,000 usuarios
-├── pruebas-calidad/postman/  # colección de Postman: 138 solicitudes con validación del contrato
+├── pruebas-calidad/postman/  # colección de Postman: 145 solicitudes con validación del contrato
 ├── pruebas-calidad/promptfoo/ # EQ-08: 30 preguntas al asistente con IA
 ├── postgres/init.sql         # base de pruebas y pg_stat_statements
 ├── postgres/analisis/        # volumen, EXPLAIN ANALYZE y prueba de concurrencia

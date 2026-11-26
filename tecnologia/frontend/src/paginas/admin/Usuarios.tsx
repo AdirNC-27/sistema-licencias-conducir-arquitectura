@@ -3,6 +3,7 @@ import { api } from '../../api/cliente';
 import { NOMBRE_ROL } from '../../api/textos';
 import type { Rol } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Cargando, Chip, Encabezado } from '../../componentes/ui';
 
 interface Cuenta { id: number; usuario: string; nombre: string; rol: Rol; activo: boolean }
@@ -25,6 +26,7 @@ export function Usuarios() {
   return (
     <div className="space-y-6">
       <Encabezado titulo="Usuarios y roles" subtitulo="Cada cambio de rol queda en la auditoría" />
+      <Pendientes />
       {mensaje && <Aviso tipo={mensaje.tipo}>{mensaje.texto}</Aviso>}
       {cargando ? <Cargando /> : (
         <div className="overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">

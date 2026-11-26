@@ -22,7 +22,8 @@
     "migracion:ejecutar": "typeorm-ts-node-commonjs migration:run -d src/configuracion/data-source.ts",
     "arquitectura": "depcruise src --config .dependency-cruiser.cjs",
     "contrato": "ts-node scripts/contrato.ts",
-    "contrato:verificar": "ts-node scripts/contrato.ts --verificar"
+    "contrato:verificar": "ts-node scripts/contrato.ts --verificar",
+    "datos:demo": "ts-node --transpile-only scripts/datos-demo.ts"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^3.1.3",

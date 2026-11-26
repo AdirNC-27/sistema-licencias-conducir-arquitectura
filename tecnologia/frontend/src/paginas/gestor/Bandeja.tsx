@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../../api/cliente';
 import { ETAPAS } from '../../api/textos';
 import type { Expediente, ObservacionExpediente } from '../../api/tipos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
 import { useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, Encabezado, Icono, Vacio } from '../../componentes/ui';
@@ -11,7 +12,10 @@ interface Pagina { total: number; pagina: number; tamano: number; datos: Expedie
 
 /** Bandeja del gestor: expedientes filtrados por etapa y categoría, paginados en el servidor. */
 export function Bandeja() {
-  const [etapa, setEtapa] = useState('DOCUMENTOS');
+  // La etapa va en la dirección: los pendientes enlazan directo a «?etapa=PAGO», etc.
+  const [parametros, setParametros] = useSearchParams();
+  const etapa = parametros.get('etapa') ?? 'DOCUMENTOS';
+  const setEtapa = (e: string) => setParametros({ etapa: e }, { replace: true });
   const [categoria, setCategoria] = useState('');
   const [pagina, setPagina] = useState(1);
   const consulta = new URLSearchParams({ pagina: String(pagina), tamano: '15', ...(etapa && { etapa }), ...(categoria && { categoria }) });
@@ -22,6 +26,7 @@ export function Bandeja() {
   return (
     <div className="space-y-6">
       <Encabezado titulo="Bandeja de expedientes" subtitulo="Revisa documentos y pagos, y deja constancia de lo verificado en el SNC y el récord del conductor." />
+      <Pendientes />
       {!!devueltos.datos?.length && (
         <div className="tarjeta ring-2 ring-amber-300">
           <h2 className="mb-2 flex items-center gap-2 font-bold text-amber-900"><Icono nombre="undo" className="text-lg" />Devueltos por el supervisor ({devueltos.datos.length})</h2>

@@ -3,13 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Column, CreateDateColumn, Entity, Index, IsNull, Not, PrimaryGeneratedColumn, Repository, UpdateDateColumn } from 'typeorm';
 import { RecursoNoEncontradoError } from '../../../compartido/dominio/errores';
 import { ConsultaAsistente, OrigenRespuesta } from '../dominio/consulta';
-import { ContenidoAprobado, DatosContenido, TemaContenido } from '../dominio/contenido';
+import { Audiencia, ContenidoAprobado, DatosContenido, TemaContenido } from '../dominio/contenido';
 import { RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
 
 @Entity('contenidos_asistente')
 export class ContenidoOrmEntity {
   @PrimaryGeneratedColumn() id!: number;
   @Column({ type: 'enum', enum: TemaContenido, enumName: 'contenidos_tema_enum' }) tema!: TemaContenido;
+  @Column({ type: 'enum', enum: Audiencia, enumName: 'contenidos_audiencia_enum', default: Audiencia.POSTULANTE }) audiencia!: Audiencia;
   @Column({ length: 200 }) pregunta!: string;
   @Column({ length: 1000 }) respuesta!: string;
   @Column({ name: 'palabras_clave', length: 300, default: '' }) palabrasClave!: string;
@@ -36,7 +37,7 @@ export class ConsultaOrmEntity {
   }
 }
 
-const aContenido = (f: ContenidoOrmEntity): ContenidoAprobado => ({ id: f.id, tema: f.tema, pregunta: f.pregunta, respuesta: f.respuesta, palabrasClave: f.palabrasClave, activo: f.activo });
+const aContenido = (f: ContenidoOrmEntity): ContenidoAprobado => ({ id: f.id, tema: f.tema, audiencia: f.audiencia, pregunta: f.pregunta, respuesta: f.respuesta, palabrasClave: f.palabrasClave, activo: f.activo });
 
 /**
  * El contenido activo se guarda en memoria del monolito (ADR-009): es público, cambia poco y se lee
@@ -54,7 +55,7 @@ export class RepositorioContenidosTypeOrm implements RepositorioContenidos {
   }
 
   async todos(): Promise<ContenidoAprobado[]> {
-    return (await this.orm.find({ order: { tema: 'ASC', id: 'ASC' } })).map(aContenido);
+    return (await this.orm.find({ order: { audiencia: 'ASC', tema: 'ASC', id: 'ASC' } })).map(aContenido);
   }
 
   async buscarPorId(id: number): Promise<ContenidoAprobado> {
@@ -70,7 +71,7 @@ export class RepositorioContenidosTypeOrm implements RepositorioContenidos {
 
   async actualizar(c: ContenidoAprobado): Promise<ContenidoAprobado> {
     this.cache = null;
-    await this.orm.update({ id: c.id }, { tema: c.tema, pregunta: c.pregunta, respuesta: c.respuesta, palabrasClave: c.palabrasClave, activo: c.activo });
+    await this.orm.update({ id: c.id }, { tema: c.tema, audiencia: c.audiencia, pregunta: c.pregunta, respuesta: c.respuesta, palabrasClave: c.palabrasClave, activo: c.activo });
     return this.buscarPorId(c.id);
   }
 }

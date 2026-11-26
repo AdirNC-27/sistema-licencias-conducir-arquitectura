@@ -26,18 +26,24 @@ export const MENU: Record<Rol, Opcion[]> = {
   GESTOR: [
     { ruta: '/gestor', texto: 'Bandeja de expedientes', icono: 'inbox' },
     { ruta: '/gestor/consultas', texto: 'Consultas del asistente', icono: 'forum' },
+    { ruta: '/gestor/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
-  EVALUADOR: [{ ruta: '/evaluador', texto: 'Exámenes por calificar', icono: 'quiz' }],
+  EVALUADOR: [
+    { ruta: '/evaluador', texto: 'Exámenes por calificar', icono: 'quiz' },
+    { ruta: '/evaluador/asistente', texto: 'Asistente', icono: 'smart_toy' },
+  ],
   SUPERVISOR: [
     { ruta: '/supervisor', texto: 'Resultados por validar', icono: 'verified' },
     { ruta: '/supervisor/emision', texto: 'Autorizar emisión', icono: 'badge' },
     { ruta: '/supervisor/auditoria', texto: 'Auditoría', icono: 'history' },
+    { ruta: '/supervisor/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
   ADMINISTRADOR: [
     { ruta: '/admin', texto: 'Usuarios y roles', icono: 'group' },
     { ruta: '/admin/cupos', texto: 'Días y cupos', icono: 'calendar_month' },
     { ruta: '/admin/contenidos', texto: 'Contenido del asistente', icono: 'menu_book' },
     { ruta: '/admin/auditoria', texto: 'Auditoría', icono: 'history' },
+    { ruta: '/admin/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
 };
 

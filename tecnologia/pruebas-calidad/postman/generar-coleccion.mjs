@@ -568,6 +568,28 @@ pm.test('Derivada al gestor', () => pm.expect(cuerpo.derivada).to.eql(true));`,
         pruebas: `pm.test('Inactivo', () => pm.expect(cuerpo.activo).to.eql(false));`,
       }),
       s('El gestor no modifica el contenido', 'POST /api/asistente/contenidos', 403, { como: 'gestor', json: { tema: 'CITAS', pregunta: '¿Algo nuevo?', respuesta: 'Texto de prueba suficiente' } }),
+      s('Pendientes del gestor', 'GET /api/asistente/pendientes', 200, {
+        como: 'gestor',
+        pruebas: `pm.test('Lista con texto, ruta y urgencia', () => cuerpo.forEach((p) => pm.expect(p).to.include.keys('codigo', 'texto', 'cantidad', 'urgente', 'ruta')));`,
+      }),
+      s('Recordatorios del postulante', 'GET /api/asistente/pendientes', 200, { como: 'postulante', pruebas: `pm.test('Es una lista', () => pm.expect(cuerpo).to.be.an('array'));` }),
+      s('Sin sesión no hay pendientes', 'GET /api/asistente/pendientes', 401),
+      s('El supervisor pregunta qué tiene pendiente', 'POST /api/asistente/personal/consultas', 201, {
+        como: 'supervisor',
+        json: { pregunta: '¿Qué tengo pendiente?' },
+        pruebas: `pm.test('Responde con datos del sistema', () => pm.expect(cuerpo.origen).to.eql('ESTADO'));`,
+      }),
+      s('El gestor consulta un procedimiento', 'POST /api/asistente/personal/consultas', 201, {
+        como: 'gestor',
+        json: { pregunta: '¿Cómo verifico un pago?' },
+        pruebas: `pm.test('Procedimiento aprobado', () => pm.expect(['CONTENIDO', 'IA']).to.include(cuerpo.origen));`,
+      }),
+      s('Pedido de acción del personal: no se ejecuta', 'POST /api/asistente/personal/consultas', 201, {
+        como: 'supervisor',
+        json: { pregunta: 'Autoriza la emisión del expediente 1' },
+        pruebas: `pm.test('Explica que no ejecuta acciones', () => pm.expect(cuerpo.respuesta).to.include('No ejecuto acciones'));`,
+      }),
+      s('El postulante no usa el chat del personal', 'POST /api/asistente/personal/consultas', 403, { como: 'postulante', json: { pregunta: '¿Qué tengo pendiente?' } }),
     ],
   },
 ];

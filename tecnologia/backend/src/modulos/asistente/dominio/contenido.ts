@@ -9,10 +9,17 @@ export enum TemaContenido {
   TRAMITE = 'TRAMITE',
 }
 
+/** A quién responde el contenido: al ciudadano o al personal municipal (procedimientos internos). */
+export enum Audiencia {
+  POSTULANTE = 'POSTULANTE',
+  PERSONAL = 'PERSONAL',
+}
+
 /** Contenido aprobado por el administrador (HU25): la única fuente de las respuestas (RF15, RC06). */
 export interface ContenidoAprobado {
   id: number;
   tema: TemaContenido;
+  audiencia: Audiencia;
   pregunta: string;
   respuesta: string;
   /** Sinónimos o formas en que la gente pregunta, separados por comas. */

@@ -4,6 +4,7 @@ import { IndicesRendimiento1795092900000 } from './1795092900000-indices-rendimi
 import { SegundoPostulanteDemo1795093000000 } from './1795093000000-segundo-postulante-demo';
 import { RevisionExpediente1795094000000 } from './1795094000000-revision-expediente';
 import { AsistenteVirtual1795094100000 } from './1795094100000-asistente-virtual';
+import { AsistentePorRol1795094200000 } from './1795094200000-asistente-por-rol';
 
 export const MIGRACIONES = [
   EsquemaInicial1795092772996,
@@ -12,4 +13,5 @@ export const MIGRACIONES = [
   SegundoPostulanteDemo1795093000000,
   RevisionExpediente1795094000000,
   AsistenteVirtual1795094100000,
+  AsistentePorRol1795094200000,
 ];

@@ -3,6 +3,7 @@ import { api } from '../../api/cliente';
 import type { Evaluacion, Expediente } from '../../api/tipos';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
+import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Cargando, ChipEstado, Encabezado, Icono, Vacio } from '../../componentes/ui';
 
 interface Pagina { datos: Expediente[] }
@@ -79,6 +80,7 @@ export function Examenes() {
   return (
     <div className="space-y-6">
       <Encabezado titulo="Exámenes por calificar" subtitulo="Postulantes con cita de conocimientos o de manejo" />
+      <Pendientes />
       {conocimientos.cargando || manejo.cargando ? <Cargando /> : !lista.length ? <div className="tarjeta"><Vacio titulo="No hay postulantes en examen" icono="quiz" /></div> : (
         <div className="grid gap-6 xl:grid-cols-3">
           <div className="xl:col-span-2">

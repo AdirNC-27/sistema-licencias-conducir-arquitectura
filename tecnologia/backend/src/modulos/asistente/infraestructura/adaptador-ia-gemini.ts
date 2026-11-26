@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ContenidoAprobado } from '../dominio/contenido';
+import { Audiencia, ContenidoAprobado } from '../dominio/contenido';
 import { AsistenteIA, RedaccionIA } from '../dominio/contratos';
 
 interface RespuestaGemini {
@@ -8,14 +8,27 @@ interface RespuestaGemini {
   error?: { message?: string };
 }
 
-export const INSTRUCCIONES_IA = [
-  'Eres la IA de orientación del Sistema de Licencias de Conducir Clase B de la Municipalidad Provincial de Huamanga.',
-  'Respondes a ciudadanos que tramitan la licencia II-B (motocicletas) o II-C (mototaxis).',
+const REGLAS = [
   'Reglas obligatorias:',
   '1. Usa SOLO la información del CONTENIDO APROBADO. No agregues montos, plazos, requisitos, lugares ni horarios que no estén ahí.',
   '2. Si el contenido no responde la pregunta, o la pregunta es ajena al trámite, devuelve "confiable": false.',
   '3. No puedes aprobar, registrar, modificar, reprogramar ni verificar nada, y nunca digas que lo hiciste o que lo harás.',
+];
+
+export const INSTRUCCIONES_IA = [
+  'Eres la IA de orientación del Sistema de Licencias de Conducir Clase B de la Municipalidad Provincial de Huamanga.',
+  'Respondes a ciudadanos que tramitan la licencia II-B (motocicletas) o II-C (mototaxis).',
+  ...REGLAS,
   '4. Responde en español sencillo, de tú, en un máximo de 3 oraciones.',
+  'Devuelve solo un objeto JSON con esta forma: {"respuesta": "texto", "confiable": true}',
+].join('\n');
+
+/** Para el personal municipal: mismo límite (solo contenido aprobado), con tono de procedimiento interno. */
+export const INSTRUCCIONES_IA_PERSONAL = [
+  'Eres la IA de orientación del Sistema de Licencias de Conducir Clase B de la Municipalidad Provincial de Huamanga.',
+  'Respondes al personal municipal (gestor de trámites, evaluador, supervisor o administrador) sobre cómo usar el sistema y las reglas del trámite.',
+  ...REGLAS,
+  '4. Responde en español claro, de tú, con pasos concretos, en un máximo de 4 oraciones.',
   'Devuelve solo un objeto JSON con esta forma: {"respuesta": "texto", "confiable": true}',
 ].join('\n');
 
@@ -43,7 +56,7 @@ export class AdaptadorIAGemini implements AsistenteIA {
     return Boolean(this.clave);
   }
 
-  async redactar(pregunta: string, contenidos: ContenidoAprobado[]): Promise<RedaccionIA | null> {
+  async redactar(pregunta: string, contenidos: ContenidoAprobado[], audiencia = Audiencia.POSTULANTE): Promise<RedaccionIA | null> {
     if (!this.clave) return null;
     const contexto = contenidos.map((c, i) => `[${i + 1}] Pregunta: ${c.pregunta}\nRespuesta aprobada: ${c.respuesta}`).join('\n\n');
     try {
@@ -51,8 +64,8 @@ export class AdaptadorIAGemini implements AsistenteIA {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': this.clave },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: INSTRUCCIONES_IA }] },
-          contents: [{ role: 'user', parts: [{ text: `CONTENIDO APROBADO:\n${contexto}\n\nPREGUNTA DEL CIUDADANO: ${pregunta}` }] }],
+          systemInstruction: { parts: [{ text: audiencia === Audiencia.PERSONAL ? INSTRUCCIONES_IA_PERSONAL : INSTRUCCIONES_IA }] },
+          contents: [{ role: 'user', parts: [{ text: `CONTENIDO APROBADO:\n${contexto}\n\n${audiencia === Audiencia.PERSONAL ? 'PREGUNTA DEL PERSONAL' : 'PREGUNTA DEL CIUDADANO'}: ${pregunta}` }] }],
           generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 400 },
         }),
         signal: AbortSignal.timeout(this.espera),
