@@ -149,8 +149,14 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     expect(exp.body.etapa).toBe('EXAMEN_CONOCIMIENTOS');
     const citas = await http.get(`/api/expedientes/${expedienteId}/citas`).set(auth('45892014')).expect(200);
     expect(citas.body).toHaveLength(1);
-    const avisos = await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200);
-    expect(avisos.body.some((a: { asunto: string }) => a.asunto.startsWith('Recordatorio'))).toBe(true);
+    // El aviso se guarda en segundo plano (evento): se espera hasta 3 s a que aparezca.
+    let recordatorio = false;
+    for (let i = 0; i < 30 && !recordatorio; i++) {
+      const avisos = await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200);
+      recordatorio = avisos.body.some((a: { asunto: string }) => a.asunto.startsWith('Recordatorio'));
+      if (!recordatorio) await new Promise((r) => setTimeout(r, 100));
+    }
+    expect(recordatorio).toBe(true);
   });
 
   it('un horario repetido se rechaza con 409, no con un error interno (RF21)', async () => {
@@ -230,8 +236,12 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     await http.post(`/api/expedientes/${expedienteId}/licencia`).set(auth('gestor')).send({ numero: 'Q00000001' }).expect(409);
     expect((await http.get(`/api/expedientes/${expedienteId}/licencia`).set(auth('45892014')).expect(200)).body.numero).toBe('Q45892014');
     await http.post(`/api/expedientes/${expedienteId}/verificaciones`).set(auth('gestor')).send({ tipo: 'SANCIONES', resultado: 'CONFORME' }).expect(409);
-    const avisos = await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200);
-    expect(avisos.body[0].asunto).toBe('Tu licencia Q45892014 fue registrada');
+    let asunto = '';
+    for (let i = 0; i < 30 && asunto !== 'Tu licencia Q45892014 fue registrada'; i++) {
+      if (i) await new Promise((r) => setTimeout(r, 100));
+      asunto = (await http.get('/api/notificaciones/mias').set(auth('45892014')).expect(200)).body[0]?.asunto;
+    }
+    expect(asunto).toBe('Tu licencia Q45892014 fue registrada');
   });
 
   describe('Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)', () => {

@@ -14,7 +14,7 @@ export function Auditoria() {
   const { datos, cargando } = useDatos(() => api.get<Registro[]>(`/auditoria${entidad ? `?entidad=${entidad}` : ''}`), [entidad]);
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Auditoría" subtitulo="Quién hizo qué, cuándo, y el valor anterior y nuevo. Solo lectura." accion={
+      <Encabezado icono="history" titulo="Auditoría" subtitulo="Quién hizo qué, cuándo, y el valor anterior y nuevo. Solo lectura." accion={
         <select aria-label="Entidad" className="campo w-auto" value={entidad} onChange={(e) => setEntidad(e.target.value)}>
           {ENTIDADES.map((x) => <option key={x} value={x}>{x ? x.charAt(0).toUpperCase() + x.slice(1) : 'Todas las entidades'}</option>)}
         </select>

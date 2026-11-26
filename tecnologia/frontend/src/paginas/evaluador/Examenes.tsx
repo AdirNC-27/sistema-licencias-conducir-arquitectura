@@ -4,7 +4,7 @@ import type { Evaluacion, Expediente } from '../../api/tipos';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
 import { Pendientes } from '../../componentes/Pendientes';
-import { Aviso, Cargando, ChipEstado, Encabezado, Icono, Vacio } from '../../componentes/ui';
+import { Aviso, Cargando, ChipEstado, Encabezado, Icono, Mosaico, Pestanas, Vacio } from '../../componentes/ui';
 
 interface Pagina { datos: Expediente[] }
 type Tipo = 'CONOCIMIENTOS' | 'MANEJO';
@@ -35,8 +35,9 @@ function Calificar({ expediente, alTerminar }: { expediente: Expediente; alTermi
 
   return (
     <div className="tarjeta space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-center justify-between gap-3">
+        <Mosaico icono={tipo === 'MANEJO' ? 'two_wheeler' : 'quiz'} color={tipo === 'MANEJO' ? 'naranja' : 'violeta'} />
+        <div className="min-w-0 flex-1">
           <p className="text-xs font-semibold uppercase text-slate-500">{expediente.numero}</p>
           <h2 className="text-lg font-bold text-marca-oscuro">Examen de {tipo === 'MANEJO' ? 'manejo' : 'conocimientos'}</h2>
         </div>
@@ -69,26 +70,74 @@ function Calificar({ expediente, alTerminar }: { expediente: Expediente; alTermi
   );
 }
 
+/** Ilustración del panel derecho mientras no se elige a nadie. */
+function Ilustracion() {
+  return (
+    <svg viewBox="0 0 200 150" className="mx-auto h-36 w-auto" aria-hidden>
+      <ellipse cx="100" cy="138" rx="78" ry="8" fill="#E8EFFF" />
+      <rect x="52" y="22" width="96" height="112" rx="12" fill="#FFFFFF" stroke="#C7D7FE" strokeWidth="3" />
+      <rect x="78" y="14" width="44" height="18" rx="6" fill="#1E4FD8" />
+      <rect x="66" y="50" width="12" height="12" rx="3" fill="#D1FAE5" /><path d="M69 56 l3 3 l5 -6" stroke="#059669" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <rect x="84" y="53" width="48" height="6" rx="3" fill="#E2E8F0" />
+      <rect x="66" y="72" width="12" height="12" rx="3" fill="#D1FAE5" /><path d="M69 78 l3 3 l5 -6" stroke="#059669" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <rect x="84" y="75" width="40" height="6" rx="3" fill="#E2E8F0" />
+      <rect x="66" y="94" width="12" height="12" rx="3" fill="#FFF1E4" />
+      <rect x="84" y="97" width="44" height="6" rx="3" fill="#E2E8F0" />
+      <g transform="rotate(35 150 92)"><rect x="144" y="52" width="12" height="62" rx="3" fill="#FF7A00" /><path d="M144 114 l6 12 l6 -12z" fill="#FDE68A" /><rect x="144" y="52" width="12" height="9" rx="3" fill="#CC4E00" /></g>
+      <circle cx="32" cy="40" r="5" fill="#C7D7FE" /><circle cx="172" cy="30" r="4" fill="#FED7AA" /><circle cx="24" cy="100" r="3" fill="#FED7AA" />
+    </svg>
+  );
+}
+
+type Filtro = 'TODOS' | Tipo;
+
 /** RF08 y RF09: el evaluador registra o corrige resultados antes de la validación. */
 export function Examenes() {
   const conocimientos = useDatos(() => api.get<Pagina>('/expedientes?etapa=EXAMEN_CONOCIMIENTOS&tamano=50'));
   const manejo = useDatos(() => api.get<Pagina>('/expedientes?etapa=EXAMEN_MANEJO&tamano=50'));
   const [elegido, setElegido] = useState<Expediente | null>(null);
-  const lista = [...(conocimientos.datos?.datos ?? []), ...(manejo.datos?.datos ?? [])];
+  const [filtro, setFiltro] = useState<Filtro>('TODOS');
+  const deConocimientos = conocimientos.datos?.datos ?? [];
+  const deManejo = manejo.datos?.datos ?? [];
+  const lista = filtro === 'CONOCIMIENTOS' ? deConocimientos : filtro === 'MANEJO' ? deManejo : [...deConocimientos, ...deManejo];
   const recargar = () => { conocimientos.recargar(); manejo.recargar(); };
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Exámenes por calificar" subtitulo="Postulantes con cita de conocimientos o de manejo" />
+      <Encabezado icono="quiz" titulo="Exámenes por calificar" subtitulo="Postulantes con cita de conocimientos o de manejo" />
       <Pendientes />
-      {conocimientos.cargando || manejo.cargando ? <Cargando /> : !lista.length ? <div className="tarjeta"><Vacio titulo="No hay postulantes en examen" icono="quiz" /></div> : (
-        <div className="grid gap-6 xl:grid-cols-3">
-          <div className="xl:col-span-2">
-            <TablaExpedientes expedientes={lista} accion={(e) => (
-              <button className={elegido?.id === e.id ? 'btn-primario' : 'btn-suave'} onClick={() => setElegido(e)}>Calificar <Icono nombre="edit_note" className="text-lg" /></button>
-            )} />
+      {conocimientos.cargando || manejo.cargando ? <Cargando /> : !deConocimientos.length && !deManejo.length ? <Vacio titulo="No hay postulantes en examen" texto="Cuando un postulante reserve su cita aparecerá aquí." icono="quiz" /> : (
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="min-w-0 space-y-4">
+            <Pestanas<Filtro>
+              opciones={[
+                { clave: 'TODOS', nombre: 'Todos', cantidad: deConocimientos.length + deManejo.length },
+                { clave: 'CONOCIMIENTOS', nombre: 'Conocimientos', cantidad: deConocimientos.length },
+                { clave: 'MANEJO', nombre: 'Manejo', cantidad: deManejo.length },
+              ]}
+              valor={filtro}
+              alCambiar={setFiltro}
+            />
+            {lista.length ? (
+              <TablaExpedientes compacto expedientes={lista} elegido={elegido?.id} accion={(e) => (
+                <button className={elegido?.id === e.id ? 'btn-primario' : 'btn-suave'} onClick={() => setElegido(e)}>Calificar <Icono nombre="edit_note" className="text-lg" /></button>
+              )} />
+            ) : <Vacio titulo="Nadie en este examen" icono="quiz" />}
           </div>
-          <div>{elegido ? <Calificar key={elegido.id} expediente={elegido} alTerminar={recargar} /> : <div className="tarjeta"><Vacio titulo="Elige un postulante" texto="Selecciona “Calificar” en la lista." icono="touch_app" /></div>}</div>
+          <div className="xl:sticky xl:top-6 xl:self-start">
+            {elegido ? <Calificar key={elegido.id} expediente={elegido} alTerminar={recargar} /> : (
+              <div className="tarjeta py-10 text-center">
+                <Ilustracion />
+                <p className="mt-4 text-lg font-bold text-marca-oscuro">Elige un postulante</p>
+                <p className="mx-auto mt-1 max-w-xs text-sm text-slate-500">Pulsa «Calificar» en la lista para registrar su nota. El supervisor la valida después.</p>
+                <ul className="mx-auto mt-5 max-w-xs space-y-2 text-left text-sm text-slate-600">
+                  <li className="flex items-center gap-2"><Icono nombre="check_circle" className="text-emerald-600" />Aprueba con 14 de 20</li>
+                  <li className="flex items-center gap-2"><Icono nombre="check_circle" className="text-emerald-600" />Hasta 3 intentos por examen</li>
+                  <li className="flex items-center gap-2"><Icono nombre="lock" className="text-marca" />Validado, ya no se puede corregir</li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

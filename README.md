@@ -1,9 +1,8 @@
 # Sistema de Licencias de Conducir Clase B
 
-## Integrantes
+## Autor
 
-- Adir Alejandro Navarro Cordero
-- Edths Yhurdin Prado Gomez
+Adir Alejandro Navarro Cordero
 
 ## Curso
 

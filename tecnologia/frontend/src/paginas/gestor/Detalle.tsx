@@ -1,10 +1,11 @@
+import { ChipEtapa } from '../../componentes/TablaExpedientes';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/cliente';
-import { fecha, NOMBRE_DOCUMENTO, nombreEtapa, soles } from '../../api/textos';
+import { fecha, NOMBRE_DOCUMENTO, soles } from '../../api/textos';
 import type { Documento, Expediente, Pago, PostulanteResumen } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
-import { Aviso, Cargando, Chip, ChipEstado, Icono, Vacio } from '../../componentes/ui';
+import { Avatar, Aviso, Cargando, ChipEstado, Icono, Vacio } from '../../componentes/ui';
 import { PanelRevision } from './PanelRevision';
 
 /** Detalle del expediente para el gestor: documentos (RF04), pagos (RF06), verificaciones oficiales (RF24, RF27) y observaciones del supervisor (RF11). */
@@ -48,13 +49,16 @@ export function Detalle() {
     <div className="space-y-6">
       <Link to="/gestor" className="inline-flex items-center gap-1 text-sm font-semibold text-marca"><Icono nombre="arrow_back" className="text-lg" />Bandeja</Link>
       <div className="tarjeta flex flex-wrap items-center justify-between gap-4">
-        <div>
+        <div className="flex items-center gap-4">
+          <Avatar nombre={p?.nombre} className="h-14 w-14 text-lg" />
+          <div>
           <p className="text-2xl font-extrabold text-marca">{e.numero}</p>
           <p className="font-medium capitalize">{p?.nombre.toLowerCase()} · DNI {p?.dni}</p>
           <p className="text-sm text-slate-500">{p?.correo} · {p?.celular}</p>
+          </div>
         </div>
         <div className="text-right">
-          <Chip color="azul">{nombreEtapa(e.etapa)}</Chip>
+          <ChipEtapa etapa={e.etapa} />
           <p className="mt-2 text-sm text-slate-500">Licencia {e.categoria} · Día {e.plazo.diasTranscurridos}/10</p>
         </div>
       </div>

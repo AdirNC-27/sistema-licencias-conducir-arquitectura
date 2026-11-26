@@ -4,7 +4,7 @@
 
 El sistema es una sola aplicación backend (NestJS) dividida en 12 módulos, con un portal web en React y una base de datos PostgreSQL.
 
-Se eligió porque es una sola municipalidad, el equipo es pequeño y un mismo trámite usa varios módulos a la vez (RC08, ADR-001).
+Se eligió porque es una sola municipalidad, lo desarrolla una sola persona y un mismo trámite usa varios módulos a la vez (RC08, ADR-001).
 
 | Parte | Tecnología | Función |
 |---|---|---|

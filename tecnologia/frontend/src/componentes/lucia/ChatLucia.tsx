@@ -143,6 +143,12 @@ export function ChatLucia() {
     final.current?.scrollIntoView?.({ block: 'end' });
   }, [mensajes, escribiendo, postulante, usuario]);
 
+  // En pantallas anchas el chat abierto corre el contenido a la izquierda en lugar de taparlo.
+  useEffect(() => {
+    document.body.classList.toggle('lucia-abierta', abierto);
+    return () => document.body.classList.remove('lucia-abierta');
+  }, [abierto]);
+
   // La invitación se esconde sola a los 10 segundos.
   useEffect(() => {
     if (!invitacion) return;
@@ -194,15 +200,24 @@ export function ChatLucia() {
           aria-label="Chat con Lucía, asistente virtual"
           className="lucia-entrada fixed inset-x-2 bottom-2 z-50 flex h-[min(640px,calc(100dvh-1rem))] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[min(620px,calc(100dvh-8rem))] sm:w-[390px]"
         >
-          <header className="flex items-center gap-3 bg-gradient-to-r from-marca-oscuro to-marca px-4 py-3 text-white">
-            <AvatarLucia className="h-11 w-11 shrink-0" />
+          <header className="relative flex items-center gap-3 bg-gradient-to-r from-marca-oscuro via-marca to-blue-500 px-4 py-3.5 text-white">
+            <span className="relative">
+              <AvatarLucia className="h-14 w-14 ring-[3px] ring-white/90 shadow-lg" />
+              <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white" aria-hidden="true" />
+            </span>
             <div className="min-w-0 flex-1 leading-tight">
-              <p className="font-bold">Lucía</p>
-              <p className="flex items-center gap-1.5 text-xs text-blue-100">
+              <p className="flex items-center gap-2">
+                <span className="text-lg font-extrabold">Lucía</span>
+                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold ring-1 ring-white/30">Asistente virtual</span>
+              </p>
+              <p className="mt-0.5 flex items-center gap-1.5 text-xs text-blue-100">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
-                En línea · IA de orientación
+                En línea · MPH Huamanga
               </p>
             </div>
+            <button type="button" aria-label="Minimizar chat" onClick={() => setAbierto(false)} className="grid h-9 w-9 place-items-center rounded-full hover:bg-white/15">
+              <Icono nombre="minimizar" className="text-xl" />
+            </button>
             <button type="button" aria-label="Cerrar chat" onClick={() => setAbierto(false)} className="grid h-9 w-9 place-items-center rounded-full hover:bg-white/15">
               <Icono nombre="close" className="text-xl" />
             </button>
@@ -210,7 +225,8 @@ export function ChatLucia() {
 
           <div className="lucia-fondo flex-1 space-y-3 overflow-y-auto px-3 py-4" aria-live="polite">
             <Burbuja de="lucia">
-              <p>¡Hola, {nombreBonito}! 👋 Soy <b>Lucía</b>, la asistente virtual de la Municipalidad Provincial de Huamanga.</p>
+              <p>¡Hola, {nombreBonito}! 👋</p>
+              <p>Soy <b>Lucía</b>, tu asistente virtual de licencias de conducir de la Municipalidad Provincial de Huamanga.</p>
               <p className="mt-1">{postulante ? '¿En qué te puedo ayudar con tu licencia?' : '¿En qué te ayudo hoy?'}</p>
               {pendientes.length > 0 && (
                 <p className={`mt-2 rounded-xl px-3 py-2 text-xs font-semibold ${urgentes ? 'bg-amber-50 text-amber-900' : 'bg-marca-claro text-marca'}`}>
@@ -240,7 +256,7 @@ export function ChatLucia() {
             ))}
             {escribiendo && (
               <div className="flex items-end gap-2">
-                <AvatarLucia className="h-7 w-7 shrink-0" />
+                <AvatarLucia className="h-9 w-9 ring-2 ring-white shadow" />
                 <div className="rounded-2xl rounded-bl-md bg-white px-4 py-3 shadow-sm" aria-label="Lucía está escribiendo">
                   <span className="lucia-punto" />
                   <span className="lucia-punto [animation-delay:150ms]" />
@@ -259,7 +275,7 @@ export function ChatLucia() {
                 type="button"
                 disabled={escribiendo}
                 onClick={() => enviar(pregunta)}
-                className="shrink-0 rounded-full border border-marca/30 bg-white px-3 py-1.5 text-xs font-semibold text-marca transition hover:bg-marca-claro disabled:opacity-50"
+                className="shrink-0 rounded-full border border-marca/25 bg-white px-3.5 py-2 text-xs font-bold text-marca-oscuro shadow-sm transition hover:border-marca hover:bg-marca-claro disabled:opacity-50"
               >
                 {etiqueta}
               </button>
@@ -270,14 +286,14 @@ export function ChatLucia() {
             <input
               id="mensaje-lucia"
               ref={entrada}
-              className="flex-1 rounded-full border border-slate-200 bg-fondo px-4 py-2.5 text-sm outline-none focus:border-marca focus:ring-2 focus:ring-marca/20"
+              className="flex-1 rounded-full border border-slate-200 bg-fondo px-4 py-3 text-sm outline-none focus:border-marca focus:ring-2 focus:ring-marca/20"
               maxLength={300}
               autoComplete="off"
               placeholder="Escribe un mensaje…"
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
             />
-            <button aria-label="Enviar" disabled={escribiendo || texto.trim().length < 2} className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-acento-fuerte text-white shadow-md transition hover:brightness-95 disabled:opacity-40">
+            <button aria-label="Enviar" disabled={escribiendo || texto.trim().length < 2} className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-blue-500 to-marca text-white shadow-lg shadow-blue-300 transition hover:brightness-110 disabled:opacity-40">
               <Icono nombre="send" className="text-lg" />
             </button>
           </form>
@@ -302,7 +318,7 @@ export function ChatLucia() {
         className={`fixed right-4 z-40 rounded-full shadow-xl shadow-blue-900/30 transition hover:scale-105 sm:right-6 ${postulante ? 'bottom-24 lg:bottom-6' : 'bottom-6'} ${abierto ? 'hidden sm:block' : ''}`}
       >
         <span className={`block ${!abierto ? 'lucia-flota' : ''}`}>
-          <AvatarLucia className="h-16 w-16" saludando={!abierto} />
+          <AvatarLucia className="h-16 w-16 ring-[3px] ring-white" saludando={!abierto} />
         </span>
         {!abierto && urgentes > 0 && (
           <span className="absolute -right-0.5 -top-0.5 grid h-6 min-w-6 place-items-center rounded-full bg-red-600 px-1.5 text-xs font-bold text-white ring-2 ring-white">{urgentes}</span>
@@ -315,19 +331,19 @@ export function ChatLucia() {
 function Burbuja({ de, hora, etiqueta, children }: { de: 'lucia' | 'usuario' | 'gestor'; hora?: string; etiqueta?: string; children: React.ReactNode }) {
   if (de === 'usuario') {
     return (
-      <div className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-marca px-3.5 py-2 text-sm text-white shadow-sm">
+      <div className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-gradient-to-br from-blue-500 to-marca px-4 py-2.5 text-sm text-white shadow-md shadow-blue-200">
         {children}
-        {hora && <span className="ml-2 align-bottom text-[10px] text-blue-100">{hora}</span>}
+        {hora && <span className="mt-0.5 flex items-center justify-end gap-1 text-[10px] text-blue-100">{hora}<Icono nombre="check" /></span>}
       </div>
     );
   }
   return (
     <div className="flex items-end gap-2">
-      {de === 'lucia' ? <AvatarLucia className="h-7 w-7 shrink-0" /> : <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-emerald-600 text-white"><Icono nombre="person" className="text-sm" /></span>}
-      <div className={`max-w-[85%] rounded-2xl rounded-bl-md px-3.5 py-2.5 text-sm shadow-sm ${de === 'gestor' ? 'bg-emerald-50 text-emerald-950 ring-1 ring-emerald-200' : 'bg-white text-slate-800'}`}>
+      {de === 'lucia' ? <AvatarLucia className="h-9 w-9 ring-2 ring-white shadow" /> : <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-emerald-600 text-white"><Icono nombre="person" className="text-sm" /></span>}
+      <div className={`max-w-[82%] rounded-2xl rounded-bl-md px-4 py-3 text-sm leading-relaxed shadow-sm ring-1 ring-slate-100 ${de === 'gestor' ? 'bg-emerald-50 text-emerald-950 ring-1 ring-emerald-200' : 'bg-white text-slate-800'}`}>
         {children}
         {(etiqueta || hora) && (
-          <p className="mt-1.5 flex flex-wrap items-center gap-x-2 text-[10px] text-slate-500">
+          <p className="mt-1.5 flex flex-wrap items-center justify-between gap-x-2 text-[10px] text-slate-500">
             {etiqueta && <span className="font-semibold text-marca">{etiqueta}</span>}
             {hora && <span>{hora}</span>}
           </p>

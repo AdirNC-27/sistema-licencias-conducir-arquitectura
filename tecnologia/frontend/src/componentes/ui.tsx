@@ -28,16 +28,73 @@ export function Icono({ nombre, className = '' }: { nombre: string; className?: 
   return <Svg width="1em" height="1em" aria-hidden className={`inline-block shrink-0 ${className}`} />;
 }
 
-export function Encabezado({ titulo, subtitulo, accion }: { titulo: string; subtitulo?: string; accion?: ReactNode }) {
+/** Ícono en un recuadro de color: encabezados, indicadores y tarjetas. */
+export function Mosaico({ icono, color = 'azul', className = 'h-12 w-12 text-2xl' }: { icono: string; color?: ColorMosaico; className?: string }) {
+  return <span className={`grid shrink-0 place-items-center rounded-2xl ${MOSAICOS[color]} ${className}`}><Icono nombre={icono} /></span>;
+}
+
+export type ColorMosaico = keyof typeof MOSAICOS;
+const MOSAICOS = {
+  azul: 'bg-gradient-to-br from-blue-500 to-marca-oscuro text-white shadow-md shadow-blue-200',
+  verde: 'bg-emerald-100 text-emerald-700',
+  ambar: 'bg-amber-100 text-amber-700',
+  rojo: 'bg-red-100 text-red-600',
+  violeta: 'bg-violet-100 text-violet-700',
+  naranja: 'bg-acento-claro text-acento-fuerte',
+  celeste: 'bg-marca-claro text-marca',
+  gris: 'bg-slate-100 text-slate-500',
+};
+
+export function Encabezado({ titulo, subtitulo, accion, icono }: { titulo: string; subtitulo?: string; accion?: ReactNode; icono?: string }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="titulo">{titulo}</h1>
-        {subtitulo && <p className="subtitulo">{subtitulo}</p>}
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-4">
+        {icono && <Mosaico icono={icono} className="h-14 w-14 text-[1.7rem]" />}
+        <div className="min-w-0">
+          <h1 className="titulo">{titulo}</h1>
+          {subtitulo && <p className="subtitulo">{subtitulo}</p>}
+        </div>
       </div>
       {accion}
     </div>
   );
+}
+
+/** Indicador grande: número, etiqueta e ícono (estadísticas de cada pantalla). */
+export function Indicador({ valor, etiqueta, icono, color = 'celeste' }: { valor: ReactNode; etiqueta: string; icono: string; color?: ColorMosaico }) {
+  return (
+    <div className="tarjeta flex items-center gap-4 p-4">
+      <Mosaico icono={icono} color={color} />
+      <div className="min-w-0">
+        <p className="text-2xl font-extrabold leading-none text-marca-oscuro">{valor}</p>
+        <p className="mt-1 text-sm text-slate-500">{etiqueta}</p>
+      </div>
+    </div>
+  );
+}
+
+/** Pestañas de filtro con contador. */
+export function Pestanas<T extends string>({ opciones, valor, alCambiar }: { opciones: { clave: T; nombre: string; cantidad?: number }[]; valor: T; alCambiar: (v: T) => void }) {
+  return (
+    <div role="tablist" className="flex flex-wrap gap-1 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-slate-200/70">
+      {opciones.map((o) => {
+        const activa = o.clave === valor;
+        return (
+          <button key={o.clave} role="tab" aria-selected={activa} onClick={() => alCambiar(o.clave)}
+            className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition ${activa ? 'bg-marca text-white shadow' : 'text-slate-600 hover:bg-fondo'}`}>
+            {o.nombre}
+            {o.cantidad !== undefined && <span className={`rounded-full px-2 py-0.5 text-xs ${activa ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>{o.cantidad}</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Círculo con las iniciales de una persona. */
+export function Avatar({ nombre, className = 'h-9 w-9 text-xs' }: { nombre?: string; className?: string }) {
+  const iniciales = (nombre ?? '').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
+  return <span aria-hidden className={`grid shrink-0 place-items-center rounded-full bg-marca-claro font-bold text-marca ring-2 ring-white ${className}`}>{iniciales || <Icono nombre="person" />}</span>;
 }
 
 export function Aviso({ tipo = 'info', children }: { tipo?: 'info' | 'error' | 'ok' | 'alerta'; children: ReactNode }) {

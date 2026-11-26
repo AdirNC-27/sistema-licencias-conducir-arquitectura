@@ -22,7 +22,7 @@ export function Resultados() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Mis resultados" subtitulo="Solo se muestran los resultados validados por el supervisor" />
+      <Encabezado icono="fact_check" titulo="Mis resultados" subtitulo="Solo se muestran los resultados validados por el supervisor" />
       {expediente.etapa === 'EMITIDA' && (
         <Aviso tipo="ok">
           ¡Tu licencia fue emitida! Acércate a la Subgerencia de Tránsito para recogerla.

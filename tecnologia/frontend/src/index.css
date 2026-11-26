@@ -21,7 +21,7 @@
 
 /* Lucía, la asistente virtual */
 .lucia-fondo {
-  background-color: #eef2f9;
+  background-color: #f3f6fc;
   background-image: radial-gradient(rgba(30, 79, 216, 0.07) 1px, transparent 1px);
   background-size: 14px 14px;
 }
@@ -31,8 +31,25 @@
 @keyframes lucia-entrada { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
 .lucia-flota { animation: lucia-flota 3s ease-in-out infinite; }
 @keyframes lucia-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes lucia-saludo-img { 0%, 70%, 100% { transform: rotate(0deg); } 78% { transform: rotate(-7deg); } 86% { transform: rotate(5deg); } 93% { transform: rotate(-3deg); } }
+.lucia-saludo-img { animation: lucia-saludo-img 3.2s ease-in-out infinite; }
 .lucia-saludo { animation: lucia-saludo 2.4s ease-in-out infinite; }
 @keyframes lucia-saludo { 0%, 60%, 100% { transform: rotate(0deg); } 10%, 30% { transform: rotate(-18deg); } 20%, 40% { transform: rotate(10deg); } }
 @media (prefers-reduced-motion: reduce) {
-  .lucia-punto, .lucia-entrada, .lucia-flota, .lucia-saludo { animation: none; }
+  .lucia-punto, .lucia-entrada, .lucia-flota, @keyframes lucia-saludo-img { 0%, 70%, 100% { transform: rotate(0deg); } 78% { transform: rotate(-7deg); } 86% { transform: rotate(5deg); } 93% { transform: rotate(-3deg); } }
+.lucia-saludo-img { animation: lucia-saludo-img 3.2s ease-in-out infinite; }
+.lucia-saludo { animation: none; }
+}
+
+/* Portada del login: la imagen se funde con el fondo azul por arriba y por los lados */
+.portada-mascara {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-composite: intersect;
+}
+
+/* Chat de Lucía abierto: en laptop y escritorio el contenido deja libre la columna del chat. */
+@media (min-width: 1280px) {
+  body.lucia-abierta main { padding-right: 26rem; max-width: none; transition: padding 0.2s ease; }
 }

@@ -3,6 +3,8 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { NOMBRE_ROL } from '../api/textos';
 import type { Rol } from '../api/tipos';
 import { useSesion } from '../sesion/sesion';
+import fondoContenido from '../assets/fondo-contenido.webp';
+import fondoMenu from '../assets/fondo-menu.webp';
 import { ChatLucia } from './lucia/ChatLucia';
 import { Icono } from './ui';
 
@@ -53,18 +55,19 @@ export function Layout() {
     navegar('/login');
   };
   const enlace = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${isActive ? 'bg-white/15 text-white' : 'text-blue-100 hover:bg-white/10'}`;
+    `flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-950/40 ring-1 ring-white/20' : 'text-blue-50 hover:bg-white/10'}`;
 
   return (
-    <div className="min-h-screen lg:pl-64">
+    <div className="relative min-h-screen lg:pl-64">
+      {/* Fondo del contenido: la Catedral de Huamanga, suave para no competir con el texto */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 bg-fondo bg-[length:100%_auto] bg-top bg-no-repeat [mask-image:linear-gradient(to_bottom,black_40%,transparent_72%)] lg:left-64" style={{ backgroundImage: `url(${fondoContenido})` }} />
       {/* Menú lateral: siempre visible en laptop; en celular se abre con ☰ (personal) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-gradient-to-b from-marca-oscuro to-marca p-4 text-white transition-transform lg:translate-x-0 ${abierto ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[#0a2a8c] bg-cover bg-bottom p-4 text-white transition-transform lg:translate-x-0 ${abierto ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundImage: `url(${fondoMenu})` }}
       >
         <div className="mb-8 flex items-center gap-3 px-1">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/15">
-            <Icono nombre="account_balance" />
-          </div>
+          <img src="/escudo-huamanga.png" alt="Escudo de Huamanga" className="h-12 w-auto drop-shadow" />
           <div className="leading-tight">
             <p className="text-xs font-semibold uppercase tracking-wider text-blue-200">MPH Huamanga</p>
             <p className="font-bold">Licencias Clase B</p>
@@ -78,9 +81,14 @@ export function Layout() {
             </NavLink>
           ))}
         </nav>
-        <div className="rounded-xl bg-white/10 p-3 text-sm">
-          <p className="truncate font-semibold">{usuario.nombre}</p>
-          <p className="text-xs text-blue-200">{NOMBRE_ROL[usuario.rol]}</p>
+        <div className="rounded-2xl bg-white/10 p-3 text-sm ring-1 ring-white/15 backdrop-blur-sm">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/20"><Icono nombre="person" className="text-lg" /></span>
+            <div className="min-w-0">
+              <p className="truncate font-semibold">{usuario.nombre}</p>
+              <p className="text-xs text-blue-200">{NOMBRE_ROL[usuario.rol]}</p>
+            </div>
+          </div>
           <button onClick={cerrar} className="mt-3 flex items-center gap-2 text-xs font-semibold text-orange-200 hover:text-white">
             <Icono nombre="logout" className="text-base" /> Cerrar sesión
           </button>
@@ -94,6 +102,7 @@ export function Layout() {
             <Icono nombre="menu" />
           </button>
         )}
+        <img src="/escudo-huamanga.png" alt="" className="h-9 w-auto" />
         <div className="min-w-0 flex-1 leading-tight">
           <p className="text-xs font-semibold uppercase tracking-wide text-marca">MPH Huamanga · Clase B</p>
           <p className="truncate text-sm font-bold text-marca-oscuro">{usuario.nombre}</p>
@@ -103,7 +112,7 @@ export function Layout() {
         </button>
       </header>
 
-      <main className={`mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-10 ${esPostulante ? 'pb-28 lg:pb-10' : ''}`}>
+      <main className={`relative mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-10 ${esPostulante ? 'pb-28 lg:pb-10' : ''}`}>
         <Outlet />
       </main>
 
