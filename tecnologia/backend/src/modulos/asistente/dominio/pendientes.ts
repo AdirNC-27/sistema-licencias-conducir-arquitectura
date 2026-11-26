@@ -230,7 +230,7 @@ export function recordatoriosDelPostulante(d: DatosPostulante | null, hoy = new 
     const plazo = calcularPlazo(d.creadoEn, hoy);
     if (plazo.vencido) agregar('PLAZO', `Tu trámite ${d.numero} superó los ${PLAZO_DIAS_HABILES} días hábiles del plazo legal.`, '/postulante');
   }
-  if (d.respuestasNuevas > 0) agregar('RESPUESTAS', `El gestor respondió ${d.respuestasNuevas === 1 ? 'una de tus consultas' : `${d.respuestasNuevas} de tus consultas`}.`, '/postulante/asistente');
+  if (d.respuestasNuevas > 0) agregar('RESPUESTAS', `El gestor respondió ${d.respuestasNuevas === 1 ? 'una de tus consultas' : `${d.respuestasNuevas} de tus consultas`}.`, '/postulante?chat=abierto');
 
   return r.sort((a, b) => Number(b.urgente) - Number(a.urgente));
 }

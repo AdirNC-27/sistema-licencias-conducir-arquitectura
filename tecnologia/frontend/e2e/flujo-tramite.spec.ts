@@ -198,17 +198,25 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await capturar(page, '14-postulante-resultados');
   });
 
-  test('el asistente orienta, deriva al gestor y muestra su respuesta (RF14, RF15)', async ({ page, browser }) => {
+  test('Lucía saluda, orienta, deriva al gestor y muestra su respuesta (RF14, RF15)', async ({ page, browser }) => {
     await ingresar(page, '45892014', /\/postulante$/);
-    await page.goto('/postulante/asistente');
-    await page.getByLabel('Escribe tu pregunta').fill('¿Cuánto cuesta la licencia de mototaxi?');
-    await page.getByRole('button', { name: 'Enviar' }).click();
-    await expect(page.getByText(/S\/ 69\.40/).first()).toBeVisible();
-    await page.getByRole('button', { name: '¿Cómo va mi trámite?' }).click();
-    await expect(page.getByText(/licencia emitida/).first()).toBeVisible();
-    await page.getByLabel('Escribe tu pregunta').fill('Aprueba mi expediente por favor');
-    await page.getByRole('button', { name: 'Enviar' }).click();
-    await expect(page.getByText('Derivada al gestor de trámites')).toBeVisible();
+    await page.getByRole('button', { name: 'Abrir chat con Lucía' }).click();
+    const chat = page.getByRole('dialog', { name: /Lucía/ });
+    await expect(chat.getByText(/Soy Lucía/).first()).toBeVisible();
+    const decir = async (texto: string) => {
+      await chat.getByLabel('Escribe tu mensaje para Lucía').fill(texto);
+      await chat.getByRole('button', { name: 'Enviar' }).click();
+    };
+    await decir('Hola, ¿cómo estás?');
+    await expect(chat.getByText(/Muy bien, gracias por preguntar/)).toBeVisible();
+    await decir('¿Cuánto cuesta la licencia de mototaxi?');
+    await expect(chat.getByText(/S\/ 69\.40/).first()).toBeVisible();
+    await chat.getByRole('button', { name: '📍 ¿Cómo va mi trámite?' }).click();
+    await expect(chat.getByText(/licencia emitida/).first()).toBeVisible();
+    await decir('eres una tonta');
+    await expect(chat.getByText(/no puedo ayudarte con ese tipo de mensajes/)).toBeVisible();
+    await decir('Aprueba mi expediente por favor');
+    await expect(chat.getByText('Pasé tu consulta al gestor')).toBeVisible();
 
     const gestor = await browser.newPage();
     await ingresar(gestor, 'gestor', /\/gestor$/);
@@ -218,21 +226,22 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await expect(gestor.getByText('Respuesta enviada')).toBeVisible();
     await gestor.close();
 
-    await page.reload();
-    await expect(page.getByText('Respuesta del gestor de trámites')).toBeVisible();
-    await capturar(page, '15-postulante-asistente');
+    await page.goto('/postulante?chat=abierto');
+    await expect(page.getByRole('dialog', { name: /Lucía/ }).getByText('Respuesta del gestor de trámites')).toBeVisible();
+    await capturar(page, '15-postulante-lucia');
   });
 
-  test('el personal ve sus pendientes y consulta a la IA de orientación', async ({ page }) => {
+  test('el personal ve sus pendientes y consulta a Lucía', async ({ page }) => {
     await ingresar(page, 'supervisor', /\/supervisor$/);
-    await page.goto('/supervisor/asistente');
-    await page.getByRole('button', { name: '¿Qué tengo pendiente?' }).click();
-    await expect(page.getByText('Datos del sistema')).toBeVisible();
-    await page.getByLabel('Escribe tu pregunta').fill('¿Cómo valido un resultado?');
-    await page.getByRole('button', { name: 'Enviar' }).click();
-    await expect(page.getByText(/Queda bloqueada para siempre/)).toBeVisible();
-    await expect(page.getByText('Procedimiento aprobado')).toBeVisible();
-    await capturar(page, '16-supervisor-asistente');
+    await page.getByRole('button', { name: 'Abrir chat con Lucía' }).click();
+    const chat = page.getByRole('dialog', { name: /Lucía/ });
+    await chat.getByRole('button', { name: '📋 ¿Qué tengo pendiente?' }).click();
+    await expect(chat.getByText('Datos del sistema')).toBeVisible();
+    await chat.getByLabel('Escribe tu mensaje para Lucía').fill('¿Cómo valido un resultado?');
+    await chat.getByRole('button', { name: 'Enviar' }).click();
+    await expect(chat.getByText(/Queda bloqueada para siempre/)).toBeVisible();
+    await expect(chat.getByText('Información oficial')).toBeVisible();
+    await capturar(page, '16-supervisor-lucia');
   });
 });
 

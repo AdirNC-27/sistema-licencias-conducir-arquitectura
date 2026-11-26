@@ -3,7 +3,7 @@ import {
   ArrowLeft, ArrowRight, BadgeCheck, Bell, CalendarCheck, CalendarDays, CalendarRange, CalendarX, Check, ChevronRight,
   CircleCheck, CircleCheckBig, ClipboardCheck, ClipboardList, ExternalLink, Eye, FilePlus, FileText, FolderOpen, History,
   IdCard, Inbox, Landmark, Lock, LogOut, Mail, MapPin, Menu, Pointer, Receipt, SquarePen, Upload, UserPlus, Users,
-  Wallet, House, Bot, MessageCircleQuestionMark, Send, ShieldCheck, BookOpen, Undo2, ListTodo, TriangleAlert, type LucideIcon,
+  Wallet, House, Bot, MessageCircleQuestionMark, Send, ShieldCheck, BookOpen, Undo2, ListTodo, TriangleAlert, X, UserRound, type LucideIcon,
 } from 'lucide-react';
 
 type Svg = (p: SVGProps<SVGSVGElement>) => React.JSX.Element;
@@ -27,5 +27,5 @@ export const ICONOS: Record<string, LucideIcon | Svg> = {
   chevron_right: ChevronRight, check_circle: CircleCheck, check: Check, arrow_forward: ArrowRight,
   arrow_back: ArrowLeft, touch_app: Pointer, task_alt: CircleCheckBig, receipt_long: Receipt,
   folder_open: FolderOpen, assignment_add: FilePlus, two_wheeler: Moto, electric_rickshaw: Mototaxi,
-  smart_toy: Bot, forum: MessageCircleQuestionMark, send: Send, shield: ShieldCheck, menu_book: BookOpen, undo: Undo2, pendientes: ListTodo, alerta: TriangleAlert,
+  smart_toy: Bot, forum: MessageCircleQuestionMark, send: Send, shield: ShieldCheck, menu_book: BookOpen, undo: Undo2, pendientes: ListTodo, alerta: TriangleAlert, close: X, person: UserRound,
 };

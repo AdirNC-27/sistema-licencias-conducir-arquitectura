@@ -261,6 +261,15 @@ describe('Asistente del personal y pendientes (casos de uso)', () => {
     await expect(crear().preguntar(gestor, 'a')).rejects.toThrow(ReglaNegocioError);
   });
 
+  it('Lucía saluda al personal por su nombre y no consulta a la IA para la charla', async () => {
+    const ia = new IAFalsa();
+    const r = await crear(ia).preguntar(usuario(Rol.GESTOR, { nombre: 'MARÍA ELENA' }), 'Hola');
+    expect(r).toEqual(expect.objectContaining({ origen: OrigenRespuesta.CONVERSACION, respuesta: expect.stringMatching(/^¡Hola, María! Soy Lucía/) }));
+    expect(ia.recibido).toBeNull();
+    const conPregunta = await crear().preguntar(gestor, 'Hola, ¿cómo verifico un pago?');
+    expect(conPregunta.respuesta).toMatch(/^¡Hola! Compara el número de operación/);
+  });
+
   it('el postulante que pregunta por su trámite recibe además sus recordatorios urgentes', async () => {
     const consultas: RepositorioConsultas = {
       registrar: async (d) => new ConsultaAsistente(1, d.postulanteId, d.pregunta, d.respuesta, d.origen, d.fuentes, HOY),
@@ -276,5 +285,11 @@ describe('Asistente del personal y pendientes (casos de uso)', () => {
     // y nunca responde con procedimientos internos
     const interno = await caso.preguntar(usuario(Rol.POSTULANTE, { postulanteId: 10 }), '¿Cómo registro el número de licencia para el SNC?');
     expect(interno.fuentes.every((id) => id < 100)).toBe(true);
+    // la charla se guarda en su conversación, sin derivarse al gestor
+    const ofensa = await caso.preguntar(usuario(Rol.POSTULANTE, { postulanteId: 10, nombre: 'JUAN' }), 'eres una inútil');
+    expect(ofensa).toEqual(expect.objectContaining({ origen: OrigenRespuesta.CONVERSACION, derivada: false }));
+    const saludo = await caso.preguntar(usuario(Rol.POSTULANTE, { postulanteId: 10, nombre: 'JUAN' }), 'Hola, ¿cómo va mi trámite?');
+    expect(saludo.respuesta).toMatch(/^¡Hola, Juan! /);
+    expect(saludo.origen).toBe(OrigenRespuesta.ESTADO);
   });
 });

@@ -18,6 +18,6 @@ export class CifradorBcrypt implements CifradorClaves {
 export class EmisorTokensJwt implements EmisorTokens {
   constructor(private readonly jwt: JwtService) {}
   emitir(usuario: Usuario): string {
-    return this.jwt.sign({ sub: usuario.id, usuario: usuario.usuario, rol: usuario.rol, postulanteId: usuario.postulanteId });
+    return this.jwt.sign({ sub: usuario.id, usuario: usuario.usuario, rol: usuario.rol, postulanteId: usuario.postulanteId, nombre: usuario.nombre });
   }
 }

@@ -295,6 +295,16 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
       expect((await http.get('/api/asistente/contenidos').set(auth('gestor')).expect(200)).body.length).toBeGreaterThan(25);
     });
 
+    it('Lucía responde la charla sin derivarla y saluda por el nombre', async () => {
+      const hola = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: 'Hola' }).expect(201);
+      expect(hola.body).toMatchObject({ origen: 'CONVERSACION', derivada: false });
+      expect(hola.body.respuesta).toMatch(/^¡Hola, Juan! Soy Lucía/);
+      const ofensa = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: 'eres una idiota' }).expect(201);
+      expect(ofensa.body.respuesta).toMatch(/^Lo siento/);
+      const conPregunta = await http.post('/api/asistente/consultas').set(auth('45892014')).send({ pregunta: 'Hola, ¿cuánto cuesta la licencia de mototaxi?' }).expect(201);
+      expect(conPregunta.body.respuesta).toMatch(/^¡Hola, Juan! .*69\.40/);
+    });
+
     it('cada rol ve sus pendientes; el postulante, sus recordatorios', async () => {
       await http.get('/api/asistente/pendientes').expect(401);
       const gestor = await http.get('/api/asistente/pendientes').set(auth('gestor')).expect(200);

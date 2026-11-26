@@ -8,6 +8,8 @@ export enum OrigenRespuesta {
   CONTENIDO = 'CONTENIDO',
   /** Datos del expediente del propio postulante. */
   ESTADO = 'ESTADO',
+  /** Saludo, agradecimiento o mensaje fuera de lugar: Lucía responde sin consultar contenido ni derivar. */
+  CONVERSACION = 'CONVERSACION',
   /** Sin respuesta confiable o pedido de acción: la contesta el gestor (RF15). */
   DERIVADA = 'DERIVADA',
 }
@@ -50,7 +52,7 @@ export class ConsultaAsistente {
   }
 }
 
-export const LONGITUD_PREGUNTA = { minimo: 3, maximo: 300 };
+export const LONGITUD_PREGUNTA = { minimo: 2, maximo: 300 };
 
 export const MENSAJE_ACCION =
   'Solo puedo orientarte: no apruebo, registro ni modifico nada en tu trámite. Derivé tu consulta al gestor de trámites, que te responderá en este chat.';

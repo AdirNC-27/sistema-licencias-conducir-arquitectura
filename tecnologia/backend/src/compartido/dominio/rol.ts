@@ -12,6 +12,8 @@ export interface UsuarioActual {
   usuario: string;
   rol: Rol;
   postulanteId: number | null;
+  /** Nombre para mostrar (lo usa la asistente para saludar). */
+  nombre?: string;
 }
 
 export const ROLES_PERSONAL = [Rol.GESTOR, Rol.EVALUADOR, Rol.SUPERVISOR, Rol.ADMINISTRADOR];

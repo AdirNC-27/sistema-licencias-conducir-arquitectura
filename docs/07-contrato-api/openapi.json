@@ -4103,6 +4103,11 @@
             "type": "number",
             "nullable": true,
             "example": 1
+          },
+          "nombre": {
+            "type": "string",
+            "example": "JUAN CARLOS QUISPE MENDOZA",
+            "description": "Nombre para mostrar (tokens emitidos desde el sprint 2)"
           }
         },
         "required": [
@@ -5574,6 +5579,7 @@
           "IA",
           "CONTENIDO",
           "ESTADO",
+          "CONVERSACION",
           "DERIVADA"
         ],
         "description": "ESTADO: pendientes calculados; IA o CONTENIDO: procedimiento aprobado; DERIVADA: sin contenido aprobado"

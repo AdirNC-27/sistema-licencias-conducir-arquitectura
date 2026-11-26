@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { NOMBRE_ROL } from '../api/textos';
 import type { Rol } from '../api/tipos';
 import { useSesion } from '../sesion/sesion';
+import { ChatLucia } from './lucia/ChatLucia';
 import { Icono } from './ui';
 
 interface Opcion {
@@ -21,29 +22,22 @@ export const MENU: Record<Rol, Opcion[]> = {
     { ruta: '/postulante/cita', texto: 'Elegir cita', icono: 'event', movil: true },
     { ruta: '/postulante/resultados', texto: 'Mis resultados', icono: 'fact_check' },
     { ruta: '/postulante/avisos', texto: 'Avisos', icono: 'notifications', movil: true },
-    { ruta: '/postulante/asistente', texto: 'Asistente', icono: 'smart_toy', movil: true },
   ],
   GESTOR: [
     { ruta: '/gestor', texto: 'Bandeja de expedientes', icono: 'inbox' },
     { ruta: '/gestor/consultas', texto: 'Consultas del asistente', icono: 'forum' },
-    { ruta: '/gestor/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
-  EVALUADOR: [
-    { ruta: '/evaluador', texto: 'Exámenes por calificar', icono: 'quiz' },
-    { ruta: '/evaluador/asistente', texto: 'Asistente', icono: 'smart_toy' },
-  ],
+  EVALUADOR: [{ ruta: '/evaluador', texto: 'Exámenes por calificar', icono: 'quiz' }],
   SUPERVISOR: [
     { ruta: '/supervisor', texto: 'Resultados por validar', icono: 'verified' },
     { ruta: '/supervisor/emision', texto: 'Autorizar emisión', icono: 'badge' },
     { ruta: '/supervisor/auditoria', texto: 'Auditoría', icono: 'history' },
-    { ruta: '/supervisor/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
   ADMINISTRADOR: [
     { ruta: '/admin', texto: 'Usuarios y roles', icono: 'group' },
     { ruta: '/admin/cupos', texto: 'Días y cupos', icono: 'calendar_month' },
     { ruta: '/admin/contenidos', texto: 'Contenido del asistente', icono: 'menu_book' },
     { ruta: '/admin/auditoria', texto: 'Auditoría', icono: 'history' },
-    { ruta: '/admin/asistente', texto: 'Asistente', icono: 'smart_toy' },
   ],
 };
 
@@ -115,7 +109,7 @@ export function Layout() {
 
       {/* Barra inferior tipo app para el postulante en celular */}
       {esPostulante && (
-        <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-slate-200 bg-white/95 backdrop-blur lg:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-slate-200 bg-white/95 backdrop-blur lg:hidden">
           {opciones.filter((o) => o.movil).map((o) => (
             <NavLink key={o.ruta} to={o.ruta} end className={({ isActive }) => `flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-semibold ${isActive ? 'text-marca' : 'text-slate-500'}`}>
               <Icono nombre={o.icono} className="text-2xl" />
@@ -124,6 +118,8 @@ export function Layout() {
           ))}
         </nav>
       )}
+
+      <ChatLucia />
     </div>
   );
 }

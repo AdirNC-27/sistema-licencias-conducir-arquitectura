@@ -1,4 +1,4 @@
-# SDD-13 · Asistente virtual con la IA de orientación
+# SDD-13 · Asistente virtual con la IA de orientación (Lucía)
 
 | Requisitos | Relación con la arquitectura | Estado |
 |---|---|---|
@@ -9,6 +9,12 @@
 Como **postulante** quiero preguntarle al asistente sobre requisitos, pagos, citas, exámenes y el estado de mi trámite, y recibir una respuesta confiable o la respuesta del gestor si el asistente no sabe (HU11). Como **administrador** quiero mantener el contenido aprobado que usa el asistente (HU25).
 
 Como **gestor, evaluador, supervisor o administrador** quiero ver al entrar lo que tengo pendiente y lo que está por vencer, y preguntar cómo se hace cada paso, para no olvidar tareas que bloquean a otros.
+
+## Lucía
+
+La IA de orientación se presenta como **Lucía**, un chat flotante en la esquina inferior derecha de todas las pantallas, para todos los roles. Al abrirse saluda por el nombre, muestra cuántos pendientes hay y ofrece opciones rápidas según el rol (requisitos II-B y II-C, costo, lugar de pago, cita, exámenes, estado del trámite; en el personal, sus procedimientos).
+
+Antes de buscar contenido, Lucía atiende la charla con frases fijas, sin IA: saludos, «¿cómo estás?», gracias, despedidas, «¿quién eres?» y «ayuda». A un mensaje ofensivo o sin sentido responde con un límite amable y lo que sí puede hacer; no lo deriva al gestor. Si el mensaje empieza con un saludo y trae una pregunta («Hola, ¿cuánto cuesta?»), responde la pregunta y antepone el saludo.
 
 ## Cómo decide el asistente
 
@@ -47,6 +53,7 @@ El asistente del personal responde «¿qué tengo pendiente?» con esa lista y l
 | CA8 | Pendientes | el gestor tiene pagos por verificar | entra a su bandeja o pregunta qué tiene pendiente | ve «N pagos por verificar en el SAT» con enlace a la bandeja |
 | CA9 | Recordatorio | el certificado del postulante vence en 30 días o menos | entra al portal | ve la fecha de vencimiento como urgente |
 | CA10 | Procedimiento | el personal pregunta cómo hacer un paso | envía la pregunta | responde con el contenido aprobado para el personal y no ejecuta nada |
+| CA11 | Charla | el usuario saluda, agradece o escribe algo ofensivo o sin sentido | envía el mensaje | Lucía responde con una frase fija (origen CONVERSACION) y no lo deriva |
 
 ## Tareas técnicas
 
@@ -74,6 +81,6 @@ El asistente del personal responde «¿qué tengo pendiente?» con esa lista y l
 
 ## Pruebas que lo comprueban
 
-- `modulos/asistente/__tests__/asistente.spec.ts`, `pendientes.spec.ts` y `adaptador-ia-gemini.spec.ts`
+- `modulos/asistente/__tests__/asistente.spec.ts`, `pendientes.spec.ts`, `conversacion.spec.ts` y `adaptador-ia-gemini.spec.ts`
 - `test/flujo-tramite.e2e-spec.ts` (respuesta, estado, derivación, contenido, pendientes y asistente del personal)
 - promptfoo (EQ-08): `tecnologia/pruebas-calidad/promptfoo`
