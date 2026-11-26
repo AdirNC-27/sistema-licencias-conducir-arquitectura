@@ -48,7 +48,7 @@ export function Cita() {
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="tarjeta lg:col-span-2">
           {!puedeReservar ? (
-            <Vacio titulo="Aún no puedes reservar" texto="La cita se habilita cuando el gestor verifica tu pago." icono="event_busy" />
+            <ComoSonLosExamenes etapa={expediente?.etapa} />
           ) : yaReservada ? (
             <Vacio titulo="Ya tienes tu cita" texto="Revisa la fecha en el panel de la derecha." icono="event_available" />
           ) : cupos.cargando ? <Cargando /> : !Object.keys(porDia).length ? (
@@ -84,13 +84,53 @@ export function Cita() {
                 <li key={c.id} className="rounded-xl bg-fondo p-3">
                   <Chip color="azul">{c.tipo === 'MANEJO' ? 'Manejo' : 'Conocimientos'}</Chip>
                   <p className="mt-2 font-semibold capitalize">{fecha(c.fecha)}</p>
-                  <p className="text-sm text-slate-600">{c.hora.slice(0, 5)} · Circuito de manejo MPH</p>
+                  <p className="text-sm text-slate-600">{c.hora.slice(0, 5)} · {c.tipo === 'MANEJO' ? 'Circuito de manejo de la MPH' : 'Subgerencia de Tránsito, Av. 26 de Enero'}</p>
                 </li>
               ))}
             </ul>
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/** Vista previa mientras la reserva no está habilitada: qué exámenes hay, qué días y dónde. */
+function ComoSonLosExamenes({ etapa }: { etapa?: string }) {
+  const examenes = [
+    { icono: 'quiz', titulo: 'Examen de conocimientos', dias: [0, 1, 2], texto: 'Lunes a miércoles', lugar: 'Subgerencia de Tránsito y Seguridad Vial, Av. 26 de Enero', nota: 'Primero este. El examen lo proporciona el MTC.' },
+    { icono: 'two_wheeler', titulo: 'Examen de manejo', dias: [1, 2, 3, 4], texto: 'Martes a viernes', lugar: 'Circuito de manejo de la municipalidad', nota: 'Se habilita al aprobar el de conocimientos.' },
+  ];
+  const semana = ['L', 'M', 'M', 'J', 'V'];
+  return (
+    <div>
+      <div className="flex items-start gap-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200">
+        <Icono nombre="lock" className="mt-0.5 shrink-0 text-lg" />
+        <p><b>Aún no puedes reservar.</b> {etapa === 'DOCUMENTOS' ? 'Primero el gestor aprueba tus documentos, luego registras tu pago y, cuando lo verifique, eliges aquí tu cita.' : 'La cita se habilita cuando el gestor verifica tu pago.'}</p>
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {examenes.map((e, i) => (
+          <div key={e.titulo} className="rounded-2xl bg-white p-4 opacity-90 ring-1 ring-slate-200">
+            <p className="flex items-center gap-2 font-bold text-marca-oscuro">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-marca text-xs text-white">{i + 1}</span>
+              <Icono nombre={e.icono} className="text-lg text-marca" />{e.titulo}
+            </p>
+            <div className="mt-3 flex gap-1.5">
+              {semana.map((d, n) => (
+                <span key={n} aria-hidden="true" className={`grid h-8 w-8 place-items-center rounded-lg text-xs font-bold ${e.dias.includes(n) ? 'bg-marca-claro text-marca ring-1 ring-blue-200' : 'bg-slate-100 text-slate-400'}`}>{d}</span>
+              ))}
+            </div>
+            <p className="mt-2 text-sm font-semibold text-slate-700">{e.texto}</p>
+            <p className="mt-1 flex gap-1.5 text-sm text-slate-600"><Icono nombre="location_on" className="mt-0.5 shrink-0 text-marca" />{e.lugar}</p>
+            <p className="mt-1 text-xs text-slate-500">{e.nota}</p>
+          </div>
+        ))}
+      </div>
+      <ul className="mt-4 grid gap-2 text-sm text-slate-600 sm:grid-cols-3">
+        <li className="flex gap-2"><Icono nombre="check_circle" className="mt-0.5 shrink-0 text-emerald-600" />3 oportunidades por examen, sin pagar de nuevo</li>
+        <li className="flex gap-2"><Icono nombre="check_circle" className="mt-0.5 shrink-0 text-emerald-600" />Apruebas con 14 de 20</li>
+        <li className="flex gap-2"><Icono nombre="notifications" className="mt-0.5 shrink-0 text-marca" />Te recordamos tu cita por correo</li>
+      </ul>
     </div>
   );
 }

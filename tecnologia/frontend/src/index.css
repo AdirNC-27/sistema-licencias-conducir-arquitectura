@@ -36,9 +36,7 @@
 .lucia-saludo { animation: lucia-saludo 2.4s ease-in-out infinite; }
 @keyframes lucia-saludo { 0%, 60%, 100% { transform: rotate(0deg); } 10%, 30% { transform: rotate(-18deg); } 20%, 40% { transform: rotate(10deg); } }
 @media (prefers-reduced-motion: reduce) {
-  .lucia-punto, .lucia-entrada, .lucia-flota, @keyframes lucia-saludo-img { 0%, 70%, 100% { transform: rotate(0deg); } 78% { transform: rotate(-7deg); } 86% { transform: rotate(5deg); } 93% { transform: rotate(-3deg); } }
-.lucia-saludo-img { animation: lucia-saludo-img 3.2s ease-in-out infinite; }
-.lucia-saludo { animation: none; }
+  .lucia-punto, .lucia-entrada, .lucia-flota, .lucia-saludo, .lucia-saludo-img { animation: none; }
 }
 
 /* Portada del login: la imagen se funde con el fondo azul por arriba y por los lados */

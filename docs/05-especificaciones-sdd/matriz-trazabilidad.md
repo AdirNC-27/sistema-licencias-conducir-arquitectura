@@ -4,12 +4,12 @@
 
 | Dato | Valor |
 |---|---|
-| Commit evaluado | `60affa8 + rama evidencias-seguridad-usabilidad` |
+| Commit evaluado | `bf1b230 + rama cambio-categoria-guia-requisitos` |
 | Fecha de ejecución | 2026-11-26 |
-| Criterios de aceptación | 65 en 13 especificaciones |
-| Criterios con al menos una prueba ejecutada que pasa | **64 de 65** |
-| Pruebas unitarias (Jest) | 192 de 192 pasan |
-| Pruebas de la API con PostgreSQL (Jest + Supertest) | 43 de 43 pasan |
+| Criterios de aceptación | 66 en 13 especificaciones |
+| Criterios con al menos una prueba ejecutada que pasa | **65 de 66** |
+| Pruebas unitarias (Jest) | 194 de 194 pasan |
+| Pruebas de la API con PostgreSQL (Jest + Supertest) | 44 de 44 pasan |
 | Pruebas del portal (Playwright) | 21 de 21 pasan |
 
 Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · 📄 respaldado por una evidencia medida (k6, concurrencia, promptfoo), no por una prueba automática.
@@ -50,6 +50,7 @@ Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · �
 | CA4 | Plazo: muestra 5 días transcurridos y 5 restantes | `calcularPlazo / diasHabilesEntre` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «cuenta solo de lunes a viernes» ✅<br>Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «marca vencido después de 10 días hábiles» ✅ | ✅ Cumple |
 | CA5 | Privacidad: recibe 403 | `GET /expedientes/{id} · dueño o personal` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «el dueño y el personal pueden verlo; otro postulante no» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «privacidad: los intentos de escribir en un expediente ajeno se rechazan sin datos y no lo cambian (EQ-02)» ✅ | ✅ Cumple |
 | CA6 | Emisión: pasa a EMITIDA y queda en auditoría | `PATCH /expedientes/{id}/emision` | Jest `modulos/revision/__tests__/revision.spec.ts`: «no autoriza la emisión sin verificaciones; con todo conforme, autoriza y audita» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)» ✅ | ✅ Cumple |
+| CA7 | Corregir la categoría: cambia la categoría con el mismo número de expediente y queda en auditoría (`CAMBIAR_CATEGORIA`); en PAGO o después recibe 409, con la misma categoría 422 y otra persona recibe 403 | `PATCH /expedientes/{id}/categoria · Expediente.cambiarCategoria` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «el postulante cambia la categoría en DOCUMENTOS y queda auditado con su motivo» ✅<br>Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «no cambia la categoría fuera de DOCUMENTOS, a la misma categoría, ni para otro usuario» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «el postulante corrige la categoría mientras está en documentos; nadie más puede hacerlo» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)» ✅ | ✅ Cumple |
 
 ## [SDD-05 · Documentos del expediente](sdd-05-documentos.md)
 
@@ -103,7 +104,7 @@ Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · �
 | Criterio | Escenario y resultado esperado | Regla o endpoint | Pruebas | Resultado |
 |---|---|---|---|---|
 | CA1 | Registro: queda una fila con usuario, fecha, acción, valor anterior y nuevo | `GET /auditoria · REGISTRO_AUDITORIA` | Supertest `test/flujo-tramite.e2e-spec.ts`: «las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)» ✅ | ✅ Cumple |
-| CA2 | Las 16 operaciones: aparecen las 16 operaciones auditables (EQ-07): documentos, pago, resultados, etapas, verificaciones, observaciones, emisión, licencia, asistente y rol | `OPERACIONES_AUDITABLES (16)` | Supertest `test/flujo-tramite.e2e-spec.ts`: «las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)» ✅ | ✅ Cumple |
+| CA2 | Las 17 operaciones: aparecen las 17 operaciones auditables (EQ-07): documentos, pago, resultados, etapas, categoría, verificaciones, observaciones, emisión, licencia, asistente y rol | `OPERACIONES_AUDITABLES (17)` | Supertest `test/flujo-tramite.e2e-spec.ts`: «las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)» ✅ | ✅ Cumple |
 | CA3 | Solo lectura: solo existe `GET`; no hay endpoints para editar ni borrar | `GET /auditoria (solo lectura)` | Jest `configuracion/__tests__/contrato-openapi.spec.ts`: «la auditoría es de solo lectura: su único endpoint es GET /auditoria (SDD-10 CA3, RF17)» ✅ | ✅ Cumple |
 
 ## [SDD-11 · Verificación en el SNC y en el récord de sanciones](sdd-11-verificaciones-oficiales.md)

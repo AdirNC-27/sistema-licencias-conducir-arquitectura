@@ -91,8 +91,8 @@ describe('Matriz rol × operación (EQ-01)', () => {
 
   const soloError = (cuerpo: Record<string, unknown>) => Object.keys(cuerpo).every((c) => CAMPOS_ERROR.includes(c));
 
-  it('encuentra las 44 operaciones protegidas del contrato', () => {
-    expect(operaciones).toHaveLength(44);
+  it('encuentra las 45 operaciones protegidas del contrato', () => {
+    expect(operaciones).toHaveLength(45);
   });
 
   it('sin token y con un token falso, todas responden 401 sin datos', async () => {

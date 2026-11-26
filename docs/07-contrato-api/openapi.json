@@ -819,6 +819,112 @@
         ]
       }
     },
+    "/api/expedientes/{id}/categoria": {
+      "patch": {
+        "operationId": "ExpedientesController_cambiar",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambiarCategoriaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Expediente con la nueva categoría; el cambio queda en la auditoría con su motivo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpedienteRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos (ver \"detalles\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Falta el token, no es válido o expiró",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Solo el dueño del trámite puede cambiarla",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe el expediente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El trámite ya pasó la etapa de documentos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "El expediente ya es de esa categoría",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cambiar la categoría elegida (II-B o II-C) mientras el trámite está en documentos",
+        "tags": [
+          "Expedientes y seguimiento"
+        ]
+      }
+    },
     "/api/expedientes/{id}/documentos": {
       "post": {
         "description": "multipart/form-data con el campo archivo: PDF, JPG o PNG de hasta 2 MB.",
@@ -4519,6 +4625,29 @@
           "pagina",
           "tamano",
           "datos"
+        ]
+      },
+      "CambiarCategoriaDto": {
+        "type": "object",
+        "properties": {
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "II-B",
+              "II-C"
+            ],
+            "example": "II-B"
+          },
+          "motivo": {
+            "type": "string",
+            "example": "Me equivoqué: quiero la licencia para moto lineal",
+            "minLength": 10,
+            "maxLength": 250
+          }
+        },
+        "required": [
+          "categoria",
+          "motivo"
         ]
       },
       "TipoDocumento": {

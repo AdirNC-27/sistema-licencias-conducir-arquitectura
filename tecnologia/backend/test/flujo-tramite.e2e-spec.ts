@@ -105,6 +105,18 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     await http.post('/api/expedientes').set(auth('45892014')).send({ tipoTramite: 'EMISION', categoria: 'II-C' }).expect(409);
   });
 
+  it('el postulante corrige la categoría mientras está en documentos; nadie más puede hacerlo', async () => {
+    const ruta = `/api/expedientes/${expedienteId}/categoria`;
+    const a = await http.patch(ruta).set(auth('45892014')).send({ categoria: 'II-B', motivo: 'Elegí mototaxi por error' }).expect(200);
+    expect(a.body).toMatchObject({ categoria: 'II-B', etapa: 'DOCUMENTOS' });
+    await http.patch(ruta).set(auth('45892014')).send({ categoria: 'II-B', motivo: 'Repito el mismo cambio' }).expect(422);
+    await http.patch(ruta).set(auth('45892014')).send({ categoria: 'II-C', motivo: 'no' }).expect(400);
+    await http.patch(ruta).set(auth('ana')).send({ categoria: 'II-C', motivo: 'Intento cambiar un trámite ajeno' }).expect(403);
+    await http.patch(ruta).set(auth('gestor')).send({ categoria: 'II-C', motivo: 'El gestor intenta cambiarla' }).expect(403);
+    const b = await http.patch(ruta).set(auth('45892014')).send({ categoria: 'II-C', motivo: 'Al final sí será mototaxi' }).expect(200);
+    expect(b.body.categoria).toBe('II-C');
+  });
+
   it('privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)', async () => {
     for (let i = 0; i < 10; i++) {
       await http.get(`/api/expedientes/${expedienteId}`).set(auth('ana')).expect(403);
@@ -151,6 +163,8 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     }
     const exp = await http.get(`/api/expedientes/${expedienteId}`).set(auth('45892014')).expect(200);
     expect(exp.body.etapa).toBe('PAGO');
+    // Con los documentos aprobados la categoría ya no cambia (la tasa depende de ella)
+    await http.patch(`/api/expedientes/${expedienteId}/categoria`).set(auth('45892014')).send({ categoria: 'II-B', motivo: 'Intento cambiarla en la etapa de pago' }).expect(409);
   });
 
   it('registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06)', async () => {
@@ -368,7 +382,7 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
   it('las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)', async () => {
     const r = await http.get('/api/auditoria').set(auth('admin')).expect(200);
     const acciones = new Set(r.body.map((a: { accion: string }) => a.accion));
-    // Las 16 operaciones auditables (EQ-07): estas 15 en el trámite y CAMBIAR_ROL en la prueba siguiente
+    // Las 17 operaciones auditables (EQ-07): estas 16 en el trámite y CAMBIAR_ROL en la prueba siguiente
     for (const accion of [
       'APROBAR_DOCUMENTO',
       'OBSERVAR_DOCUMENTO',
@@ -377,6 +391,7 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
       'CORREGIR_RESULTADO',
       'VALIDAR_RESULTADO',
       'CAMBIAR_ETAPA',
+      'CAMBIAR_CATEGORIA',
       'AUTORIZAR_EMISION',
       'INTENTO_MODIFICAR_BLOQUEADO',
       'VERIFICAR_PORTAL_OFICIAL',

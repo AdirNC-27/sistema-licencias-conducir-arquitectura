@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EVENTOS, OperacionAuditable } from '../../../compartido/eventos/eventos';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { AccesoDenegadoError, ConflictoError, ReglaNegocioError } from '../../../compartido/dominio/errores';
 import { Rol, UsuarioActual } from '../../../compartido/dominio/rol';
@@ -69,5 +71,32 @@ export class ConsultarExpedienteUseCase {
   async bandeja(filtro: FiltroExpedientes) {
     const { total, datos } = await this.repositorio.listar(filtro);
     return { total, pagina: filtro.pagina, tamano: filtro.tamano, datos: datos.map((e) => aVista(e)) };
+  }
+}
+
+/** El postulante corrige la categoría (II-B o II-C) mientras su trámite está en DOCUMENTOS. Queda auditado con su motivo. */
+@Injectable()
+export class CambiarCategoriaUseCase {
+  constructor(
+    @Inject(REPOSITORIO_EXPEDIENTES) private readonly repositorio: RepositorioExpedientes,
+    private readonly eventos: EventEmitter2,
+  ) {}
+
+  async ejecutar(id: number, usuario: UsuarioActual, nueva: Categoria, motivo: string): Promise<ExpedienteVista> {
+    const expediente = await this.repositorio.buscarPorId(id);
+    expediente.verificarAcceso(usuario);
+    const anterior = expediente.cambiarCategoria(nueva, usuario);
+    await this.repositorio.guardarCategoria(expediente);
+    const auditoria: OperacionAuditable = {
+      usuarioId: usuario.id,
+      accion: 'CAMBIAR_CATEGORIA',
+      entidad: 'expediente',
+      entidadId: expediente.id,
+      valorAnterior: { categoria: anterior },
+      valorNuevo: { categoria: nueva },
+      motivo,
+    };
+    this.eventos.emit(EVENTOS.OPERACION_AUDITABLE, auditoria);
+    return aVista(expediente);
   }
 }

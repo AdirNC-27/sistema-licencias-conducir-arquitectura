@@ -1,8 +1,9 @@
+import { EVENTOS } from '../../../compartido/eventos/eventos';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { AccesoDenegadoError, ConflictoError, ReglaNegocioError } from '../../../compartido/dominio/errores';
 import { Rol } from '../../../compartido/dominio/rol';
 import { eventosFalsos, expediente, usuario } from '../../../test-utils/fakes';
-import { ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
+import { CambiarCategoriaUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
 import { ExpedientesFacade } from '../aplicacion/expedientes.facade';
 import { RepositorioExpedientes } from '../dominio/contratos';
 import { Etapa, ORDEN_ETAPAS, siguienteEtapa } from '../dominio/etapa';
@@ -74,6 +75,10 @@ class RepoEnMemoria implements RepositorioExpedientes {
     return this.datos.filter((e) => e.postulanteId === p);
   }
   async guardarEtapa() {}
+  guardadas: Categoria[] = [];
+  async guardarCategoria(e: Expediente) {
+    this.guardadas.push(e.categoria);
+  }
   async tieneTramiteActivo() {
     return this.activo;
   }
@@ -96,6 +101,27 @@ describe('Casos de uso de Expedientes', () => {
     await expect(caso.ejecutar(postulante, TipoTramite.EMISION, Categoria.II_B)).rejects.toThrow(ConflictoError);
     await expect(caso.ejecutar(postulante, TipoTramite.DUPLICADO, Categoria.II_B)).rejects.toThrow(ReglaNegocioError);
     await expect(caso.ejecutar(usuario(Rol.GESTOR), TipoTramite.EMISION, Categoria.II_B)).rejects.toThrow(AccesoDenegadoError);
+  });
+
+  it('el postulante cambia la categoría en DOCUMENTOS y queda auditado con su motivo', async () => {
+    const repo = new RepoEnMemoria();
+    await new CrearExpedienteUseCase(repo).ejecutar(postulante, TipoTramite.EMISION, Categoria.II_C);
+    const eventos = eventosFalsos();
+    const v = await new CambiarCategoriaUseCase(repo, eventos).ejecutar(1, postulante, Categoria.II_B, 'Me equivoqué de categoría');
+    expect(v.categoria).toBe(Categoria.II_B);
+    expect(repo.guardadas).toEqual([Categoria.II_B]);
+    expect(eventos.emit).toHaveBeenCalledWith(EVENTOS.OPERACION_AUDITABLE, expect.objectContaining({
+      accion: 'CAMBIAR_CATEGORIA', valorAnterior: { categoria: Categoria.II_C }, valorNuevo: { categoria: Categoria.II_B }, motivo: 'Me equivoqué de categoría',
+    }));
+  });
+
+  it('no cambia la categoría fuera de DOCUMENTOS, a la misma categoría, ni para otro usuario', () => {
+    const e = expediente(Etapa.DOCUMENTOS);
+    const dueno = usuario(Rol.POSTULANTE, { postulanteId: e.postulanteId });
+    expect(() => e.cambiarCategoria(e.categoria, dueno)).toThrow(ReglaNegocioError);
+    expect(() => e.cambiarCategoria(Categoria.II_B, usuario(Rol.GESTOR))).toThrow(AccesoDenegadoError);
+    expect(() => e.cambiarCategoria(Categoria.II_B, usuario(Rol.POSTULANTE, { postulanteId: 999 }))).toThrow(AccesoDenegadoError);
+    expect(() => expediente(Etapa.PAGO).cambiarCategoria(Categoria.II_B, dueno)).toThrow(ConflictoError);
   });
 
   it('consulta, lista y bandeja', async () => {

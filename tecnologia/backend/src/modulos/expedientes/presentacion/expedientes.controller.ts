@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Length, Max, Min } from 'class-validator';
 import { Categoria, TipoTramite } from '../../../compartido/dominio/categoria';
 import { Rol, ROLES_PERSONAL, UsuarioActual } from '../../../compartido/dominio/rol';
 import { Roles, Usuario } from '../../../compartido/seguridad/decoradores';
-import { ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
+import { CambiarCategoriaUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from '../aplicacion/casos-de-uso';
 import { Etapa } from '../dominio/etapa';
 import { Contrato } from '../../../compartido/presentacion/contrato';
 import { ExpedienteRespuesta, PaginaExpedientesRespuesta } from './respuestas';
@@ -13,6 +13,14 @@ import { ExpedienteRespuesta, PaginaExpedientesRespuesta } from './respuestas';
 class CrearExpedienteDto {
   @ApiProperty({ enum: TipoTramite, example: TipoTramite.EMISION }) @IsEnum(TipoTramite) tipoTramite!: TipoTramite;
   @ApiProperty({ enum: Categoria, example: Categoria.II_C }) @IsEnum(Categoria) categoria!: Categoria;
+}
+
+class CambiarCategoriaDto {
+  @ApiProperty({ enum: Categoria, example: Categoria.II_B }) @IsEnum(Categoria) categoria!: Categoria;
+  @ApiProperty({ example: 'Me equivoqué: quiero la licencia para moto lineal', minLength: 10, maxLength: 250 })
+  @IsString()
+  @Length(10, 250)
+  motivo!: string;
 }
 
 class FiltroDto {
@@ -29,6 +37,7 @@ export class ExpedientesController {
   constructor(
     private readonly crear: CrearExpedienteUseCase,
     private readonly consultar: ConsultarExpedienteUseCase,
+    private readonly cambiarCategoria: CambiarCategoriaUseCase,
   ) {}
 
   @Post()
@@ -56,5 +65,16 @@ export class ExpedientesController {
   @Contrato({ resumen: 'Estado, etapa y plazo de un expediente (RF10)', exito: { descripcion: 'Expediente', tipo: ExpedienteRespuesta }, errores: [400, [403, 'El expediente pertenece a otro postulante (EQ-02)'], [404, 'No existe el expediente']] })
   detalle(@Param('id', ParseIntPipe) id: number, @Usuario() usuario: UsuarioActual) {
     return this.consultar.ejecutar(id, usuario);
+  }
+
+  @Patch(':id/categoria')
+  @Roles(Rol.POSTULANTE)
+  @Contrato({
+    resumen: 'Cambiar la categoría elegida (II-B o II-C) mientras el trámite está en documentos',
+    exito: { descripcion: 'Expediente con la nueva categoría; el cambio queda en la auditoría con su motivo', tipo: ExpedienteRespuesta },
+    errores: [400, [403, 'Solo el dueño del trámite puede cambiarla'], [404, 'No existe el expediente'], [409, 'El trámite ya pasó la etapa de documentos'], [422, 'El expediente ya es de esa categoría']],
+  })
+  cambiar(@Param('id', ParseIntPipe) id: number, @Body() dto: CambiarCategoriaDto, @Usuario() usuario: UsuarioActual) {
+    return this.cambiarCategoria.ejecutar(id, usuario, dto.categoria, dto.motivo.trim());
   }
 }

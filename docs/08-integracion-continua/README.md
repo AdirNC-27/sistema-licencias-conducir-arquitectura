@@ -15,7 +15,7 @@ Cada cambio pasa por verificaciones automáticas en GitHub Actions antes de inte
 | Job | Qué comprueba | Si falla |
 |---|---|---|
 | Arquitectura, Jest y contrato | Compila; reglas de arquitectura (dependency-cruiser); `openapi.json` igual al código; pruebas unitarias con cobertura ≥ 80 %; pruebas de la API con PostgreSQL | No se ejecuta nada más |
-| Contrato y Postman | Levanta la API con la base recién migrada y ejecuta las 145 solicitudes de Newman | No se publica la imagen |
+| Contrato y Postman | Levanta la API con la base recién migrada y ejecuta las 151 solicitudes de Newman | No se publica la imagen |
 | Imagen Docker de la API | Construye la imagen, la inicia junto a PostgreSQL y comprueba que migra y responde al login | No se publica la imagen |
 | Publicar la imagen en GHCR | Solo en `main` y solo si los anteriores pasan. Publica `latest` y la etiqueta del commit (`sha-xxxxxxx`) | — |
 

@@ -15,6 +15,7 @@ export interface RepositorioExpedientes {
   listar(filtro: FiltroExpedientes): Promise<{ total: number; datos: Expediente[] }>;
   listarDePostulante(postulanteId: number): Promise<Expediente[]>;
   guardarEtapa(expediente: Expediente): Promise<void>;
+  guardarCategoria(expediente: Expediente): Promise<void>;
   tieneTramiteActivo(postulanteId: number): Promise<boolean>;
 }
 

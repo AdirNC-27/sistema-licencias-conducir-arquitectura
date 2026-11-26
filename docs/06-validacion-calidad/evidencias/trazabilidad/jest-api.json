@@ -1,8 +1,8 @@
 {
- "numTotalTests": 43,
- "numPassedTests": 43,
+ "numTotalTests": 44,
+ "numPassedTests": 44,
  "numFailedTests": 0,
- "startTime": 1795716762165,
+ "startTime": 1795730894197,
  "testResults": [
   {
    "name": "tecnologia/backend/test/flujo-tramite.e2e-spec.ts",
@@ -129,6 +129,13 @@
       "Flujo completo del trámite de emisión (e2e)"
      ],
      "title": "el postulante crea su expediente II-C (RF02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "el postulante corrige la categoría mientras está en documentos; nadie más puede hacerlo",
      "status": "passed"
     },
     {
@@ -317,7 +324,7 @@
      "ancestorTitles": [
       "Matriz rol × operación (EQ-01)"
      ],
-     "title": "encuentra las 44 operaciones protegidas del contrato",
+     "title": "encuentra las 45 operaciones protegidas del contrato",
      "status": "passed"
     },
     {

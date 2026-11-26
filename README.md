@@ -88,10 +88,10 @@ prototipo/                        # prototipo navegable (Google Stitch)
 
 | Tipo | Herramienta | Comando | Resultado |
 |---|---|---|---|
-| Unitarias (dominio, casos de uso, adaptadores, contrato) | Jest | `npm run test:cov` (backend) | 192 pruebas, cobertura de líneas 99.7 % |
-| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 43 pruebas, con la matriz rol × operación (204 casos) |
-| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 145 solicitudes, 506 aserciones |
-| Contrato OpenAPI | `npm run contrato:verificar` | ver [guía de la API](docs/07-contrato-api/README.md) | 40 rutas y 48 operaciones; la tabla de la guía se genera desde el código |
+| Unitarias (dominio, casos de uso, adaptadores, contrato) | Jest | `npm run test:cov` (backend) | 194 pruebas, cobertura de líneas 99.7 % |
+| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 44 pruebas, con la matriz rol × operación (210 casos) |
+| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 151 solicitudes, 528 aserciones |
+| Contrato OpenAPI | `npm run contrato:verificar` | ver [guía de la API](docs/07-contrato-api/README.md) | 41 rutas y 49 operaciones; la tabla de la guía se genera desde el código |
 | Asistente con IA (EQ-08) | promptfoo | ver [promptfoo](tecnologia/pruebas-calidad/promptfoo/README.md) | 30 de 30 (con Gemini y sin clave de IA) |
 | Reglas de arquitectura | dependency-cruiser | `npm run arquitectura` (backend) | 0 violaciones |
 | Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 21 pruebas, WCAG 2.1 AA |
