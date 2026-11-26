@@ -4,12 +4,12 @@
 
 | Dato | Valor |
 |---|---|
-| Commit evaluado | `9682c26 + rama mejora-evidencias-sprint2` |
+| Commit evaluado | `60affa8 + rama evidencias-seguridad-usabilidad` |
 | Fecha de ejecución | 2026-11-26 |
 | Criterios de aceptación | 65 en 13 especificaciones |
 | Criterios con al menos una prueba ejecutada que pasa | **64 de 65** |
 | Pruebas unitarias (Jest) | 192 de 192 pasan |
-| Pruebas de la API con PostgreSQL (Jest + Supertest) | 39 de 39 pasan |
+| Pruebas de la API con PostgreSQL (Jest + Supertest) | 43 de 43 pasan |
 | Pruebas del portal (Playwright) | 21 de 21 pasan |
 
 Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · 📄 respaldado por una evidencia medida (k6, concurrencia, promptfoo), no por una prueba automática.
@@ -20,8 +20,8 @@ Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · �
 |---|---|---|---|---|
 | CA1 | Inicio de sesión correcto: recibe 200 con un token JWT que incluye el rol GESTOR | `POST /auth/login` | Jest `modulos/identidad/__tests__/identidad.spec.ts`: «inicia sesión y el rol sale de la cuenta» ✅<br>Playwright `e2e/flujo-tramite.spec.ts`: «el login rechaza una clave incorrecta» ✅ | ✅ Cumple |
 | CA2 | Clave incorrecta: recibe 401 y ningún token | `POST /auth/login` | Jest `modulos/identidad/__tests__/identidad.spec.ts`: «rechaza clave incorrecta o usuario inexistente» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «credenciales incorrectas responden 401» ✅ | ✅ Cumple |
-| CA3 | Rol sin permiso: recibe 403 y no cambia nada | `PATCH /expedientes/{id}/emision · GuardaRoles + @Roles` | Supertest `test/flujo-tramite.e2e-spec.ts`: «evaluador no puede patch /api/expedientes/1/emision (403)» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «evaluador no puede post /api/evaluaciones/1/validacion (403)» ✅ | ✅ Cumple |
-| CA4 | Sin token: recibe 401 | `GuardaJwt (APP_GUARD global)` | Supertest `test/flujo-tramite.e2e-spec.ts`: «sin token responde 401» ✅ | ✅ Cumple |
+| CA3 | Rol sin permiso: recibe 403 y no cambia nada | `PATCH /expedientes/{id}/emision · GuardaRoles + @Roles` | Supertest `test/flujo-tramite.e2e-spec.ts`: «evaluador no puede patch /api/expedientes/1/emision (403)» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «evaluador no puede post /api/evaluaciones/1/validacion (403)» ✅<br>Supertest `test/matriz-roles.e2e-spec.ts`: «cada rol sin permiso recibe 403 sin datos en cada operación restringida por rol» ✅ | ✅ Cumple |
+| CA4 | Sin token: recibe 401 | `GuardaJwt (APP_GUARD global)` | Supertest `test/flujo-tramite.e2e-spec.ts`: «sin token responde 401» ✅<br>Supertest `test/matriz-roles.e2e-spec.ts`: «sin token y con un token falso, todas responden 401 sin datos» ✅ | ✅ Cumple |
 | CA5 | Cambio de rol auditado: el rol cambia y queda un registro CAMBIAR_ROL en auditoría | `PATCH /usuarios/{id}/rol` | Jest `modulos/identidad/__tests__/identidad.spec.ts`: «el administrador cambia el rol del personal y queda auditado» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «el administrador cambia un rol y queda auditado; el endpoint de salud responde» ✅ | ✅ Cumple |
 
 ## [SDD-02 · Registro del postulante con DNI](sdd-02-registro-del-postulante.md)
@@ -48,7 +48,7 @@ Leyenda: ✅ la prueba se ejecutó y pasó · ❌ falla o no se encontró · �
 | CA2 | Un solo trámite activo: recibe 409 | `POST /expedientes` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «rechaza un segundo trámite activo, otro tipo de trámite o un usuario que no es postulante» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «el postulante crea su expediente II-C (RF02)» ✅ | ✅ Cumple |
 | CA3 | Etapas en orden: recibe 409 y la etapa no cambia | `Expediente.avanzarDesde / exigirEtapa` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «avanza solo desde la etapa esperada» ✅<br>Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «no permite saltarse una etapa» ✅<br>Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «exigirEtapa rechaza operaciones fuera de etapa» ✅ | ✅ Cumple |
 | CA4 | Plazo: muestra 5 días transcurridos y 5 restantes | `calcularPlazo / diasHabilesEntre` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «cuenta solo de lunes a viernes» ✅<br>Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «marca vencido después de 10 días hábiles» ✅ | ✅ Cumple |
-| CA5 | Privacidad: recibe 403 | `GET /expedientes/{id} · dueño o personal` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «el dueño y el personal pueden verlo; otro postulante no» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)» ✅ | ✅ Cumple |
+| CA5 | Privacidad: recibe 403 | `GET /expedientes/{id} · dueño o personal` | Jest `modulos/expedientes/__tests__/expediente.spec.ts`: «el dueño y el personal pueden verlo; otro postulante no» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «privacidad: los intentos de escribir en un expediente ajeno se rechazan sin datos y no lo cambian (EQ-02)» ✅ | ✅ Cumple |
 | CA6 | Emisión: pasa a EMITIDA y queda en auditoría | `PATCH /expedientes/{id}/emision` | Jest `modulos/revision/__tests__/revision.spec.ts`: «no autoriza la emisión sin verificaciones; con todo conforme, autoriza y audita» ✅<br>Supertest `test/flujo-tramite.e2e-spec.ts`: «el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)» ✅ | ✅ Cumple |
 
 ## [SDD-05 · Documentos del expediente](sdd-05-documentos.md)

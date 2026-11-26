@@ -36,6 +36,10 @@
     {
      "tipo": "api",
      "prueba": "evaluador no puede post /api/evaluaciones/1/validacion (403)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "cada rol sin permiso recibe 403 sin datos en cada operación restringida por rol"
     }
    ]
   },
@@ -45,6 +49,10 @@
     {
      "tipo": "api",
      "prueba": "sin token responde 401"
+    },
+    {
+     "tipo": "api",
+     "prueba": "sin token y con un token falso, todas responden 401 sin datos"
     }
    ]
   },
@@ -200,6 +208,10 @@
     {
      "tipo": "api",
      "prueba": "privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "privacidad: los intentos de escribir en un expediente ajeno se rechazan sin datos y no lo cambian (EQ-02)"
     }
    ]
   },

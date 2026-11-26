@@ -4,6 +4,12 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 /** Configuración común para main.ts y para las pruebas de la API. */
 export function configurarAplicacion(app: INestApplication): INestApplication {
   app.setGlobalPrefix('api');
+  // EQ-01 · encabezados de seguridad (hallazgos de OWASP ZAP): no revelar el framework y no adivinar tipos de contenido
+  (app.getHttpAdapter().getInstance() as { disable?: (opcion: string) => void }).disable?.('x-powered-by');
+  app.use((_peticion: unknown, respuesta: { setHeader: (nombre: string, valor: string) => void }, siguiente: () => void) => {
+    respuesta.setHeader('X-Content-Type-Options', 'nosniff');
+    siguiente();
+  });
   const origenes = process.env.CORS_ORIGENES?.split(',').map((o) => o.trim()).filter(Boolean);
   app.enableCors({ origin: origenes?.length ? origenes : true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));

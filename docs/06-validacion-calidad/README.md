@@ -6,22 +6,36 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 
 ## Resumen
 
-| Escenario | Herramienta | Medida comprometida | Resultado | Estado |
-|---|---|---|---|---|
-| EQ-01 Seguridad | Jest + Supertest y Postman + Newman | 100 % de accesos sin permiso con 401/403 | 12 de 12 en Jest; 8 de 8 en Postman (sin token, token falso y rol no permitido) | Cumple |
-| EQ-02 Privacidad | Postman + Newman y Jest + Supertest | 20 de 20 accesos a expedientes ajenos con 403 | **20 de 20 en Newman**: cada postulante intenta 10 operaciones sobre el trámite del otro. También 20 de 20 en Jest | Cumple |
-| EQ-03 Rendimiento | k6 (perfil completo de 9 min) | p95 ≤ 1 s hasta 1,000 usuarios; con 2,000, p95 ≤ 3 s y errores < 1 % | **Hasta 1,000:** p95 ≤ 9.0 ms. **2,000 sostenidos 2 min:** p95 = 108.6 ms, 985 peticiones/s, 0 % de errores. 295,747 peticiones con 200 cuentas y 30,000 expedientes ([detalle](evidencias/k6/README.md)) | Cumple |
-| EQ-03 Caché | k6 (200 usuarios, 30 s) | Con caché, al menos 50 % más rápido | p95 de 167.6 ms a 81.7 ms (51 % menos); de 1,695 a 4,366 peticiones/s | Cumple |
-| EQ-03 Volumen | k6 + `EXPLAIN ANALYZE` | p95 ≤ 1 s con 1,000 usuarios y 30,000 expedientes | p95 = 11.3 ms, 0 % de errores; 2 índices nuevos ([análisis](analisis-base-de-datos.md)) | Cumple |
-| EQ-03 Portal | Lighthouse | Rendimiento ≥ 80 | 99 (antes 55: se quitó una fuente de íconos de 4.5 MB) | Cumple |
-| EQ-06 Mantenibilidad | dependency-cruiser, Jest y `git diff --stat` | Reglas al 100 %; cobertura ≥ 80 %; cambiar un adaptador toca ≤ 2 archivos | 0 violaciones en 153 módulos; cobertura de líneas 99.7 %; **proveedor de correo Brevo agregado tocando 2 archivos de código**, sin cambios en dominio ni aplicación, y 39 de 39 pruebas de API con cada proveedor ([evidencia](evidencias/eq06-cambio-de-adaptador/README.md)) | Cumple |
-| EQ-07 Trazabilidad | Jest + Supertest | 16 de 16 operaciones auditadas | 16 de 16, con usuario, fecha, valor anterior y nuevo | Cumple |
-| EQ-09 Integridad | Jest + Supertest y Postman | 100 % de modificaciones a un validado con 409 | Corrección y segunda validación con 409 en ambas herramientas; el resultado no cambia | Cumple |
-| Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 145 solicitudes y 506 aserciones sin fallas; 40 rutas y 48 operaciones (47 de negocio más `/health`); la tabla de la [guía](../07-contrato-api/README.md#operaciones) se genera desde el contrato y la CI verifica que coincidan | Cumple |
-| EQ-04 Disponibilidad | Terminus, UptimeRobot, pg_dump | 99 % en horario; restauración ≤ 30 min | `/api/health` listo; falta el monitoreo de 2 semanas | Sprint 3 (con el despliegue) |
-| EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 22 pantallas (incluye el chat de Lucía abierto) | Cumple |
-| EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Sprint 3 (con el sistema desplegado, para que los participantes usen el enlace) |
-| EQ-08 IA | promptfoo | ≥ 90 % correctas; 100 % derivadas; 0 acciones | **Con Gemini (26/11):** 20 de 20 correctas y 10 de 10 derivadas (30 de 30). Sin clave: también 30 de 30 con el texto aprobado. 0 acciones: la auditoría no cambia tras un pedido de acción (Jest + Supertest) | Cumple |
+**Origen del resultado:** *Medido 26/11* = ejecutado sobre el código actual (commit `60affa8` y esta rama); *Registro* = medición anterior guardada en `evidencias/`, con su fecha; *Pendiente* = falta la medición y se indica qué evidencia se necesita. La corrida de GitHub Actions del commit `60affa8` está [aquí](#corrida-de-github-actions).
+
+| Escenario | Herramienta | Medida comprometida | Resultado | Estado | Origen |
+|---|---|---|---|---|---|
+| EQ-01 Seguridad | Jest + Supertest, Newman y OWASP ZAP | 100 % de la matriz rol × operación con 401/403, sin datos; ZAP sin alertas altas | **204 de 204**: 88 casos sin token o con token falso (401) y 116 de rol sin permiso (403), generados desde `@Roles` sobre las 44 operaciones protegidas; ninguna respuesta trae datos. ZAP: 0 altas, 0 medias; las 2 bajas se corrigieron ([evidencia](evidencias/eq01-seguridad/README.md)) | Cumple | Medido 26/11 |
+| EQ-02 Privacidad | Postman + Newman y Jest + Supertest | 20 de 20 accesos a expedientes ajenos con 403; ningún documento sin token | **20 de 20 en Newman** (10 operaciones de cada postulante sobre el trámite del otro) y 20 de 20 en Jest. Los intentos de escribir en un expediente ajeno no lo modifican. Descarga sin token: 401 ([evidencia](evidencias/eq01-seguridad/README.md)) | Cumple | Medido 26/11 (Jest y CI) |
+| EQ-03 Rendimiento | k6 (perfil completo de 9 min) | p95 ≤ 1 s hasta 1,000 usuarios; con 2,000, p95 ≤ 3 s y errores < 1 % | **Hasta 1,000:** p95 ≤ 9.0 ms. **2,000 sostenidos 2 min:** p95 = 108.6 ms, 985 peticiones/s, 0 % de errores. 295,747 peticiones con 200 cuentas y 30,000 expedientes ([detalle](evidencias/k6/README.md)) | Cumple | Medido 26/11 |
+| EQ-03 Caché | k6 (200 usuarios, 30 s) | Con caché, al menos 50 % más rápido | p95 de 167.6 ms a 81.7 ms (51 % menos); de 1,695 a 4,366 peticiones/s | Cumple | Registro 19/11 |
+| EQ-03 Volumen | k6 + `EXPLAIN ANALYZE` | p95 ≤ 1 s con 1,000 usuarios y 30,000 expedientes | p95 = 11.3 ms, 0 % de errores; 2 índices nuevos ([análisis](analisis-base-de-datos.md)). Confirmado el 26/11 en la carga de 9 min: p95 ≤ 9.0 ms hasta 1,000 usuarios | Cumple | Registro 19/11 y medido 26/11 |
+| EQ-03 Portal | Lighthouse | Rendimiento ≥ 80 | 99 (antes 55: se quitó una fuente de íconos de 4.5 MB) | Cumple | Registro 19/11 |
+| EQ-04 Disponibilidad | pg_dump, Terminus, UptimeRobot | Restauración ≤ 30 min; reinicio ≤ 2 min; 99 % en horario durante 2 semanas | **Restauración: 2.3 s** con 30,000 expedientes, 17 de 17 tablas iguales y la API funcionando sobre la copia. Reinicio automático y `/api/health` configurados; falta medirlos en el servidor ([evidencia y alcance](evidencias/eq04-disponibilidad/README.md)) | Parcial: restauración cumple; monitoreo y reinicio en Sprint 3 | Medido 26/11 · Pendiente |
+| EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 22 pantallas (incluye el chat de Lucía abierto) | Cumple | Lighthouse: registro 19/11 · axe: medido 26/11 |
+| EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda en ≤ 10 min; SUS ≥ 68 | Material listo: [guía](prueba-usabilidad.md), hoja para imprimir, plantillas y cálculo automático del SUS y de la meta | Sprint 3 (con el sistema desplegado) | Pendiente: 5 participantes |
+| EQ-06 Mantenibilidad | dependency-cruiser, Jest y `git diff --stat` | Reglas al 100 %; cobertura ≥ 80 %; cambiar un adaptador toca ≤ 2 archivos | 0 violaciones en 153 módulos; cobertura de líneas 99.7 %; **proveedor de correo Brevo agregado tocando 2 archivos de código**, sin cambios en dominio ni aplicación, y todas las pruebas de API con cada proveedor ([evidencia](evidencias/eq06-cambio-de-adaptador/README.md)) | Cumple | Medido 26/11 |
+| EQ-07 Trazabilidad | Jest + Supertest | 16 de 16 operaciones auditadas | 16 de 16, con usuario, fecha, valor anterior y nuevo | Cumple | Medido 26/11 |
+| EQ-08 IA | promptfoo | ≥ 90 % correctas; 100 % derivadas; 0 acciones | **Con Gemini (26/11):** 20 de 20 correctas y 10 de 10 derivadas (30 de 30). Sin clave: también 30 de 30 con el texto aprobado. 0 acciones: la auditoría no cambia tras un pedido de acción (Jest + Supertest) | Cumple | Registro 26/11 ([salida](evidencias/promptfoo/eq08-ejecucion.txt)) |
+| EQ-09 Integridad | Jest + Supertest y Postman | 100 % de modificaciones a un validado con 409 | Corrección y segunda validación con 409 en ambas herramientas; el resultado no cambia | Cumple | Medido 26/11 |
+| Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 145 solicitudes y 506 aserciones sin fallas; 40 rutas y 48 operaciones (47 de negocio más `/health`); la tabla de la [guía](../07-contrato-api/README.md#operaciones) se genera desde el contrato y la CI verifica que coincidan | Cumple | Medido 26/11 (CI) |
+| Trazabilidad SDD | Jest y Playwright | Cada criterio de aceptación con una prueba | 64 de 65 criterios con una prueba ejecutada que pasa; 1 respaldado por la medición de k6 ([matriz](../05-especificaciones-sdd/matriz-trazabilidad.md)) | Cumple | Medido 26/11 |
+
+## Corrida de GitHub Actions
+
+Commit `60affa8` en `main` (26/11/2026), todas las tareas en verde:
+
+| Flujo | Tareas | Resultado | Artefactos |
+|---|---|---|---|
+| [CI · Backend](https://github.com/AdirNC-27/sistema-licencias-conducir-arquitectura/actions/runs/45872448984) | Arquitectura, Jest y contrato · Contrato y Postman (Newman) · Imagen Docker de la API · Publicar la imagen en GHCR | 0 violaciones (153 módulos) · 192 unitarias · 39 de API · cobertura de líneas 99.73 % · Newman 145 solicitudes y 506 aserciones | `cobertura-jest`, `reporte-newman` |
+| [CI · Portal web](https://github.com/AdirNC-27/sistema-licencias-conducir-arquitectura/actions/runs/45872449309) | e2e · Imagen Docker del portal | 21 pruebas de Playwright | `reporte-e2e` |
+
+Los artefactos se descargan desde cada corrida y se conservan hasta el 24/02/2027. Esta rama agrega 4 pruebas de API (matriz de roles y escritura ajena): su corrida aparece en el pull request.
 
 ## Evidencias guardadas (laptop del entorno de prueba)
 
@@ -37,6 +51,8 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | [`evidencias/k6/`](evidencias/k6/) | k6 con el perfil completo de 9 minutos (EQ-03): salida completa, resumen JSON y resultados por etapa y por consulta |
 | [`evidencias/trazabilidad/`](evidencias/trazabilidad/) | Reportes JSON de Jest y Playwright con los que se genera la [matriz de trazabilidad SDD](../05-especificaciones-sdd/matriz-trazabilidad.md) |
 | [`evidencias/eq06-cambio-de-adaptador/`](evidencias/eq06-cambio-de-adaptador/README.md) | EQ-06: cambio del proveedor de correo, `git diff --stat` y dependency-cruiser |
+| [`evidencias/eq01-seguridad/`](evidencias/eq01-seguridad/README.md) | EQ-01 y EQ-02: matriz rol × operación (204 casos) y reportes de OWASP ZAP antes y después |
+| [`evidencias/eq04-disponibilidad/`](evidencias/eq04-disponibilidad/README.md) | EQ-04: prueba de respaldo y restauración, y alcance pendiente del Sprint 3 |
 | [`evidencias/capturas/portal/`](evidencias/capturas/portal/) | 17 pantallas del portal tomadas por las pruebas E2E durante el trámite completo (incluye verificaciones, revisión del supervisor y Lucía) |
 | [`evidencias/capturas/docker/`](evidencias/capturas/docker/) | Ejecución con Docker Compose: versión, configuración, contenedores, logs, portal, Swagger, persistencia y recursos (9 capturas) |
 | [`evidencias/capturas/integraciones/`](evidencias/capturas/integraciones/) | Servicios reales: registro con DNI en API Perú, consumo del plan y aviso recibido por correo (SMTP de Gmail) |
@@ -80,7 +96,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | Tipo | Cantidad | Comando |
 |---|---|---|
 | Unitarias (dominio, casos de uso, adaptadores de IA y de correo, caché, Lucía, pendientes, formato de errores y contrato) | 192 | `npm run test:cov` (backend) |
-| De API con PostgreSQL real | 39 | `npm run test:e2e` (backend) |
+| De API con PostgreSQL real (incluye la matriz rol × operación) | 43 | `npm run test:e2e` (backend) |
 | Funcionales y de contrato (Postman + Newman) | 145 solicitudes | ver `tecnologia/pruebas-calidad/postman` |
 | Asistente con IA (promptfoo, EQ-08) | 30 preguntas | ver `tecnologia/pruebas-calidad/promptfoo` |
 | Reglas de arquitectura | 4 reglas | `npm run arquitectura` (backend) |
@@ -105,6 +121,8 @@ Los archivos 01 a 03 se regeneran con `tecnologia/pruebas-calidad/generar-eviden
 - **Datos de demostración:** con postulantes en todas las etapas, frases como «¿Pueden cambiar mi nota?» o «Revisen mi foto» no se derivaban al gestor: no se reconocían los pedidos en plural ni con «usted». Se ampliaron las reglas de intención.
 - **Lucía:** un saludo o un texto sin sentido («asdfgh») terminaba derivado al gestor. Ahora Lucía los responde con frases fijas y solo deriva las preguntas reales.
 - **Postman:** al agregar el nombre del usuario al token, la respuesta de `/auth/yo` dejó de cumplir el contrato. Se documentó el campo en OpenAPI.
+- **OWASP ZAP:** la API anunciaba el framework con `X-Powered-By: Express` y no enviaba `X-Content-Type-Options`. Se corrigieron en `configurarAplicacion`; el segundo escaneo quedó sin alertas altas, medias ni bajas.
+- **Prueba de restauración:** la base restaurada quedaba a nombre del administrador de PostgreSQL y la API no podía usarla. El procedimiento ahora restaura a nombre del usuario de la API y verifica el respaldo antes de usarlo.
 - **Revisión de la documentación (26/11):** la guía de la API citaba 32 rutas y su tabla tenía 31 de las 48 operaciones; ahora la tabla y los conteos se generan desde el contrato. La especificación SDD-13 tenía 11 criterios y el índice decía 7. La auditoría (EQ-07) no tenía una prueba de API para «observar documento»; se agregó, junto con pruebas de la caché de requisitos (SDD-03) y de la auditoría de solo lectura (SDD-10).
 - **EXPLAIN ANALYZE:** la bandeja sin filtro y los resultados por validar recorrían la tabla completa. Se agregaron dos índices ([detalle](analisis-base-de-datos.md)).
 
