@@ -63,10 +63,17 @@ describe('Casos de uso de Documentos (RF03, RF04)', () => {
     await subir.ejecutar(1, TipoDocumento.DECLARACION_JURADA, null, pdf, postulante);
     await subir.ejecutar(1, TipoDocumento.CERTIFICADO_MEDICO, hoy, pdf, postulante);
     await subir.ejecutar(1, TipoDocumento.FOTOGRAFIA, null, { ...pdf, tipoMime: 'image/png' }, postulante);
-    const revisar = new RevisarDocumentoUseCase(repo, exp, eventosFalsos());
-    for (const d of repo.datos) await revisar.ejecutar(d.id, EstadoDocumento.APROBADO, null, gestor);
+    const eventos = eventosFalsos();
+    const revisar = new RevisarDocumentoUseCase(repo, exp, eventos);
+    const [primero, ...resto] = repo.datos;
+    await revisar.ejecutar(primero.id, EstadoDocumento.OBSERVADO, 'La firma no es legible', gestor);
+    expect(eventos.emit).toHaveBeenCalledWith('auditoria.operacion', expect.objectContaining({ accion: 'OBSERVAR_DOCUMENTO', usuarioId: 2 }));
+    expect(exp.actual.etapa).toBe(Etapa.DOCUMENTOS);
+    await subir.ejecutar(1, TipoDocumento.DECLARACION_JURADA, null, pdf, postulante); // lo vuelve a adjuntar
+    for (const d of [...resto, repo.datos[repo.datos.length - 1]]) await revisar.ejecutar(d.id, EstadoDocumento.APROBADO, null, gestor);
+    expect(eventos.emit).toHaveBeenCalledWith('auditoria.operacion', expect.objectContaining({ accion: 'APROBAR_DOCUMENTO' }));
     expect(exp.actual.etapa).toBe(Etapa.PAGO);
-    expect(await new ConsultarDocumentosUseCase(repo, exp).listar(1, postulante)).toHaveLength(3);
+    expect(await new ConsultarDocumentosUseCase(repo, exp).listar(1, postulante)).toHaveLength(4);
     expect((await new ConsultarDocumentosUseCase(repo, exp).archivo(1, gestor)).nombre).toBe('a.pdf');
   });
 

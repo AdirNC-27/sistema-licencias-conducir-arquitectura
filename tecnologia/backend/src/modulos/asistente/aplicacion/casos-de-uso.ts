@@ -182,10 +182,17 @@ export class AtenderConsultasUseCase {
   constructor(
     @Inject(REPOSITORIO_CONSULTAS) private readonly consultas: RepositorioConsultas,
     private readonly eventos: EventEmitter2,
+    @Inject(LECTURA_PENDIENTES) private readonly lectura: LecturaPendientes,
   ) {}
 
   async derivadas(soloPendientes: boolean) {
-    return (await this.consultas.derivadas(soloPendientes)).map((c) => ({ ...vistaConsulta(c), postulanteId: c.postulanteId }));
+    return this.conPostulante(await this.consultas.derivadas(soloPendientes));
+  }
+
+  /** Agrega nombre y DNI para que el gestor sepa a quién responde. */
+  private async conPostulante(consultas: ConsultaAsistente[]) {
+    const quienes = await this.lectura.identificarPostulantes(consultas.map((c) => c.postulanteId));
+    return consultas.map((c) => ({ ...vistaConsulta(c), postulanteId: c.postulanteId, postulanteNombre: quienes.get(c.postulanteId)?.nombre ?? null, postulanteDni: quienes.get(c.postulanteId)?.dni ?? null }));
   }
 
   async responder(consultaId: number, texto: string, gestor: UsuarioActual) {
@@ -196,7 +203,7 @@ export class AtenderConsultasUseCase {
     const evento: ConsultaRespondida = { consultaId: consulta.id, postulanteId: consulta.postulanteId, pregunta: consulta.pregunta };
     this.eventos.emit(EVENTOS.OPERACION_AUDITABLE, auditoria);
     this.eventos.emit(EVENTOS.CONSULTA_RESPONDIDA, evento);
-    return { ...vistaConsulta(consulta), postulanteId: consulta.postulanteId };
+    return (await this.conPostulante([consulta]))[0];
   }
 }
 

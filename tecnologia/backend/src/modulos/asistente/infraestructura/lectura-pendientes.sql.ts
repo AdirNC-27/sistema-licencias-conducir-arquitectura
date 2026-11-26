@@ -83,6 +83,15 @@ export class LecturaPendientesSql implements LecturaPendientes {
     };
   }
 
+  async identificarPostulantes(ids: number[]): Promise<Map<number, { nombre: string; dni: string }>> {
+    if (ids.length === 0) return new Map();
+    const filas: { id: number; nombre: string; dni: string }[] = await this.db.query(
+      `SELECT id, nombres || ' ' || apellidos AS nombre, dni FROM postulantes WHERE id = ANY($1)`,
+      [[...new Set(ids)]],
+    );
+    return new Map(filas.map((f) => [f.id, { nombre: f.nombre, dni: f.dni }]));
+  }
+
   async datosPostulante(postulanteId: number, hoy: Date): Promise<DatosPostulante | null> {
     const [e]: { id: number; numero: string; categoria: Categoria; etapa: Etapa; creado_en: Date }[] = await this.db.query(
       `SELECT id, numero, categoria, etapa, creado_en FROM expedientes WHERE postulante_id = $1 ORDER BY id DESC LIMIT 1`,

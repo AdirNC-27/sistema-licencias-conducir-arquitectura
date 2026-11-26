@@ -1,90 +1,121 @@
-# Pruebas unitarias con cobertura · npm run test:cov
-# Ejecutado en la laptop del entorno de prueba (Windows, Node.js 22, PostgreSQL 16) el 19/11/2026.
-
-PS D:\Serie 400 PAR\LABO - ARQUITECTURA\sistema-licencias-conducir-arquitectura\tecnologia\backend> npm run test:cov
 
 > licencias-clase-b-backend@0.0.1 test:cov
 > jest --coverage
 
- PASS  src/modulos/evaluaciones/__tests__/evaluacion.spec.ts
- PASS  src/modulos/postulantes/__tests__/postulantes.spec.ts
- PASS  src/modulos/evaluaciones/__tests__/casos-de-uso.spec.ts
- PASS  src/modulos/notificaciones/__tests__/notificaciones.spec.ts
- PASS  src/modulos/pagos/__tests__/pagos.spec.ts
- PASS  src/modulos/documentos/__tests__/documentos.spec.ts
- PASS  src/modulos/identidad/__tests__/identidad.spec.ts
- PASS  src/modulos/citas/__tests__/citas.spec.ts
- PASS  src/modulos/expedientes/__tests__/expediente.spec.ts
--------------------------------------------|---------|----------|---------|---------|-------------------
-File                                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
--------------------------------------------|---------|----------|---------|---------|-------------------
-All files                                  |   99.84 |    97.47 |     100 |   99.81 |                   
- compartido/dominio                        |     100 |      100 |     100 |     100 |                   
-  categoria.ts                             |     100 |      100 |     100 |     100 |                   
-  errores.ts                               |     100 |      100 |     100 |     100 |                   
-  rol.ts                                   |     100 |      100 |     100 |     100 |                   
- modulos/auditoria/dominio                 |     100 |      100 |     100 |     100 |                   
-  registro-auditoria.ts                    |     100 |      100 |     100 |     100 |                   
- modulos/citas/aplicacion                  |     100 |      100 |     100 |     100 |                   
-  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                   
- modulos/citas/dominio                     |     100 |      100 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
-  cupo.ts                                  |     100 |      100 |     100 |     100 |                   
- modulos/documentos/aplicacion             |     100 |       95 |     100 |     100 |                   
-  casos-de-uso.ts                          |     100 |       95 |     100 |     100 | 55                
- modulos/documentos/dominio                |     100 |    95.65 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
-  documento.ts                             |     100 |    95.65 |     100 |     100 | 60                
- modulos/evaluaciones/aplicacion           |     100 |      100 |     100 |     100 |                   
-  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                   
- modulos/evaluaciones/dominio/calificacion |     100 |      100 |     100 |     100 |                   
-  calificacion.strategy.ts                 |     100 |      100 |     100 |     100 |                   
- modulos/evaluaciones/dominio/contratos    |     100 |      100 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
- modulos/evaluaciones/dominio/modelo       |     100 |      100 |     100 |     100 |                   
-  errores.ts                               |     100 |      100 |     100 |     100 |                   
-  evaluacion.ts                            |     100 |      100 |     100 |     100 |                   
-  tipos.ts                                 |     100 |      100 |     100 |     100 |                   
- modulos/expedientes/aplicacion            |     100 |     92.3 |     100 |     100 |                   
-  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                   
-  expedientes.facade.ts                    |     100 |       50 |     100 |     100 | 26                
- modulos/expedientes/dominio               |     100 |      100 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
-  etapa.ts                                 |     100 |      100 |     100 |     100 |                   
-  expediente.ts                            |     100 |      100 |     100 |     100 |                   
-  plazo.ts                                 |     100 |      100 |     100 |     100 |                   
- modulos/identidad/aplicacion              |     100 |      100 |     100 |     100 |                   
-  cambiar-rol.use-case.ts                  |     100 |      100 |     100 |     100 |                   
-  iniciar-sesion.use-case.ts               |     100 |      100 |     100 |     100 |                   
- modulos/identidad/dominio                 |     100 |      100 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
-  usuario.ts                               |     100 |      100 |     100 |     100 |                   
- modulos/notificaciones/aplicacion         |     100 |       75 |     100 |     100 |                   
-  notificar.listener.ts                    |     100 |       75 |     100 |     100 | 18                
- modulos/notificaciones/dominio            |     100 |      100 |     100 |     100 |                   
-  servicio-notificaciones.ts               |     100 |      100 |     100 |     100 |                   
- modulos/pagos/aplicacion                  |     100 |      100 |     100 |     100 |                   
-  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                   
- modulos/pagos/dominio                     |     100 |      100 |     100 |     100 |                   
-  pago.ts                                  |     100 |      100 |     100 |     100 |                   
- modulos/postulantes/aplicacion            |     100 |      100 |     100 |     100 |                   
-  registrar-postulante.use-case.ts         |     100 |      100 |     100 |     100 |                   
- modulos/postulantes/dominio               |     100 |       75 |     100 |     100 |                   
-  contratos.ts                             |     100 |      100 |     100 |     100 |                   
-  postulante.ts                            |     100 |       75 |     100 |     100 | 6                 
- modulos/requisitos/dominio                |       0 |      100 |     100 |       0 |                   
-  requisito.ts                             |       0 |      100 |     100 |       0 | 16                
--------------------------------------------|---------|----------|---------|---------|-------------------
+PASS src/modulos/evaluaciones/__tests__/evaluacion.spec.ts (9.203 s)
+PASS src/modulos/asistente/__tests__/conversacion.spec.ts (10.746 s)
+PASS src/compartido/__tests__/filtro-errores.spec.ts (10.952 s)
+PASS src/modulos/postulantes/__tests__/postulantes.spec.ts (11.201 s)
+PASS src/modulos/evaluaciones/__tests__/casos-de-uso.spec.ts (11.257 s)
+PASS src/modulos/notificaciones/__tests__/notificaciones.spec.ts (11.288 s)
+PASS src/modulos/documentos/__tests__/documentos.spec.ts (11.348 s)
+PASS src/modulos/pagos/__tests__/pagos.spec.ts (11.369 s)
+PASS src/modulos/citas/__tests__/citas.spec.ts (11.38 s)
+PASS src/modulos/identidad/__tests__/identidad.spec.ts (11.382 s)
+PASS src/modulos/expedientes/__tests__/expediente.spec.ts (11.387 s)
+PASS src/modulos/revision/__tests__/revision.spec.ts (11.502 s)
+PASS src/modulos/asistente/__tests__/adaptador-ia-gemini.spec.ts (11.576 s)
+[Nest] 34540  - 26/11/2026, 10:05:55 a. m.    WARN [AdaptadorIAGemini] La IA respondió 429: cuota agotada
+[Nest] 34540  - 26/11/2026, 10:05:55 a. m.    WARN [AdaptadorIAGemini] No se pudo consultar la IA: timeout
+PASS src/modulos/asistente/__tests__/pendientes.spec.ts (11.734 s)
+PASS src/modulos/asistente/__tests__/asistente.spec.ts (11.796 s)
+[Nest] 20920  - 26/11/2026, 10:05:55 a. m.    WARN [ConsultarAsistentePersonalUseCase] La IA afirmó haber realizado una acción; se entrega el contenido aprobado
+[Nest] 13436  - 26/11/2026, 10:05:55 a. m.    WARN [ConsultarAsistenteUseCase] La IA afirmó haber realizado una acción; se entrega el contenido aprobado
+PASS src/configuracion/__tests__/contrato-openapi.spec.ts (14.109 s)
+-------------------------------------------|---------|----------|---------|---------|---------------------------------
+File                                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s               
+-------------------------------------------|---------|----------|---------|---------|---------------------------------
+All files                                  |    99.7 |     96.3 |   99.24 |   99.73 |                                 
+ compartido/dominio                        |     100 |      100 |     100 |     100 |                                 
+  categoria.ts                             |     100 |      100 |     100 |     100 |                                 
+  errores.ts                               |     100 |      100 |     100 |     100 |                                 
+  rol.ts                                   |     100 |      100 |     100 |     100 |                                 
+ modulos/asistente/aplicacion              |     100 |    96.77 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |    96.77 |     100 |     100 | 195                             
+ modulos/asistente/dominio                 |   99.72 |    94.57 |     100 |     100 |                                 
+  buscador.ts                              |     100 |    92.85 |     100 |     100 | 101-105                         
+  consulta.ts                              |     100 |      100 |     100 |     100 |                                 
+  contenido.ts                             |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  conversacion.ts                          |   98.41 |    97.67 |     100 |     100 | 43                              
+  estado-tramite.ts                        |     100 |      100 |     100 |     100 |                                 
+  intencion.ts                             |     100 |      100 |     100 |     100 |                                 
+  pendientes.ts                            |     100 |    92.03 |     100 |     100 | 81,87,90-96,174,182,210,233,242 
+ modulos/auditoria/dominio                 |     100 |      100 |     100 |     100 |                                 
+  registro-auditoria.ts                    |     100 |      100 |     100 |     100 |                                 
+ modulos/citas/aplicacion                  |     100 |      100 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                                 
+ modulos/citas/dominio                     |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  cupo.ts                                  |     100 |      100 |     100 |     100 |                                 
+ modulos/documentos/aplicacion             |     100 |      100 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                                 
+ modulos/documentos/dominio                |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  documento.ts                             |     100 |      100 |     100 |     100 |                                 
+ modulos/evaluaciones/aplicacion           |     100 |      100 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                                 
+ modulos/evaluaciones/dominio/calificacion |     100 |      100 |     100 |     100 |                                 
+  calificacion.strategy.ts                 |     100 |      100 |     100 |     100 |                                 
+ modulos/evaluaciones/dominio/contratos    |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+ modulos/evaluaciones/dominio/modelo       |     100 |      100 |     100 |     100 |                                 
+  errores.ts                               |     100 |      100 |     100 |     100 |                                 
+  evaluacion.ts                            |     100 |      100 |     100 |     100 |                                 
+  tipos.ts                                 |     100 |      100 |     100 |     100 |                                 
+ modulos/expedientes/aplicacion            |     100 |    93.33 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                                 
+  expedientes.facade.ts                    |     100 |       75 |     100 |     100 | 30                              
+ modulos/expedientes/dominio               |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  etapa.ts                                 |     100 |      100 |     100 |     100 |                                 
+  expediente.ts                            |     100 |      100 |     100 |     100 |                                 
+  plazo.ts                                 |     100 |      100 |     100 |     100 |                                 
+ modulos/identidad/aplicacion              |     100 |      100 |     100 |     100 |                                 
+  cambiar-rol.use-case.ts                  |     100 |      100 |     100 |     100 |                                 
+  iniciar-sesion.use-case.ts               |     100 |      100 |     100 |     100 |                                 
+ modulos/identidad/dominio                 |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  usuario.ts                               |     100 |      100 |     100 |     100 |                                 
+ modulos/notificaciones/aplicacion         |   86.95 |       50 |   66.66 |   85.71 |                                 
+  notificar.listener.ts                    |   86.95 |       50 |   66.66 |   85.71 | 34,40-41                        
+ modulos/notificaciones/dominio            |     100 |      100 |     100 |     100 |                                 
+  servicio-notificaciones.ts               |     100 |      100 |     100 |     100 |                                 
+ modulos/pagos/aplicacion                  |     100 |      100 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |      100 |     100 |     100 |                                 
+ modulos/pagos/dominio                     |     100 |      100 |     100 |     100 |                                 
+  pago.ts                                  |     100 |      100 |     100 |     100 |                                 
+ modulos/postulantes/aplicacion            |     100 |      100 |     100 |     100 |                                 
+  consultar-postulantes.use-case.ts        |     100 |      100 |     100 |     100 |                                 
+  registrar-postulante.use-case.ts         |     100 |      100 |     100 |     100 |                                 
+ modulos/postulantes/dominio               |     100 |       75 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  postulante.ts                            |     100 |       75 |     100 |     100 | 6                               
+ modulos/requisitos/dominio                |     100 |      100 |     100 |     100 |                                 
+  requisito.ts                             |     100 |      100 |     100 |     100 |                                 
+ modulos/revision/aplicacion               |     100 |    94.44 |     100 |     100 |                                 
+  casos-de-uso.ts                          |     100 |    94.44 |     100 |     100 | 127                             
+ modulos/revision/dominio                  |     100 |      100 |     100 |     100 |                                 
+  contratos.ts                             |     100 |      100 |     100 |     100 |                                 
+  observacion.ts                           |     100 |      100 |     100 |     100 |                                 
+  revision.ts                              |     100 |      100 |     100 |     100 |                                 
+  verificacion.ts                          |     100 |      100 |     100 |     100 |                                 
+-------------------------------------------|---------|----------|---------|---------|---------------------------------
 
 =============================== Coverage summary ===============================
-Statements   : 99.84% ( 638/639 )
-Branches     : 97.47% ( 193/198 )
-Functions    : 100% ( 121/121 )
-Lines        : 99.81% ( 549/550 )
+Statements   : 99.7% ( 1353/1357 )
+Branches     : 96.3% ( 522/542 )
+Functions    : 99.24% ( 263/265 )
+Lines        : 99.73% ( 1112/1115 )
 ================================================================================
 
-Test Suites: 9 passed, 9 total
-Tests:       54 passed, 54 total
+Test Suites: 16 passed, 16 total
+Tests:       185 passed, 185 total
 Snapshots:   0 total
-Time:        8.059 s
+Time:        29.655 s
 Ran all test suites.
+npm notice
+npm notice New minor version of npm available! 11.6.2 -> 11.21.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.3
+npm notice To update run: npm install -g npm@11.21.3
+npm notice

@@ -203,6 +203,7 @@ class IAFalsa implements AsistenteIA {
 const lectura = (cambios: Partial<IndicadoresPersonal> = {}, postulante: DatosPostulante | null = null): LecturaPendientes => ({
   indicadoresPersonal: async () => ({ ...vacio(), ...cambios }),
   datosPostulante: async () => postulante,
+  identificarPostulantes: async () => new Map(),
 });
 
 describe('Asistente del personal y pendientes (casos de uso)', () => {

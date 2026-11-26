@@ -125,7 +125,7 @@ export interface Revision {
   listoParaEmitir: boolean;
 }
 
-export type OrigenRespuesta = 'IA' | 'CONTENIDO' | 'ESTADO' | 'DERIVADA';
+export type OrigenRespuesta = 'IA' | 'CONTENIDO' | 'ESTADO' | 'DERIVADA' | 'CONVERSACION';
 
 export interface ConsultaAsistente {
   id: number;
@@ -137,6 +137,8 @@ export interface ConsultaAsistente {
   respuestaGestor: string | null;
   respondidaEn: string | null;
   postulanteId?: number;
+  postulanteNombre?: string | null;
+  postulanteDni?: string | null;
 }
 
 export type TemaContenido = 'REQUISITOS' | 'DOCUMENTOS' | 'PAGOS' | 'CITAS' | 'EVALUACIONES' | 'TRAMITE';

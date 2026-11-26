@@ -1,0 +1,817 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for modulos/asistente/dominio/pendientes.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">modulos/asistente/dominio</a> pendientes.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>169/169</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">92.03% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>104/113</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>30/30</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>124/124</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Categoria } from '../../../compartido/dominio/categoria';
+import { Rol } from '../../../compartido/dominio/rol';
+import { documentosObligatorios, TipoDocumento } from '../../documentos/dominio/documento';
+import { Etapa } from '../../expedientes/dominio/etapa';
+import { calcularPlazo, PLAZO_DIAS_HABILES } from '../../expedientes/dominio/plazo';
+import { ResultadoVerificacion, Verificacion, verificacionesObligatorias, vigentes } from '../../revision/dominio/verificacion';
+&nbsp;
+/**
+ * RF14 ampliado a todos los roles: lo que cada persona tiene por hacer, calculado con los datos
+ * del sistema (no con la IA). El asistente lo muestra al entrar y lo usa para responder
+ * «¿qué tengo pendiente?». Solo lectura: ningún pendiente ejecuta nada.
+ */
+export interface Pendiente {
+  codigo: string;
+  texto: string;
+  cantidad: number;
+  urgente: boolean;
+  /** Pantalla del portal donde se atiende. */
+  ruta: string;
+}
+&nbsp;
+const MILISEGUNDOS_DIA = 86_400_000;
+const DIAS_ALERTA_PLAZO = 2; // días hábiles restantes desde los que se avisa
+const DIAS_ALERTA_CERTIFICADO = 30;
+const HORAS_CONSULTA_ATRASADA = 48;
+&nbsp;
+/* ---------- Personal ---------- */
+&nbsp;
+export interface ExpedienteEnEmision {
+  numero: string;
+  categoria: Categoria;
+  verificaciones: Verificacion[];
+  observacionAbierta: boolean;
+}
+&nbsp;
+export interface CupoProximo {
+  fecha: string; // AAAA-MM-DD
+  tipo: 'CONOCIMIENTOS' | 'MANEJO';
+  libres: number;
+}
+&nbsp;
+/** Datos que entrega el modelo de lectura; el dominio decide qué es pendiente y qué es urgente. */
+export interface IndicadoresPersonal {
+  documentosPorRevisar: number; // expedientes con documentos sin revisar
+  pagosPorVerificar: number;
+  observacionesAbiertas: number;
+  licenciasPorRegistrar: number;
+  consultasPendientes: Date[]; // fecha de cada consulta derivada sin respuesta
+  derivadasUltimaSemana: number;
+  examenesSinResultado: number; // ya rindieron (cita hoy o antes) y no tienen resultado
+  citasDeHoy: number;
+  citasProximas: number; // exámenes programados en los próximos 7 días
+  resultadosPorValidar: number;
+  enEmision: ExpedienteEnEmision[];
+  abiertos: { numero: string; creadoEn: Date }[]; // expedientes que aún no terminan
+  cupos: CupoProximo[]; // desde mañana, próximos días
+}
+&nbsp;
+export type EstadoEmision = 'POR_VERIFICAR' | 'NO_CONFORME' | 'OBSERVADO' | 'LISTO';
+&nbsp;
+export function estadoEmision(e: ExpedienteEnEmision): EstadoEmision {
+  if (e.observacionAbierta) return 'OBSERVADO';
+  const ultimas = vigentes(e.verificaciones);
+  const obligatorias = verificacionesObligatorias(e.categoria);
+  if (obligatorias.some((t) =&gt; !ultimas.has(t))) return 'POR_VERIFICAR';
+  if (obligatorias.some((t) =&gt; ultimas.get(t)?.resultado !== ResultadoVerificacion.CONFORME)) return 'NO_CONFORME';
+  return 'LISTO';
+}
+&nbsp;
+function plazoPorVencer(abiertos: IndicadoresPersonal['abiertos'], hoy: Date): { vencidos: string[]; porVencer: string[] } {
+  const vencidos: string[] = [];
+  const porVencer: string[] = [];
+  for (const e of abiertos) {
+    const plazo = calcularPlazo(e.creadoEn, hoy);
+    if (plazo.vencido) vencidos.push(e.numero);
+    else if (plazo.diasRestantes &lt;= DIAS_ALERTA_PLAZO) porVencer.push(e.numero);
+  }
+  return { vencidos, porVencer };
+}
+&nbsp;
+const lista = (numeros: string[]) =&gt; (numeros.length &gt; 3 ? <span class="branch-0 cbranch-no" title="branch not covered" >`${numeros.slice(0, 3).join(', ')} y ${numeros.length - 3} más` </span>: numeros.join(', '));
+&nbsp;
+function pendientesDePlazo(i: IndicadoresPersonal, hoy: Date, ruta: string): Pendiente[] {
+  const { vencidos, porVencer } = plazoPorVencer(i.abiertos, hoy);
+  const salida: Pendiente[] = [];
+  if (vencidos.length) {
+    salida.push({ codigo: 'PLAZO_VENCIDO', texto: `${vencidos.length === 1 ? '1 expediente superó' : <span class="branch-1 cbranch-no" title="branch not covered" >`${vencidos.length} expedientes superaron`}</span> los ${PLAZO_DIAS_HABILES} días hábiles del plazo legal: ${lista(vencidos)}`, cantidad: vencidos.length, urgente: true, ruta });
+  }
+  if (porVencer.length) {
+    salida.push({ codigo: 'PLAZO_POR_VENCER', texto: `${porVencer.length === 1 ? '1 expediente vence' : <span class="branch-1 cbranch-no" title="branch not covered" >`${porVencer.length} expedientes vencen`}</span> su plazo legal en ${DIAS_ALERTA_PLAZO} días hábiles o menos: ${lista(porVencer)}`, cantidad: porVencer.length, urgente: true, ruta });
+  }
+  return salida;
+}
+&nbsp;
+/** Qué falta hacer según el rol. Los urgentes van primero. */
+export function pendientesDelPersonal(rol: Rol, i: IndicadoresPersonal, hoy = <span class="branch-0 cbranch-no" title="branch not covered" >new Date())</span>: Pendiente[] {
+  const p: Pendiente[] = [];
+  /** textos: [singular, plural]; «#» se reemplaza por la cantidad. */
+  const agregar = (codigo: string, cantidad: number, [uno, varios]: [string, string], ruta: string, urgente = false) =&gt; {
+    if (cantidad &gt; 0) p.push({ codigo, texto: (cantidad === 1 ? uno : varios).replace('#', String(cantidad)), cantidad, urgente, ruta });
+  };
+  const emision = i.enEmision.map(estadoEmision);
+  const contar = (estado: EstadoEmision) =&gt; emision.filter((e) =&gt; e === estado).length;
+&nbsp;
+  switch (rol) {
+    case Rol.GESTOR: {
+      const atrasadas = i.consultasPendientes.filter((f) =&gt; hoy.getTime() - f.getTime() &gt; HORAS_CONSULTA_ATRASADA * 3_600_000).length;
+      agregar('OBSERVACIONES', i.observacionesAbiertas, ['1 expediente devuelto por el supervisor: corrígelo y márcalo como atendido', '# expedientes devueltos por el supervisor: corrígelos y márcalos como atendidos'], '/gestor', true);
+      agregar('DOCUMENTOS', i.documentosPorRevisar, ['1 expediente con documentos por revisar', '# expedientes con documentos por revisar'], '/gestor?etapa=DOCUMENTOS');
+      agregar('PAGOS', i.pagosPorVerificar, ['1 pago por verificar en el SAT', '# pagos por verificar en el SAT'], '/gestor?etapa=PAGO');
+      agregar('VERIFICACIONES', contar('POR_VERIFICAR'), ['1 expediente en emisión sin verificar en el SNC o el récord de sanciones', '# expedientes en emisión sin verificar en el SNC o el récord de sanciones'], '/gestor?etapa=EMISION');
+      agregar('LICENCIAS', i.licenciasPorRegistrar, ['1 licencia emitida sin número registrado para el SNC', '# licencias emitidas sin número registrado para el SNC'], '/gestor?etapa=EMITIDA', true);
+      agregar('CONSULTAS', i.consultasPendientes.length, ['1 consulta de un postulante espera tu respuesta', '# consultas de postulantes esperan tu respuesta'], '/gestor/consultas', atrasadas &gt; 0);
+      p.push(...pendientesDePlazo(i, hoy, '/gestor'));
+      break;
+    }
+    case Rol.EVALUADOR:
+      agregar('SIN_RESULTADO', i.examenesSinResultado, ['1 examen ya rendido sin resultado registrado', '# exámenes ya rendidos sin resultado registrado'], '/evaluador', true);
+      agregar('CITAS_HOY', i.citasDeHoy, ['1 postulante citado hoy', '# postulantes citados hoy'], '/evaluador');
+      agregar('CITAS_PROXIMAS', i.citasProximas, ['1 examen programado en los próximos 7 días', '# exámenes programados en los próximos 7 días'], '/evaluador');
+      agregar('EN_VALIDACION', i.resultadosPorValidar, ['1 resultado espera la validación del supervisor (aún puedes corregirlo)', '# resultados esperan la validación del supervisor (aún puedes corregirlos)'], '/evaluador');
+      break;
+    case Rol.SUPERVISOR:
+      agregar('POR_VALIDAR', i.resultadosPorValidar, ['1 resultado de examen por validar', '# resultados de examen por validar'], '/supervisor', true);
+      agregar('LISTOS', contar('LISTO'), ['1 expediente verificado y listo para autorizar la emisión', '# expedientes verificados y listos para autorizar la emisión'], '/supervisor/emision', true);
+      agregar('NO_CONFORME', contar('NO_CONFORME'), ['1 expediente en emisión con una verificación no conforme', '# expedientes en emisión con una verificación no conforme'], '/supervisor/emision');
+      agregar('OBSERVADOS', contar('OBSERVADO'), ['1 expediente que devolviste y el gestor aún no atiende', '# expedientes que devolviste y el gestor aún no atiende'], '/supervisor/emision');
+      p.push(...pendientesDePlazo(i, hoy, '/supervisor/emision'));
+      break;
+    case Rol.ADMINISTRADOR: {
+      for (const tipo of ['CONOCIMIENTOS', 'MANEJO'] as const) {
+        const delTipo = i.cupos.filter((c) =&gt; c.tipo === tipo);
+        const libres = delTipo.reduce((s, c) =&gt; s + c.libres, 0);
+        const nombre = tipo === 'CONOCIMIENTOS' ? 'conocimientos' : 'manejo';
+        if (delTipo.length === 0) p.push({ codigo: `SIN_CUPOS_${tipo}`, texto: `No hay horarios de ${nombre} habilitados para los próximos días`, cantidad: 1, urgente: true, ruta: '/admin/cupos' });
+        else if (libres &lt;= 5) p.push({ codigo: `CUPOS_${tipo}`, texto: `Quedan ${libres} cupos libres de ${nombre} en los próximos días`, cantidad: libres, urgente: true, ruta: '/admin/cupos' });
+      }
+      const atrasadas = i.consultasPendientes.filter((f) =&gt; hoy.getTime() - f.getTime() &gt; HORAS_CONSULTA_ATRASADA * 3_600_000).length;
+      agregar('CONSULTAS_ATRASADAS', atrasadas, ['1 consulta derivada lleva más de 48 horas sin respuesta del gestor', '# consultas derivadas llevan más de 48 horas sin respuesta del gestor'], '/admin/auditoria');
+      agregar('CONTENIDO', i.derivadasUltimaSemana, ['1 consulta se derivó esta semana: revisa si conviene agregar contenido aprobado', '# consultas se derivaron esta semana: revisa si conviene agregar contenido aprobado'], '/admin/contenidos');
+      break;
+    }
+    default:
+      break;
+  }
+  return p.sort((a, b) =&gt; Number(b.urgente) - Number(a.urgente));
+}
+&nbsp;
+/* ---------- Postulante ---------- */
+&nbsp;
+export interface DatosPostulante {
+  numero: string;
+  categoria: Categoria;
+  etapa: Etapa;
+  creadoEn: Date;
+  documentos: { tipo: TipoDocumento; estado: string; observacion: string | null; fechaEmision: Date | null }[]; // el último de cada tipo
+  ultimoPago: { estado: string; observacion: string | null } | null;
+  proximasCitas: { tipo: 'CONOCIMIENTOS' | 'MANEJO'; fecha: string; hora: string }[];
+  evaluaciones: { tipo: 'CONOCIMIENTOS' | 'MANEJO'; estado: string; intentos: number }[];
+  respuestasNuevas: number; // respuestas del gestor de los últimos 7 días
+  licencia: string | null;
+}
+&nbsp;
+const NOMBRE_DOCUMENTO: Record&lt;TipoDocumento, [string, string]&gt; = {
+  [TipoDocumento.DECLARACION_JURADA]: ['declaración jurada', 'tu declaración jurada'],
+  [TipoDocumento.CERTIFICADO_MEDICO]: ['certificado médico', 'tu certificado médico'],
+  [TipoDocumento.FOTOGRAFIA]: ['fotografías', 'tus fotografías'],
+  [TipoDocumento.CONSTANCIA_COFIPRO]: ['constancia COFIPRO', 'tu constancia COFIPRO'],
+};
+const TASA: Record&lt;Categoria, string&gt; = { [Categoria.II_B]: 'S/ 69.90', [Categoria.II_C]: 'S/ 69.40' };
+const fechaCorta = (iso: string) =&gt; new Date(`${iso}T12:00:00Z`).toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+&nbsp;
+/** Recordatorios del postulante: lo que debe hacer ahora y lo que está por vencer. */
+export function recordatoriosDelPostulante(d: DatosPostulante | null, hoy = <span class="branch-0 cbranch-no" title="branch not covered" >new Date())</span>: Pendiente[] {
+  if (!d) return [{ codigo: 'SIN_TRAMITE', texto: 'Aún no inicias tu trámite: elige la categoría II-B (moto) o II-C (mototaxi) en Inicio.', cantidad: 1, urgente: false, ruta: '/postulante' }];
+  const r: Pendiente[] = [];
+  const agregar = (codigo: string, texto: string, ruta: string, urgente = false) =&gt; r.push({ codigo, texto, cantidad: 1, urgente, ruta });
+  const hoyIso = hoy.toISOString().slice(0, 10);
+&nbsp;
+  if (d.etapa === Etapa.DOCUMENTOS) {
+    for (const doc of d.documentos.filter((x) =&gt; x.estado === 'OBSERVADO')) {
+      agregar('DOCUMENTO_OBSERVADO', `Corrige ${NOMBRE_DOCUMENTO[doc.tipo][1]}: ${doc.observacion ?? <span class="branch-1 cbranch-no" title="branch not covered" >'fue observado'}</span>.`, '/postulante/documentos', true);
+    }
+    const faltan = documentosObligatorios(d.categoria).filter((t) =&gt; !d.documentos.some((x) =&gt; x.tipo === t));
+    if (faltan.length) agregar('DOCUMENTOS_FALTANTES', `Te falta adjuntar: ${faltan.map((t) =&gt; NOMBRE_DOCUMENTO[t][0]).join(', ')}.`, '/postulante/documentos', true);
+    else if (!d.documentos.some((x) =&gt; x.estado === 'OBSERVADO')) agregar('DOCUMENTOS_EN_REVISION', 'El gestor está revisando tus documentos.', '/postulante/documentos');
+  }
+&nbsp;
+  const certificado = d.documentos.find((x) =&gt; x.tipo === TipoDocumento.CERTIFICADO_MEDICO &amp;&amp; x.fechaEmision);
+  if (certificado?.fechaEmision &amp;&amp; d.etapa !== Etapa.EMITIDA) {
+    const vence = new Date(certificado.fechaEmision);
+    vence.setUTCMonth(vence.getUTCMonth() + 6);
+    const dias = Math.ceil((vence.getTime() - hoy.getTime()) / MILISEGUNDOS_DIA);
+    const fecha = vence.toISOString().slice(0, 10);
+    if (dias &lt; 0) agregar('CERTIFICADO_VENCIDO', `Tu certificado médico venció el ${fechaCorta(fecha)}: necesitas uno nuevo para continuar.`, '/postulante/documentos', true);
+    else if (dias &lt;= DIAS_ALERTA_CERTIFICADO) agregar('CERTIFICADO_POR_VENCER', `Tu certificado médico vence el ${fechaCorta(fecha)} (en ${dias} días). Avanza con tus exámenes antes de esa fecha.`, '/postulante/resultados', true);
+  }
+&nbsp;
+  if (d.etapa === Etapa.PAGO) {
+    if (!d.ultimoPago || d.ultimoPago.estado === 'OBSERVADO' || d.ultimoPago.estado === 'RECHAZADO') {
+      const motivo = d.ultimoPago?.observacion ? ` Tu pago anterior fue observado: ${d.ultimoPago.observacion}.` : '';
+      agregar('REGISTRAR_PAGO', `Paga ${TASA[d.categoria]} en el SAT Huamanga y registra el número de operación.${motivo}`, '/postulante/pago', true);
+    } else agregar('PAGO_EN_VERIFICACION', 'Tu pago está en verificación por el gestor.', '/postulante/pago');
+  }
+  if (d.etapa === Etapa.CITA) agregar('ELEGIR_CITA', 'Elige la fecha de tu examen de conocimientos (lunes a miércoles).', '/postulante/cita', true);
+&nbsp;
+  // Solo la cita del examen que le toca: las anteriores ya se usaron.
+  const examenActual = d.etapa === Etapa.EXAMEN_CONOCIMIENTOS ? 'CONOCIMIENTOS' : d.etapa === Etapa.EXAMEN_MANEJO ? 'MANEJO' : null;
+  for (const c of d.proximasCitas.filter((x) =&gt; x.tipo === examenActual)) {
+    const nombre = c.tipo === 'CONOCIMIENTOS' ? 'conocimientos' : <span class="branch-1 cbranch-no" title="branch not covered" >'manejo';</span>
+    const pronto = Math.ceil((new Date(`${c.fecha}T00:00:00Z`).getTime() - new Date(`${hoyIso}T00:00:00Z`).getTime()) / MILISEGUNDOS_DIA) &lt;= 1;
+    agregar(`CITA_${c.tipo}`, `Tu examen de ${nombre} es el ${fechaCorta(c.fecha)} a las ${c.hora}. Lleva tu DNI.`, '/postulante/cita', pronto);
+  }
+&nbsp;
+  const etapaExamen = examenActual;
+  if (etapaExamen) {
+    const ev = d.evaluaciones.find((e) =&gt; e.tipo === etapaExamen);
+    const tieneCita = d.proximasCitas.some((c) =&gt; c.tipo === etapaExamen);
+    const nombre = etapaExamen === 'CONOCIMIENTOS' ? 'conocimientos' : 'manejo';
+    if (ev?.estado === 'AGOTADO') agregar('INTENTOS_AGOTADOS', `Usaste los 3 intentos del examen de ${nombre}. Acércate a la Subgerencia de Tránsito para orientarte.`, '/postulante/resultados', true);
+    else if (ev?.estado === 'REGISTRADO') agregar('RESULTADO_EN_VALIDACION', `Tu resultado de ${nombre} está en validación por el supervisor.`, '/postulante/resultados');
+    else if (ev &amp;&amp; ev.intentos &gt; 0 &amp;&amp; !tieneCita) agregar('REINTENTO', `No aprobaste el intento ${ev.intentos} de ${nombre}; te quedan ${3 - ev.intentos} sin volver a pagar. Reserva una nueva cita.`, '/postulante/cita', true);
+    else if (!tieneCita &amp;&amp; etapaExamen === 'MANEJO') agregar('RESERVAR_MANEJO', 'Aprobaste conocimientos: reserva tu examen de manejo (martes a viernes).', '/postulante/cita', true);
+  }
+&nbsp;
+  if (d.etapa === Etapa.EMISION) agregar('EN_EMISION', 'Aprobaste ambos exámenes: la Subgerencia de Tránsito revisa tu expediente para emitir la licencia.', '/postulante');
+  if (d.etapa === Etapa.EMITIDA) {
+    agregar('LICENCIA', d.licencia ? `Tu licencia ${d.licencia} fue registrada.` : 'Tu licencia fue emitida; pronto verás su número registrado.', '/postulante/resultados');
+  } else {
+    const plazo = calcularPlazo(d.creadoEn, hoy);
+    if (plazo.vencido) agregar('PLAZO', `Tu trámite ${d.numero} superó los ${PLAZO_DIAS_HABILES} días hábiles del plazo legal.`, '/postulante');
+  }
+  if (d.respuestasNuevas &gt; 0) agregar('RESPUESTAS', `El gestor respondió ${d.respuestasNuevas === 1 ? <span class="branch-0 cbranch-no" title="branch not covered" >'una de tus consultas' </span>: `${d.respuestasNuevas} de tus consultas`}.`, '/postulante?chat=abierto');
+&nbsp;
+  return r.sort((a, b) =&gt; Number(b.urgente) - Number(a.urgente));
+}
+&nbsp;
+/** Texto para el chat: «¿qué tengo pendiente?». */
+export function describirPendientes(pendientes: Pendiente[], personal: boolean): string {
+  if (pendientes.length === 0) return personal ? 'No tienes pendientes en este momento. Todo está al día.' : 'No tienes pendientes por ahora.';
+  const lineas = pendientes.slice(0, 6).map((p) =&gt; `• ${p.texto}${p.urgente ? ' (urgente)' : ''}`);
+  return `${personal ? 'Esto tienes pendiente:' : <span class="branch-1 cbranch-no" title="branch not covered" >'Lo que te toca ahora:'}</span>\n${lineas.join('\n')}`;
+}
+&nbsp;
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-11-26T15:06:05.954Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    

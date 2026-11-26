@@ -241,7 +241,7 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
     await chat.getByRole('button', { name: 'Enviar' }).click();
     await expect(chat.getByText(/Queda bloqueada para siempre/)).toBeVisible();
     await expect(chat.getByText('Información oficial')).toBeVisible();
-    await capturar(page, '16-supervisor-lucia');
+    await capturar(page, '17-supervisor-lucia');
   });
 });
 

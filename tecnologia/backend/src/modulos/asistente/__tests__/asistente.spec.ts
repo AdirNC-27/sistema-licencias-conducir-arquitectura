@@ -19,7 +19,11 @@ const CONTENIDOS = aContenidos(CONTENIDOS_INICIALES, Audiencia.POSTULANTE, 1);
 /** El repositorio guarda ambos públicos; el asistente del postulante nunca usa los del personal. */
 const DEL_PERSONAL = aContenidos(CONTENIDOS_PERSONAL, Audiencia.PERSONAL, CONTENIDOS_INICIALES.length + 1);
 /** Sin datos del trámite: los recordatorios se prueban en pendientes.spec.ts. */
-const lecturaVacia: LecturaPendientes = { indicadoresPersonal: async () => { throw new Error('no usado'); }, datosPostulante: async () => null };
+const lecturaVacia: LecturaPendientes = {
+  indicadoresPersonal: async () => { throw new Error('no usado'); },
+  datosPostulante: async () => null,
+  identificarPostulantes: async (ids) => new Map(ids.map((i) => [i, { nombre: 'JUAN CARLOS QUISPE MENDOZA', dni: '45892014' }])),
+};
 const id = (texto: string) => CONTENIDOS.find((c) => c.pregunta === texto)!.id;
 
 class RepoContenidos implements RepositorioContenidos {
@@ -255,8 +259,8 @@ describe('Casos de uso del asistente (RF14, RF15)', () => {
     const derivada = await caso.preguntar(postulante, '¿El examen se puede dar en quechua?');
     expect(derivada.derivada).toBe(true);
     const eventos = eventosFalsos();
-    const atencion = new AtenderConsultasUseCase(consultas, eventos);
-    expect(await atencion.derivadas(true)).toEqual([expect.objectContaining({ id: derivada.id, postulanteId: 10 })]);
+    const atencion = new AtenderConsultasUseCase(consultas, eventos, lecturaVacia);
+    expect(await atencion.derivadas(true)).toEqual([expect.objectContaining({ id: derivada.id, postulanteId: 10, postulanteNombre: 'JUAN CARLOS QUISPE MENDOZA', postulanteDni: '45892014' })]);
     const r = await atencion.responder(derivada.id, 'Los feriados no hay exámenes; elige otro día.', usuario(Rol.GESTOR, { id: 2 }));
     expect(r.respuestaGestor).toBe('Los feriados no hay exámenes; elige otro día.');
     expect(eventos.emit).toHaveBeenCalledWith('auditoria.operacion', expect.objectContaining({ accion: 'RESPONDER_CONSULTA' }));

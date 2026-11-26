@@ -288,7 +288,7 @@ export function ChatLucia() {
         <button
           type="button"
           onClick={() => setAbierto(true)}
-          className="lucia-entrada fixed bottom-[11rem] right-4 z-40 max-w-[220px] rounded-2xl rounded-br-md bg-white px-4 py-3 text-left text-sm text-slate-700 shadow-xl ring-1 ring-black/5 sm:bottom-28 sm:right-6"
+          className="lucia-entrada fixed bottom-[11rem] right-4 z-40 hidden max-w-[220px] sm:block rounded-2xl rounded-br-md bg-white px-4 py-3 text-left text-sm text-slate-700 shadow-xl ring-1 ring-black/5 sm:bottom-28 sm:right-6"
         >
           <span className="font-bold text-marca-oscuro">¡Hola, {nombreBonito}!</span> Soy Lucía. ¿Te ayudo con algo?
         </button>
