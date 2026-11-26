@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Rol } from '../../../compartido/dominio/rol';
 
 export class UsuarioSesionRespuesta {
@@ -35,6 +35,7 @@ export class UsuarioTokenRespuesta {
   @ApiProperty({ enum: Rol, enumName: 'Rol' }) rol!: Rol;
   @ApiProperty({ type: Number, nullable: true, example: 1 }) postulanteId!:
     number | null;
+  @ApiPropertyOptional({ example: 'JUAN CARLOS QUISPE MENDOZA', description: 'Nombre para mostrar (tokens emitidos desde el sprint 2)' }) nombre?: string;
 }
 
 export class CuentaRespuesta {

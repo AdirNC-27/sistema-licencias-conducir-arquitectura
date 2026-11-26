@@ -9,6 +9,7 @@ import { ConsultaAsistente, LONGITUD_PREGUNTA, MENSAJE_ACCION, MENSAJE_SIN_RESPU
 import { Audiencia, ContenidoAprobado, DatosContenido, validarContenido } from '../dominio/contenido';
 import { ASISTENTE_IA, AsistenteIA, LECTURA_PENDIENTES, LecturaPendientes, REPOSITORIO_CONSULTAS, REPOSITORIO_CONTENIDOS, RepositorioConsultas, RepositorioContenidos } from '../dominio/contratos';
 import { describirEstado } from '../dominio/estado-tramite';
+import { analizarCharla, primerNombre, Publico, responderCharla, saludoBreve } from '../dominio/conversacion';
 import { afirmaAccion, anonimizar, clasificar, Intencion, pidePendientes } from '../dominio/intencion';
 import { describirPendientes, Pendiente, pendientesDelPersonal, recordatoriosDelPostulante } from '../dominio/pendientes';
 
@@ -54,7 +55,8 @@ export class ConsultarAsistenteUseCase {
     if (texto.length < LONGITUD_PREGUNTA.minimo || texto.length > LONGITUD_PREGUNTA.maximo) {
       throw new ReglaNegocioError(`Escriba una pregunta de ${LONGITUD_PREGUNTA.minimo} a ${LONGITUD_PREGUNTA.maximo} caracteres`);
     }
-    const decision = await this.decidir(texto, usuario.postulanteId);
+    const postulanteId = usuario.postulanteId;
+    const decision = await conLucia(texto, usuario, 'POSTULANTE', (resto) => this.decidir(resto, postulanteId));
     const consulta = await this.consultas.registrar({ postulanteId: usuario.postulanteId, pregunta: texto, ...decision });
     return vistaConsulta(consulta);
   }
@@ -96,6 +98,18 @@ export class ConsultarAsistenteUseCase {
   }
 }
 
+/**
+ * Lucía atiende primero la charla (saludos, gracias, mensajes ofensivos o sin sentido) con frases
+ * fijas; si el mensaje trae una pregunta del trámite, sigue el flujo normal y antepone el saludo.
+ */
+async function conLucia(texto: string, usuario: UsuarioActual, publico: Publico, flujo: (resto: string) => Promise<Decision>): Promise<Decision> {
+  const charla = analizarCharla(texto);
+  const nombre = primerNombre(usuario.nombre);
+  if (charla.tipo) return { respuesta: responderCharla(charla.tipo, publico, nombre), origen: OrigenRespuesta.CONVERSACION, fuentes: [] };
+  const decision = await flujo(charla.resto);
+  return charla.saludo ? { ...decision, respuesta: `${saludoBreve(nombre)}${decision.respuesta}`.slice(0, 1500) } : decision;
+}
+
 /** Lo que cada usuario tiene por hacer: pendientes del personal o recordatorios del postulante. */
 @Injectable()
 export class ConsultarPendientesUseCase {
@@ -133,7 +147,7 @@ export class ConsultarAsistentePersonalUseCase {
     if (texto.length < LONGITUD_PREGUNTA.minimo || texto.length > LONGITUD_PREGUNTA.maximo) {
       throw new ReglaNegocioError(`Escriba una pregunta de ${LONGITUD_PREGUNTA.minimo} a ${LONGITUD_PREGUNTA.maximo} caracteres`);
     }
-    return { pregunta: texto, ...(await this.decidir(texto, usuario)), creadoEn: new Date() };
+    return { pregunta: texto, ...(await conLucia(texto, usuario, 'PERSONAL', (resto) => this.decidir(resto, usuario))), creadoEn: new Date() };
   }
 
   private async decidir(pregunta: string, usuario: UsuarioActual): Promise<Decision> {

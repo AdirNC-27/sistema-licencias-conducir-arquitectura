@@ -434,7 +434,7 @@
                 "exec": [
                   "pm.test('Responde 200', () => pm.response.to.have.status(200));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"usuario\":{\"type\":\"string\"},\"rol\":{\"type\":\"string\",\"enum\":[\"POSTULANTE\",\"GESTOR\",\"EVALUADOR\",\"SUPERVISOR\",\"ADMINISTRADOR\"]},\"postulanteId\":{\"type\":[\"number\",\"null\"]}},\"required\":[\"id\",\"usuario\",\"rol\",\"postulanteId\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"usuario\":{\"type\":\"string\"},\"rol\":{\"type\":\"string\",\"enum\":[\"POSTULANTE\",\"GESTOR\",\"EVALUADOR\",\"SUPERVISOR\",\"ADMINISTRADOR\"]},\"postulanteId\":{\"type\":[\"number\",\"null\"]},\"nombre\":{\"type\":\"string\"}},\"required\":[\"id\",\"usuario\",\"rol\",\"postulanteId\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Es el postulante', () => pm.expect(cuerpo.usuario).to.eql('45892014'));"
@@ -6260,7 +6260,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Responde con contenido aprobado', () => { pm.expect(['IA', 'CONTENIDO']).to.include(cuerpo.origen); pm.expect(cuerpo.derivada).to.eql(false); });",
@@ -6318,7 +6318,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Responde con su expediente', () => { pm.expect(cuerpo.origen).to.eql('ESTADO'); pm.expect(cuerpo.respuesta).to.include('revisión de documentos'); });"
@@ -6375,7 +6375,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Derivada al gestor', () => { pm.expect(cuerpo.origen).to.eql('DERIVADA'); pm.expect(cuerpo.respuesta).to.include('no apruebo'); });"
@@ -6432,7 +6432,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.collectionVariables.set('consultaDerivadaId', cuerpo.id);",
@@ -6602,7 +6602,7 @@
                 "exec": [
                   "pm.test('Responde 200', () => pm.response.to.have.status(200));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false}};",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false}};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Incluye la consulta', () => pm.expect(cuerpo.map((c) => c.id)).to.include(pm.collectionVariables.get('consultaDerivadaId')));"
@@ -6687,7 +6687,7 @@
                 "exec": [
                   "pm.test('Responde 200', () => pm.response.to.have.status(200));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]},\"postulanteId\":{\"type\":\"number\"}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\",\"postulanteId\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();"
                 ]
@@ -6803,7 +6803,7 @@
                 "exec": [
                   "pm.test('Responde 200', () => pm.response.to.have.status(200));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false}};",
+                  "const esquema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"derivada\":{\"type\":\"boolean\"},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"},\"respuestaGestor\":{\"type\":[\"string\",\"null\"]},\"respondidaEn\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"id\",\"pregunta\",\"respuesta\",\"origen\",\"derivada\",\"fuentes\",\"creadoEn\",\"respuestaGestor\",\"respondidaEn\"],\"additionalProperties\":false}};",
                   "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Ve la respuesta del gestor', () => pm.expect(cuerpo.map((c) => c.respuestaGestor)).to.include('Solo atendemos consultas sobre la licencia de conducir.'));"
@@ -7182,7 +7182,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Responde con datos del sistema', () => pm.expect(cuerpo.origen).to.eql('ESTADO'));"
@@ -7240,7 +7240,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Procedimiento aprobado', () => pm.expect(['CONTENIDO', 'IA']).to.include(cuerpo.origen));"
@@ -7298,7 +7298,7 @@
                 "exec": [
                   "pm.test('Responde 201', () => pm.response.to.have.status(201));",
                   "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
-                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"pregunta\":{\"type\":\"string\"},\"respuesta\":{\"type\":\"string\"},\"origen\":{\"type\":\"string\",\"enum\":[\"IA\",\"CONTENIDO\",\"ESTADO\",\"CONVERSACION\",\"DERIVADA\"]},\"fuentes\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}},\"creadoEn\":{\"type\":\"string\"}},\"required\":[\"pregunta\",\"respuesta\",\"origen\",\"fuentes\",\"creadoEn\"],\"additionalProperties\":false};",
                   "pm.test('Cumple el contrato OpenAPI (201)', () => pm.response.to.have.jsonSchema(esquema));",
                   "const cuerpo = pm.response.json();",
                   "pm.test('Explica que no ejecuta acciones', () => pm.expect(cuerpo.respuesta).to.include('No ejecuto acciones'));"

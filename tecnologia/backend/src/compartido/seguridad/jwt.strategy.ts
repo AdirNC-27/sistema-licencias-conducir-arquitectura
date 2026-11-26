@@ -9,6 +9,7 @@ interface CargaToken {
   usuario: string;
   rol: Rol;
   postulanteId: number | null;
+  nombre?: string;
 }
 
 @Injectable()
@@ -22,6 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(carga: CargaToken): UsuarioActual {
-    return { id: carga.sub, usuario: carga.usuario, rol: carga.rol, postulanteId: carga.postulanteId };
+    return { id: carga.sub, usuario: carga.usuario, rol: carga.rol, postulanteId: carga.postulanteId, nombre: carga.nombre };
   }
 }
