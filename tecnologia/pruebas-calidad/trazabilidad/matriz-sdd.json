@@ -1,0 +1,849 @@
+{
+ "SDD-01": {
+  "CA1": {
+   "regla": "POST /auth/login",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "inicia sesión y el rol sale de la cuenta"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "el login rechaza una clave incorrecta"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /auth/login",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza clave incorrecta o usuario inexistente"
+    },
+    {
+     "tipo": "api",
+     "prueba": "credenciales incorrectas responden 401"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "PATCH /expedientes/{id}/emision · GuardaRoles + @Roles",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "evaluador no puede patch /api/expedientes/1/emision (403)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "evaluador no puede post /api/evaluaciones/1/validacion (403)"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "GuardaJwt (APP_GUARD global)",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "sin token responde 401"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "PATCH /usuarios/{id}/rol",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el administrador cambia el rol del personal y queda auditado"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el administrador cambia un rol y queda auditado; el endpoint de salud responde"
+    }
+   ]
+  }
+ },
+ "SDD-02": {
+  "CA1": {
+   "regla": "POST /postulantes · ConsultaDni (API Perú)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "crea el postulante con los nombres de API Perú y una cuenta con rol POSTULANTE"
+    },
+    {
+     "tipo": "api",
+     "prueba": "registra un postulante nuevo con DNI (RF03, RF04)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /postulantes",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no permite dos cuentas con el mismo DNI"
+    },
+    {
+     "tipo": "api",
+     "prueba": "registra un postulante nuevo con DNI (RF03, RF04)"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "Dni (postulantes/dominio/postulante.ts)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "valida el formato del DNI"
+    }
+   ]
+  }
+ },
+ "SDD-03": {
+  "CA1": {
+   "regla": "GET /requisitos",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "requisitos públicos con caché (RF22)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "RepositorioRequisitosCacheado (Decorator)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "consulta PostgreSQL una sola vez y repite la respuesta desde la memoria por 10 minutos"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "cada categoría tiene su propia entrada en la caché"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "CACHE_REQUISITOS=false",
+   "pruebas": [
+    {
+     "tipo": "evidencia",
+     "ruta": "docs/06-validacion-calidad/README.md",
+     "texto": "k6 cache-requisitos.js: p95 de 167.6 ms a 81.7 ms con caché (fila EQ-03 Caché)"
+    }
+   ]
+  }
+ },
+ "SDD-04": {
+  "CA1": {
+   "regla": "POST /expedientes",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "crea una solicitud de emisión en etapa DOCUMENTOS (RF02)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el postulante crea su expediente II-C (RF02)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /expedientes",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza un segundo trámite activo, otro tipo de trámite o un usuario que no es postulante"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el postulante crea su expediente II-C (RF02)"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "Expediente.avanzarDesde / exigirEtapa",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "avanza solo desde la etapa esperada"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "no permite saltarse una etapa"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "exigirEtapa rechaza operaciones fuera de etapa"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "calcularPlazo / diasHabilesEntre",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "cuenta solo de lunes a viernes"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "marca vencido después de 10 días hábiles"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "GET /expedientes/{id} · dueño o personal",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el dueño y el personal pueden verlo; otro postulante no"
+    },
+    {
+     "tipo": "api",
+     "prueba": "privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)"
+    }
+   ]
+  },
+  "CA6": {
+   "regla": "PATCH /expedientes/{id}/emision",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no autoriza la emisión sin verificaciones; con todo conforme, autoriza y audita"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    }
+   ]
+  }
+ },
+ "SDD-05": {
+  "CA1": {
+   "regla": "POST /expedientes/{id}/documentos",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "el postulante inicia el trámite y adjunta sus documentos"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "SubirDocumentoUseCase · tipo y 2 MB",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "valida tipo de archivo, tamaño, categoría, fecha del certificado y duplicados"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "Documento.revisar · 6 meses (RF23)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el certificado médico vence a los 6 meses (RF23)"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "no aprueba un certificado vencido; observar exige motivo; un aprobado no cambia"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "documentosObligatorios(categoria)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "con todos los documentos aprobados el expediente pasa a PAGO"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "la II-C exige además la constancia COFIPRO"
+    },
+    {
+     "tipo": "api",
+     "prueba": "sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "GET /documentos/{id}/archivo · dueño o personal",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)"
+    }
+   ]
+  }
+ },
+ "SDD-06": {
+  "CA1": {
+   "regla": "Pago.validarRegistro · TASA_EMISION",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "exige la tasa exacta de la categoría"
+    },
+    {
+     "tipo": "api",
+     "prueba": "registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /expedientes/{id}/pagos",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza operación repetida y un segundo pago pendiente"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "PATCH /pagos/{id}/verificacion",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "registra, verifica y avanza el expediente a CITA"
+    },
+    {
+     "tipo": "api",
+     "prueba": "registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "Pago.verificar",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "un pago verificado no cambia y observar exige motivo"
+    }
+   ]
+  }
+ },
+ "SDD-07": {
+  "CA1": {
+   "regla": "POST /cupos · validarDiaDeExamen",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "conocimientos solo de lunes a miércoles; manejo de martes a viernes"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /expedientes/{id}/citas · evento CITA_RESERVADA",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "reserva conocimientos, avanza a EXAMEN_CONOCIMIENTOS y emite el recordatorio"
+    },
+    {
+     "tipo": "api",
+     "prueba": "reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21)"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "Cupo.reservar",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no reserva sin cupos ni en fechas pasadas"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "UPDATE cupos … WHERE ocupados < capacidad (reserva atómica)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no permite manejo antes de aprobar conocimientos, ni dos citas futuras, ni perder la carrera por el último cupo"
+    },
+    {
+     "tipo": "evidencia",
+     "ruta": "docs/06-validacion-calidad/evidencias/base-de-datos/03-concurrencia-cupos.txt",
+     "texto": "50 reservas simultáneas: entran 15 de 15 cupos, el resto 409"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "ReservarCitaUseCase · orden de exámenes",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no permite manejo antes de aprobar conocimientos, ni dos citas futuras, ni perder la carrera por el último cupo"
+    }
+   ]
+  }
+ },
+ "SDD-08": {
+  "CA1": {
+   "regla": "Evaluacion.registrar",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "registra el primer intento y queda REGISTRADO"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "PATCH /evaluaciones/{id}/resultado",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "permite corregir antes de validar sin consumir intento (RF09)"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "corrige antes de validar y lo deja en auditoría con motivo"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "Evaluacion.validar / corregir (bloqueo, DA04)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "al validar un aprobado lo bloquea: no se puede corregir ni volver a validar (EQ-09)"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza corregir un validado y registra el intento en auditoría (EQ-09)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09)"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "Evaluacion.registrar · IntentosAgotadosError",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza el cuarto intento (RF08)"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "POST /evaluaciones/{id}/validacion",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "registra, valida y hace avanzar el expediente a EXAMEN_MANEJO"
+    },
+    {
+     "tipo": "api",
+     "prueba": "manejo aprobado y validado lleva a EMISION; sin verificaciones no se autoriza (RF12, RF24)"
+    }
+   ]
+  }
+ },
+ "SDD-09": {
+  "CA1": {
+   "regla": "NotificarListener.alReservarCita (Observer)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "envía el recordatorio de la cita por correo y guarda el aviso"
+    },
+    {
+     "tipo": "api",
+     "prueba": "reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "NotificarListener.alCambiarEtapa",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "avisa el cambio de etapa aunque el correo falle o no exista el postulante"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "ServicioNotificaciones (NotificadorCorreo o NotificadorBrevo)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "avisa el cambio de etapa aunque el correo falle o no exista el postulante"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "sin clave no llama a la API y devuelve false (el aviso interno se guarda igual)"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "si Brevo rechaza o no responde, devuelve false sin lanzar error"
+    }
+   ]
+  }
+ },
+ "SDD-10": {
+  "CA1": {
+   "regla": "GET /auditoria · REGISTRO_AUDITORIA",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "OPERACIONES_AUDITABLES (16)",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "GET /auditoria (solo lectura)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "la auditoría es de solo lectura: su único endpoint es GET /auditoria (SDD-10 CA3, RF17)"
+    }
+   ]
+  }
+ },
+ "SDD-11": {
+  "CA1": {
+   "regla": "verificacionesObligatorias(categoria)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "la II-B solo exige el certificado en el SNC; la II-C agrega COFIPRO y sanciones"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /expedientes/{id}/verificaciones · validarVerificacion",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "rechaza una verificación que no corresponde a la categoría y exige detalle si no es conforme"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "pendientesDeEmision (RF27)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "una sanción pendiente impide la emisión (RF27)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el gestor verifica en el SNC y en el récord de sanciones; una sanción pendiente bloquea (RF24, RF27)"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "vigentes(verificaciones)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "la constancia vigente de cada tipo es la última registrada"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "POST /expedientes/{id}/licencia",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "registra la licencia una sola vez, con número único, y avisa al postulante (RF24)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el gestor registra la licencia para el SNC; el postulante la ve y recibe el aviso (RF24)"
+    }
+   ]
+  },
+  "CA6": {
+   "regla": "Expediente.exigirEtapa(EMISION)",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "el gestor registra la licencia para el SNC; el postulante la ve y recibe el aviso (RF24)"
+    }
+   ]
+  }
+ },
+ "SDD-12": {
+  "CA1": {
+   "regla": "GET /expedientes/{id}/revision",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "lista lo pendiente: faltantes, no conformes y observaciones abiertas (RF27: sanciones pendientes bloquean)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "manejo aprobado y validado lleva a EMISION; sin verificaciones no se autoriza (RF12, RF24)"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "POST /expedientes/{id}/observaciones",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el supervisor observa, la emisión se bloquea y el gestor atiende (RF11)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "el supervisor revisa, devuelve el expediente y el gestor lo atiende (RF11)"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "ObservarExpedienteUseCase · una ABIERTA por expediente",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el supervisor observa, la emisión se bloquea y el gestor atiende (RF11)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "AutorizarEmisionUseCase · pendientesDeEmision",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "no autoriza la emisión sin verificaciones; con todo conforme, autoriza y audita"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "el supervisor observa, la emisión se bloquea y el gestor atiende (RF11)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "PATCH /observaciones/{id}/atencion",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "exige un motivo y una respuesta claros, y solo se atiende una vez"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    }
+   ]
+  },
+  "CA6": {
+   "regla": "PATCH /expedientes/{id}/emision",
+   "pruebas": [
+    {
+     "tipo": "api",
+     "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "el supervisor autoriza la emisión, el gestor registra la licencia y queda en la auditoría"
+    }
+   ]
+  }
+ },
+ "SDD-13": {
+  "CA1": {
+   "regla": "POST /asistente/consultas · contenido aprobado",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "sin IA configurada entrega el contenido aprobado tal cual"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "con IA, envía la pregunta anonimizada y solo el contenido encontrado"
+    },
+    {
+     "tipo": "api",
+     "prueba": "responde con contenido aprobado, sin inventar"
+    },
+    {
+     "tipo": "evidencia",
+     "ruta": "docs/06-validacion-calidad/evidencias/promptfoo/eq08-ejecucion.txt",
+     "texto": "promptfoo EQ-08: 20 de 20 preguntas del trámite"
+    }
+   ]
+  },
+  "CA2": {
+   "regla": "origen ESTADO",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "responde el estado con el expediente del propio postulante"
+    },
+    {
+     "tipo": "api",
+     "prueba": "responde el estado del propio trámite"
+    }
+   ]
+  },
+  "CA3": {
+   "regla": "detección de pedidos de acción (0 acciones)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "un pedido de acción se deriva sin consultar a la IA (0 acciones)"
+    },
+    {
+     "tipo": "api",
+     "prueba": "un pedido de acción se deriva y no cambia nada (0 acciones)"
+    },
+    {
+     "tipo": "evidencia",
+     "ruta": "docs/06-validacion-calidad/evidencias/promptfoo/eq08-ejecucion.txt",
+     "texto": "promptfoo EQ-08: 10 de 10 pedidos derivados"
+    }
+   ]
+  },
+  "CA4": {
+   "regla": "derivación al gestor",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "una pregunta ajena al trámite se deriva"
+    },
+    {
+     "tipo": "api",
+     "prueba": "una pregunta ajena al trámite se deriva al gestor, que responde"
+    }
+   ]
+  },
+  "CA5": {
+   "regla": "PATCH /asistente/consultas/{id}/respuesta",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el gestor responde la derivada: se audita y se avisa al postulante"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el postulante ve su conversación con la respuesta del gestor; nadie más la ve (EQ-02)"
+    }
+   ]
+  },
+  "CA6": {
+   "regla": "PUT /asistente/contenidos/{id}",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el administrador crea, modifica y desactiva contenido; el asistente deja de usarlo"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el administrador mantiene el contenido aprobado (HU25)"
+    }
+   ]
+  },
+  "CA7": {
+   "regla": "AdaptadorIAGemini · respaldo con el texto aprobado",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "si la IA falla o afirma haber hecho algo, entrega el contenido aprobado"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "si el servicio falla, responde con error o tarda demasiado, devuelve null"
+    }
+   ]
+  },
+  "CA8": {
+   "regla": "GET /asistente/pendientes (ADR-016)",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "gestor: lo que debe revisar, con singular y plural, y los urgentes primero"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "«¿qué tengo pendiente?» responde con los datos del sistema, sin la IA"
+    },
+    {
+     "tipo": "api",
+     "prueba": "cada rol ve sus pendientes; el postulante, sus recordatorios"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "el personal ve sus pendientes y consulta a Lucía"
+    }
+   ]
+  },
+  "CA9": {
+   "regla": "recordatoriosDelPostulante",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "certificado médico por vencer o vencido (6 meses)"
+    }
+   ]
+  },
+  "CA10": {
+   "regla": "POST /asistente/personal/consultas",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "responde procedimientos con el contenido del personal y la IA en modo personal"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "un pedido de acción no se ejecuta: explica dónde hacerlo"
+    },
+    {
+     "tipo": "api",
+     "prueba": "la IA de orientación del personal responde pendientes y procedimientos, sin ejecutar nada"
+    }
+   ]
+  },
+  "CA11": {
+   "regla": "analizarCharla / responderCharla",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "responde con su nombre, el del usuario y lo que puede hacer según el público"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "un saludo con pregunta deja la pregunta para el flujo del trámite"
+    },
+    {
+     "tipo": "api",
+     "prueba": "Lucía responde la charla sin derivarla y saluda por el nombre"
+    },
+    {
+     "tipo": "portal",
+     "prueba": "Lucía saluda, orienta, deriva al gestor y muestra su respuesta (RF14, RF15)"
+    }
+   ]
+  }
+ }
+}

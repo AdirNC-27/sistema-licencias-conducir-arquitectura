@@ -4,11 +4,22 @@
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
-import { ARCHIVO_CONTRATO, generarContrato, serializarContrato } from '../src/configuracion/contrato-openapi';
+import { ARCHIVO_CONTRATO, GUIA_CONTRATO, generarContrato, guiaConTabla, serializarContrato } from '../src/configuracion/contrato-openapi';
 
 async function principal() {
-  const actual = serializarContrato(await generarContrato());
+  const documento = await generarContrato();
+  const actual = serializarContrato(documento);
+  const guiaGuardada = readFileSync(GUIA_CONTRATO, 'utf8').replace(/\r\n/g, '\n');
+  const guia = guiaConTabla(guiaGuardada, documento);
+  if (guia === null) {
+    console.error(`Faltan los marcadores de la tabla de operaciones en ${GUIA_CONTRATO}.`);
+    process.exit(1);
+  }
   if (process.argv.includes('--verificar')) {
+    if (guia !== guiaGuardada) {
+      console.error('La tabla de operaciones de la guía no coincide con el código. Ejecute "npm run contrato" y haga commit.');
+      process.exit(1);
+    }
     // Se ignora el tipo de fin de línea (CRLF en Windows, LF en Linux)
     const guardado = existsSync(ARCHIVO_CONTRATO) ? readFileSync(ARCHIVO_CONTRATO, 'utf8').replace(/\r\n/g, '\n') : '';
     if (guardado !== actual) {
@@ -20,6 +31,7 @@ async function principal() {
   }
   mkdirSync(dirname(ARCHIVO_CONTRATO), { recursive: true });
   writeFileSync(ARCHIVO_CONTRATO, actual);
-  console.log(`Contrato escrito en ${ARCHIVO_CONTRATO}`);
+  writeFileSync(GUIA_CONTRATO, guia);
+  console.log(`Contrato escrito en ${ARCHIVO_CONTRATO} y tabla de operaciones actualizada en ${GUIA_CONTRATO}`);
 }
 void principal();

@@ -9,7 +9,8 @@ El contrato **se genera desde el código**, no se escribe a mano. Cada operació
 | Control | Qué comprueba | Dónde |
 |---|---|---|
 | `npm run contrato:verificar` | `openapi.json` es igual al que genera el código | GitHub Actions |
-| Prueba `contrato-openapi.spec.ts` | Las 47 operaciones tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
+| `npm run contrato:verificar` (tabla) | La tabla de [Operaciones](#operaciones) de esta guía, con sus conteos, es la que genera el contrato | GitHub Actions |
+| Prueba `contrato-openapi.spec.ts` | Las 47 operaciones de negocio tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
 | Colección de Postman | Cada respuesta real cumple exactamente el esquema documentado (sin campos de más ni de menos) | Newman en GitHub Actions |
 
 Después de cambiar un endpoint: `npm run contrato` en `tecnologia/backend` y `node generar-coleccion.mjs` en `tecnologia/pruebas-calidad/postman`.
@@ -26,7 +27,7 @@ Después de cambiar un endpoint: `npm run contrato` en `tecnologia/backend` y `n
 | Consultar | `GET` → **200** |
 | Cambiar de estado | `PATCH` sobre una acción concreta (`/revision`, `/verificacion`, `/emision`, `/rol`) → **200** |
 | Validar un resultado | `POST /evaluaciones/{id}/validacion` → **200** (es una acción, no crea un recurso) |
-| **Sin `PUT` ni `DELETE`** | Un expediente es un registro administrativo: no se reemplaza completo ni se borra. Cada cambio es una acción con su motivo, y queda en la auditoría con el valor anterior y el nuevo (RF17, EQ-07). Una corrección se hace con otra acción, nunca borrando |
+| **Sin `DELETE`; `PUT` solo en catálogos** | Un expediente es un registro administrativo: no se reemplaza completo ni se borra. Cada cambio es una acción con su motivo, y queda en la auditoría con el valor anterior y el nuevo (RF17, EQ-07). Una corrección se hace con otra acción, nunca borrando. La única excepción es `PUT /asistente/contenidos/{id}`: el administrador reemplaza un texto del catálogo del asistente (o lo desactiva), y el cambio también queda en la auditoría |
 | Paginación | `GET /expedientes?pagina=1&tamano=20` → `{ total, pagina, tamano, datos }` |
 
 ## Códigos de respuesta
@@ -61,37 +62,59 @@ Todos los errores, sean del dominio, de validación o de seguridad, responden co
 
 ## Operaciones
 
+<!-- operaciones:inicio (generado por "npm run contrato"; no editar a mano) -->
+
+**40 rutas y 48 operaciones**: 47 de negocio declaradas con `@Contrato` más `GET /health`, que genera `@nestjs/terminus`. 4 son públicas y 44 exigen token.
+
 | Recurso | Método | Ruta | Operación | Éxito | Errores | Acceso |
 |---|---|---|---|---|---|---|
 | Identidad y acceso | POST | `/auth/login` | Iniciar sesión (RF01) | 200 | 400 401 | Pública |
 | Identidad y acceso | GET | `/auth/yo` | Datos del usuario autenticado | 200 | 401 | Token |
 | Identidad y acceso | GET | `/usuarios` | Listar cuentas (RF16) | 200 | 401 403 | Token |
 | Identidad y acceso | PATCH | `/usuarios/{id}/rol` | Cambiar el rol de una cuenta del personal (RF16, auditable) | 200 | 400 401 403 404 422 | Token |
-| Postulantes | POST | `/postulantes` | Crear cuenta de postulante con DNI validado en API Perú (RF03, RF04) | 201 | 400 404 409 422 | Pública |
 | Postulantes | GET | `/postulantes` | Nombres y DNI de varios postulantes (bandeja del personal, una sola consulta) | 200 | 401 403 | Token |
+| Postulantes | POST | `/postulantes` | Crear cuenta de postulante con DNI validado en API Perú (RF03, RF04) | 201 | 400 404 409 422 | Pública |
 | Postulantes | GET | `/postulantes/{id}` | Datos de un postulante (el propio o, para el personal, cualquiera) | 200 | 400 401 403 404 | Token |
 | Requisitos (TUPA) | GET | `/requisitos` | Requisitos del TUPA por trámite y categoría (RF22) | 200 | 400 | Pública |
-| Expedientes y seguimiento | POST | `/expedientes` | Registrar una solicitud de licencia (RF02) | 201 | 400 401 403 409 422 | Token |
 | Expedientes y seguimiento | GET | `/expedientes` | Bandeja de expedientes del personal, con filtros y paginación | 200 | 400 401 403 | Token |
+| Expedientes y seguimiento | POST | `/expedientes` | Registrar una solicitud de licencia (RF02) | 201 | 400 401 403 409 422 | Token |
 | Expedientes y seguimiento | GET | `/expedientes/mios` | Mis trámites con etapa y plazo (RF10) | 200 | 401 403 | Token |
 | Expedientes y seguimiento | GET | `/expedientes/{id}` | Estado, etapa y plazo de un expediente (RF10) | 200 | 400 401 403 404 | Token |
-| Expedientes y seguimiento | PATCH | `/expedientes/{id}/emision` | Autorizar la emisión de la licencia (RF12, auditable) | 200 | 400 401 403 404 409 | Token |
-| Requisitos y documentos | POST | `/expedientes/{id}/documentos` | Adjuntar un documento del expediente (RF03) | 201 | 400 401 403 404 409 413 422 | Token |
 | Requisitos y documentos | GET | `/expedientes/{id}/documentos` | Documentos del expediente y su estado | 200 | 400 401 403 404 | Token |
+| Requisitos y documentos | POST | `/expedientes/{id}/documentos` | Adjuntar un documento del expediente (RF03) | 201 | 400 401 403 404 409 413 422 | Token |
 | Requisitos y documentos | GET | `/documentos/{id}/archivo` | Descargar el archivo de un documento (solo el dueño o el personal, EQ-02) | 200 | 400 401 403 404 | Token |
 | Requisitos y documentos | PATCH | `/documentos/{id}/revision` | Aprobar u observar un documento (RF04, auditable) | 200 | 400 401 403 404 409 422 | Token |
-| Pagos | POST | `/expedientes/{id}/pagos` | Registrar el recibo pagado en el SAT Huamanga (RF05) | 201 | 400 401 403 404 409 422 | Token |
 | Pagos | GET | `/expedientes/{id}/pagos` | Pagos del expediente | 200 | 400 401 403 404 | Token |
+| Pagos | POST | `/expedientes/{id}/pagos` | Registrar el recibo pagado en el SAT Huamanga (RF05) | 201 | 400 401 403 404 409 422 | Token |
 | Pagos | PATCH | `/pagos/{id}/verificacion` | Verificar, observar o rechazar un pago (RF06, auditable) | 200 | 400 401 403 404 409 422 | Token |
-| Citas | POST | `/cupos` | Habilitar un horario con cupos (RF21) | 201 | 400 401 403 409 422 | Token |
 | Citas | GET | `/cupos` | Horarios con cupos disponibles | 200 | 400 401 | Token |
-| Citas | POST | `/expedientes/{id}/citas` | Reservar la cita de examen (RF07) | 201 | 400 401 403 404 409 422 | Token |
+| Citas | POST | `/cupos` | Habilitar un horario con cupos (RF21) | 201 | 400 401 403 409 422 | Token |
 | Citas | GET | `/expedientes/{id}/citas` | Citas programadas del expediente | 200 | 400 401 403 404 | Token |
+| Citas | POST | `/expedientes/{id}/citas` | Reservar la cita de examen (RF07) | 201 | 400 401 403 404 409 422 | Token |
 | Evaluaciones | POST | `/expedientes/{id}/evaluaciones/{tipo}/resultado` | Registrar el resultado de un intento (RF08, máximo 3) | 201 | 400 401 403 404 409 | Token |
 | Evaluaciones | PATCH | `/evaluaciones/{id}/resultado` | Corregir el resultado antes de la validación (RF09, auditable) | 200 | 400 401 403 404 409 | Token |
 | Evaluaciones | POST | `/evaluaciones/{id}/validacion` | Validar el resultado: queda bloqueado (RF09, DA04) | 200 | 400 401 403 404 409 | Token |
 | Evaluaciones | GET | `/evaluaciones/por-validar` | Resultados registrados que esperan la validación del supervisor | 200 | 401 403 | Token |
 | Evaluaciones | GET | `/expedientes/{id}/evaluaciones` | Resultados del expediente (RF19) | 200 | 400 401 403 404 | Token |
 | Auditoría | GET | `/auditoria` | Bitácora de solo lectura (RF17) | 200 | 400 401 403 | Token |
+| Revisión y emisión | GET | `/expedientes/{id}/revision` | Revisión del expediente: verificaciones, observaciones, licencia y pendientes (RF11) | 200 | 400 401 403 404 | Token |
+| Revisión y emisión | POST | `/expedientes/{id}/verificaciones` | Registrar una verificación en el SNC o en el récord de sanciones (RF24, RF27, auditable) | 201 | 400 401 403 404 409 422 | Token |
+| Revisión y emisión | POST | `/expedientes/{id}/observaciones` | Observar el expediente y devolverlo al gestor (RF11, auditable) | 201 | 400 401 403 404 409 422 | Token |
+| Revisión y emisión | GET | `/observaciones/abiertas` | Expedientes devueltos por el supervisor y aún no atendidos | 200 | 401 403 | Token |
+| Revisión y emisión | PATCH | `/observaciones/{id}/atencion` | Atender una observación del supervisor (RF11, auditable) | 200 | 400 401 403 404 409 422 | Token |
+| Revisión y emisión | PATCH | `/expedientes/{id}/emision` | Autorizar la emisión de la licencia (RF12, auditable) | 200 | 400 401 403 404 409 422 | Token |
+| Revisión y emisión | GET | `/expedientes/{id}/licencia` | Licencia emitida del expediente | 200 | 400 401 403 404 | Token |
+| Revisión y emisión | POST | `/expedientes/{id}/licencia` | Registrar la licencia emitida para su carga en el SNC (RF24, auditable) | 201 | 400 401 403 404 409 422 | Token |
+| Asistente virtual | GET | `/asistente/pendientes` | Mis pendientes y recordatorios | 200 | 401 | Token |
+| Asistente virtual | POST | `/asistente/personal/consultas` | Preguntar a la IA de orientación (personal) | 201 | 400 401 403 422 | Token |
+| Asistente virtual | POST | `/asistente/consultas` | Preguntar a la IA de orientación (RF14, RF15) | 201 | 400 401 403 422 | Token |
+| Asistente virtual | GET | `/asistente/consultas/mias` | Mi conversación con el asistente | 200 | 401 403 | Token |
+| Asistente virtual | GET | `/asistente/derivadas` | Consultas derivadas al gestor (RF15) | 200 | 400 401 403 | Token |
+| Asistente virtual | PATCH | `/asistente/consultas/{id}/respuesta` | Responder una consulta derivada (RF15, auditable) | 200 | 400 401 403 404 409 422 | Token |
+| Asistente virtual | GET | `/asistente/contenidos` | Contenido aprobado del asistente (HU25) | 200 | 401 403 | Token |
+| Asistente virtual | POST | `/asistente/contenidos` | Agregar contenido aprobado (HU25, auditable) | 201 | 400 401 403 422 | Token |
+| Asistente virtual | PUT | `/asistente/contenidos/{id}` | Modificar o desactivar contenido aprobado (HU25, auditable) | 200 | 400 401 403 404 422 | Token |
 | Notificaciones | GET | `/notificaciones/mias` | Avisos del postulante (RF13) | 200 | 401 403 | Token |
-`GET /health` (estado de la API y de PostgreSQL) completa las 32 rutas; la genera `@nestjs/terminus`.
+| Salud | GET | `/health` | Estado de la API y de PostgreSQL (EQ-04, monitoreo con UptimeRobot) | 200 | 503 | Pública |
+
+<!-- operaciones:fin -->

@@ -5,6 +5,7 @@ import { DataSource } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { configurarAplicacion } from '../src/configuracion/aplicacion';
 import { ASISTENTE_IA } from '../src/modulos/asistente/dominio/contratos';
+import { SERVICIO_NOTIFICACIONES } from '../src/modulos/notificaciones/dominio/servicio-notificaciones';
 import { VERIFICADOR_IDENTIDAD } from '../src/modulos/postulantes/dominio/contratos';
 
 /**
@@ -126,6 +127,7 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     await http.get(`/api/documentos/${docs.body[0].id}/archivo`).set(auth('ana')).expect(403);
     await http.get(`/api/documentos/${docs.body[0].id}/archivo`).expect(401);
     await http.patch(`/api/documentos/${docs.body[2].id}/revision`).set(auth('gestor')).send({ estado: 'OBSERVADO' }).expect(422);
+    await http.patch(`/api/documentos/${docs.body[2].id}/revision`).set(auth('gestor')).send({ estado: 'OBSERVADO', observacion: 'La foto no tiene fondo blanco' }).expect(200);
     for (const d of docs.body) {
       await http.patch(`/api/documentos/${d.id}/revision`).set(auth('gestor')).send({ estado: 'APROBADO' }).expect(200);
     }
@@ -348,8 +350,10 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
   it('las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07)', async () => {
     const r = await http.get('/api/auditoria').set(auth('admin')).expect(200);
     const acciones = new Set(r.body.map((a: { accion: string }) => a.accion));
+    // Las 16 operaciones auditables (EQ-07): estas 15 en el trámite y CAMBIAR_ROL en la prueba siguiente
     for (const accion of [
       'APROBAR_DOCUMENTO',
+      'OBSERVAR_DOCUMENTO',
       'VERIFICAR_PAGO',
       'REGISTRAR_RESULTADO',
       'CORREGIR_RESULTADO',
@@ -370,6 +374,11 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     expect(fila).toMatchObject({ motivo: 'Error de digitación', valorAnterior: { puntaje: 12 } });
     expect(fila.usuarioId).toBeGreaterThan(0);
     expect(fila.fecha).toBeDefined();
+  });
+
+  it('el correo usa el proveedor configurado y el trámite funciona igual con cualquiera (EQ-06)', () => {
+    const esperado = process.env.CORREO_PROVEEDOR === 'brevo' ? 'NotificadorBrevo' : 'NotificadorCorreo';
+    expect((app.get(SERVICIO_NOTIFICACIONES) as object).constructor.name).toBe(esperado);
   });
 
   it('el administrador cambia un rol y queda auditado; el endpoint de salud responde', async () => {

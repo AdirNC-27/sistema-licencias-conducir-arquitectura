@@ -44,7 +44,7 @@ async function reservarCita(page: Page, captura: string) {
 }
 
 test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
-  test('el login muestra las cuentas y rechaza una clave incorrecta', async ({ page }) => {
+  test('el login rechaza una clave incorrecta', async ({ page }) => {
     await page.goto('/login');
     await capturar(page, '01-login');
     await page.getByLabel('DNI o usuario').fill('gestor');

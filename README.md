@@ -88,13 +88,15 @@ prototipo/                        # prototipo navegable (Google Stitch)
 
 | Tipo | Herramienta | Comando | Resultado |
 |---|---|---|---|
-| Unitarias (dominio, casos de uso, contrato) | Jest | `npm run test:cov` (backend) | 136 pruebas, cobertura de líneas 99.7 % |
-| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 35 pruebas |
-| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 138 solicitudes, 480 aserciones |
-| Asistente con IA (EQ-08) | promptfoo | ver [promptfoo](tecnologia/pruebas-calidad/promptfoo/README.md) | 30 de 30 (sin clave de IA) |
+| Unitarias (dominio, casos de uso, adaptadores, contrato) | Jest | `npm run test:cov` (backend) | 192 pruebas, cobertura de líneas 99.7 % |
+| API con PostgreSQL | Jest + Supertest | `npm run test:e2e` (backend) | 39 pruebas |
+| Funcionales y de contrato | Postman + Newman | ver [postman](tecnologia/pruebas-calidad/postman/README.md) | 145 solicitudes, 506 aserciones |
+| Contrato OpenAPI | `npm run contrato:verificar` | ver [guía de la API](docs/07-contrato-api/README.md) | 40 rutas y 48 operaciones; la tabla de la guía se genera desde el código |
+| Asistente con IA (EQ-08) | promptfoo | ver [promptfoo](tecnologia/pruebas-calidad/promptfoo/README.md) | 30 de 30 (con Gemini y sin clave de IA) |
 | Reglas de arquitectura | dependency-cruiser | `npm run arquitectura` (backend) | 0 violaciones |
-| Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 20 pruebas, WCAG 2.1 AA |
-| Carga | k6 | ver [k6](tecnologia/pruebas-calidad/k6) | p95 de 13.7 ms con 2 000 usuarios |
+| Portal en el navegador | Playwright + axe-core | `npm run e2e` (frontend) | 21 pruebas, WCAG 2.1 AA |
+| Carga (9 min) | k6 | ver [evidencia](docs/06-validacion-calidad/evidencias/k6/README.md) | 2 000 usuarios sostenidos: p95 de 108.6 ms y 0 % de errores |
+| Trazabilidad SDD | Jest y Playwright | ver [matriz](docs/05-especificaciones-sdd/matriz-trazabilidad.md) | 64 de 65 criterios con prueba que pasa; 1 con medición de k6 |
 
 Resultados y capturas en [docs/06-validacion-calidad](docs/06-validacion-calidad/README.md).
 

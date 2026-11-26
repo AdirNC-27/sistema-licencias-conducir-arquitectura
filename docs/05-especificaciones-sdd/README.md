@@ -27,7 +27,11 @@ Cada funcionalidad se escribió primero como especificación y después se progr
 | [SDD-10](sdd-10-auditoria.md) | Auditoría de operaciones | RF17 | 3 |
 | [SDD-11](sdd-11-verificaciones-oficiales.md) | Verificación en el SNC y en el récord de sanciones | RF24, RF27 | 6 |
 | [SDD-12](sdd-12-revision-del-supervisor.md) | Revisión del supervisor y emisión | RF11, RF12 | 6 |
-| [SDD-13](sdd-13-asistente-virtual.md) | Asistente virtual con la IA de orientación | RF14, RF15 | 7 |
+| [SDD-13](sdd-13-asistente-virtual.md) | Asistente virtual con la IA de orientación | RF14, RF15 | 11 |
+
+## Trazabilidad
+
+La [matriz de trazabilidad](matriz-trazabilidad.md) relaciona cada uno de los 65 criterios con su regla o endpoint, las pruebas que lo comprueban y el resultado de la última ejecución. Se genera desde los reportes de las pruebas ([cómo](../../tecnologia/pruebas-calidad/trazabilidad/README.md)).
 
 ## Flujo que conectan
 

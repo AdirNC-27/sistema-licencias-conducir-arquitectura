@@ -1,0 +1,152 @@
+{
+ "stats": {
+  "startTime": "2026-11-26T17:33:30.612Z",
+  "duration": 65481.174000000006,
+  "expected": 21,
+  "skipped": 0,
+  "unexpected": 0,
+  "flaky": 0
+ },
+ "suites": [
+  {
+   "title": "accesibilidad.spec.ts",
+   "file": "accesibilidad.spec.ts",
+   "specs": [
+    {
+     "title": "sin fallas graves de accesibilidad · público",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    },
+    {
+     "title": "sin fallas graves de accesibilidad · 45892014",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    },
+    {
+     "title": "sin fallas graves de accesibilidad · gestor",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    },
+    {
+     "title": "sin fallas graves de accesibilidad · evaluador",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    },
+    {
+     "title": "sin fallas graves de accesibilidad · supervisor",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    },
+    {
+     "title": "sin fallas graves de accesibilidad · admin",
+     "ok": true,
+     "file": "accesibilidad.spec.ts"
+    }
+   ],
+   "suites": []
+  },
+  {
+   "title": "flujo-tramite.spec.ts",
+   "file": "flujo-tramite.spec.ts",
+   "specs": [],
+   "suites": [
+    {
+     "title": "Trámite de licencia II-C de inicio a fin",
+     "file": "flujo-tramite.spec.ts",
+     "specs": [
+      {
+       "title": "el login rechaza una clave incorrecta",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el postulante inicia el trámite y adjunta sus documentos",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el gestor revisa y aprueba los documentos",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el postulante registra su pago y el gestor lo verifica",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "conocimientos: cita, resultado y validación",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "manejo: cita, resultado y validación",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el gestor verifica en el SNC y en el récord de sanciones (RF24, RF27)",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el supervisor revisa, devuelve el expediente y el gestor lo atiende (RF11)",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el supervisor autoriza la emisión, el gestor registra la licencia y queda en la auditoría",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el postulante ve su licencia emitida y sus resultados",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "Lucía saluda, orienta, deriva al gestor y muestra su respuesta (RF14, RF15)",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "el personal ve sus pendientes y consulta a Lucía",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      }
+     ],
+     "suites": []
+    },
+    {
+     "title": "Control de acceso en el portal (EQ-02)",
+     "file": "flujo-tramite.spec.ts",
+     "specs": [
+      {
+       "title": "un postulante no entra al área del administrador",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      },
+      {
+       "title": "sin sesión se redirige al login",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      }
+     ],
+     "suites": []
+    },
+    {
+     "title": "Vista móvil",
+     "file": "flujo-tramite.spec.ts",
+     "specs": [
+      {
+       "title": "el postulante navega con la barra inferior",
+       "ok": true,
+       "file": "flujo-tramite.spec.ts"
+      }
+     ],
+     "suites": []
+    }
+   ]
+  }
+ ]
+}
