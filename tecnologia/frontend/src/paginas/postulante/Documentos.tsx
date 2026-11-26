@@ -54,11 +54,15 @@ function FilaDocumento({ requisito, documento, expedienteId, editable, alSubir }
         <div className="mt-3"><Aviso tipo="alerta">Observación del gestor: {documento.observacion}. Vuelve a adjuntarlo.</Aviso></div>
       )}
       {puedeSubir && (
-        <div className="mt-3 flex flex-col gap-3 rounded-xl bg-fondo p-3 sm:flex-row sm:items-end">
-          <label className="flex-1">
+        <div className="mt-3 flex flex-col gap-3 rounded-xl bg-fondo p-3 sm:flex-row sm:flex-wrap sm:items-end">
+          <div className="min-w-0 flex-1 basis-64">
             <span className="etiqueta">Archivo (PDF, JPG o PNG, máx. 2 MB)</span>
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-marca file:px-3 file:py-2 file:text-white" onChange={(e) => setArchivo(e.target.files?.[0] ?? null)} />
-          </label>
+            <label className="flex cursor-pointer items-center gap-3">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="peer sr-only" onChange={(e) => setArchivo(e.target.files?.[0] ?? null)} />
+              <span className="btn-primario shrink-0 peer-focus-visible:ring-4 peer-focus-visible:ring-blue-200"><Icono nombre="upload" className="text-lg" />Seleccionar archivo</span>
+              <span className={`truncate text-sm ${archivo ? 'font-medium text-slate-800' : 'text-slate-500'}`}>{archivo?.name ?? 'Sin archivos seleccionados'}</span>
+            </label>
+          </div>
           {tipo === 'CERTIFICADO_MEDICO' && (
             <label>
               <span className="etiqueta">Fecha de emisión</span>
