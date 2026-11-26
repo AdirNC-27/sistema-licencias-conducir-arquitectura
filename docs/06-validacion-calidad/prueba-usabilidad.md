@@ -8,7 +8,7 @@
 | Puntaje SUS promedio | ≥ 68 | Cuestionario SUS en Google Forms |
 | Accesibilidad | ≥ 90 | Lighthouse (portal) y axe-core en las pantallas con sesión |
 
-La parte automática ya está medida: Lighthouse da **100** de accesibilidad en el portal, y axe-core no encuentra fallas graves WCAG 2.1 AA en las 16 pantallas de los cinco roles (`npm run e2e`). Esta guía cubre la parte con personas.
+La parte automática ya está medida: Lighthouse da **100** de accesibilidad en el portal, y axe-core no encuentra fallas graves WCAG 2.1 AA en las 22 pantallas de los cinco roles (`npm run e2e`). Esta guía cubre la parte con personas.
 
 ## Participantes
 

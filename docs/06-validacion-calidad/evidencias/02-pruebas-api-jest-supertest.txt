@@ -1,40 +1,52 @@
-# Pruebas de integración de la API · npm run test:e2e
-# Ejecutado en la laptop del entorno de prueba (Windows, Node.js 22, PostgreSQL 16) el 19/11/2026.
-
-PS D:\Serie 400 PAR\LABO - ARQUITECTURA\sistema-licencias-conducir-arquitectura\tecnologia\backend> npm run test:e2e
 
 > licencias-clase-b-backend@0.0.1 test:e2e
 > jest --config ./test/jest-e2e.json --runInBand
 
- PASS  test/flujo-tramite.e2e-spec.ts (5.1 s)
+PASS test/flujo-tramite.e2e-spec.ts (6.999 s)
   Flujo completo del trámite de emisión (e2e)
-    √ requisitos públicos con caché (RF22) (6 ms)
-    √ registra un postulante nuevo con DNI (RF03, RF04) (129 ms)
-    √ el postulante crea su expediente II-C (RF02) (11 ms)
-    √ privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02) (71 ms)
-    √ sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04) (178 ms)
-    √ registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06) (43 ms)
-    √ reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21) (48 ms)
-    √ registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09) (69 ms)
-    √ manejo aprobado y validado lleva a EMISION; el supervisor autoriza (RF12) (40 ms)
-    √ las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07) (25 ms)
-    √ el administrador cambia un rol y queda auditado; el endpoint de salud responde (38 ms)
+    √ requisitos públicos con caché (RF22) (9 ms)
+    √ registra un postulante nuevo con DNI (RF03, RF04) (160 ms)
+    √ el personal consulta nombres de postulantes; un postulante no ve a otro (10 ms)
+    √ el postulante crea su expediente II-C (RF02) (17 ms)
+    √ privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02) (75 ms)
+    √ sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04) (119 ms)
+    √ registra el pago con la tasa exacta y el gestor lo verifica: pasa a CITA (RF05, RF06) (35 ms)
+    √ reserva la cita de conocimientos con cupo: pasa a EXAMEN_CONOCIMIENTOS (RF07, RF21) (42 ms)
+    √ un horario repetido se rechaza con 409, no con un error interno (RF21) (13 ms)
+    √ todos los errores tienen el mismo formato y mensajes en español (8 ms)
+    √ registra, corrige y valida conocimientos; el resultado validado queda bloqueado (RF08, RF09, EQ-09) (51 ms)
+    √ manejo aprobado y validado lleva a EMISION; sin verificaciones no se autoriza (RF12, RF24) (37 ms)
+    √ el gestor verifica en el SNC y en el récord de sanciones; una sanción pendiente bloquea (RF24, RF27) (56 ms)
+    √ el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12) (53 ms)
+    √ el gestor registra la licencia para el SNC; el postulante la ve y recibe el aviso (RF24) (34 ms)
+    √ las operaciones importantes quedan en auditoría con usuario, fecha y valores (EQ-07) (5 ms)
+    √ el administrador cambia un rol y queda auditado; el endpoint de salud responde (23 ms)
     Seguridad (EQ-01)
-      √ sin token responde 401 (8 ms)
-      √ credenciales incorrectas responden 401 (59 ms)
-      √ 45892014 no puede get /api/expedientes (403) (5 ms)
+      √ sin token responde 401 (9 ms)
+      √ credenciales incorrectas responden 401 (69 ms)
+      √ 45892014 no puede get /api/expedientes (403) (6 ms)
       √ 45892014 no puede get /api/usuarios (403) (4 ms)
-      √ 45892014 no puede get /api/auditoria (403) (3 ms)
-      √ evaluador no puede patch /api/expedientes/1/emision (403) (3 ms)
+      √ 45892014 no puede get /api/auditoria (403) (4 ms)
+      √ evaluador no puede patch /api/expedientes/1/emision (403) (4 ms)
       √ evaluador no puede post /api/evaluaciones/1/validacion (403) (3 ms)
-      √ gestor no puede post /api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado (403) (2 ms)
-      √ gestor no puede post /api/cupos (403) (2 ms)
+      √ gestor no puede post /api/expedientes/1/evaluaciones/CONOCIMIENTOS/resultado (403) (3 ms)
+      √ gestor no puede post /api/cupos (403) (3 ms)
       √ supervisor no puede patch /api/pagos/1/verificacion (403) (3 ms)
-      √ supervisor no puede patch /api/usuarios/1/rol (403) (3 ms)
+      √ supervisor no puede patch /api/usuarios/1/rol (403) (2 ms)
       √ admin no puede post /api/expedientes (403) (2 ms)
+    Asistente virtual con la IA de orientación (RF14, RF15, EQ-08)
+      √ responde con contenido aprobado, sin inventar (15 ms)
+      √ responde el estado del propio trámite (20 ms)
+      √ un pedido de acción se deriva y no cambia nada (0 acciones) (19 ms)
+      √ una pregunta ajena al trámite se deriva al gestor, que responde (34 ms)
+      √ el postulante ve su conversación con la respuesta del gestor; nadie más la ve (EQ-02) (80 ms)
+      √ el administrador mantiene el contenido aprobado (HU25) (49 ms)
+      √ Lucía responde la charla sin derivarla y saluda por el nombre (22 ms)
+      √ cada rol ve sus pendientes; el postulante, sus recordatorios (56 ms)
+      √ la IA de orientación del personal responde pendientes y procedimientos, sin ejecutar nada (35 ms)
 
 Test Suites: 1 passed, 1 total
-Tests:       23 passed, 23 total
+Tests:       38 passed, 38 total
 Snapshots:   0 total
-Time:        5.305 s
+Time:        7.267 s
 Ran all test suites.

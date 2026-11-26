@@ -17,6 +17,8 @@ export class ConsultaRespuesta {
 
 export class ConsultaDerivadaRespuesta extends ConsultaRespuesta {
   @ApiProperty({ example: 1 }) postulanteId!: number;
+  @ApiProperty({ type: String, nullable: true, example: 'JUAN CARLOS QUISPE MENDOZA' }) postulanteNombre!: string | null;
+  @ApiProperty({ type: String, nullable: true, example: '45892014' }) postulanteDni!: string | null;
 }
 
 export class ContenidoRespuesta {

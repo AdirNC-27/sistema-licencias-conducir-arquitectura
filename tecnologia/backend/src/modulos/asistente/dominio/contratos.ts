@@ -42,6 +42,8 @@ export interface AsistenteIA {
 export interface LecturaPendientes {
   indicadoresPersonal(hoy: Date): Promise<IndicadoresPersonal>;
   datosPostulante(postulanteId: number, hoy: Date): Promise<DatosPostulante | null>;
+  /** Nombre y DNI para que el gestor sepa a quién responde. */
+  identificarPostulantes(ids: number[]): Promise<Map<number, { nombre: string; dni: string }>>;
 }
 
 export const REPOSITORIO_CONTENIDOS = Symbol('RepositorioContenidos');

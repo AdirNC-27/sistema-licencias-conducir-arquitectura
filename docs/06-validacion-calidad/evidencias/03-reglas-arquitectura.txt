@@ -1,10 +1,7 @@
-# Reglas de arquitectura · npm run arquitectura
-# Ejecutado en la laptop del entorno de prueba (Windows, Node.js 22, PostgreSQL 16) el 19/11/2026.
-
-PS D:\Serie 400 PAR\LABO - ARQUITECTURA\sistema-licencias-conducir-arquitectura\tecnologia\backend> npm run arquitectura
 
 > licencias-clase-b-backend@0.0.1 arquitectura
 > depcruise src --config .dependency-cruiser.cjs
 
 
-✔ no dependency violations found (107 modules, 411 dependencies cruised)
+✔ no dependency violations found (152 modules, 603 dependencies cruised)
+

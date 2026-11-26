@@ -41,7 +41,7 @@ export function Consultas() {
         <ul className="space-y-4">
           {consultas.datos.map((c) => (
             <li key={c.id} className="tarjeta">
-              <p className="text-xs text-slate-500">Postulante {c.postulanteId} · {fechaHora(c.creadoEn)}</p>
+              <p className="text-xs text-slate-500"><span className="font-semibold text-slate-700">{c.postulanteNombre ?? `Postulante ${c.postulanteId}`}</span>{c.postulanteDni && ` · DNI ${c.postulanteDni}`} · {fechaHora(c.creadoEn)}</p>
               <p className="mt-1 font-semibold text-slate-800">{c.pregunta}</p>
               {c.respuestaGestor ? (
                 <p className="mt-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-900">{c.respuestaGestor}</p>

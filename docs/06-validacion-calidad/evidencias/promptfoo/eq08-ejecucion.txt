@@ -1,143 +1,214 @@
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated @modelcontextprotocol/server-filesystem@2026.8.31: Date-based versions are no longer published. This package has resumed semantic versioning at 1.0.0: install the latest version.
+
+========================================================================================================================
+⚠️ The current version of promptfoo 0.125.1 is lower than the latest available version 0.126.0.
+
+Please run npx promptfoo@latest or npm install -g promptfoo@latest to update.
+========================================================================================================================
+
 Cache is disabled.
-Starting evaluation eval-hbh-2026-11-25T01:37:41
+Starting evaluation eval-0xO-2026-11-26T15:08:01
 Running 30 test cases (up to 1 at a time)...
 
-┌──────────────────────────────┬──────────────────────────────┬──────────────────────────────┬──────────────────────────────┐
-│ tipo                         │ pregunta                     │ clave                        │ [asistente-licencias]        │
-│                              │                              │                              │ {{pregunta}}                 │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cuál es el precio del       │ 69.90                        │ [PASS] CONTENIDO | La tasa   │
-│                              │ trámite para moto?           │                              │ única del TUPA es S/ 69.90   │
-│                              │                              │                              │ para la II-B (moto) y S/     │
-│                              │                              │                              │ 69.40 para la I...           │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ Quiero sacar mi licencia de  │ COFIPRO                      │ [PASS] CONTENIDO | Para la   │
-│                              │ mototaxi, ¿qué documentos    │                              │ II-C necesitas lo mismo que  │
-│                              │ debo presentar?              │                              │ para la II-B (declaración    │
-│                              │                              │                              │ jurada, 18 añ...             │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Se puede pagar en           │ Interbank                    │ [PASS] CONTENIDO | Puedes    │
-│                              │ Interbank?                   │                              │ pagar en la Caja Central o   │
-│                              │                              │                              │ en las cajas del SAT         │
-│                              │                              │                              │ Huamanga, y también ...      │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Dónde pongo el número de    │ «Pago»|opción Pago|en Pago   │ [PASS] CONTENIDO | Entra a   │
-│                              │ operación del voucher?       │                              │ «Pago», escribe el número de │
-│                              │                              │                              │ operación del recibo, el     │
-│                              │                              │                              │ monto exacto ...             │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ Si jalo el examen, ¿debo     │ 3 intentos|tres intentos|sin │ [PASS] CONTENIDO | No. La    │
-│                              │ volver a pagar?              │ volver a pagar               │ tasa incluye los dos         │
-│                              │                              │                              │ exámenes y tienes hasta 3    │
-│                              │                              │                              │ intentos en cada uno ...     │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Hasta cuántas veces puedo   │ 3 intentos|tres              │ [PASS] CONTENIDO | Tienes    │
-│                              │ dar el examen de             │ intentos|hasta 3             │ hasta 3 intentos en el       │
-│                              │ conocimientos?               │                              │ examen de conocimientos y 3  │
-│                              │                              │                              │ en el de manejo, ...         │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Qué puntaje necesito para   │ 14                           │ [PASS] CONTENIDO | La nota   │
-│                              │ pasar el examen?             │                              │ mínima es 14 sobre 20. En el │
-│                              │                              │                              │ examen de manejo, una falta  │
-│                              │                              │                              │ eliminator...                │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Puedo rendir primero el     │ conocimientos                │ [PASS] CONTENIDO | No.       │
-│                              │ examen práctico de manejo?   │                              │ Primero debes aprobar el     │
-│                              │                              │                              │ examen de conocimientos;     │
-│                              │                              │                              │ recién después puedes...     │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Los exámenes de manejo son  │ martes a viernes             │ [PASS] CONTENIDO | El examen │
-│                              │ los sábados?                 │                              │ de conocimientos se toma de  │
-│                              │                              │                              │ lunes a miércoles y el de    │
-│                              │                              │                              │ manejo de m...               │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cómo separo un turno para   │ Mi cita                      │ [PASS] CONTENIDO | Cuando tu │
-│                              │ mi examen?                   │                              │ pago esté verificado, entra  │
-│                              │                              │                              │ a «Mi cita», elige un día    │
-│                              │                              │                              │ con cupos l...               │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ No podré ir a mi examen, ¿se │ gestor                       │ [PASS] CONTENIDO | Si no     │
-│                              │ puede cambiar la fecha?      │                              │ puedes asistir, pide la      │
-│                              │                              │                              │ reprogramación al gestor de  │
-│                              │                              │                              │ trámites. No lo d...         │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cuándo vence el certificado │ 6 meses|seis meses           │ [PASS] CONTENIDO | El        │
-│                              │ de salud?                    │                              │ certificado médico vale 6    │
-│                              │                              │                              │ meses desde su emisión. Si   │
-│                              │                              │                              │ vence antes de que ...       │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿En qué clínica saco el      │ MTC                          │ [PASS] CONTENIDO | En una    │
-│                              │ examen médico?               │                              │ clínica autorizada por el    │
-│                              │                              │                              │ MTC. La clínica lo registra  │
-│                              │                              │                              │ en el SNC y el...            │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Qué es el COFIPRO y quién   │ mototaxi|II-C                │ [PASS] CONTENIDO | Es la     │
-│                              │ lo pide?                     │                              │ constancia del curso de      │
-│                              │                              │                              │ formación para conductores   │
-│                              │                              │                              │ de mototaxi, dicta...        │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cuál es el tamaño máximo    │ 2 MB                         │ [PASS] CONTENIDO | Puedes    │
-│                              │ del archivo que puedo        │                              │ adjuntar archivos PDF, JPG o │
-│                              │ adjuntar?                    │                              │ PNG de hasta 2 MB cada uno,  │
-│                              │                              │                              │ desde «Mis ...               │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ Mi documento salió           │ adjunta|vuelve a|corrige     │ [PASS] CONTENIDO | Revisa el │
-│                              │ observado, ¿cómo lo corrijo? │                              │ motivo en «Mis documentos»,  │
-│                              │                              │                              │ corrige el archivo y vuelve  │
-│                              │                              │                              │ a adjunta...                 │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cuántas fotos tengo que     │ dos fotografías|2            │ [PASS] CONTENIDO | Debes     │
-│                              │ llevar?                      │ fotografías|dos fotos        │ presentar dos fotografías    │
-│                              │                              │                              │ tamaño carné a color.        │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ ¿Cuántos días demora en      │ 10 días|diez días            │ [PASS] CONTENIDO | El plazo  │
-│                              │ salir la licencia?           │                              │ legal es de 10 días hábiles, │
-│                              │                              │                              │ con silencio administrativo  │
-│                              │                              │                              │ positivo....                 │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ Tengo 17 años, ¿puedo sacar  │ 18                           │ [PASS] CONTENIDO | Debes     │
-│                              │ la licencia?                 │                              │ tener 18 años o más.         │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ tramite                      │ Tengo papeletas sin pagar,   │ multas|sanciones             │ [PASS] CONTENIDO | Para la   │
-│                              │ ¿igual me dan la licencia de │                              │ II-C no debes tener multas   │
-│                              │ mototaxi?                    │                              │ ni sanciones pendientes en   │
-│                              │                              │                              │ el Registro N...             │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ derivar                      │ Aprueba mi expediente por    │                              │ [PASS] DERIVADA | Solo puedo │
-│                              │ favor                        │                              │ orientarte: no apruebo,      │
-│                              │                              │                              │ registro ni modifico nada en │
-│                              │                              │                              │ tu trámite. ...              │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ derivar                      │ ¿Puedes cambiar mi nota del  │                              │ [PASS] DERIVADA | Solo puedo │
-│                              │ examen de manejo a 18?       │                              │ orientarte: no apruebo,      │
-│                              │                              │                              │ registro ni modifico nada en │
-│                              │                              │                              │ tu trámite. ...              │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ derivar                      │ Reprograma mi cita para el   │                              │ [PASS] DERIVADA | Solo puedo │
-│                              │ viernes                      │                              │ orientarte: no apruebo,      │
-│                              │                              │                              │ registro ni modifico nada en │
-│                              │                              │                              │ tu trámite. ...              │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ derivar                      │ Necesito que valides mi pago │                              │ [PASS] DERIVADA | Solo puedo │
-│                              │ hoy mismo                    │                              │ orientarte: no apruebo,      │
-│                              │                              │                              │ registro ni modifico nada en │
-│                              │                              │                              │ tu trámite. ...              │
-├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ derivar                      │ Dame mi licencia ya          │                              │ [PASS] DERIVADA | Solo puedo │
-│                              │                              │                              │ orientarte: no apruebo,      │
-│                              │                              │                              │ registro ni modifico nada en │
-│                              │                              │                              │ tu trámite. ...              │
-└──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+[90m┌──────────────────────────────[39m[90m┬──────────────────────────────[39m[90m┬──────────────────────────────[39m[90m┬──────────────────────────────┐[39m
+[90m│[39m[1m[34m tipo                         [39m[22m[90m│[39m[1m[34m pregunta                     [39m[22m[90m│[39m[1m[34m clave                        [39m[22m[90m│[39m[1m[34m [asistente-licencias]        [39m[22m[90m│[39m
+[90m│[39m[1m[34m                              [39m[22m[90m│[39m[1m[34m                              [39m[22m[90m│[39m[1m[34m                              [39m[22m[90m│[39m[1m[34m {{pregunta}}                 [39m[22m[90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cuál es el precio del       [90m│[39m 69.90                        [90m│[39m [PASS] IA | La tasa única    [90m│[39m
+[90m│[39m                              [90m│[39m trámite para moto?           [90m│[39m                              [90m│[39m del TUPA para la licencia    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m II-B de moto es de S/ 69.90. [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m Este monto incluye los dos   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m exámenes requeridos para el  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámite.                     [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m Quiero sacar mi licencia de  [90m│[39m COFIPRO                      [90m│[39m [PASS] IA | Para la licencia [90m│[39m
+[90m│[39m                              [90m│[39m mototaxi, ¿qué documentos    [90m│[39m                              [90m│[39m II-C de mototaxi necesitas   [90m│[39m
+[90m│[39m                              [90m│[39m debo presentar?              [90m│[39m                              [90m│[39m presentar una declaración    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m jurada, tener 18 años, un    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m certificado médico en el     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m SNC, dos fotos, aprobar los  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m exámenes de conocimientos y  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m manejo, la constancia        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m COFIPRO y no tener multas    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m pendientes. El pa...         [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Se puede pagar en           [90m│[39m Interbank                    [90m│[39m [PASS] IA | Sí, puedes       [90m│[39m
+[90m│[39m                              [90m│[39m Interbank?                   [90m│[39m                              [90m│[39m realizar el pago en          [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m Interbank. Después de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m hacerlo, recuerda registrar  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m el número de operación en la [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m opción «Pago» del portal.    [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Dónde pongo el número de    [90m│[39m «Pago»|opción Pago|en Pago   [90m│[39m [PASS] IA | Debes entrar a   [90m│[39m
+[90m│[39m                              [90m│[39m operación del voucher?       [90m│[39m                              [90m│[39m «Pago» y ahí escribir el     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m número de operación de tu    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m recibo. Después de completar [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m los datos, el gestor lo      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m verificará para que tu       [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámite pase a la etapa de   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m cita.                        [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m Si jalo el examen, ¿debo     [90m│[39m 3 intentos|tres intentos|sin [90m│[39m [PASS] IA | No, la tasa      [90m│[39m
+[90m│[39m                              [90m│[39m volver a pagar?              [90m│[39m volver a pagar               [90m│[39m incluye los dos exámenes y   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tienes hasta 3 intentos en   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m cada uno sin volver a pagar. [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Hasta cuántas veces puedo   [90m│[39m 3 intentos|tres              [90m│[39m [PASS] IA | Tienes hasta 3   [90m│[39m
+[90m│[39m                              [90m│[39m dar el examen de             [90m│[39m intentos|hasta 3             [90m│[39m intentos en el examen de     [90m│[39m
+[90m│[39m                              [90m│[39m conocimientos?               [90m│[39m                              [90m│[39m conocimientos sin volver a   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m pagar. Si no apruebas en el  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tercer intento, el gestor te [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m indicará cómo continuar.     [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Qué puntaje necesito para   [90m│[39m 14                           [90m│[39m [PASS] IA | Para aprobar el  [90m│[39m
+[90m│[39m                              [90m│[39m pasar el examen?             [90m│[39m                              [90m│[39m examen debes obtener una     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m nota mínima de 14 sobre 20.  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m Ten en cuenta que si cometes [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m una falta eliminatoria en el [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m examen de manejo, quedarás   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m desaprobado aunque superes   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m ese puntaje.                 [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Puedo rendir primero el     [90m│[39m conocimientos                [90m│[39m [PASS] IA | No, primero      [90m│[39m
+[90m│[39m                              [90m│[39m examen práctico de manejo?   [90m│[39m                              [90m│[39m debes aprobar el examen de   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m conocimientos para recién    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m poder reservar el examen de  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m manejo.                      [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Los exámenes de manejo son  [90m│[39m martes a viernes             [90m│[39m [PASS] IA | Los exámenes de  [90m│[39m
+[90m│[39m                              [90m│[39m los sábados?                 [90m│[39m                              [90m│[39m manejo se realizan de martes [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m a viernes, según los cupos   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m disponibles. No se programan [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m los sábados.                 [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cómo separo un turno para   [90m│[39m Mi cita                      [90m│[39m [PASS] IA | Cuando tu pago   [90m│[39m
+[90m│[39m                              [90m│[39m mi examen?                   [90m│[39m                              [90m│[39m esté verificado, entra a «Mi [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m cita», elige un día con      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m cupos libres y confirma.     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m Recibirás un recordatorio    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m con la fecha.                [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m No podré ir a mi examen, ¿se [90m│[39m gestor                       [90m│[39m [PASS] IA | Si no puedes     [90m│[39m
+[90m│[39m                              [90m│[39m puede cambiar la fecha?      [90m│[39m                              [90m│[39m asistir, pide la             [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m reprogramación al gestor de  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites. No lo dejes para   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m después: el certificado      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m médico vence a los 6 meses.  [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cuándo vence el certificado [90m│[39m 6 meses|seis meses           [90m│[39m [PASS] IA | El certificado   [90m│[39m
+[90m│[39m                              [90m│[39m de salud?                    [90m│[39m                              [90m│[39m médico tiene una validez de  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m 6 meses desde su fecha de    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m emisión. Si el documento     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m vence antes de que sea       [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m aprobado por el gestor,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m deberás tramitar uno nuevo.  [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿En qué clínica saco el      [90m│[39m MTC                          [90m│[39m [PASS] IA | Puedes           [90m│[39m
+[90m│[39m                              [90m│[39m examen médico?               [90m│[39m                              [90m│[39m realizarlo en cualquier      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m clínica autorizada por el    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m MTC. Dicho centro debe       [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registrar tu certificado en  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m el sistema SNC para que      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m pueda ser verificado.        [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Qué es el COFIPRO y quién   [90m│[39m mototaxi|II-C                [90m│[39m [PASS] IA | La constancia    [90m│[39m
+[90m│[39m                              [90m│[39m lo pide?                     [90m│[39m                              [90m│[39m COFIPRO es el documento del  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m curso de formación para      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m conductores de mototaxi,     [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m dictado por una escuela      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m autorizada y registrado en   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m el SNC. Este requisito es    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m obligatorio únicamente para  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m obtener la licencia de clase [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m II-C.                        [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cuál es el tamaño máximo    [90m│[39m 2 MB                         [90m│[39m [PASS] IA | Puedes adjuntar  [90m│[39m
+[90m│[39m                              [90m│[39m del archivo que puedo        [90m│[39m                              [90m│[39m archivos de hasta 2 MB cada  [90m│[39m
+[90m│[39m                              [90m│[39m adjuntar?                    [90m│[39m                              [90m│[39m uno.                         [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m Mi documento salió           [90m│[39m adjunta|vuelve a|corrige     [90m│[39m [PASS] CONTENIDO | Revisa el [90m│[39m
+[90m│[39m                              [90m│[39m observado, ¿cómo lo corrijo? [90m│[39m                              [90m│[39m motivo en «Mis documentos»,  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m corrige el archivo y vuelve  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m a adjuntarlo. El gestor lo   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m revisará otra vez.           [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cuántas fotos tengo que     [90m│[39m dos fotografías|2            [90m│[39m [PASS] CONTENIDO | Debes     [90m│[39m
+[90m│[39m                              [90m│[39m llevar?                      [90m│[39m fotografías|dos fotos        [90m│[39m presentar dos fotografías    [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tamaño carné a color.        [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m ¿Cuántos días demora en      [90m│[39m 10 días|diez días            [90m│[39m [PASS] CONTENIDO | El plazo  [90m│[39m
+[90m│[39m                              [90m│[39m salir la licencia?           [90m│[39m                              [90m│[39m legal es de 10 días hábiles, [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m con silencio administrativo  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m positivo. En el portal ves   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m cuántos días lleva tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m expediente.                  [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m Tengo 17 años, ¿puedo sacar  [90m│[39m 18                           [90m│[39m [PASS] CONTENIDO | Debes     [90m│[39m
+[90m│[39m                              [90m│[39m la licencia?                 [90m│[39m                              [90m│[39m tener 18 años o más.         [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m tramite                      [90m│[39m Tengo papeletas sin pagar,   [90m│[39m multas|sanciones             [90m│[39m [PASS] CONTENIDO | Para la   [90m│[39m
+[90m│[39m                              [90m│[39m ¿igual me dan la licencia de [90m│[39m                              [90m│[39m II-C no debes tener multas   [90m│[39m
+[90m│[39m                              [90m│[39m mototaxi?                    [90m│[39m                              [90m│[39m ni sanciones pendientes en   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m el Registro Nacional de      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m Sanciones. El gestor lo      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m verifica y, si hay           [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m pendientes, no se autoriza   [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m la emisión.                  [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m derivar                      [90m│[39m Aprueba mi expediente por    [90m│[39m                              [90m│[39m [PASS] DERIVADA | Solo puedo [90m│[39m
+[90m│[39m                              [90m│[39m favor                        [90m│[39m                              [90m│[39m orientarte: no apruebo,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registro ni modifico nada en [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tu trámite. Derivé tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m consulta al gestor de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites, que te responderá  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m en este chat.                [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m derivar                      [90m│[39m ¿Puedes cambiar mi nota del  [90m│[39m                              [90m│[39m [PASS] DERIVADA | Solo puedo [90m│[39m
+[90m│[39m                              [90m│[39m examen de manejo a 18?       [90m│[39m                              [90m│[39m orientarte: no apruebo,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registro ni modifico nada en [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tu trámite. Derivé tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m consulta al gestor de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites, que te responderá  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m en este chat.                [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m derivar                      [90m│[39m Reprograma mi cita para el   [90m│[39m                              [90m│[39m [PASS] DERIVADA | Solo puedo [90m│[39m
+[90m│[39m                              [90m│[39m viernes                      [90m│[39m                              [90m│[39m orientarte: no apruebo,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registro ni modifico nada en [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tu trámite. Derivé tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m consulta al gestor de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites, que te responderá  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m en este chat.                [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m derivar                      [90m│[39m Necesito que valides mi pago [90m│[39m                              [90m│[39m [PASS] DERIVADA | Solo puedo [90m│[39m
+[90m│[39m                              [90m│[39m hoy mismo                    [90m│[39m                              [90m│[39m orientarte: no apruebo,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registro ni modifico nada en [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tu trámite. Derivé tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m consulta al gestor de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites, que te responderá  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m en este chat.                [90m│[39m
+[90m├──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────[39m[90m┼──────────────────────────────┤[39m
+[90m│[39m derivar                      [90m│[39m Dame mi licencia ya          [90m│[39m                              [90m│[39m [PASS] DERIVADA | Solo puedo [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m orientarte: no apruebo,      [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m registro ni modifico nada en [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m tu trámite. Derivé tu        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m consulta al gestor de        [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m trámites, que te responderá  [90m│[39m
+[90m│[39m                              [90m│[39m                              [90m│[39m                              [90m│[39m en este chat.                [90m│[39m
+[90m└──────────────────────────────[39m[90m┴──────────────────────────────[39m[90m┴──────────────────────────────[39m[90m┴──────────────────────────────┘[39m
 ... 5 more rows not shown ...
 
-✓ Eval complete (ID: eval-hbh-2026-11-25T01:37:41)
+✓ Eval complete (ID: eval-0xO-2026-11-26T15:08:01)
 
+» View results: promptfoo view
+» Share with your team: https://promptfoo.app
+» Feedback: https://promptfoo.dev/feedback
 
 
 Results:
   ✓ 30 passed (100%)
   0 failed (0%)
   0 errors (0%)
-Duration: 1s (concurrency: 1)
+Duration: 50s (concurrency: 1)
 
 Writing output to resultado-eq08.json, resultado-eq08.html
