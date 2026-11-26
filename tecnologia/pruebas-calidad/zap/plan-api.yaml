@@ -1,0 +1,27 @@
+env:
+  contexts:
+    - name: api-licencias
+      urls:
+        - http://localhost:3000/api
+  parameters:
+    failOnError: true
+    progressToStdout: true
+jobs:
+  - type: openapi
+    parameters:
+      apiFile: RUTA_DEL_REPOSITORIO/docs/07-contrato-api/openapi.json
+      targetUrl: http://localhost:3000
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 5
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: RUTA_DE_SALIDA
+      reportFile: zap-api-licencias.html
+      reportTitle: "OWASP ZAP · API del Sistema de Licencias Clase B (EQ-01)"
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: RUTA_DE_SALIDA
+      reportFile: zap-api-licencias.json

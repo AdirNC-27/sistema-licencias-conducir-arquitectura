@@ -112,6 +112,24 @@ describe('Flujo completo del trámite de emisión (e2e)', () => {
     }
   });
 
+  it('privacidad: los intentos de escribir en un expediente ajeno se rechazan sin datos y no lo cambian (EQ-02)', async () => {
+    const antes = await http.get(`/api/expedientes/${expedienteId}`).set(auth('45892014')).expect(200);
+    const intentos = [
+      http.post(`/api/expedientes/${expedienteId}/documentos`).set(auth('ana')).field('tipo', 'FOTOGRAFIA').attach('archivo', pdf, { filename: 'f.pdf', contentType: 'application/pdf' }),
+      http.post(`/api/expedientes/${expedienteId}/pagos`).set(auth('ana')).send({ numeroOperacion: 'AJENO-1', monto: 69.4, fechaPago: '2026-11-18' }),
+      http.post(`/api/expedientes/${expedienteId}/citas`).set(auth('ana')).send({ cupoId: 1 }),
+    ];
+    for (const r of await Promise.all(intentos)) {
+      expect(r.status).toBe(403);
+      expect(Object.keys(r.body).sort()).toEqual(['error', 'estado', 'mensaje']); // solo el formato de error, ningún dato del expediente
+    }
+    const despues = await http.get(`/api/expedientes/${expedienteId}`).set(auth('45892014')).expect(200);
+    expect(despues.body).toEqual(antes.body);
+    expect((await http.get(`/api/expedientes/${expedienteId}/documentos`).set(auth('45892014')).expect(200)).body).toEqual([]);
+    expect((await http.get(`/api/expedientes/${expedienteId}/pagos`).set(auth('45892014')).expect(200)).body).toEqual([]);
+    expect((await http.get(`/api/expedientes/${expedienteId}/citas`).set(auth('45892014')).expect(200)).body).toEqual([]);
+  });
+
   it('sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)', async () => {
     const hoy = new Date().toISOString().slice(0, 10);
     for (const tipo of ['DECLARACION_JURADA', 'CERTIFICADO_MEDICO', 'FOTOGRAFIA', 'CONSTANCIA_COFIPRO']) {

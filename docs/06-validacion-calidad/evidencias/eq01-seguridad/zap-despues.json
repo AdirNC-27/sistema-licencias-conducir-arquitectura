@@ -1,0 +1,46 @@
+{
+	"@programName": "ZAP",
+	"@version": "2.16.1",
+	"@generated": "Thu, 26 Nov 2026 13:12:24",
+	"site":[ 
+		{
+			"@name": "http://localhost:3000",
+			"@host": "localhost",
+			"@port": "3000",
+			"@ssl": "false",
+			"alerts": [ 
+				{
+					"pluginid": "10112",
+					"alertRef": "10112",
+					"alert": "Session Management Response Identified",
+					"name": "Session Management Response Identified",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The given response has been identified as containing a session management token. The 'Other Info' field contains a set of header tokens that can be used in the Header Based Session Management Method. If the request is in a context which has a Session Management Method set to \"Auto-Detect\" then this rule will change the session management to use the tokens identified.</p>",
+					"instances":[ 
+						{
+							"id": "0",
+							"uri": "http://localhost:3000/api/auth/login",
+							"method": "POST",
+							"param": "token",
+							"attack": "",
+							"evidence": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzdWFyaW8iOiJnZXN0b3IiLCJyb2wiOiJHRVNUT1IiLCJwb3N0dWxhbnRlSWQiOm51bGwsIm5vbWJyZSI6IkNhcmxvcyBNZW5kb3phIChHZXN0b3IgZGUgdHLDoW1pdGVzKSIsImlhdCI6MTc5NTcxNjc0MiwiZXhwIjoxNzk1NzQ1NTQyfQ._WOcfQ-u8gT2015VVfqwyyzVA7rXf7k-yNJ46YsH3_s",
+							"otherinfo": "\njson:token"
+						}
+					],
+					"count": "1",
+					"solution": "<p>This is an informational alert rather than a vulnerability and so there is nothing to fix.</p>",
+					"otherinfo": "<p></p><p>json:token</p>",
+					"reference": "<p>https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id</p>",
+					"cweid": "-1",
+					"wascid": "-1",
+					"sourceid": "1"
+				}
+			]
+		}
+	],
+	"sequences":[
+	]
+
+}

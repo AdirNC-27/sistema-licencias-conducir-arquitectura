@@ -1,8 +1,8 @@
 {
- "numTotalTests": 39,
- "numPassedTests": 39,
+ "numTotalTests": 43,
+ "numPassedTests": 43,
  "numFailedTests": 0,
- "startTime": 1795714362929,
+ "startTime": 1795716762165,
  "testResults": [
   {
    "name": "tecnologia/backend/test/flujo-tramite.e2e-spec.ts",
@@ -136,6 +136,13 @@
       "Flujo completo del trámite de emisión (e2e)"
      ],
      "title": "privacidad: otro postulante no ve el expediente ni sus documentos (EQ-02)",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Flujo completo del trámite de emisión (e2e)"
+     ],
+     "title": "privacidad: los intentos de escribir en un expediente ajeno se rechazan sin datos y no lo cambian (EQ-02)",
      "status": "passed"
     },
     {
@@ -299,6 +306,32 @@
       "Flujo completo del trámite de emisión (e2e)"
      ],
      "title": "el administrador cambia un rol y queda auditado; el endpoint de salud responde",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "tecnologia/backend/test/matriz-roles.e2e-spec.ts",
+   "assertionResults": [
+    {
+     "ancestorTitles": [
+      "Matriz rol × operación (EQ-01)"
+     ],
+     "title": "encuentra las 44 operaciones protegidas del contrato",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Matriz rol × operación (EQ-01)"
+     ],
+     "title": "sin token y con un token falso, todas responden 401 sin datos",
+     "status": "passed"
+    },
+    {
+     "ancestorTitles": [
+      "Matriz rol × operación (EQ-01)"
+     ],
+     "title": "cada rol sin permiso recibe 403 sin datos en cada operación restringida por rol",
      "status": "passed"
     }
    ]

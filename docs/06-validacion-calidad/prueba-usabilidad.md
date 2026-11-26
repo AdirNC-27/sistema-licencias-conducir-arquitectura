@@ -4,11 +4,21 @@
 
 | Medida | Meta | Herramienta |
 |---|---|---|
-| Participantes que completan las tareas sin ayuda | 4 de 5 | Hoja de observación |
+| Participantes que completan sus tareas sin ayuda en 10 minutos o menos | 4 de 5 | Hoja de observación y cronómetro |
 | Puntaje SUS promedio | ≥ 68 | Cuestionario SUS en Google Forms |
 | Accesibilidad | ≥ 90 | Lighthouse (portal) y axe-core en las pantallas con sesión |
 
 La parte automática ya está medida: Lighthouse da **100** de accesibilidad en el portal, y axe-core no encuentra fallas graves WCAG 2.1 AA en las 22 pantallas de los cinco roles (`npm run e2e`). Esta guía cubre la parte con personas.
+
+## Material listo
+
+| Material | Archivo |
+|---|---|
+| Hoja del participante para imprimir (tareas, marcas, tiempo y cuestionario SUS en papel; 2 páginas) | [`hoja-participante.pdf`](../../tecnologia/pruebas-calidad/usabilidad/hoja-participante.pdf) |
+| Plantillas para pasar los resultados | [`observacion-plantilla.csv`](../../tecnologia/pruebas-calidad/usabilidad/observacion-plantilla.csv) y [`sus-plantilla.csv`](../../tecnologia/pruebas-calidad/usabilidad/sus-plantilla.csv) |
+| Cálculo del SUS y de la meta | [`calcular-resultados.mjs`](../../tecnologia/pruebas-calidad/usabilidad/calcular-resultados.mjs) |
+
+El SUS puede responderse en la hoja impresa o en Google Forms; en ambos casos las respuestas se pasan a `sus.csv` con las columnas `participante,p1,…,p10`.
 
 ## Participantes
 
@@ -22,8 +32,8 @@ La parte automática ya está medida: Lighthouse da **100** de accesibilidad en 
 
 ## Preparación
 
-1. API y portal en marcha, con la base recién migrada (`npm run migracion:ejecutar`).
-2. `APIPERU_TOKEN` configurado en `.env`, porque la tarea 1 valida el DNI real del participante.
+1. El sistema desplegado (Sprint 3), para que cada participante use el enlace desde su propio celular o laptop. Si se hace antes, sirve la laptop del entorno de prueba con Docker (`docker compose up -d`, portal en `http://localhost:8080`).
+2. `APIPERU_TOKEN` configurado, porque la tarea 1 valida el DNI real del participante.
 3. Un archivo PDF o JPG de prueba en el equipo (sirve una foto cualquiera).
 4. Cronómetro y esta hoja impresa. El facilitador **no** ayuda salvo que el participante lo pida o se detenga más de 1 minuto. En ese caso, la tarea cuenta como "con ayuda".
 5. Antes de empezar se lee: *"Probamos el sistema, no a ti. Piensa en voz alta. Puedes dejar la prueba cuando quieras. No guardamos tu DNI fuera de esta base de prueba."*
@@ -32,11 +42,13 @@ La parte automática ya está medida: Lighthouse da **100** de accesibilidad en 
 
 | # | Tarea que se lee al participante | Se cumple cuando | Tiempo máximo |
 |---|---|---|---|
-| T1 | "Crea tu cuenta con tu DNI." | Entra a su pantalla de inicio | 3 min |
+| T1 | "Crea tu cuenta con tu DNI." | Entra a su pantalla de inicio | 2 min |
 | T2 | "Inicia el trámite de licencia para moto y dime cuánto cuesta y dónde se paga." | Responde S/ 69.90 y el SAT (módulo 11 del MAC) | 2 min |
 | T3 | "Adjunta tu certificado médico." | El documento aparece como Pendiente | 2 min |
 | T4 | *(El facilitador aprueba los documentos como gestor.)* "Registra tu pago con el número de operación 0012345678." | El pago aparece como Pendiente | 2 min |
-| T5 | *(El facilitador verifica el pago.)* "Elige tu cita y dime en qué etapa estás y cuántos días te quedan." | Reserva la cita y responde etapa y días | 3 min |
+| T5 | *(El facilitador verifica el pago.)* "Elige tu cita y dime en qué etapa estás y cuántos días te quedan." | Reserva la cita y responde etapa y días | 2 min |
+
+Las 5 tareas suman 10 minutos: es la meta de EQ-05 para el recorrido completo, sin contar el tiempo del facilitador.
 
 ## Tareas del gestor (P5)
 
@@ -82,14 +94,14 @@ Se responde al terminar, en Google Forms: 10 preguntas con escala de 1 (*totalme
 
 ## Resultados
 
-| Participante | Tareas sin ayuda | Tiempo total | SUS |
-|---|---|---|---|
-| P1 | | | |
-| P2 | | | |
-| P3 | | | |
-| P4 | | | |
-| P5 | | | |
-| **Resultado** | **_ de 5** | | **Promedio: _** |
+Al terminar la sesión:
+
+```bash
+cd docs/06-validacion-calidad/evidencias/usabilidad
+node ../../../../tecnologia/pruebas-calidad/usabilidad/calcular-resultados.mjs observacion.csv sus.csv resultados.md
+```
+
+El script valida que no falten datos, calcula el SUS de cada participante y su promedio, cuenta cuántos completaron sus tareas sin ayuda en 10 minutos o menos y escribe `resultados.md` con el estado de cada meta.
 
 Un SUS de 68 es el promedio de referencia; sobre 80 se considera bueno. Cada problema observado se registra con la pantalla, lo que pasó y el cambio propuesto, y los cambios se aplican en el Sprint 3.
 
@@ -97,4 +109,6 @@ Un SUS de 68 es el promedio de referencia; sobre 80 se considera bueno. Cada pro
 |---|---|---|---|
 | | | | |
 
-Evidencia por guardar en `evidencias/usabilidad/`: hojas de observación escaneadas o fotografiadas, la exportación de Google Forms (CSV) y 2 o 3 fotos de la sesión sin rostros.
+Evidencia por guardar en `evidencias/usabilidad/`: las 5 hojas escaneadas o fotografiadas, `observacion.csv`, `sus.csv`, `resultados.md` y 2 o 3 fotos de la sesión sin rostros.
+
+**Estado (26/11):** material listo; la sesión con las 5 personas se hace en el Sprint 3 con el sistema desplegado.
