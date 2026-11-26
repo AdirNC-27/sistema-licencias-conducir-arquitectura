@@ -48,7 +48,28 @@ export function Pago() {
             <p className="text-4xl font-extrabold">{soles(tasa)}</p>
             <p className="mt-3 flex items-center gap-2 text-sm text-blue-100"><Icono nombre="location_on" className="text-lg" />Módulo 11 del MAC Huamanga (SAT)</p>
           </div>
-          {expediente.etapa === 'DOCUMENTOS' && <Aviso tipo="alerta">Primero el gestor debe aprobar tus documentos.</Aviso>}
+          {expediente.etapa === 'DOCUMENTOS' && (
+            <div className="tarjeta">
+              <div className="flex items-start gap-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200">
+                <Icono nombre="lock" className="mt-0.5 shrink-0 text-lg" />
+                <p><b>Aún no pagues.</b> Primero el gestor aprueba tus documentos; te avisamos por correo y aquí se habilita el registro del recibo.</p>
+              </div>
+              <h2 className="mt-4 font-bold text-marca-oscuro">Cómo será el pago</h2>
+              <ol className="mt-2 space-y-3 text-sm text-slate-700">
+                {[
+                  ['location_on', 'Paga la tasa en el SAT Huamanga', 'Módulo 11 del MAC Ayacucho (Terrapuerto Libertadores de América, 2.º nivel): lunes a viernes de 8:30 a 17:00 y sábados de 8:30 a 13:00. También en BBVA o Interbank.'],
+                  ['receipt_long', 'Guarda tu recibo', 'Necesitas el número de operación y la fecha de pago.'],
+                  ['edit_note', 'Regístralo aquí', 'El gestor lo verifica y se habilita la elección de tu cita.'],
+                ].map(([icono, titulo, texto], i) => (
+                  <li key={titulo} className="flex gap-3">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-marca text-xs font-bold text-white">{i + 1}</span>
+                    <div><p className="flex items-center gap-1.5 font-semibold"><Icono nombre={icono} className="text-marca" />{titulo}</p><p className="text-slate-600">{texto}</p></div>
+                  </li>
+                ))}
+              </ol>
+              <p className="mt-3 text-xs text-slate-500">El pago es único: incluye el examen de conocimientos y el de manejo.</p>
+            </div>
+          )}
           {puedeRegistrar && (
             <form onSubmit={registrar} className="tarjeta space-y-4">
               <h2 className="font-bold text-marca-oscuro">Registrar mi recibo</h2>
@@ -67,7 +88,7 @@ export function Pago() {
         </div>
         <div className="tarjeta lg:col-span-3">
           <h2 className="mb-3 font-bold text-marca-oscuro">Mis pagos</h2>
-          {pagos.cargando ? <Cargando /> : !pagos.datos?.length ? <Vacio titulo="Sin pagos registrados" icono="receipt_long" /> : (
+          {pagos.cargando ? <Cargando /> : !pagos.datos?.length ? <Vacio titulo="Sin pagos registrados" texto={expediente.etapa === 'DOCUMENTOS' ? 'Aquí aparecerá tu recibo cuando lo registres, después de que aprueben tus documentos.' : 'Registra tu recibo con el formulario de la izquierda.'} icono="receipt_long" /> : (
             <ul className="divide-y divide-slate-100">
               {pagos.datos.map((p) => (
                 <li key={p.id} className="py-3">

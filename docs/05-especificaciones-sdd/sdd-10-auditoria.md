@@ -13,7 +13,7 @@ Como **supervisor o administrador** quiero saber quién hizo cada cambio importa
 | # | Escenario | Dado | Cuando | Entonces |
 |---|---|---|---|---|
 | CA1 | Registro | el gestor verifica un pago | se guarda la operación | queda una fila con usuario, fecha, acción, valor anterior y nuevo |
-| CA2 | Las 16 operaciones | se recorre el trámite completo | se consulta la bitácora | aparecen las 16 operaciones auditables (EQ-07): documentos, pago, resultados, etapas, verificaciones, observaciones, emisión, licencia, asistente y rol |
+| CA2 | Las 17 operaciones | se recorre el trámite completo | se consulta la bitácora | aparecen las 17 operaciones auditables (EQ-07): documentos, pago, resultados, etapas, categoría, verificaciones, observaciones, emisión, licencia, asistente y rol |
 | CA3 | Solo lectura | un usuario consulta la bitácora | usa la API | solo existe `GET`; no hay endpoints para editar ni borrar |
 
 ## Tareas técnicas

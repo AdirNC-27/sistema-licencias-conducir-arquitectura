@@ -163,6 +163,30 @@ pm.test('Pide la constancia COFIPRO', () => pm.expect(cuerpo.requisitos.map((r) 
         json: { tipoTramite: 'EMISION', categoria: 'II-X' },
         pruebas: `pm.test('Explica el error en español', () => pm.expect(cuerpo.detalles).to.include('categoria debe ser uno de estos valores: II-B, II-C'));`,
       }),
+      s('Cambiar a II-B por error de elección', 'PATCH /api/expedientes/{id}/categoria', 200, {
+        url: '/expedientes/{{expedienteId}}/categoria',
+        como: 'postulante',
+        json: { categoria: 'II-B', motivo: 'Elegí mototaxi por error, quiero moto lineal' },
+        pruebas: `pm.test('Queda en II-B y sigue en documentos', () => { pm.expect(cuerpo.categoria).to.eql('II-B'); pm.expect(cuerpo.etapa).to.eql('DOCUMENTOS'); });`,
+      }),
+      s('Cambiar a la misma categoría', 'PATCH /api/expedientes/{id}/categoria', 422, {
+        url: '/expedientes/{{expedienteId}}/categoria',
+        como: 'postulante',
+        json: { categoria: 'II-B', motivo: 'Intento repetir el mismo cambio' },
+        pruebas: mensaje('ya es de la categoría II-B'),
+      }),
+      s('Cambiar sin un motivo claro', 'PATCH /api/expedientes/{id}/categoria', 400, { url: '/expedientes/{{expedienteId}}/categoria', como: 'postulante', json: { categoria: 'II-C', motivo: 'error' } }),
+      s('El gestor no cambia la categoría', 'PATCH /api/expedientes/{id}/categoria', 403, {
+        url: '/expedientes/{{expedienteId}}/categoria',
+        como: 'gestor',
+        json: { categoria: 'II-C', motivo: 'El gestor intenta cambiarla por el postulante' },
+      }),
+      s('Volver a II-C', 'PATCH /api/expedientes/{id}/categoria', 200, {
+        url: '/expedientes/{{expedienteId}}/categoria',
+        como: 'postulante',
+        json: { categoria: 'II-C', motivo: 'Al final sí trabajaré con mototaxi' },
+        pruebas: `pm.test('Vuelve a II-C', () => pm.expect(cuerpo.categoria).to.eql('II-C'));`,
+      }),
       s('Mis trámites', 'GET /api/expedientes/mios', 200, { como: 'postulante', pruebas: `pm.test('Incluye el trámite', () => pm.expect(cuerpo.map((e) => e.id)).to.include(pm.collectionVariables.get('expedienteId')));` }),
       s('Detalle del expediente', 'GET /api/expedientes/{id}', 200, { url: '/expedientes/{{expedienteId}}', como: 'postulante', pruebas: etapa('DOCUMENTOS') }),
       s('Expediente inexistente', 'GET /api/expedientes/{id}', 404, { url: '/expedientes/999999', como: 'gestor' }),
@@ -238,6 +262,12 @@ pm.test('Pide la constancia COFIPRO', () => pm.expect(cuerpo.requisitos.map((r) 
         }),
       ),
       s('El expediente pasa a PAGO', 'GET /api/expedientes/{id}', 200, { url: '/expedientes/{{expedienteId}}', como: 'postulante', pruebas: etapa('PAGO') }),
+      s('Ya no se cambia la categoría en PAGO', 'PATCH /api/expedientes/{id}/categoria', 409, {
+        url: '/expedientes/{{expedienteId}}/categoria',
+        como: 'postulante',
+        json: { categoria: 'II-B', motivo: 'Intento cambiarla después de los documentos' },
+        pruebas: mensaje('solo se puede cambiar en la etapa de documentos'),
+      }),
     ],
   },
   {

@@ -7,9 +7,9 @@
 
 | Medida | Herramienta | Resultado | Evidencia | Origen |
 |---|---|---|---|---|
-| Sin token o con token falso → 401 | Jest + Supertest | **88 de 88**: las 44 operaciones protegidas, sin token y con token falso | [`matriz-roles.e2e-spec.ts`](../../../../tecnologia/backend/test/matriz-roles.e2e-spec.ts) | Ejecutado hoy |
-| Rol sin permiso → 403 | Jest + Supertest | **116 de 116**: las 33 operaciones con `@Roles`, por cada rol que no está permitido | [matriz-rol-operacion.txt](matriz-rol-operacion.txt) | Ejecutado hoy |
-| Las respuestas rechazadas no traen datos | Jest + Supertest | En los 204 casos el cuerpo solo tiene `estado`, `error`, `mensaje` | misma prueba | Ejecutado hoy |
+| Sin token o con token falso → 401 | Jest + Supertest | **90 de 90**: las 45 operaciones protegidas, sin token y con token falso | [`matriz-roles.e2e-spec.ts`](../../../../tecnologia/backend/test/matriz-roles.e2e-spec.ts) | Ejecutado hoy |
+| Rol sin permiso → 403 | Jest + Supertest | **120 de 120**: las 34 operaciones con `@Roles`, por cada rol que no está permitido | [matriz-rol-operacion.txt](matriz-rol-operacion.txt) | Ejecutado hoy |
+| Las respuestas rechazadas no traen datos | Jest + Supertest | En los 210 casos el cuerpo solo tiene `estado`, `error`, `mensaje` | misma prueba | Ejecutado hoy |
 | Intentos de escribir en un expediente ajeno no lo cambian | Jest + Supertest | Adjuntar, pagar y reservar cita en el expediente de otro → 403; el expediente, sus documentos, pagos y citas quedan iguales | prueba «privacidad: los intentos de escribir…» en [`flujo-tramite.e2e-spec.ts`](../../../../tecnologia/backend/test/flujo-tramite.e2e-spec.ts) | Ejecutado hoy |
 | 20 accesos a expedientes ajenos → 403 | Postman + Newman | **20 de 20**: 10 operaciones de cada postulante sobre el expediente del otro (ver, documentos, pagos, citas, evaluaciones, datos personales, adjuntar, pagar, reservar, descargar) | carpeta «10 · Privacidad entre postulantes» de [newman-ejecucion.txt](../postman/newman-ejecucion.txt) | Registro del 26/11 (CI) |
 | Descarga de documentos sin token → 401 | Jest + Supertest y Newman | 401 sin token y 403 para otro postulante | prueba «sube los 4 documentos…» y [newman-ejecucion.txt](../postman/newman-ejecucion.txt) | Ejecutado hoy |
@@ -17,7 +17,7 @@
 
 ## Cómo se arma la matriz
 
-La prueba recorre los controladores registrados en NestJS y lee sus metadatos `@Roles` y `@Publico`, así que incluye cualquier endpoint nuevo sin escribirlo a mano. Primero comprueba que haya 44 operaciones protegidas, igual que el contrato OpenAPI. Las 11 operaciones protegidas sin `@Roles` (por ejemplo, `GET /expedientes/{id}`) admiten cualquier rol con sesión y se protegen por dueño: esa parte la cubre EQ-02.
+La prueba recorre los controladores registrados en NestJS y lee sus metadatos `@Roles` y `@Publico`, así que incluye cualquier endpoint nuevo sin escribirlo a mano. Primero comprueba que haya 45 operaciones protegidas, igual que el contrato OpenAPI. Las 11 operaciones protegidas sin `@Roles` (por ejemplo, `GET /expedientes/{id}`) admiten cualquier rol con sesión y se protegen por dueño: esa parte la cubre EQ-02.
 
 ## Repetir el escaneo de ZAP
 

@@ -10,7 +10,7 @@ El contrato **se genera desde el código**, no se escribe a mano. Cada operació
 |---|---|---|
 | `npm run contrato:verificar` | `openapi.json` es igual al que genera el código | GitHub Actions |
 | `npm run contrato:verificar` (tabla) | La tabla de [Operaciones](#operaciones) de esta guía, con sus conteos, es la que genera el contrato | GitHub Actions |
-| Prueba `contrato-openapi.spec.ts` | Las 47 operaciones de negocio tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
+| Prueba `contrato-openapi.spec.ts` | Las 48 operaciones de negocio tienen resumen, una respuesta exitosa con esquema, 401 si exigen token, 400 y 404 si llevan `{id}`, y errores con el formato único | Jest |
 | Colección de Postman | Cada respuesta real cumple exactamente el esquema documentado (sin campos de más ni de menos) | Newman en GitHub Actions |
 
 Después de cambiar un endpoint: `npm run contrato` en `tecnologia/backend` y `node generar-coleccion.mjs` en `tecnologia/pruebas-calidad/postman`.
@@ -64,7 +64,7 @@ Todos los errores, sean del dominio, de validación o de seguridad, responden co
 
 <!-- operaciones:inicio (generado por "npm run contrato"; no editar a mano) -->
 
-**40 rutas y 48 operaciones**: 47 de negocio declaradas con `@Contrato` más `GET /health`, que genera `@nestjs/terminus`. 4 son públicas y 44 exigen token.
+**41 rutas y 49 operaciones**: 48 de negocio declaradas con `@Contrato` más `GET /health`, que genera `@nestjs/terminus`. 4 son públicas y 45 exigen token.
 
 | Recurso | Método | Ruta | Operación | Éxito | Errores | Acceso |
 |---|---|---|---|---|---|---|
@@ -80,6 +80,7 @@ Todos los errores, sean del dominio, de validación o de seguridad, responden co
 | Expedientes y seguimiento | POST | `/expedientes` | Registrar una solicitud de licencia (RF02) | 201 | 400 401 403 409 422 | Token |
 | Expedientes y seguimiento | GET | `/expedientes/mios` | Mis trámites con etapa y plazo (RF10) | 200 | 401 403 | Token |
 | Expedientes y seguimiento | GET | `/expedientes/{id}` | Estado, etapa y plazo de un expediente (RF10) | 200 | 400 401 403 404 | Token |
+| Expedientes y seguimiento | PATCH | `/expedientes/{id}/categoria` | Cambiar la categoría elegida (II-B o II-C) mientras el trámite está en documentos | 200 | 400 401 403 404 409 422 | Token |
 | Requisitos y documentos | GET | `/expedientes/{id}/documentos` | Documentos del expediente y su estado | 200 | 400 401 403 404 | Token |
 | Requisitos y documentos | POST | `/expedientes/{id}/documentos` | Adjuntar un documento del expediente (RF03) | 201 | 400 401 403 404 409 413 422 | Token |
 | Requisitos y documentos | GET | `/documentos/{id}/archivo` | Descargar el archivo de un documento (solo el dueño o el personal, EQ-02) | 200 | 400 401 403 404 | Token |

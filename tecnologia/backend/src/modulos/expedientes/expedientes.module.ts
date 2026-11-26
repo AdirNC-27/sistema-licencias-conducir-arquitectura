@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConsultarExpedienteUseCase, CrearExpedienteUseCase } from './aplicacion/casos-de-uso';
+import { CambiarCategoriaUseCase, ConsultarExpedienteUseCase, CrearExpedienteUseCase } from './aplicacion/casos-de-uso';
 import { ExpedientesFacade } from './aplicacion/expedientes.facade';
 import { EXPEDIENTES_API, REPOSITORIO_EXPEDIENTES } from './dominio/contratos';
 import { ExpedienteOrmEntity } from './infraestructura/expediente.orm-entity';
@@ -13,6 +13,7 @@ import { ExpedientesController } from './presentacion/expedientes.controller';
   providers: [
     CrearExpedienteUseCase,
     ConsultarExpedienteUseCase,
+    CambiarCategoriaUseCase,
     { provide: REPOSITORIO_EXPEDIENTES, useClass: RepositorioExpedientesTypeOrm },
     { provide: EXPEDIENTES_API, useClass: ExpedientesFacade },
   ],

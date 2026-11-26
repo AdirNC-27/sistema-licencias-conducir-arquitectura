@@ -7,7 +7,7 @@ export interface RegistroAuditoria {
 
 export const REGISTRO_AUDITORIA = Symbol('RegistroAuditoria');
 
-/** Las 16 operaciones auditables de EQ-07. */
+/** Las 17 operaciones auditables de EQ-07. */
 export const OPERACIONES_AUDITABLES = [
   'APROBAR_DOCUMENTO',
   'OBSERVAR_DOCUMENTO',
@@ -17,6 +17,7 @@ export const OPERACIONES_AUDITABLES = [
   'VALIDAR_RESULTADO',
   'INTENTO_MODIFICAR_BLOQUEADO',
   'CAMBIAR_ETAPA',
+  'CAMBIAR_CATEGORIA',
   'VERIFICAR_PORTAL_OFICIAL',
   'OBSERVAR_EXPEDIENTE',
   'ATENDER_OBSERVACION',

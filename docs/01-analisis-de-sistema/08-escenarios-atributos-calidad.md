@@ -104,10 +104,10 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 |---|---|
 | **Origen** | AC07 · DA03 |
 | **Fuente** | Gestor, evaluador, supervisor o administrador |
-| **Estímulo** | Ejecuta una de las 16 operaciones auditables: aprobar u observar un documento, verificar un pago, registrar, corregir o validar un resultado, intentar modificar un resultado validado, cambiar la etapa, verificar en un portal oficial, observar un expediente, atender una observación, autorizar la emisión, registrar la licencia, responder una consulta, gestionar contenido del asistente o cambiar el rol de un usuario. |
+| **Estímulo** | Ejecuta una de las 17 operaciones auditables: aprobar u observar un documento, verificar un pago, registrar, corregir o validar un resultado, intentar modificar un resultado validado, cambiar la etapa, cambiar la categoría, verificar en un portal oficial, observar un expediente, atender una observación, autorizar la emisión, registrar la licencia, responder una consulta, gestionar contenido del asistente o cambiar el rol de un usuario. |
 | **Condición** | Operación normal del sistema. |
 | **Respuesta esperada** | La operación queda en la bitácora de auditoría. |
-| **Medida** | Las 16 operaciones (100 %) quedan registradas con usuario, fecha y hora, acción, y valor anterior y nuevo. |
+| **Medida** | Las 17 operaciones (100 %) quedan registradas con usuario, fecha y hora, acción, y valor anterior y nuevo. |
 | **Herramienta** | Jest + Supertest con PostgreSQL de prueba (servicio de GitHub Actions) |
 | **Cómo se mide** | Una prueba de integración por operación: se ejecuta y luego se consulta la tabla de auditoría. |
 | **Evidencia** | Reporte de Jest con las pruebas aprobadas. |
@@ -150,6 +150,6 @@ Todas las medidas se toman en el mismo entorno para que los resultados se puedan
 | EQ-04 | Disponibilidad | 99 % en horario; restauración ≤ 30 min | Terminus, UptimeRobot, pg_dump |
 | EQ-05 | Usabilidad | 4 de 5 usuarios sin ayuda; SUS ≥ 68 | Prueba con usuarios, Google Forms, Lighthouse |
 | EQ-06 | Mantenibilidad | Reglas de dependencias al 100 %; cobertura ≥ 80 % | dependency-cruiser, Jest |
-| EQ-07 | Trazabilidad | 16 de 16 operaciones auditadas | Jest + Supertest |
+| EQ-07 | Trazabilidad | 17 de 17 operaciones auditadas | Jest + Supertest |
 | EQ-08 | Confiabilidad de la IA | ≥ 90 % correctas; 100 % derivadas; 0 acciones | promptfoo |
 | EQ-09 | Integridad | 100 % de modificaciones rechazadas (409) | Jest + Supertest |

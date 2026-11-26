@@ -8,8 +8,8 @@ import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Barra, Cargando, Chip, Icono } from '../../componentes/ui';
 import { useSesion } from '../../sesion/sesion';
 import { useMiExpediente } from './useMiExpediente';
-import motoIIB from '../../assets/moto-iib.webp';
-import mototaxiIIC from '../../assets/mototaxi-iic.webp';
+import { CATEGORIAS } from './categorias';
+import { CambiarCategoria } from './CambiarCategoria';
 
 const ACCION: Record<Etapa, { texto: string; ruta: string; detalle: string }> = {
   DOCUMENTOS: { texto: 'Subir mis documentos', ruta: '/postulante/documentos', detalle: 'Adjunta los requisitos del TUPA; el gestor los revisará.' },
@@ -21,10 +21,6 @@ const ACCION: Record<Etapa, { texto: string; ruta: string; detalle: string }> = 
   EMITIDA: { texto: 'Ver mi trámite', ruta: '/postulante/resultados', detalle: 'Tu licencia fue emitida. Acércate a recogerla.' },
 };
 
-const CATEGORIAS = [
-  { c: 'II-B', imagen: motoIIB, alt: 'Moto lineal azul', t: 'Moto', d: 'Uso particular', tasa: 'S/ 69.90' },
-  { c: 'II-C', imagen: mototaxiIIC, alt: 'Mototaxi roja', t: 'Mototaxi', d: 'Servicio público', tasa: 'S/ 69.40' },
-] as const;
 
 function CrearTramite({ alCrear }: { alCrear: () => void }) {
   const [categoria, setCategoria] = useState<Categoria>('II-B');
@@ -114,7 +110,11 @@ export function Inicio() {
                 <Chip color={expediente.etapa === 'EMITIDA' ? 'verde' : 'azul'}>{nombreEtapa(expediente.etapa)}</Chip>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-                <div><p className="text-slate-500">Categoría</p><p className="font-semibold">{expediente.categoria === 'II-C' ? 'II-C · Mototaxi' : 'II-B · Moto'}</p></div>
+                <div>
+                  <p className="text-slate-500">Categoría</p>
+                  <p className="font-semibold">{expediente.categoria === 'II-C' ? 'II-C · Mototaxi' : 'II-B · Moto'}</p>
+                  <div className="mt-1"><CambiarCategoria expediente={expediente} alCambiar={recargar} /></div>
+                </div>
                 <div><p className="text-slate-500">Iniciado</p><p className="font-semibold">{fecha(expediente.creadoEn)}</p></div>
               </div>
               <div className="mt-5 rounded-xl bg-fondo p-4">

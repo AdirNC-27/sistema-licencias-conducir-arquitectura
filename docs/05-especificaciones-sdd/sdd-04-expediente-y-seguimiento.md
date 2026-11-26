@@ -18,6 +18,7 @@ Como **postulante** quiero registrar mi solicitud y ver en qué etapa estoy y cu
 | CA4 | Plazo | el expediente se creó hace 5 días hábiles | se consulta | muestra 5 días transcurridos y 5 restantes |
 | CA5 | Privacidad | un postulante consulta el expediente de otro | llama a `GET /api/expedientes/{id}` | recibe 403 |
 | CA6 | Emisión | el expediente está en EMISION y no tiene pendientes ([SDD-12](sdd-12-revision-del-supervisor.md)) | el supervisor autoriza | pasa a EMITIDA y queda en auditoría |
+| CA7 | Corregir la categoría | el postulante eligió II-B o II-C por error y su trámite sigue en DOCUMENTOS | envía `PATCH /api/expedientes/{id}/categoria` con un motivo | cambia la categoría con el mismo número de expediente y queda en auditoría (`CAMBIAR_CATEGORIA`); en PAGO o después recibe 409, con la misma categoría 422 y otra persona recibe 403 |
 
 ## Tareas técnicas
 
@@ -26,6 +27,7 @@ Como **postulante** quiero registrar mi solicitud y ver en qué etapa estoy y cu
 - [x] Fachada `ExpedientesApi` (patrón Facade): lo único que usan los demás módulos
 - [x] Eventos `ETAPA_CAMBIADA` y `OPERACION_AUDITABLE` (patrón Observer)
 - [x] Índice `(etapa, creado_en)` para la bandeja
+- [x] `Expediente.cambiarCategoria()`: solo el dueño y solo en DOCUMENTOS (la tasa depende de la categoría)
 
 ## Endpoints (Swagger: `/api/docs`)
 
@@ -35,9 +37,10 @@ Como **postulante** quiero registrar mi solicitud y ver en qué etapa estoy y cu
 | GET | `/api/expedientes/mios` | POSTULANTE |
 | GET | `/api/expedientes?etapa=&categoria=&pagina=` | Personal |
 | GET | `/api/expedientes/{id}` | Dueño o personal |
+| PATCH | `/api/expedientes/{id}/categoria` | POSTULANTE dueño, solo en DOCUMENTOS |
 | PATCH | `/api/expedientes/{id}/emision` | SUPERVISOR (desde el sprint 2 lo atiende el módulo `revision`, ver SDD-12) |
 
 ## Pruebas que lo comprueban
 
 - `modulos/expedientes/__tests__/expediente.spec.ts`
-- `test/flujo-tramite.e2e-spec.ts` (creación, privacidad y emisión)
+- `test/flujo-tramite.e2e-spec.ts` (creación, cambio de categoría, privacidad y emisión)

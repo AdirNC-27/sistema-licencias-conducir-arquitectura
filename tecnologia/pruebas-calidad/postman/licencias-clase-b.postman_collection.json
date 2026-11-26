@@ -771,6 +771,294 @@
           }
         },
         {
+          "name": "Cambiar a II-B por error de elección",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"postulanteId\":{\"type\":\"number\"},\"tipoTramite\":{\"type\":\"string\",\"enum\":[\"EMISION\",\"REVALIDACION\",\"DUPLICADO\"]},\"categoria\":{\"type\":\"string\",\"enum\":[\"II-B\",\"II-C\"]},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]},\"creadoEn\":{\"type\":\"string\"},\"plazo\":{\"type\":\"object\",\"properties\":{\"diasTranscurridos\":{\"type\":\"number\"},\"diasRestantes\":{\"type\":\"number\"},\"vencido\":{\"type\":\"boolean\"},\"porcentaje\":{\"type\":\"number\"}},\"required\":[\"diasTranscurridos\",\"diasRestantes\",\"vencido\",\"porcentaje\"],\"additionalProperties\":false}},\"required\":[\"id\",\"numero\",\"postulanteId\",\"tipoTramite\",\"categoria\",\"etapa\",\"creadoEn\",\"plazo\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Queda en II-B y sigue en documentos', () => { pm.expect(cuerpo.categoria).to.eql('II-B'); pm.expect(cuerpo.etapa).to.eql('DOCUMENTOS'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-B\",\n  \"motivo\": \"Elegí mototaxi por error, quiero moto lineal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Cambiar a la misma categoría",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (422)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Mensaje: ya es de la categoría II-B', () => pm.expect(cuerpo.mensaje).to.include('ya es de la categoría II-B'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-B\",\n  \"motivo\": \"Intento repetir el mismo cambio\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Cambiar sin un motivo claro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (400)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-C\",\n  \"motivo\": \"error\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "El gestor no cambia la categoría",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (403)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-C\",\n  \"motivo\": \"El gestor intenta cambiarla por el postulante\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Volver a II-C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"numero\":{\"type\":\"string\"},\"postulanteId\":{\"type\":\"number\"},\"tipoTramite\":{\"type\":\"string\",\"enum\":[\"EMISION\",\"REVALIDACION\",\"DUPLICADO\"]},\"categoria\":{\"type\":\"string\",\"enum\":[\"II-B\",\"II-C\"]},\"etapa\":{\"type\":\"string\",\"enum\":[\"DOCUMENTOS\",\"PAGO\",\"CITA\",\"EXAMEN_CONOCIMIENTOS\",\"EXAMEN_MANEJO\",\"EMISION\",\"EMITIDA\"]},\"creadoEn\":{\"type\":\"string\"},\"plazo\":{\"type\":\"object\",\"properties\":{\"diasTranscurridos\":{\"type\":\"number\"},\"diasRestantes\":{\"type\":\"number\"},\"vencido\":{\"type\":\"boolean\"},\"porcentaje\":{\"type\":\"number\"}},\"required\":[\"diasTranscurridos\",\"diasRestantes\",\"vencido\",\"porcentaje\"],\"additionalProperties\":false}},\"required\":[\"id\",\"numero\",\"postulanteId\",\"tipoTramite\",\"categoria\",\"etapa\",\"creadoEn\",\"plazo\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (200)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Vuelve a II-C', () => pm.expect(cuerpo.categoria).to.eql('II-C'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-C\",\n  \"motivo\": \"Al final sí trabajaré con mototaxi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
           "name": "Mis trámites",
           "event": [
             {
@@ -1951,6 +2239,64 @@
                   "type": "string"
                 }
               ]
+            }
+          }
+        },
+        {
+          "name": "Ya no se cambia la categoría en PAGO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Responde en menos de 1 s (EQ-03)', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "const esquema = {\"type\":\"object\",\"properties\":{\"estado\":{\"type\":\"number\"},\"error\":{\"type\":\"string\"},\"mensaje\":{\"type\":\"string\"},\"detalles\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"estado\",\"error\",\"mensaje\"],\"additionalProperties\":false};",
+                  "pm.test('Cumple el contrato OpenAPI (409)', () => pm.response.to.have.jsonSchema(esquema));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test('Mensaje: solo se puede cambiar en la etapa de documentos', () => pm.expect(cuerpo.mensaje).to.include('solo se puede cambiar en la etapa de documentos'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/expedientes/{{expedienteId}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expedientes",
+                "{{expedienteId}}",
+                "categoria"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPostulante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"II-B\",\n  \"motivo\": \"Intento cambiarla después de los documentos\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }

@@ -4,7 +4,7 @@ import {
   CircleCheck, CircleCheckBig, ClipboardCheck, ClipboardList, ExternalLink, Eye, FilePlus, FileText, FolderOpen, History,
   IdCard, Inbox, Landmark, Lock, LogOut, Mail, MapPin, Menu, Pointer, Receipt, SquarePen, Upload, UserPlus, Users,
   Wallet, House, Bot, MessageCircleQuestionMark, Send, ShieldCheck, BookOpen, Undo2, ListTodo, TriangleAlert, X, UserRound, LogIn, ChevronsRight, type LucideIcon,
-  Search, ShieldUser, UserCheck, UserX, Clock, Hourglass, MessagesSquare, CircleX, ScrollText, Gauge, FileWarning, Minus,
+  Search, ShieldUser, UserCheck, UserX, Clock, Hourglass, MessagesSquare, CircleX, ScrollText, Gauge, FileWarning, Minus, Download, Camera, Hospital, GraduationCap, ArrowLeftRight, Map, ChevronDown, Printer, PenLine, Info,
 } from 'lucide-react';
 
 type Svg = (p: SVGProps<SVGSVGElement>) => React.JSX.Element;
@@ -28,5 +28,5 @@ export const ICONOS: Record<string, LucideIcon | Svg> = {
   chevron_right: ChevronRight, check_circle: CircleCheck, check: Check, arrow_forward: ArrowRight,
   arrow_back: ArrowLeft, touch_app: Pointer, task_alt: CircleCheckBig, receipt_long: Receipt,
   folder_open: FolderOpen, assignment_add: FilePlus, two_wheeler: Moto, electric_rickshaw: Mototaxi,
-  smart_toy: Bot, forum: MessageCircleQuestionMark, send: Send, shield: ShieldCheck, menu_book: BookOpen, undo: Undo2, pendientes: ListTodo, alerta: TriangleAlert, close: X, person: UserRound, login: LogIn, chevrons_right: ChevronsRight, search: Search, roles: ShieldUser, user_check: UserCheck, user_x: UserX, clock: Clock, hourglass: Hourglass, chats: MessagesSquare, cancel: CircleX, scroll: ScrollText, gauge: Gauge, doc_warning: FileWarning, minimizar: Minus,
+  smart_toy: Bot, forum: MessageCircleQuestionMark, send: Send, shield: ShieldCheck, menu_book: BookOpen, undo: Undo2, pendientes: ListTodo, alerta: TriangleAlert, close: X, person: UserRound, login: LogIn, chevrons_right: ChevronsRight, search: Search, roles: ShieldUser, user_check: UserCheck, user_x: UserX, clock: Clock, hourglass: Hourglass, chats: MessagesSquare, cancel: CircleX, scroll: ScrollText, gauge: Gauge, doc_warning: FileWarning, minimizar: Minus, download: Download, camera: Camera, hospital: Hospital, school: GraduationCap, swap: ArrowLeftRight, map: Map, expand: ChevronDown, print: Printer, sign: PenLine, info: Info,
 };

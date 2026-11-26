@@ -227,6 +227,27 @@
      "prueba": "el supervisor observa el expediente, el gestor lo atiende y recién se emite (RF11, RF12)"
     }
    ]
+  },
+  "CA7": {
+   "regla": "PATCH /expedientes/{id}/categoria · Expediente.cambiarCategoria",
+   "pruebas": [
+    {
+     "tipo": "unitaria",
+     "prueba": "el postulante cambia la categoría en DOCUMENTOS y queda auditado con su motivo"
+    },
+    {
+     "tipo": "unitaria",
+     "prueba": "no cambia la categoría fuera de DOCUMENTOS, a la misma categoría, ni para otro usuario"
+    },
+    {
+     "tipo": "api",
+     "prueba": "el postulante corrige la categoría mientras está en documentos; nadie más puede hacerlo"
+    },
+    {
+     "tipo": "api",
+     "prueba": "sube los 4 documentos y el gestor los aprueba: pasa a PAGO (RF03, RF04)"
+    }
+   ]
   }
  },
  "SDD-05": {
@@ -513,7 +534,7 @@
    ]
   },
   "CA2": {
-   "regla": "OPERACIONES_AUDITABLES (16)",
+   "regla": "OPERACIONES_AUDITABLES (17)",
    "pruebas": [
     {
      "tipo": "api",

@@ -47,6 +47,10 @@ export class RepositorioExpedientesTypeOrm implements RepositorioExpedientes {
     await this.orm.update({ id: expediente.id }, { etapa: expediente.etapa });
   }
 
+  async guardarCategoria(expediente: Expediente): Promise<void> {
+    await this.orm.update({ id: expediente.id }, { categoria: expediente.categoria });
+  }
+
   async tieneTramiteActivo(postulanteId: number): Promise<boolean> {
     return this.orm.existsBy({ postulanteId, etapa: Not(Etapa.EMITIDA) });
   }

@@ -18,7 +18,7 @@ Cada funcionalidad se escribió primero como especificación y después se progr
 | [SDD-01](sdd-01-identidad-y-acceso.md) | Identidad y acceso | RF01, RF16 | 5 |
 | [SDD-02](sdd-02-registro-del-postulante.md) | Registro del postulante con DNI | RF03, RF04 | 3 |
 | [SDD-03](sdd-03-requisitos-con-cache.md) | Requisitos del TUPA con caché | RF22 | 3 |
-| [SDD-04](sdd-04-expediente-y-seguimiento.md) | Expediente, etapas y plazo | RF02, RF10, RF12, RF20 | 6 |
+| [SDD-04](sdd-04-expediente-y-seguimiento.md) | Expediente, etapas y plazo | RF02, RF10, RF12, RF20 | 7 |
 | [SDD-05](sdd-05-documentos.md) | Documentos del expediente | RF03, RF04, RF23 | 5 |
 | [SDD-06](sdd-06-pagos.md) | Pago en el SAT | RF05, RF06 | 4 |
 | [SDD-07](sdd-07-citas-y-cupos.md) | Citas y cupos de examen | RF07, RF21 | 5 |
@@ -31,7 +31,7 @@ Cada funcionalidad se escribió primero como especificación y después se progr
 
 ## Trazabilidad
 
-La [matriz de trazabilidad](matriz-trazabilidad.md) relaciona cada uno de los 65 criterios con su regla o endpoint, las pruebas que lo comprueban y el resultado de la última ejecución. Se genera desde los reportes de las pruebas ([cómo](../../tecnologia/pruebas-calidad/trazabilidad/README.md)).
+La [matriz de trazabilidad](matriz-trazabilidad.md) relaciona cada uno de los 66 criterios con su regla o endpoint, las pruebas que lo comprueban y el resultado de la última ejecución. Se genera desde los reportes de las pruebas ([cómo](../../tecnologia/pruebas-calidad/trazabilidad/README.md)).
 
 ## Flujo que conectan
 

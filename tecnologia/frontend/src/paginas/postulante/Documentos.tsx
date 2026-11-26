@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { api } from '../../api/cliente';
 import { NOMBRE_DOCUMENTO } from '../../api/textos';
-import type { Documento, Requisito } from '../../api/tipos';
+import type { Documento, Expediente, Requisito } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
 import { Aviso, Cargando, ChipEstado, Encabezado, Icono } from '../../componentes/ui';
 import { SinTramite } from './SinTramite';
 import { useMiExpediente } from './useMiExpediente';
+import { CambiarCategoria } from './CambiarCategoria';
+import { GuiaRequisito, PorDondeEmpiezo } from './GuiaRequisito';
 
 interface RespuestaRequisitos { tasa: number | null; plazoDiasHabiles: number; requisitos: Requisito[] }
 
-function FilaDocumento({ requisito, documento, expedienteId, editable, alSubir }: {
-  requisito: Requisito; documento?: Documento; expedienteId: number; editable: boolean; alSubir: () => void;
+function FilaDocumento({ requisito, documento, expediente, editable, alSubir, paso }: {
+  requisito: Requisito; documento?: Documento; expediente: Expediente; editable: boolean; alSubir: () => void; paso: number;
 }) {
+  const expedienteId = expediente.id;
   const [archivo, setArchivo] = useState<File | null>(null);
   const [fechaEmision, setFechaEmision] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +45,10 @@ function FilaDocumento({ requisito, documento, expedienteId, editable, alSubir }
     <li className="py-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-marca-claro text-marca"><Icono nombre="description" /></span>
+          <span className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-marca-claro text-marca">
+            <Icono nombre="description" />
+            <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-marca text-[11px] font-bold text-white">{paso}</span>
+          </span>
           <div>
             <p className="font-semibold text-slate-800">{NOMBRE_DOCUMENTO[tipo] ?? tipo}</p>
             <p className="text-sm text-slate-500">{requisito.descripcion}</p>
@@ -50,6 +56,7 @@ function FilaDocumento({ requisito, documento, expedienteId, editable, alSubir }
         </div>
         {documento ? <ChipEstado estado={documento.estado} /> : <span className="text-xs font-semibold text-slate-500">Sin adjuntar</span>}
       </div>
+      {documento?.estado !== 'APROBADO' && <GuiaRequisito tipo={tipo} expediente={expediente} />}
       {documento?.estado === 'OBSERVADO' && documento.observacion && (
         <div className="mt-3"><Aviso tipo="alerta">Observación del gestor: {documento.observacion}. Vuelve a adjuntarlo.</Aviso></div>
       )}
@@ -81,13 +88,14 @@ function FilaDocumento({ requisito, documento, expedienteId, editable, alSubir }
 
 /** RF22 y RF03: requisitos del TUPA de la categoría y carga de documentos. */
 export function Documentos() {
-  const { expediente, cargando } = useMiExpediente();
+  const { expediente, cargando, recargar } = useMiExpediente();
   const requisitos = useDatos(
     () => (expediente ? api.get<RespuestaRequisitos>(`/requisitos?tramite=EMISION&categoria=${expediente.categoria}`) : Promise.resolve(null)),
-    [expediente?.id],
+    [expediente?.id, expediente?.categoria],
   );
   const documentos = useDatos(() => (expediente ? api.get<Documento[]>(`/expedientes/${expediente.id}/documentos`) : Promise.resolve([])), [expediente?.id]);
 
+  const recargarTodo = () => recargar();
   if (cargando || requisitos.cargando) return <Cargando />;
   if (!expediente) return <SinTramite />;
   const editable = expediente.etapa === 'DOCUMENTOS';
@@ -97,20 +105,22 @@ export function Documentos() {
 
   return (
     <div className="space-y-6">
-      <Encabezado icono="description" titulo="Requisitos y documentos" subtitulo={`Licencia ${expediente.categoria} · según el TUPA de la MPH Huamanga`} />
+      <Encabezado icono="description" titulo="Requisitos y documentos" subtitulo={`Licencia ${expediente.categoria} · según el TUPA de la MPH Huamanga`}
+        accion={<CambiarCategoria expediente={expediente} alCambiar={recargarTodo} compacto />} />
       {!editable && <Aviso tipo="ok">Tus documentos ya fueron revisados. Continúa con la siguiente etapa desde el inicio.</Aviso>}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="tarjeta lg:col-span-2">
           <h2 className="font-bold text-marca-oscuro">Documentos para adjuntar</h2>
           {documentos.error && <Aviso tipo="error">{documentos.error}</Aviso>}
           <ul className="divide-y divide-slate-100">
-            {conDocumento.map((r) => (
-              <FilaDocumento key={r.orden} requisito={r} expedienteId={expediente.id} editable={editable}
+            {conDocumento.map((r, i) => (
+              <FilaDocumento key={r.orden} paso={i + 1} requisito={r} expediente={expediente} editable={editable}
                 documento={documentos.datos?.filter((d) => d.tipo === r.documento).pop()} alSubir={documentos.recargar} />
             ))}
           </ul>
         </div>
         <div className="space-y-4">
+          {editable && <PorDondeEmpiezo categoria={expediente.categoria} />}
           <div className="tarjeta">
             <h2 className="mb-3 font-bold text-marca-oscuro">Otros requisitos</h2>
             <ul className="space-y-2 text-sm text-slate-600">
