@@ -93,7 +93,7 @@ export function Documentos() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Requisitos y documentos" subtitulo={`Licencia ${expediente.categoria} · según el TUPA de la MPH Huamanga`} />
+      <Encabezado icono="description" titulo="Requisitos y documentos" subtitulo={`Licencia ${expediente.categoria} · según el TUPA de la MPH Huamanga`} />
       {!editable && <Aviso tipo="ok">Tus documentos ya fueron revisados. Continúa con la siguiente etapa desde el inicio.</Aviso>}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="tarjeta lg:col-span-2">
@@ -118,6 +118,36 @@ export function Documentos() {
           <Aviso tipo="info">El gestor verifica tus antecedentes en los portales oficiales (SNC, SAT y Sanciones del MTC).</Aviso>
         </div>
       </div>
+      <InformacionLegal categoria={expediente.categoria} />
     </div>
+  );
+}
+
+/** Datos del procedimiento según el TUPA vigente de la MPH Huamanga (PA6190033B). */
+function InformacionLegal({ categoria }: { categoria: string }) {
+  const datos: [string, string, string][] = [
+    ['scroll', 'Procedimiento', 'Licencia de conducir clase B · código TUPA PA6190033B'],
+    ['payments', 'Derecho de trámite', `${categoria === 'II-C' ? 'S/ 69.40' : 'S/ 69.90'} · Caja del SAT Huamanga, BBVA o Interbank`],
+    ['clock', 'Plazo de atención', '10 días hábiles · evaluación previa con silencio administrativo positivo'],
+    ['badge', 'Vigencia', categoria === 'II-C' ? 'Según el reglamento nacional de licencias (D.S. 007-2016-MTC)' : '5 años'],
+    ['account_balance', 'Aprueba', 'Gerencia de Transporte · Subgerencia de Tránsito y Seguridad Vial'],
+    ['location_on', 'Atención presencial', 'MAC Ayacucho o Unidad de Atención al Ciudadano · (066) 31-5339'],
+  ];
+  return (
+    <section className="tarjeta" aria-labelledby="t-legal">
+      <h2 id="t-legal" className="mb-4 flex items-center gap-2 font-bold text-marca-oscuro"><Icono nombre="account_balance" className="text-lg" />Información legal del trámite</h2>
+      <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {datos.map(([icono, titulo, texto]) => (
+          <div key={titulo} className="flex gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-marca-claro text-marca"><Icono nombre={icono} className="text-lg" /></span>
+            <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{titulo}</dt><dd className="text-sm text-slate-700">{texto}</dd></div>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-5 grid gap-3 border-t border-slate-100 pt-4 text-sm text-slate-600 md:grid-cols-2">
+        <p><b className="text-slate-700">Base legal:</b> D.S. 007-2016-MTC, D.S. 015-2016-MTC, D.S. 026-2016-MTC, Ley 27189, Ley 27444 y Ordenanza 022-2012-MPH/A.</p>
+        <p><b className="text-slate-700">Si no estás de acuerdo con la decisión:</b> puedes presentar reconsideración (Gerencia de Transportes) o apelación (Alcaldía) dentro de los 15 días hábiles.</p>
+      </div>
+    </section>
   );
 }

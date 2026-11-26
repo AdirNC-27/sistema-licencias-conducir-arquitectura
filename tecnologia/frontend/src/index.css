@@ -36,3 +36,16 @@
 @media (prefers-reduced-motion: reduce) {
   .lucia-punto, .lucia-entrada, .lucia-flota, .lucia-saludo { animation: none; }
 }
+
+/* Portada del login: la imagen se funde con el fondo azul por arriba y por los lados */
+.portada-mascara {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-composite: intersect;
+}
+
+/* Chat de Lucía abierto: en laptop y escritorio el contenido deja libre la columna del chat. */
+@media (min-width: 1280px) {
+  body.lucia-abierta main { padding-right: 26rem; max-width: none; transition: padding 0.2s ease; }
+}

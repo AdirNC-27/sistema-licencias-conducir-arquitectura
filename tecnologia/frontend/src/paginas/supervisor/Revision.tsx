@@ -1,10 +1,11 @@
+import { ChipEtapa } from '../../componentes/TablaExpedientes';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/cliente';
-import { fechaHora, NOMBRE_DOCUMENTO, nombreEtapa, soles, VERIFICACION, vigente } from '../../api/textos';
+import { fechaHora, NOMBRE_DOCUMENTO, soles, VERIFICACION, vigente } from '../../api/textos';
 import type { Documento, Evaluacion, Expediente, Pago, PostulanteResumen, Revision as RevisionDatos } from '../../api/tipos';
 import { mensajeError, useDatos } from '../../componentes/useDatos';
-import { Aviso, Cargando, Chip, ChipEstado, Icono } from '../../componentes/ui';
+import { Avatar, Aviso, Cargando, Chip, ChipEstado, Icono } from '../../componentes/ui';
 
 /** RF11 · HU20, HU21 y HU22: el supervisor revisa el expediente completo, lo observa o autoriza la emisión. */
 export function Revision() {
@@ -41,12 +42,15 @@ export function Revision() {
     <div className="space-y-6">
       <Link to="/supervisor/emision" className="inline-flex items-center gap-1 text-sm font-semibold text-marca"><Icono nombre="arrow_back" className="text-lg" />Por emitir</Link>
       <div className="tarjeta flex flex-wrap items-center justify-between gap-4">
-        <div>
+        <div className="flex items-center gap-4">
+          <Avatar nombre={postulante.datos?.nombre} className="h-14 w-14 text-lg" />
+          <div>
           <p className="text-2xl font-extrabold text-marca">{e.numero}</p>
           <p className="font-medium capitalize">{postulante.datos?.nombre.toLowerCase()} · DNI {postulante.datos?.dni}</p>
+          </div>
         </div>
         <div className="text-right">
-          <Chip color={e.etapa === 'EMITIDA' ? 'verde' : 'azul'}>{nombreEtapa(e.etapa)}</Chip>
+          <ChipEtapa etapa={e.etapa} />
           <p className="mt-2 text-sm text-slate-500">Licencia {e.categoria} · Día {e.plazo.diasTranscurridos}/10</p>
         </div>
       </div>

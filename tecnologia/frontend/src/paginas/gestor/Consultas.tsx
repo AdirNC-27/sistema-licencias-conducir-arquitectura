@@ -25,7 +25,7 @@ export function Consultas() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Consultas del asistente" subtitulo="Preguntas que la IA de orientación derivó porque no tenía una respuesta aprobada o pedían una acción" />
+      <Encabezado icono="chats" titulo="Consultas del asistente" subtitulo="Preguntas que la IA de orientación derivó porque no tenía una respuesta aprobada o pedían una acción" />
       <div className="flex gap-2">
         {(['PENDIENTE', 'RESPONDIDA'] as const).map((e) => (
           <button key={e} onClick={() => setEstado(e)} className={`rounded-full px-4 py-1.5 text-sm font-semibold ring-1 ${estado === e ? 'bg-marca text-white ring-marca' : 'bg-white text-slate-600 ring-slate-200'}`}>

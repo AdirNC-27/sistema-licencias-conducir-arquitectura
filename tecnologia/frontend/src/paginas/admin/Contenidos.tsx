@@ -46,7 +46,7 @@ export function Contenidos() {
 
   return (
     <div className="space-y-6">
-      <Encabezado
+      <Encabezado icono="menu_book"
         titulo="Contenido del asistente"
         subtitulo="La IA de orientación solo responde con este contenido: a los postulantes (lo que no esté aquí se deriva al gestor) y al personal (procedimientos internos)."
         accion={<button className="btn-primario" onClick={() => setForm({ ...VACIO, audiencia: filtro })}><Icono nombre="assignment_add" className="text-lg" />Agregar</button>}

@@ -55,7 +55,7 @@ test.describe.serial('Trámite de licencia II-C de inicio a fin', () => {
 
   test('el postulante inicia el trámite y adjunta sus documentos', async ({ page }) => {
     await ingresar(page, '45892014', /\/postulante$/);
-    await page.getByRole('button', { name: /Mototaxi/ }).click();
+    await page.getByRole('radio', { name: /Mototaxi/ }).click();
     await page.getByRole('button', { name: 'Iniciar trámite' }).click();
     await expect(page.getByText('EXP-2026-00001')).toBeVisible();
     await capturar(page, '02-postulante-inicio');

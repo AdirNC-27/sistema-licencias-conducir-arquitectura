@@ -8,6 +8,8 @@ import { Pendientes } from '../../componentes/Pendientes';
 import { Aviso, Barra, Cargando, Chip, Icono } from '../../componentes/ui';
 import { useSesion } from '../../sesion/sesion';
 import { useMiExpediente } from './useMiExpediente';
+import motoIIB from '../../assets/moto-iib.webp';
+import mototaxiIIC from '../../assets/mototaxi-iic.webp';
 
 const ACCION: Record<Etapa, { texto: string; ruta: string; detalle: string }> = {
   DOCUMENTOS: { texto: 'Subir mis documentos', ruta: '/postulante/documentos', detalle: 'Adjunta los requisitos del TUPA; el gestor los revisará.' },
@@ -18,6 +20,11 @@ const ACCION: Record<Etapa, { texto: string; ruta: string; detalle: string }> = 
   EMISION: { texto: 'Ver mis resultados', ruta: '/postulante/resultados', detalle: 'Aprobaste los dos exámenes. La Subgerencia autorizará tu licencia.' },
   EMITIDA: { texto: 'Ver mi trámite', ruta: '/postulante/resultados', detalle: 'Tu licencia fue emitida. Acércate a recogerla.' },
 };
+
+const CATEGORIAS = [
+  { c: 'II-B', imagen: motoIIB, alt: 'Moto lineal azul', t: 'Moto', d: 'Uso particular', tasa: 'S/ 69.90' },
+  { c: 'II-C', imagen: mototaxiIIC, alt: 'Mototaxi roja', t: 'Mototaxi', d: 'Servicio público', tasa: 'S/ 69.40' },
+] as const;
 
 function CrearTramite({ alCrear }: { alCrear: () => void }) {
   const [categoria, setCategoria] = useState<Categoria>('II-B');
@@ -35,19 +42,44 @@ function CrearTramite({ alCrear }: { alCrear: () => void }) {
     }
   };
   return (
-    <div className="tarjeta">
-      <h2 className="text-lg font-bold text-marca-oscuro">Inicia tu trámite de emisión</h2>
-      <p className="subtitulo">Elige la categoría de tu licencia.</p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {([['II-B', 'two_wheeler', 'Moto', 'Uso particular · S/ 69.90'], ['II-C', 'electric_rickshaw', 'Mototaxi', 'Servicio público · S/ 69.40']] as const).map(([c, i, t, d]) => (
-          <button key={c} onClick={() => setCategoria(c)} className={`flex items-center gap-4 rounded-2xl p-4 text-left ring-2 transition ${categoria === c ? 'bg-marca-claro ring-marca' : 'bg-white ring-slate-200 hover:ring-slate-300'}`}>
-            <span className="grid h-12 w-12 place-items-center rounded-xl bg-white text-marca shadow-sm"><Icono nombre={i} className="text-2xl" /></span>
-            <span><span className="block font-bold text-marca-oscuro">{t} · {c}</span><span className="text-sm text-slate-600">{d}</span></span>
-          </button>
-        ))}
+    <div className="tarjeta bg-white/90 backdrop-blur-sm">
+      <div className="flex items-start gap-3">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-marca text-white shadow-md"><Icono nombre="badge" className="text-xl" /></span>
+        <div>
+          <h2 className="text-xl font-extrabold text-marca-oscuro">Inicia tu trámite de emisión</h2>
+          <p className="subtitulo">Elige la categoría de tu licencia.</p>
+        </div>
+      </div>
+      <div className="mt-6 grid gap-4 md:grid-cols-2" role="radiogroup" aria-label="Categoría de la licencia">
+        {CATEGORIAS.map(({ c, imagen, alt, t, d, tasa }) => {
+          const elegida = categoria === c;
+          return (
+            <button
+              key={c}
+              type="button"
+              role="radio"
+              aria-checked={elegida}
+              onClick={() => setCategoria(c)}
+              className={`group flex items-center gap-4 rounded-2xl p-4 text-left ring-2 transition hover:-translate-y-0.5 hover:shadow-lg ${elegida ? 'bg-marca-claro/70 shadow-md ring-marca' : 'bg-white ring-slate-200 hover:ring-blue-200'}`}
+            >
+              <img src={imagen} alt={alt} className="h-24 w-32 shrink-0 object-contain drop-shadow-md transition group-hover:scale-105 sm:h-28 sm:w-40" />
+              <span className="h-20 w-px shrink-0 bg-slate-200" aria-hidden="true" />
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-extrabold text-marca-oscuro">{t} · {c}</span>
+                <span className="block text-sm text-slate-600">{d}</span>
+                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-marca-claro px-3 py-1 text-sm font-bold text-marca-oscuro"><Icono nombre="payments" className="text-base" />{tasa}</span>
+              </span>
+              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 ${elegida ? 'border-marca bg-marca text-white' : 'border-slate-300 bg-white'}`} aria-hidden="true">
+                {elegida && <Icono nombre="check" className="text-lg" />}
+              </span>
+            </button>
+          );
+        })}
       </div>
       {error && <div className="mt-4"><Aviso tipo="error">{error}</Aviso></div>}
-      <button className="btn-acento mt-5" onClick={crear} disabled={enviando}>{enviando ? 'Creando…' : 'Iniciar trámite'}</button>
+      <button className="btn-acento mt-6 px-7 py-3 text-base shadow-lg shadow-orange-600/25" onClick={crear} disabled={enviando}>
+        {enviando ? 'Creando…' : 'Iniciar trámite'}<Icono nombre="arrow_forward" className="text-lg" />
+      </button>
     </div>
   );
 }
@@ -63,12 +95,12 @@ export function Inicio() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold text-emerald-700">● Postulante habilitado</p>
-        <h1 className="titulo capitalize">¡Hola, {nombre.toLowerCase()}!</h1>
+        <p className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-200"><Icono nombre="verified" className="text-base" />Postulante habilitado</p>
+        <h1 className="titulo mt-2 text-3xl capitalize sm:text-4xl">¡Hola, {nombre.toLowerCase()}! <span aria-hidden="true">👋</span></h1>
         <p className="subtitulo">Aquí ves en qué etapa está tu trámite y qué te falta.</p>
       </div>
       {error && <Aviso tipo="error">{error}</Aviso>}
-      {expediente && <Pendientes titulo="Lo que te toca ahora" />}
+      {expediente && <Pendientes titulo="Lo que te toca ahora" lista />}
       {!expediente && !error && <CrearTramite alCrear={recargar} />}
       {expediente && accion && (
         <div className="grid gap-6 lg:grid-cols-5">

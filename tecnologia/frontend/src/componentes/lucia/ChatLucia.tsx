@@ -143,6 +143,12 @@ export function ChatLucia() {
     final.current?.scrollIntoView?.({ block: 'end' });
   }, [mensajes, escribiendo, postulante, usuario]);
 
+  // En pantallas anchas el chat abierto corre el contenido a la izquierda en lugar de taparlo.
+  useEffect(() => {
+    document.body.classList.toggle('lucia-abierta', abierto);
+    return () => document.body.classList.remove('lucia-abierta');
+  }, [abierto]);
+
   // La invitación se esconde sola a los 10 segundos.
   useEffect(() => {
     if (!invitacion) return;

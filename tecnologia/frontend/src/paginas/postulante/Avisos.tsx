@@ -10,7 +10,7 @@ export function Avisos() {
   const { datos, cargando } = useDatos(() => api.get<Aviso[]>('/notificaciones/mias'));
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Avisos" subtitulo="También te llegan a tu correo" />
+      <Encabezado icono="notifications" titulo="Avisos" subtitulo="También te llegan a tu correo" />
       {cargando ? <Cargando /> : !datos?.length ? <div className="tarjeta"><Vacio titulo="Sin avisos todavía" icono="notifications" /></div> : (
         <ul className="space-y-3">
           {datos.map((a) => (

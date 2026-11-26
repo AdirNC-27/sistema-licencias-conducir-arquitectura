@@ -40,7 +40,7 @@ export function Pago() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Pago de la tasa" subtitulo="Se paga en el SAT Huamanga y aquí registras tu recibo" />
+      <Encabezado icono="payments" titulo="Pago de la tasa" subtitulo="Se paga en el SAT Huamanga y aquí registras tu recibo" />
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
           <div className="tarjeta bg-gradient-to-br from-marca-oscuro to-marca text-white">

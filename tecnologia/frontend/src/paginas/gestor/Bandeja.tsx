@@ -6,7 +6,7 @@ import type { Expediente, ObservacionExpediente } from '../../api/tipos';
 import { Pendientes } from '../../componentes/Pendientes';
 import { TablaExpedientes } from '../../componentes/TablaExpedientes';
 import { useDatos } from '../../componentes/useDatos';
-import { Aviso, Cargando, Encabezado, Icono, Vacio } from '../../componentes/ui';
+import { Aviso, Cargando, Encabezado, Icono, Pestanas, Vacio } from '../../componentes/ui';
 
 interface Pagina { total: number; pagina: number; tamano: number; datos: Expediente[] }
 
@@ -22,10 +22,16 @@ export function Bandeja() {
   const { datos, cargando, error } = useDatos(() => api.get<Pagina>(`/expedientes?${consulta}`), [etapa, categoria, pagina]);
   const paginas = datos ? Math.max(1, Math.ceil(datos.total / datos.tamano)) : 1;
   const devueltos = useDatos(() => api.get<ObservacionExpediente[]>('/observaciones/abiertas'));
+  // Contador de cada pestaña: solo se pide el total (una fila por etapa).
+  const conteos = useDatos(async () => {
+    const claves = ['', ...ETAPAS.map((e) => e.clave)];
+    const totales = await Promise.all(claves.map((c) => api.get<Pagina>(`/expedientes?${new URLSearchParams({ pagina: '1', tamano: '1', ...(c && { etapa: c }), ...(categoria && { categoria }) })}`)));
+    return Object.fromEntries(claves.map((c, i) => [c, totales[i].total])) as Record<string, number>;
+  }, [categoria]);
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Bandeja de expedientes" subtitulo="Revisa documentos y pagos, y deja constancia de lo verificado en el SNC y el récord del conductor." />
+      <Encabezado icono="inbox" titulo="Bandeja de expedientes" subtitulo="Revisa documentos y pagos, y deja constancia de lo verificado en el SNC y el récord del conductor." />
       <Pendientes />
       {!!devueltos.datos?.length && (
         <div className="tarjeta ring-2 ring-amber-300">
@@ -43,17 +49,18 @@ export function Bandeja() {
           </ul>
         </div>
       )}
-      <div className="flex flex-wrap gap-2">
-        {[{ clave: '', corto: 'Todas' }, ...ETAPAS].map((e) => (
-          <button key={e.clave} onClick={() => { setEtapa(e.clave); setPagina(1); }}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold ring-1 ${etapa === e.clave ? 'bg-marca text-white ring-marca' : 'bg-white text-slate-600 ring-slate-200'}`}>{e.corto}</button>
-        ))}
-        <select aria-label="Categoría" className="campo ml-auto w-auto py-1.5" value={categoria} onChange={(e) => { setCategoria(e.target.value); setPagina(1); }}>
+      <div className="flex flex-wrap items-center gap-3">
+        <Pestanas
+          opciones={[{ clave: '', corto: 'Todas' }, ...ETAPAS].map((e) => ({ clave: e.clave as string, nombre: e.corto, cantidad: conteos.datos?.[e.clave] }))}
+          valor={etapa}
+          alCambiar={(c) => { setEtapa(c); setPagina(1); }}
+        />
+        <select aria-label="Categoría" className="campo ml-auto w-auto py-2" value={categoria} onChange={(e) => { setCategoria(e.target.value); setPagina(1); }}>
           <option value="">II-B y II-C</option><option value="II-B">II-B · Moto</option><option value="II-C">II-C · Mototaxi</option>
         </select>
       </div>
       {error && <Aviso tipo="error">{error}</Aviso>}
-      {cargando ? <Cargando /> : !datos?.datos.length ? <div className="tarjeta"><Vacio titulo="No hay expedientes en esta etapa" /></div> : (
+      {cargando ? <Cargando /> : !datos?.datos.length ? <Vacio titulo="No hay expedientes en esta etapa" texto="Cuando un postulante avance a esta etapa aparecerá aquí." /> : (
         <>
           <TablaExpedientes expedientes={datos.datos} accion={(e) => <Link to={`/gestor/expedientes/${e.id}`} className="btn-suave">Revisar <Icono nombre="chevron_right" className="text-lg" /></Link>} />
           <div className="flex items-center justify-between text-sm text-slate-600">

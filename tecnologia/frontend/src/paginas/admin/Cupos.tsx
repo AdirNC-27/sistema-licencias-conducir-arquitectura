@@ -28,7 +28,7 @@ export function Cupos() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Días y cupos" subtitulo="Conocimientos: lunes a miércoles · Manejo: martes a viernes" />
+      <Encabezado icono="calendar_month" titulo="Días y cupos" subtitulo="Conocimientos: lunes a miércoles · Manejo: martes a viernes" />
       <div className="flex gap-2">
         {(['CONOCIMIENTOS', 'MANEJO'] as const).map((t) => (
           <button key={t} onClick={() => setTipo(t)} className={`rounded-full px-4 py-1.5 text-sm font-semibold ring-1 ${tipo === t ? 'bg-marca text-white ring-marca' : 'bg-white text-slate-600 ring-slate-200'}`}>{t === 'MANEJO' ? 'Manejo' : 'Conocimientos'}</button>

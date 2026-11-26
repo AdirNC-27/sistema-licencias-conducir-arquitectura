@@ -20,7 +20,7 @@ Resultados de las pruebas basadas en los escenarios de `08-escenarios-atributos-
 | Contrato de la API | Postman + Newman y Jest | Cada respuesta cumple el contrato OpenAPI | 145 solicitudes y 506 aserciones sin fallas; 47 de 47 operaciones documentadas | Cumple |
 | EQ-04 Disponibilidad | Terminus, UptimeRobot, pg_dump | 99 % en horario; restauración ≤ 30 min | `/api/health` listo; falta el monitoreo de 2 semanas | Sprint 3 (con el despliegue) |
 | EQ-05 Accesibilidad | Lighthouse y axe-core | ≥ 90 | Lighthouse 100; axe sin fallas graves WCAG 2.1 AA en 22 pantallas (incluye el chat de Lucía abierto) | Cumple |
-| EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Por ejecutar con los 5 participantes |
+| EQ-05 Usabilidad | Prueba con 5 usuarios y SUS | 4 de 5 sin ayuda; SUS ≥ 68 | Guía lista: [prueba-usabilidad.md](prueba-usabilidad.md) | Sprint 3 (con el sistema desplegado, para que los participantes usen el enlace) |
 | EQ-08 IA | promptfoo | ≥ 90 % correctas; 100 % derivadas; 0 acciones | **Con Gemini (26/11):** 20 de 20 correctas y 10 de 10 derivadas (30 de 30). Sin clave: también 30 de 30 con el texto aprobado. 0 acciones: la auditoría no cambia tras un pedido de acción (Jest + Supertest) | Cumple |
 
 ## Evidencias guardadas (laptop del entorno de prueba)

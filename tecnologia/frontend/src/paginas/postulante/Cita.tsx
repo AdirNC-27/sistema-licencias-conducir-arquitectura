@@ -43,7 +43,7 @@ export function Cita() {
 
   return (
     <div className="space-y-6">
-      <Encabezado titulo="Elegir cita" subtitulo={tipo === 'MANEJO' ? 'Examen de manejo · martes a viernes' : 'Examen de conocimientos · lunes a miércoles'} />
+      <Encabezado icono="event" titulo="Elegir cita" subtitulo={tipo === 'MANEJO' ? 'Examen de manejo · martes a viernes' : 'Examen de conocimientos · lunes a miércoles'} />
       {mensaje && <Aviso tipo={mensaje.tipo}>{mensaje.texto}</Aviso>}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="tarjeta lg:col-span-2">

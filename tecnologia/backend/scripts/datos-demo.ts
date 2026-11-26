@@ -58,7 +58,7 @@ const PERSONAS: Persona[] = [
   { dni: '72690143', nombres: 'Fredy', apellidos: 'Sulca Yupanqui', celular: '935667120', categoria: 'II-B', paso: 'PAGO_POR_VERIFICAR', dias: 5, preguntas: ['Ya pagué, ¿pueden verificar mi pago hoy?'] },
   { dni: '75017328', nombres: 'Karina', apellidos: 'Tineo Romero', celular: '989204356', categoria: 'II-B', paso: 'SIN_CITA', dias: 6, preguntas: ['¿Qué días hay examen de conocimientos?'] },
   { dni: '71284650', nombres: 'Wilmer', apellidos: 'Quispe Huamaní', celular: '958013472', categoria: 'II-B', paso: 'CITA_CONOCIMIENTOS', dias: 8 },
-  { dni: '74563091', nombres: 'Yeni Luz', apellidos: 'Ccorahua Prado', celular: '947390518', categoria: 'II-C', paso: 'CONOCIMIENTOS_POR_VALIDAR', dias: 9 },
+  { dni: '74563091', nombres: 'Yeni Luz', apellidos: 'Ccorahua Pariona', celular: '947390518', categoria: 'II-C', paso: 'CONOCIMIENTOS_POR_VALIDAR', dias: 9 },
   { dni: '70239874', nombres: 'Abel', apellidos: 'Janampa Vargas', celular: '965821403', categoria: 'II-B', paso: 'CONOCIMIENTOS_DESAPROBADO', dias: 10, preguntas: ['¿Cuántos intentos tengo para los exámenes?'] },
   { dni: '73748125', nombres: 'Sonia', apellidos: 'Huancahuari Lapa', celular: '976145230', categoria: 'II-B', paso: 'CITA_MANEJO', dias: 11 },
   { dni: '72051386', nombres: 'Percy', apellidos: 'Arango Ventura', celular: '943507861', categoria: 'II-C', paso: 'MANEJO_POR_VALIDAR', dias: 12 },
